@@ -1,7 +1,7 @@
-package bacnet4j2.transport;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.transport;
 
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 
 /**
  * The waiting room key is the means by which an acknowledged request is matched with the acknowledgement.

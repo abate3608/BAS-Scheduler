@@ -1,9 +1,9 @@
-package bacnet4j2.util;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.util;
 
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 public interface RequestListener {
     /**

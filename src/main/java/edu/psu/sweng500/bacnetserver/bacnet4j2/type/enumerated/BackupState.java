@@ -23,9 +23,9 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.enumerated;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated;
 
-import bacnet4j2.type.primitive.Enumerated;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class BackupState extends Enumerated {

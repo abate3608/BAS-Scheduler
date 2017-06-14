@@ -1,4 +1,4 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import gnu.io.SerialPort;
 

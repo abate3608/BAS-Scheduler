@@ -23,12 +23,12 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.exception;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.exception;
 
-import bacnet4j2.type.constructed.BACnetError;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
-import bacnet4j2.type.error.BaseError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.error.BaseError;
 
 public class BACnetErrorException extends BACnetException {
     private static final long serialVersionUID = -1;

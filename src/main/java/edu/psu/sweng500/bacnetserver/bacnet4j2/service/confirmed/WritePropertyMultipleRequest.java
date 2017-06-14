@@ -23,24 +23,24 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.service.confirmed;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.exception.BACnetErrorException;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.BACnetServiceException;
-import bacnet4j2.obj.BACnetObject;
-import bacnet4j2.service.acknowledgement.AcknowledgementService;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.constructed.BACnetError;
-import bacnet4j2.type.constructed.ObjectPropertyReference;
-import bacnet4j2.type.constructed.PropertyValue;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.constructed.WriteAccessSpecification;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
-import bacnet4j2.type.error.WritePropertyMultipleError;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetErrorException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.acknowledgement.AcknowledgementService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ObjectPropertyReference;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.WriteAccessSpecification;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.error.WritePropertyMultipleError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class WritePropertyMultipleRequest extends ConfirmedRequestService {

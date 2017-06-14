@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.obj;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.obj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,15 +33,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import bacnet4j2.exception.BACnetServiceException;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.constructed.PropertyValue;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.Real;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 public class ObjectCovSubscription implements Serializable {
     private static final long serialVersionUID = 3546250271813406695L;

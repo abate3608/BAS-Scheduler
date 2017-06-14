@@ -1,4 +1,4 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +44,7 @@ public class HubClient {
             in = socket.getInputStream();
         }
 
-        @Override
+        //@Override
         public void run() {
             try {
                 byte[] buffer = new byte[1024];

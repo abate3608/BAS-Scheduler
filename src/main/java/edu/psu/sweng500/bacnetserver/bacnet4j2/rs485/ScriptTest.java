@@ -1,13 +1,13 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import bacnet4j2.npdu.mstp.MasterNode;
-import bacnet4j2.npdu.mstp.MstpNetwork;
-import bacnet4j2.util.TimeSource;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MasterNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MstpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.TimeSource;
 import com.serotonin.util.queue.ByteQueue;
 
 /**
@@ -20,7 +20,7 @@ public class ScriptTest {
         MasterNode master = new MasterNode(getInputStream(), new DumpOut(), (byte) 4, 2);
         new MstpNetwork(master);
         master.setTimeSource(new TimeSource() {
-            @Override
+            //@Override
             public long currentTimeMillis() {
                 return 0;
             }
@@ -44,7 +44,7 @@ public class ScriptTest {
     static class DumpOut extends OutputStream {
         boolean first = true;
 
-        @Override
+        //@Override
         public void write(int b) throws IOException {
             if (first)
                 first = false;

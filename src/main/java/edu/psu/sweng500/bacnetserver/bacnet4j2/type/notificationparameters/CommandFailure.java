@@ -23,12 +23,12 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.notificationparameters;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.AmbiguousValue;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.StatusFlags;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.AmbiguousValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
 import com.serotonin.util.queue.ByteQueue;
 
 public class CommandFailure extends NotificationParameters {

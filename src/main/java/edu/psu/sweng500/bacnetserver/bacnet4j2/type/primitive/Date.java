@@ -23,13 +23,13 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.primitive;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import bacnet4j2.enums.DayOfWeek;
-import bacnet4j2.enums.Month;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.DayOfWeek;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.Month;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Date extends Primitive {

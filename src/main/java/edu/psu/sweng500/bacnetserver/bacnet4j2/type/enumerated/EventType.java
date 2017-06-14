@@ -23,19 +23,19 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.enumerated;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated;
 
-import bacnet4j2.type.notificationparameters.BufferReady;
-import bacnet4j2.type.notificationparameters.ChangeOfBitString;
-import bacnet4j2.type.notificationparameters.ChangeOfLifeSafety;
-import bacnet4j2.type.notificationparameters.ChangeOfState;
-import bacnet4j2.type.notificationparameters.ChangeOfValue;
-import bacnet4j2.type.notificationparameters.CommandFailure;
-import bacnet4j2.type.notificationparameters.Extended;
-import bacnet4j2.type.notificationparameters.FloatingLimit;
-import bacnet4j2.type.notificationparameters.OutOfRange;
-import bacnet4j2.type.notificationparameters.UnsignedRange;
-import bacnet4j2.type.primitive.Enumerated;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.BufferReady;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.ChangeOfBitString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.ChangeOfLifeSafety;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.ChangeOfState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.ChangeOfValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.CommandFailure;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.Extended;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.FloatingLimit;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.OutOfRange;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.UnsignedRange;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class EventType extends Enumerated {

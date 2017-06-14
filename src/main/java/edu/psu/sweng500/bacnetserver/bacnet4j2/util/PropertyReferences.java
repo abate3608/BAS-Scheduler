@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.util;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import bacnet4j2.type.constructed.PropertyReference;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyReference;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 
 public class PropertyReferences implements Serializable {
     private static final long serialVersionUID = -1512876955215003611L;

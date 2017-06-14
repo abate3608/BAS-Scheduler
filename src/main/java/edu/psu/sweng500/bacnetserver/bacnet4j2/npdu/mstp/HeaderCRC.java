@@ -1,4 +1,4 @@
-package bacnet4j2.npdu.mstp;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp;
 
 public class HeaderCRC {
     public static final byte CHECK_VALUE = 0x55;

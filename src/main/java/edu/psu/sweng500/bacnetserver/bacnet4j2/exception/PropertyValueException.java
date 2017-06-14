@@ -23,9 +23,9 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.exception;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.exception;
 
-import bacnet4j2.type.constructed.BACnetError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
 
 /**
  * @author Matthew Lohbihler

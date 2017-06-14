@@ -1,6 +1,6 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
-import bacnet4j2.npdu.NPCI;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NPCI;
 import com.serotonin.util.queue.ByteQueue;
 
 public class EncodingTest {

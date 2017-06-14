@@ -23,12 +23,12 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.constructed;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.Real;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class CovSubscription extends BaseType {

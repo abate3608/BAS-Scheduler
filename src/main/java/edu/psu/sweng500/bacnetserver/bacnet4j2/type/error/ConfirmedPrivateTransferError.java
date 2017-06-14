@@ -23,18 +23,18 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.error;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.error;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.service.VendorServiceKey;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.SequenceDefinition;
-import bacnet4j2.type.constructed.BACnetError;
-import bacnet4j2.type.constructed.BaseType;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.VendorServiceKey;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.SequenceDefinition;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ConfirmedPrivateTransferError extends BaseError {

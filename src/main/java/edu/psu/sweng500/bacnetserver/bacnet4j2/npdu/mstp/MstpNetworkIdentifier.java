@@ -1,6 +1,6 @@
-package bacnet4j2.npdu.mstp;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp;
 
-import bacnet4j2.npdu.NetworkIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NetworkIdentifier;
 
 public class MstpNetworkIdentifier extends NetworkIdentifier {
     private final String commPortId;

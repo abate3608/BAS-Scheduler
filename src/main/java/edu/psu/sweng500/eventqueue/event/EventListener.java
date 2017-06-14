@@ -1,4 +1,4 @@
-package event;
+package edu.psu.sweng500.eventqueue.event;
 
 public interface EventListener {
 	/**

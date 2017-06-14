@@ -23,17 +23,17 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.eventparameters;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.eventparameters;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.Choice;
-import bacnet4j2.type.primitive.BitString;
-import bacnet4j2.type.primitive.Real;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Choice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.BitString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ChangeOfValue extends EventParameter {

@@ -23,27 +23,27 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.event;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.event;
 
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.RemoteObject;
-import bacnet4j2.obj.BACnetObject;
-import bacnet4j2.service.confirmed.ReinitializeDeviceRequest.ReinitializedStateOfDevice;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.Choice;
-import bacnet4j2.type.constructed.DateTime;
-import bacnet4j2.type.constructed.PropertyValue;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.constructed.TimeStamp;
-import bacnet4j2.type.enumerated.EventState;
-import bacnet4j2.type.enumerated.EventType;
-import bacnet4j2.type.enumerated.MessagePriority;
-import bacnet4j2.type.enumerated.NotifyType;
-import bacnet4j2.type.notificationparameters.NotificationParameters;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.CharacterString;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteObject;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ReinitializeDeviceRequest.ReinitializedStateOfDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Choice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.DateTime;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.TimeStamp;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.MessagePriority;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.NotifyType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.NotificationParameters;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 /**
  * There are two versions of each method. The "regular" version runs in a worker thread so that client code need not

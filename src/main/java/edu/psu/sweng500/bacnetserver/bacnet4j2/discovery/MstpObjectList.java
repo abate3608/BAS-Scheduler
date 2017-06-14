@@ -1,25 +1,25 @@
-package bacnet4j2.discovery;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.discovery;
 
 import java.util.List;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.event.DeviceEventAdapter;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.npdu.mstp.MasterNode;
-import bacnet4j2.npdu.mstp.MstpNetwork;
-import bacnet4j2.npdu.mstp.MstpNode;
-import bacnet4j2.service.unconfirmed.WhoIsRequest;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.UnsignedInteger;
-import bacnet4j2.util.PropertyReferences;
-import bacnet4j2.util.RequestListener;
-import bacnet4j2.util.RequestUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MasterNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MstpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MstpNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.PropertyReferences;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.RequestListener;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.RequestUtils;
 import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.log.SimpleLog;
 
@@ -63,7 +63,7 @@ public class MstpObjectList {
                 whoIsReceived = true;
                 LOG.out("IAm received from " + d);
                 new Thread(new Runnable() {
-                    @Override
+                    //@Override
                     public void run() {
                         try {
                             getObjectList(d);
@@ -95,7 +95,7 @@ public class MstpObjectList {
 
         LOG.out("Getting properties: " + refs.size());
         RequestUtils.readProperties(localDevice, d, refs, new RequestListener() {
-            @Override
+            //@Override
             public boolean requestProgress(double d, ObjectIdentifier oid, PropertyIdentifier pid,
                     UnsignedInteger unsignedinteger, Encodable encodable) {
                 return false;

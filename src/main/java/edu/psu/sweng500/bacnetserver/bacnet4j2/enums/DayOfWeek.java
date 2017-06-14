@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.enums;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.enums;
 
 public enum DayOfWeek {
     MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6), SUNDAY(7), UNSPECIFIED(255);

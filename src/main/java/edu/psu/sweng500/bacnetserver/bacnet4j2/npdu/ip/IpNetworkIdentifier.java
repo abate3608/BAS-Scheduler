@@ -1,6 +1,6 @@
-package bacnet4j2.npdu.ip;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip;
 
-import bacnet4j2.npdu.NetworkIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NetworkIdentifier;
 
 public class IpNetworkIdentifier extends NetworkIdentifier {
     private final int port;

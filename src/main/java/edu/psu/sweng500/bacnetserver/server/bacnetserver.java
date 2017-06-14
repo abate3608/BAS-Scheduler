@@ -1,12 +1,11 @@
-package server;
+package edu.psu.sweng500.bacnetserver.server;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.event.DeviceEventAdapter;
-import bacnet4j2.npdu.ip.IpNetwork;
-import bacnet4j2.npdu.ip.IpNetworkIdentifier;
-import bacnet4j2.service.unconfirmed.WhoIsRequest;
-import bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
 
 public class bacnetserver {
     static LocalDevice localDevice;

@@ -1,4 +1,4 @@
-package bacnet4j2.npdu.mstp;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp;
 
 public class DataCRC {
     public static final int CHECK_VALUE = 0xF0B8;

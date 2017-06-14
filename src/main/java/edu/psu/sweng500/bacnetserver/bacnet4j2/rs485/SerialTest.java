@@ -1,18 +1,18 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.event.DeviceEventAdapter;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.npdu.mstp.MasterNode;
-import bacnet4j2.npdu.mstp.MstpNetwork;
-import bacnet4j2.service.unconfirmed.WhoIsRequest;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.util.RequestUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MasterNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MstpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.RequestUtils;
 import com.serotonin.io.serial.SerialParameters;
 
 /**

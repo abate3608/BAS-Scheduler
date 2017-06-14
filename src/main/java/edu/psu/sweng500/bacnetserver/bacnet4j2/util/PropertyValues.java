@@ -23,21 +23,21 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.util;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.util;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import bacnet4j2.exception.PropertyValueException;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.BACnetError;
-import bacnet4j2.type.constructed.ObjectPropertyReference;
-import bacnet4j2.type.constructed.PropertyReference;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.PropertyValueException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ObjectPropertyReference;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyReference;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 public class PropertyValues implements Iterable<ObjectPropertyReference>, Serializable {
     private static final long serialVersionUID = 5880275533969236369L;
@@ -86,7 +86,7 @@ public class PropertyValues implements Iterable<ObjectPropertyReference>, Serial
         return getString(getNoErrorCheck(oid, pid), defaultValue);
     }
 
-    @Override
+    //@Override
     public Iterator<ObjectPropertyReference> iterator() {
         return values.keySet().iterator();
     }

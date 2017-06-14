@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.obj;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.obj;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,35 +33,35 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.event.ExceptionDispatch;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.BACnetRuntimeException;
-import bacnet4j2.exception.BACnetServiceException;
-import bacnet4j2.service.confirmed.ConfirmedCovNotificationRequest;
-import bacnet4j2.service.unconfirmed.UnconfirmedCovNotificationRequest;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.constructed.BaseType;
-import bacnet4j2.type.constructed.PriorityArray;
-import bacnet4j2.type.constructed.PriorityValue;
-import bacnet4j2.type.constructed.PropertyValue;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.enumerated.BinaryPV;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.CharacterString;
-import bacnet4j2.type.primitive.Date;
-import bacnet4j2.type.primitive.Null;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.Real;
-import bacnet4j2.type.primitive.Time;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.ExceptionDispatch;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetRuntimeException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ConfirmedCovNotificationRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.UnconfirmedCovNotificationRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PriorityArray;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PriorityValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PropertyValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.BinaryPV;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Date;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Null;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Time;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 /**
  * Additional validation - all object name values must be unique. - all object id values must be unique.

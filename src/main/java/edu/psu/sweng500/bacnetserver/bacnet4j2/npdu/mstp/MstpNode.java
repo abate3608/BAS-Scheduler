@@ -1,4 +1,4 @@
-package bacnet4j2.npdu.mstp;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp;
 
 import gnu.io.SerialPort;
 
@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
-import bacnet4j2.util.ClockTimeSource;
-import bacnet4j2.util.TimeSource;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.ClockTimeSource;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.TimeSource;
 import com.serotonin.io.StreamUtils;
 import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.io.serial.SerialUtils;
@@ -201,7 +201,7 @@ abstract public class MstpNode implements Runnable {
         return thisStation;
     }
 
-    @Override
+    //@Override
     public final void run() {
         while (running) {
             activity = false;
@@ -582,7 +582,7 @@ abstract public class MstpNode implements Runnable {
             network.receivedFrame(frame.copy());
     }
 
-    @Override
+    //@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -590,7 +590,7 @@ abstract public class MstpNode implements Runnable {
         return result;
     }
 
-    @Override
+    //@Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

@@ -1,4 +1,4 @@
-package bacnet4j2.npdu;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu;
 
 public class MessageValidationAssertionException extends Exception {
     private static final long serialVersionUID = -1;

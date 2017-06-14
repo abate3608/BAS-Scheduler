@@ -23,13 +23,13 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.obj;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.obj;
 
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.PriorityArray;
-import bacnet4j2.type.constructed.PriorityValue;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PriorityArray;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.PriorityValue;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
 
 public class PropertyTypeDefinition {
     private final ObjectType objectType;

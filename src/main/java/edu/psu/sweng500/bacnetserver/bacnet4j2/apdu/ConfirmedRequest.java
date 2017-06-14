@@ -23,13 +23,13 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.apdu;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.apdu;
 
-import bacnet4j2.enums.MaxApduLength;
-import bacnet4j2.enums.MaxSegments;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.service.confirmed.ConfirmedRequestService;
-import bacnet4j2.type.constructed.ServicesSupported;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxApduLength;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxSegments;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ConfirmedRequestService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ServicesSupported;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ConfirmedRequest extends APDU implements Segmentable {
@@ -177,12 +177,12 @@ public class ConfirmedRequest extends APDU implements Segmentable {
         return TYPE_ID;
     }
 
-    @Override
+    //@Override
     public byte getInvokeId() {
         return invokeId;
     }
 
-    @Override
+    //@Override
     public int getSequenceNumber() {
         return sequenceNumber;
     }
@@ -195,17 +195,17 @@ public class ConfirmedRequest extends APDU implements Segmentable {
         return maxSegmentsAccepted;
     }
 
-    @Override
+    //@Override
     public boolean isMoreFollows() {
         return moreFollows;
     }
 
-    @Override
+    //@Override
     public int getProposedWindowSize() {
         return proposedWindowSize;
     }
 
-    @Override
+    //@Override
     public boolean isSegmentedMessage() {
         return segmentedMessage;
     }
@@ -218,12 +218,12 @@ public class ConfirmedRequest extends APDU implements Segmentable {
         return serviceRequest;
     }
 
-    @Override
+    //@Override
     public void appendServiceData(ByteQueue data) {
         this.serviceData.push(data);
     }
 
-    @Override
+    //@Override
     public ByteQueue getServiceData() {
         return serviceData;
     }
@@ -265,7 +265,7 @@ public class ConfirmedRequest extends APDU implements Segmentable {
         ConfirmedRequestService.checkConfirmedRequestService(servicesSupported, serviceChoice);
     }
 
-    @Override
+    //@Override
     public void parseServiceData() throws BACnetException {
         if (serviceData != null) {
             serviceRequest = ConfirmedRequestService.createConfirmedRequestService(serviceChoice, serviceData);
@@ -273,7 +273,7 @@ public class ConfirmedRequest extends APDU implements Segmentable {
         }
     }
 
-    @Override
+    //@Override
     public APDU clone(boolean moreFollows, int sequenceNumber, int actualSegWindow, ByteQueue serviceData) {
         return new ConfirmedRequest(this.segmentedMessage, moreFollows, this.segmentedResponseAccepted,
                 this.maxSegmentsAccepted, this.maxApduLengthAccepted, this.invokeId, sequenceNumber, actualSegWindow,

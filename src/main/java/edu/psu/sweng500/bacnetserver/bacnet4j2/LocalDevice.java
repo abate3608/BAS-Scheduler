@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2;
+package edu.psu.sweng500.bacnetserver.bacnet4j2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,47 +36,47 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import bacnet4j2.enums.MaxApduLength;
-import bacnet4j2.event.DeviceEventHandler;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.BACnetRuntimeException;
-import bacnet4j2.exception.BACnetServiceException;
-import bacnet4j2.npdu.NetworkIdentifier;
-import bacnet4j2.obj.BACnetObject;
-import bacnet4j2.service.acknowledgement.AcknowledgementService;
-import bacnet4j2.service.acknowledgement.ReadPropertyAck;
-import bacnet4j2.service.confirmed.ConfirmedEventNotificationRequest;
-import bacnet4j2.service.confirmed.ConfirmedRequestService;
-import bacnet4j2.service.confirmed.ReadPropertyRequest;
-import bacnet4j2.service.unconfirmed.IAmRequest;
-import bacnet4j2.service.unconfirmed.UnconfirmedEventNotificationRequest;
-import bacnet4j2.service.unconfirmed.UnconfirmedRequestService;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.constructed.Destination;
-import bacnet4j2.type.constructed.EventTransitionBits;
-import bacnet4j2.type.constructed.ObjectTypesSupported;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.constructed.ServicesSupported;
-import bacnet4j2.type.constructed.TimeStamp;
-import bacnet4j2.type.enumerated.DeviceStatus;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
-import bacnet4j2.type.enumerated.EventState;
-import bacnet4j2.type.enumerated.EventType;
-import bacnet4j2.type.enumerated.NotifyType;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.enumerated.Segmentation;
-import bacnet4j2.type.notificationparameters.NotificationParameters;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.CharacterString;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.Unsigned16;
-import bacnet4j2.type.primitive.UnsignedInteger;
-import bacnet4j2.util.RequestUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxApduLength;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventHandler;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetRuntimeException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NetworkIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.acknowledgement.AcknowledgementService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.acknowledgement.ReadPropertyAck;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ConfirmedEventNotificationRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ConfirmedRequestService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed.ReadPropertyRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.IAmRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.UnconfirmedEventNotificationRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.UnconfirmedRequestService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Destination;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.EventTransitionBits;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ObjectTypesSupported;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ServicesSupported;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.TimeStamp;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.DeviceStatus;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.NotifyType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.Segmentation;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters.NotificationParameters;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Unsigned16;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.util.RequestUtils;
 
 /**
  * Enhancements: - default character string encoding - BIBBs (B-OWS) (services to implement) - AE-N-A - AE-ACK-A -

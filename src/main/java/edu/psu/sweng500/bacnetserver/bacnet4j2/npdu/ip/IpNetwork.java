@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.npdu.ip;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -36,18 +36,18 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.apdu.APDU;
-import bacnet4j2.base.BACnetUtils;
-import bacnet4j2.enums.MaxApduLength;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.npdu.IncomingRequestParser;
-import bacnet4j2.npdu.MessageValidationAssertionException;
-import bacnet4j2.npdu.Network;
-import bacnet4j2.npdu.NetworkIdentifier;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.APDU;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.base.BACnetUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxApduLength;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.IncomingRequestParser;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.MessageValidationAssertionException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.Network;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NetworkIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class IpNetwork extends Network implements Runnable {
@@ -91,12 +91,12 @@ public class IpNetwork extends Network implements Runnable {
         this.localBindAddress = localBindAddress;
     }
 
-    @Override
+    //@Override
     public NetworkIdentifier getNetworkIdentifier() {
         return new IpNetworkIdentifier(port, localBindAddress);
     }
 
-    @Override
+    //@Override
     public MaxApduLength getMaxApduLength() {
         return MaxApduLength.UP_TO_1476;
     }
@@ -113,7 +113,7 @@ public class IpNetwork extends Network implements Runnable {
         return broadcastIp;
     }
 
-    @Override
+    //@Override
     public void initialize(Transport transport) throws Exception {
         super.initialize(transport);
 
@@ -132,13 +132,13 @@ public class IpNetwork extends Network implements Runnable {
         thread.start();
     }
 
-    @Override
+    //@Override
     public void terminate() {
         if (socket != null)
             socket.close();
     }
 
-    @Override
+    //@Override
     public Address getLocalBroadcastAddress() {
         return broadcastAddress;
     }
@@ -147,7 +147,7 @@ public class IpNetwork extends Network implements Runnable {
         return new Address(BACnetUtils.dottedStringToBytes(broadcastIp), port);
     }
 
-    @Override
+    //@Override
     public void checkSendThread() {
         if (Thread.currentThread() == thread)
             throw new IllegalStateException("Cannot send a request in the socket listener thread.");
@@ -181,7 +181,7 @@ public class IpNetwork extends Network implements Runnable {
         sendPacket(addr, queue.popAll());
     }
 
-    @Override
+    //@Override
     public void sendAPDU(Address recipient, OctetString link, APDU apdu, boolean broadcast) throws BACnetException {
         ByteQueue queue = new ByteQueue();
 
@@ -228,7 +228,7 @@ public class IpNetwork extends Network implements Runnable {
 
     //
     // For receiving
-    @Override
+    //@Override
     public void run() {
         byte[] buffer = new byte[MESSAGE_LENGTH];
         DatagramPacket p = new DatagramPacket(buffer, buffer.length);
@@ -263,7 +263,7 @@ public class IpNetwork extends Network implements Runnable {
             super(network, queue, localFrom);
         }
 
-        @Override
+        //@Override
         protected void parseFrame() throws MessageValidationAssertionException {
             // Initial parsing of IP message.
             // BACnet/IP
@@ -324,7 +324,7 @@ public class IpNetwork extends Network implements Runnable {
         return InetAddress.getLocalHost();
     }
 
-    @Override
+    //@Override
     public Address[] getAllLocalAddresses() {
         try {
             ArrayList<Address> result = new ArrayList<Address>();
@@ -343,7 +343,7 @@ public class IpNetwork extends Network implements Runnable {
         }
     }
 
-    @Override
+    //@Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
@@ -353,7 +353,7 @@ public class IpNetwork extends Network implements Runnable {
         return result;
     }
 
-    @Override
+    //@Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

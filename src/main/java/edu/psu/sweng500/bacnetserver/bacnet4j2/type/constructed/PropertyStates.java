@@ -23,30 +23,30 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.constructed;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.Encodable;
-import bacnet4j2.type.enumerated.BackupState;
-import bacnet4j2.type.enumerated.BinaryPV;
-import bacnet4j2.type.enumerated.DeviceStatus;
-import bacnet4j2.type.enumerated.DoorAlarmState;
-import bacnet4j2.type.enumerated.EngineeringUnits;
-import bacnet4j2.type.enumerated.EventState;
-import bacnet4j2.type.enumerated.EventType;
-import bacnet4j2.type.enumerated.LifeSafetyMode;
-import bacnet4j2.type.enumerated.LifeSafetyState;
-import bacnet4j2.type.enumerated.Polarity;
-import bacnet4j2.type.enumerated.ProgramError;
-import bacnet4j2.type.enumerated.ProgramRequest;
-import bacnet4j2.type.enumerated.ProgramState;
-import bacnet4j2.type.enumerated.Reliability;
-import bacnet4j2.type.enumerated.RestartReason;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.BackupState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.BinaryPV;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.DeviceStatus;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.DoorAlarmState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EngineeringUnits;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.LifeSafetyMode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.LifeSafetyState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.Polarity;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ProgramError;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ProgramRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ProgramState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.Reliability;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.RestartReason;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class PropertyStates extends BaseType {

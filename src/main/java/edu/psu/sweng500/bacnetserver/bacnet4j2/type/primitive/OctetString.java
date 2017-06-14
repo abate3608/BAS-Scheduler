@@ -23,16 +23,16 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.primitive;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import bacnet4j2.base.BACnetUtils;
-import bacnet4j2.npdu.ip.InetAddrCache;
-import bacnet4j2.npdu.ip.IpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.base.BACnetUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.InetAddrCache;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
 import com.serotonin.util.ArrayUtils;
 import com.serotonin.util.IpAddressUtils;
 import com.serotonin.util.queue.ByteQueue;

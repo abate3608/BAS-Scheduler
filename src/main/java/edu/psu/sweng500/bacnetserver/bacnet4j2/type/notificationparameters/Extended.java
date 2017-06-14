@@ -23,19 +23,19 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.notificationparameters;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.notificationparameters;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.constructed.BaseType;
-import bacnet4j2.type.constructed.DeviceObjectPropertyReference;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.primitive.BitString;
-import bacnet4j2.type.primitive.Enumerated;
-import bacnet4j2.type.primitive.Null;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.Primitive;
-import bacnet4j2.type.primitive.Real;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.DeviceObjectPropertyReference;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.BitString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Null;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Primitive;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Extended extends NotificationParameters {
@@ -100,11 +100,11 @@ public class Extended extends NotificationParameters {
             this.primitive = primitive;
         }
 
-        public Parameter(bacnet4j2.type.primitive.Boolean primitive) {
+        public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean primitive) {
             this.primitive = primitive;
         }
 
-        public Parameter(bacnet4j2.type.primitive.Double primitive) {
+        public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Double primitive) {
             this.primitive = primitive;
         }
 

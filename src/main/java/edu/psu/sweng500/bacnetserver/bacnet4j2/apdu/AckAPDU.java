@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.apdu;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.apdu;
 
 abstract public class AckAPDU extends APDU {
     private static final long serialVersionUID = -1568364467441619342L;

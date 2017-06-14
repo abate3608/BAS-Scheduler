@@ -23,32 +23,32 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
-import bacnet4j2.base.BACnetUtils;
-import bacnet4j2.event.ExceptionDispatch;
-import bacnet4j2.exception.BACnetErrorException;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.ReflectionException;
-import bacnet4j2.obj.ObjectProperties;
-import bacnet4j2.obj.PropertyTypeDefinition;
-import bacnet4j2.service.VendorServiceKey;
-import bacnet4j2.type.constructed.Choice;
-import bacnet4j2.type.constructed.Sequence;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.eventparameters.EventParameter;
-import bacnet4j2.type.primitive.Null;
-import bacnet4j2.type.primitive.Primitive;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.base.BACnetUtils;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.event.ExceptionDispatch;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetErrorException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.ReflectionException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.ObjectProperties;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.PropertyTypeDefinition;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.VendorServiceKey;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Choice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Sequence;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.eventparameters.EventParameter;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Null;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Primitive;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class Encodable implements Serializable {

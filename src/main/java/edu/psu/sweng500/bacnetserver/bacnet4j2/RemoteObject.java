@@ -23,11 +23,11 @@
  * combined work that includes BAcnet4J without being obliged to provide
  * the source code for any proprietary components.
  */
-package bacnet4j2;
+package edu.psu.sweng500.bacnetserver.bacnet4j2;
 
 import java.io.Serializable;
 
-import bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 
 public class RemoteObject implements Serializable {
     private static final long serialVersionUID = 2962046198697775365L;

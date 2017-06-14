@@ -1,11 +1,11 @@
-package bacnet4j2.discovery;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.discovery;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.RemoteDevice;
-import bacnet4j2.npdu.ip.IpNetwork;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 
 public class WhoIs {
     public static void main(String[] args) throws Exception {

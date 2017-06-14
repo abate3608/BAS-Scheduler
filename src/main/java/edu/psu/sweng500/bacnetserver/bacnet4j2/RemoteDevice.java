@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2;
+package edu.psu.sweng500.bacnetserver.bacnet4j2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,13 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.constructed.ServicesSupported;
-import bacnet4j2.type.enumerated.ObjectType;
-import bacnet4j2.type.enumerated.Segmentation;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ServicesSupported;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.Segmentation;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 public class RemoteDevice implements Serializable {
     private static final long serialVersionUID = 6338537708566242078L;

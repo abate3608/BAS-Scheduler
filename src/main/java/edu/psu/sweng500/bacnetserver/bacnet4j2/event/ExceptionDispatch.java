@@ -1,9 +1,9 @@
-package bacnet4j2.event;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.event;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ExceptionDispatch {

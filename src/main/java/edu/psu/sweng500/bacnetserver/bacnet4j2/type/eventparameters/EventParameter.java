@@ -23,13 +23,13 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.eventparameters;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.eventparameters;
 
-import bacnet4j2.exception.BACnetErrorException;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.constructed.BaseType;
-import bacnet4j2.type.enumerated.ErrorClass;
-import bacnet4j2.type.enumerated.ErrorCode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetErrorException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorClass;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ErrorCode;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class EventParameter extends BaseType {

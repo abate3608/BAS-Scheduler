@@ -1,15 +1,15 @@
-package bacnet4j2.npdu.mstp;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp;
 
-import bacnet4j2.apdu.APDU;
-import bacnet4j2.enums.MaxApduLength;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.npdu.IncomingRequestParser;
-import bacnet4j2.npdu.MessageValidationAssertionException;
-import bacnet4j2.npdu.Network;
-import bacnet4j2.npdu.NetworkIdentifier;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.APDU;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxApduLength;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.IncomingRequestParser;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.MessageValidationAssertionException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.Network;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.NetworkIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class MstpNetwork extends Network {

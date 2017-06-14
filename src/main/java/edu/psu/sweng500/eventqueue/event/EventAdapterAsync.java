@@ -1,4 +1,4 @@
-package event;
+package edu.psu.sweng500.eventqueue.event;
 
 import java.util.concurrent.ExecutorService;
 
@@ -21,7 +21,7 @@ public class EventAdapterAsync implements EventListener {
         this.dispatchService = dispatchService;
     }
 
-    @Override
+   // @Override
     public void listenerException(Throwable e) {
         // Override as required
         e.printStackTrace();
@@ -51,7 +51,7 @@ public class EventAdapterAsync implements EventListener {
             this.callback = callback;
         }
 
-        @Override
+        //@Override
         public void run() {
             try {
                 callback.dispatch();

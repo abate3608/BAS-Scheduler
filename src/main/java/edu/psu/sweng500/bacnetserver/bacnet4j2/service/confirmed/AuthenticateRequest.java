@@ -23,17 +23,17 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.service.confirmed;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.service.confirmed;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.NotImplementedException;
-import bacnet4j2.service.acknowledgement.AcknowledgementService;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.CharacterString;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.NotImplementedException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.service.acknowledgement.AcknowledgementService;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class AuthenticateRequest extends ConfirmedRequestService {

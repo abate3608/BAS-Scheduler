@@ -23,7 +23,7 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.obj;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.obj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,16 +32,16 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
 
-import bacnet4j2.LocalDevice;
-import bacnet4j2.exception.BACnetRuntimeException;
-import bacnet4j2.exception.BACnetServiceException;
-import bacnet4j2.type.constructed.DateTime;
-import bacnet4j2.type.enumerated.FileAccessMethod;
-import bacnet4j2.type.enumerated.PropertyIdentifier;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.ObjectIdentifier;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetRuntimeException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.DateTime;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.FileAccessMethod;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.io.StreamUtils;
 
 /**

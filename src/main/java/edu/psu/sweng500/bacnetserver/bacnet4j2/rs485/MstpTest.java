@@ -1,9 +1,9 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import java.net.Socket;
 
-import bacnet4j2.npdu.mstp.MasterNode;
-import bacnet4j2.npdu.mstp.SlaveNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.MasterNode;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.mstp.SlaveNode;
 
 public class MstpTest {
     public static void main(String[] args) throws Exception {

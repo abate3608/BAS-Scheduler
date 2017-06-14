@@ -1,11 +1,11 @@
-package bacnet4j2.npdu;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu;
 
-import bacnet4j2.apdu.APDU;
-import bacnet4j2.enums.MaxApduLength;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.transport.Transport;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.APDU;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.enums.MaxApduLength;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class Network {

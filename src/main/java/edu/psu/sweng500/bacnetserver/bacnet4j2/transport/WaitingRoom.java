@@ -23,22 +23,22 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.transport;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.transport;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import bacnet4j2.apdu.APDU;
-import bacnet4j2.apdu.Abort;
-import bacnet4j2.apdu.AckAPDU;
-import bacnet4j2.apdu.ConfirmedRequest;
-import bacnet4j2.apdu.Segmentable;
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.exception.BACnetRuntimeException;
-import bacnet4j2.exception.BACnetTimeoutException;
-import bacnet4j2.exception.SegmentedMessageAbortedException;
-import bacnet4j2.type.constructed.Address;
-import bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.APDU;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.Abort;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.AckAPDU;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.ConfirmedRequest;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.Segmentable;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetRuntimeException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetTimeoutException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.SegmentedMessageAbortedException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 
 public class WaitingRoom {
     private final HashMap<WaitingRoomKey, Member> waitHere = new HashMap<WaitingRoomKey, Member>();

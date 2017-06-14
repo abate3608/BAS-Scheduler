@@ -23,11 +23,11 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.npdu;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu;
 
 import java.math.BigInteger;
 
-import bacnet4j2.type.constructed.Address;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
 import com.serotonin.util.queue.ByteQueue;
 
 /**

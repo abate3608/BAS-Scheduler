@@ -23,13 +23,13 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.type.constructed;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.primitive.Null;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Null;
 import com.serotonin.util.queue.ByteQueue;
 
 public class PriorityArray extends SequenceOf<PriorityValue> {

@@ -1,4 +1,4 @@
-package bacnet4j2.npdu.ip;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

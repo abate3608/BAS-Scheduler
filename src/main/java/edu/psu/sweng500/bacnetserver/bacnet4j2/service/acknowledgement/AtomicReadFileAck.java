@@ -23,17 +23,17 @@
  * included to allow you to distribute a combined work that includes BAcnet4J 
  * without being obliged to provide the source code for any proprietary components.
  */
-package bacnet4j2.service.acknowledgement;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.service.acknowledgement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bacnet4j2.exception.BACnetException;
-import bacnet4j2.type.constructed.SequenceOf;
-import bacnet4j2.type.primitive.Boolean;
-import bacnet4j2.type.primitive.OctetString;
-import bacnet4j2.type.primitive.SignedInteger;
-import bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.SignedInteger;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class AtomicReadFileAck extends AcknowledgementService {

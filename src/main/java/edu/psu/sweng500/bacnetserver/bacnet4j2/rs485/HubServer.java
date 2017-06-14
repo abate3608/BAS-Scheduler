@@ -1,4 +1,4 @@
-package bacnet4j2.rs485;
+package edu.psu.sweng500.bacnetserver.bacnet4j2.rs485;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public class HubServer implements Runnable {
         new Thread(this).start();
     }
 
-    @Override
+    //@Override
     public void run() {
         try {
             // Use the main thread for the socket acceptor.
@@ -67,7 +67,7 @@ public class HubServer implements Runnable {
             out = socket.getOutputStream();
         }
 
-        @Override
+        //@Override
         public void run() {
             handlers.add(this);
             System.out.println("Handler count: " + handlers.size());
