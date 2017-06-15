@@ -4,6 +4,13 @@
 	<groupId>BAS-Scheduler</groupId>
 	<artifactId>BAS-Scheduler</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<repositories>
+	    <repository>
+		  <id>clojars.org</id>
+		  <url>http://clojars.org/repo</url>
+		</repository>
+  	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -17,6 +24,22 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.clojars.frozenlock</groupId>
+		    <artifactId>sero-utils</artifactId>
+		    <version>1.1.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.rxtx/rxtx -->
+		<dependency>
+		    <groupId>org.rxtx</groupId>
+		    <artifactId>rxtx</artifactId>
+		    <version>2.1.7</version>
+		</dependency>	
 	</dependencies>
 
 </project>
