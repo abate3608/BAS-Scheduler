@@ -12,7 +12,6 @@ public class MysqlAccess {
     
     public void readDB() throws Exception {
     	try {
-    		Class.forName("com.mysql.jdbc.Driver");
     	/*
     	 * Database name: BASscheduler
     	 * user: group7
