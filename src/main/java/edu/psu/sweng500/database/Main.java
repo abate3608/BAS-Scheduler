@@ -1,12 +1,46 @@
 package edu.psu.sweng500.database;
 
+import edu.psu.sweng500.eventqueue.event.*;
+import edu.psu.sweng500.type.*;
 /*
  * Class to read the database.
  */
 public class Main {
 
+	
+	static MysqlAccess dao =  new MysqlAccess();
+	
 	public static void main(String[] args) throws Exception {
-		MysqlAccess dao =  new MysqlAccess();
+		
+		
+		
+		
+		
+		
+		//register with event queue
+        dao.getEventHandler().addListener(new EventQueueListener());
+        
 		dao.readDB();
+		
 	}
+	
+	 static class EventQueueListener extends EventAdapter {
+	        @Override
+	        public void getBacnetDeviceRequest(String ObjectIdentifier) {
+	            System.out.println("getBacnetDeviceReqeust received for " + ObjectIdentifier);
+	            
+	            //get information from data and send the data back to Bacnet server
+	            
+				//get information for the ObjectIdentifier
+	            int port = 0xBAC0; //get information from database and replace static data
+	            String ipAddress = "192.168.30.1"; //get information from database and replace static data
+	            
+	            //create new bacnet device
+	            BacnetDevice bacnetDevice = new BacnetDevice(ObjectIdentifier, port, ipAddress);
+	            
+	            //Generate the event
+	            dao.getEventHandler().fireGetBacnetDeviceRespond(bacnetDevice);
+	        }
+	    }
+	
 }

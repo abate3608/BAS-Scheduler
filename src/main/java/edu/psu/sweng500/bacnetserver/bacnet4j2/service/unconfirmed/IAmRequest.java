@@ -25,7 +25,6 @@
  */
 package edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
