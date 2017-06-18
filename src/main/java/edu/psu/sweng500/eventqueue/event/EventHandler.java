@@ -35,6 +35,29 @@ public class EventHandler {
         }
     }
     
+    //UI fire request
+    public void fireAutheticateUserRequest(final String userName, final String password) {
+    	for (EventListener l : listeners) {
+            try {
+            	l.authenticateUserRequest(userName, password);
+            }
+            catch (Throwable e) {
+                handleException(l, e);
+            }
+        }
+    }
+    
+  //UI fire request
+    public void fireAutheticateUserRespond(final User u) {
+    	for (EventListener l : listeners) {
+            try {
+            	l.authenticateUserRepond(u);
+            }
+            catch (Throwable e) {
+                handleException(l, e);
+            }
+        }
+    }
     //Bacnet Server calls this function to request for BACnet Device info
     public void fireGetBacnetDeviceRequest(final String ObjectIdentifier) {
         for (EventListener l : listeners) {

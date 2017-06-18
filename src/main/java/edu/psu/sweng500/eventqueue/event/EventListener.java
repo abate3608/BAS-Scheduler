@@ -8,6 +8,8 @@ public interface EventListener {
      */
     void listenerException(Throwable e);
     
+    public void authenticateUserRequest(String userName, String password);
+    public void authenticateUserRepond(User u);
     public void getBacnetDeviceRequest(String ObjectIdentifier);
     public void getBacnetDeviceRespond(BacnetDevice d);
     public void getBacnetObject(BacnetObject o);
