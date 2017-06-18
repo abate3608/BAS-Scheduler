@@ -10,7 +10,7 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class calenderScreen {
+public class CalenderScreen {
 	static JLabel monthName; 
 	static JLabel yearNumber; 
 	static JFrame panelLayout; 
@@ -33,7 +33,7 @@ public class calenderScreen {
 	static int getYear;
 	static int getMonth;
 
-	public calenderScreen(){
+	public CalenderScreen(){
 
 		//JAVA FRAME SETUP
 		panelLayout = new JFrame ("Global Schedular System"); 
@@ -84,12 +84,12 @@ public class calenderScreen {
 			//schedule event Button
 			newEventBTN = new JButton ("New Event"); 
 			newEventBTN.setBounds(15, 140, 148, 25); // Button Sizing and Location
-			newEventBTN.addActionListener(new newEventScreen());
+			newEventBTN.addActionListener(new NewEventScreen());
 
 			//edit event Button -------------------------------------------------------------NEED ACTIONLISTNER
 			editEventBTN = new JButton ("Edit Event"); 
 			editEventBTN.setBounds(150, 140, 148, 25); // Button Sizing and Location
-			editEventBTN.addActionListener(new editEventScreen());
+			editEventBTN.addActionListener(new EditEventScreen());
 
 			// roomPanel
 			roomPanel = new JPanel(null);

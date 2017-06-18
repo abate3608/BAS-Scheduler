@@ -1,7 +1,7 @@
 package edu.psu.sweng500.userinterface;
 
-public class userInterfaceMAIN {
+public class UserInterfaceMAIN {
 	public static void main(String[] args) {
-		new logScreen();
+		new LogScreen();
 	}	
 }
