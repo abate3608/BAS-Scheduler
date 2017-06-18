@@ -11,17 +11,14 @@ import edu.psu.sweng500.type.*;
 
 public class Main {
 	static LocalDevice localDevice;
-    public static final int port = 0xBAC0;
+	public static final int port = 0xBAC0;
     public static final String ipaddress = "192.168.30.1";
     
     public static void main(String[] args) throws Exception {
     	
-    	
-        
         try {
         	BacnetServer bacnetServer = new BacnetServer();
-        	bacnetServer.getEventHandler().addListener(new EventQueueListener());
-        	bacnetServer.getEventHandler().fireGetBacnetDeviceRequest("BAS-Scheduler");
+        
         	
         	IpNetwork network = new IpNetwork(ipaddress, port);
             Transport transport = new Transport(network);
