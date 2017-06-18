@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class logScreen {
+public class LogScreen {
 
 	private JPanel logPane;
 	private JLabel userLabel;
@@ -18,7 +18,7 @@ public class logScreen {
 	String userNameGet;
 	String passwordTextGet;
 
-	public logScreen() {
+	public LogScreen() {
 		JFrame logWin = new JFrame("Global Schedular System Login");
 		//logWin.setSize(1800, 750);
 		logWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +60,7 @@ public class logScreen {
 		newuserButton = new JButton("Request Access");
 		newuserButton.setBounds(562, 390, 140, 25);
 		logPanel.add(newuserButton);
-		newuserButton.addActionListener(new newUserScreen());	
+		newuserButton.addActionListener(new NewUserScreen());	
 	}
 
 	// Log in Button	
@@ -68,7 +68,7 @@ public class logScreen {
 
 		public void actionPerformed(ActionEvent e) {
 
-			new calenderScreen();
+			new CalenderScreen();
 
 		}
 	}

@@ -12,7 +12,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class newUserScreen implements ActionListener{
+public class NewUserScreen implements ActionListener{
 
 	private JFrame regWin;
 	private JPanel regPane;
