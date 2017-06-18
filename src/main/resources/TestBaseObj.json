@@ -1,0 +1,35 @@
+{
+	"name":"hilton",
+	"id":1,
+	"Action_ID":0,
+	"Number_of_Objects":1,
+	"objects":[
+		{
+			"Object_Identifier":" ",
+			"Object_Name":" ",
+			"Object_Type":" ",
+			"Present_value":" ",
+			"Description":" ",
+			"Device_Type":" ",
+			"Status_Flags":" ",
+			"Event_State":" ",
+			"Reliability":" ",
+			"Out_Of_Service":" ",
+			"Update_Interval":" ",
+			"Units":" ",
+			"Min_Pres_Value":" ",
+			"Max_Pres_Value":" ",
+			"Resolution":" ",
+			"COV_Increment":" ",
+			"Time_Delay":" ",
+			"Notification_Class":" ",
+			"High_Limit":" ",
+			"Low_Limit":" ",
+			"Deadband":" ",
+			"Limit_Enabled":" ",
+			"Event_Enabled":" ",
+			"Acked_Transitions":" ",
+			"Notify_Types":" "
+		}
+	]
+}
