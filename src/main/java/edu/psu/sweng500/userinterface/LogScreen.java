@@ -2,6 +2,10 @@ package edu.psu.sweng500.userinterface;
 
 import javax.swing.*;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,6 +22,9 @@ public class LogScreen {
 	String userNameGet;
 	String passwordTextGet;
 
+	 // Event listeners
+    private final EventHandler eventHandler = new EventHandler();
+    
 	public LogScreen() {
 		JFrame logWin = new JFrame("Global Schedular System Login");
 		//logWin.setSize(1800, 750);
@@ -65,14 +72,34 @@ public class LogScreen {
 
 	// Log in Button	
 	private final class loginButtonPress implements ActionListener{
-
+		
 		public void actionPerformed(ActionEvent e) {
-
+			String userName = "abc"; //replace with username from ui
+			String password = "123"; //replace with password from ui
+			
+			//fire request event with password
+			eventHandler.fireAutheticateUserRequest(userName, password);
+			
 			new CalenderScreen();
+			
 
 		}
 	}
 
+	 public EventHandler getEventHandler() {
+		 return eventHandler;
+	 }
+	 
+	 static class EventQueueListener extends EventAdapter {
+	    	//listen to event queue
+		 
+			 @Override
+			 public void authenticateUserRepond(User u) {
+				 //user authentication is in user data type.
+			 }
+	    }
+	 
+	 
 	//public synchronized void loginListener(loginListener) {
 	//    if (!loginListenerList.contains(Approved)) {
 	//       new calenderScreen();	

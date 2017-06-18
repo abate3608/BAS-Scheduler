@@ -13,10 +13,6 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		
-		
-		
-		
-		
 		//register with event queue
         dao.getEventHandler().addListener(new EventQueueListener());
         
@@ -39,6 +35,11 @@ public class Main {
 	            
 	            //Generate the event
 	            dao.getEventHandler().fireGetBacnetDeviceRespond(bacnetDevice);
+	        }
+	        
+	        @Override
+	        public void authenticateUserRequest(String userName, String password) {
+	        	//do something
 	        }
 	    }
 }
