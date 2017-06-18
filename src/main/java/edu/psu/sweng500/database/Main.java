@@ -40,7 +40,7 @@ public class Main {
 	        @Override
 	        public void authenticateUserRequest(String userName, String password) {
 	        	//do something
-	        	dao.getEventHandler().fireAutheticateUserRespond(u);
+	        	//dao.getEventHandler().fireAutheticateUserRespond(u);
 	        }
 	    }
 }

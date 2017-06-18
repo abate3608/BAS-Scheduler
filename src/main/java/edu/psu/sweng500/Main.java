@@ -13,9 +13,8 @@ public class Main
 	{
 		System.out.println("The main class has been run!");
 		
-		new BacnetServer();
-				
     	try {
+    		new BacnetServer();
     		while (true){
     			Thread.sleep(2000);
     		}
