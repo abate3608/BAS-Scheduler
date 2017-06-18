@@ -96,6 +96,7 @@ public class LogScreen {
 			 @Override
 			 public void authenticateUserRepond(User u) {
 				 //user authentication is in user data type.
+				 
 			 }
 	    }
 	 
