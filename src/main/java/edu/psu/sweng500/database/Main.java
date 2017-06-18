@@ -16,8 +16,7 @@ public class Main {
 		//register with event queue
         dao.getEventHandler().addListener(new EventQueueListener());
         
-		dao.readDB();
-		
+		dao.readDB();	
 	}
 	
 	 static class EventQueueListener extends EventAdapter {
@@ -41,7 +40,7 @@ public class Main {
 	        @Override
 	        public void authenticateUserRequest(String userName, String password) {
 	        	//do something
+	        	dao.getEventHandler().fireAutheticateUserRespond(u);
 	        }
 	    }
-	
 }

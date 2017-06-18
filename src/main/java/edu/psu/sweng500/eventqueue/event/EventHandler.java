@@ -2,8 +2,6 @@ package edu.psu.sweng500.eventqueue.event;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
-import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventListener;
 import edu.psu.sweng500.type.*;
 
 
