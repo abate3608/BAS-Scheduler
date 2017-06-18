@@ -2,17 +2,25 @@ package edu.psu.sweng500.api;
 
 import java.io.*;
 import java.net.*;
+
+import org.apache.camel.Main;
+
+import java.io.File;
  
 public class TestClient {
  
     public static void main(String argv[]) throws Exception {
  
-        Socket clientSocket = new Socket("localhost", 7001);
+        Socket clientSocket = new Socket("localhost", 7002);
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         
      // How to read file into String before Java 7 
-        InputStream is = new FileInputStream("C:\\Users\\Brian\\Desktop\\TestBasObj.json"); 
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+        String filename = "TestBaseObj.json";
+        // Getting ClassLoader obj
+        ClassLoader classLoader = TestClient.class.getClassLoader();
+        // Getting resource(File) from class loader
+        System.out.println(classLoader.getResource(filename).getFile().toString());
+        BufferedReader buf = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(filename)));
         
         String line = buf.readLine(); 
         StringBuilder sb = new StringBuilder(); 

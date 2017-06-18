@@ -11,7 +11,7 @@ public class ServerRoute extends RouteBuilder {
  
   @Override
   public void configure() throws Exception {
-    from("netty:tcp://localhost:7001?sync=true&allowDefaultCodec=false&encoder=#stringEncoder&decoder=#stringDecoder")
+    from("netty:tcp://localhost:7002?sync=true&allowDefaultCodec=false&encoder=#stringEncoder&decoder=#stringDecoder")
       .to("bean:BASGS_API");
   }
 }

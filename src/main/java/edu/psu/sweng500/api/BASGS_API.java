@@ -63,7 +63,7 @@ public class BASGS_API {
 	 * This method allows external applications to create BASGS events.
 	 */
 	private void create(API_Object api) {
-
+		System.out.println("TEst");
 	}
 	
 	/*
