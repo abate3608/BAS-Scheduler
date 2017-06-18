@@ -4,11 +4,31 @@
 	<groupId>BAS-Scheduler</groupId>
 	<artifactId>BAS-Scheduler</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Build an executable JAR -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>edu.psu.sweng500.Main</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<repositories>
-	    <repository>
-		  <id>clojars.org</id>
-		  <url>http://clojars.org/repo</url>
+		<repository>
+			<id>clojars.org</id>
+			<url>http://clojars.org/repo</url>
 		</repository>
   	</repositories>
   	
@@ -35,21 +55,21 @@
 			<version>3.5</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.clojars.frozenlock</groupId>
-		    <artifactId>sero-utils</artifactId>
-		    <version>1.1.5</version>
+			<groupId>org.clojars.frozenlock</groupId>
+			<artifactId>sero-utils</artifactId>
+			<version>1.1.5</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.rxtx/rxtx -->
 		<dependency>
-		    <groupId>org.rxtx</groupId>
-		    <artifactId>rxtx</artifactId>
-		    <version>2.1.7</version>
+			<groupId>org.rxtx</groupId>
+			<artifactId>rxtx</artifactId>
+			<version>2.1.7</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>6.0.6</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>

@@ -2,6 +2,8 @@ package edu.psu.sweng500.database;
 
 import java.sql.*;
 
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+
 
 public class MysqlAccess {
 
@@ -9,6 +11,9 @@ public class MysqlAccess {
     private Statement statement = null;
 
     private ResultSet rt = null;
+    
+    // Event listeners
+    private final EventHandler eventHandler = new EventHandler();
     
     public void readDB() throws Exception {
     	try {
@@ -36,5 +41,16 @@ public class MysqlAccess {
     	}catch(Exception e) {
     		System.out.println(e);
     	}
+    	
+    	
    }
+    
+    public EventHandler getEventHandler() {
+        return eventHandler;
+    }
+    
+    
+    
+    
+
 }
