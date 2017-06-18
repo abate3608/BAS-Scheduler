@@ -7,8 +7,8 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
 
-public class bacnetserver {
-    static LocalDevice localDevice;
+public class Main {
+	static LocalDevice localDevice;
     public static final int port = 0xBAC0;
     public static final String ipaddress = "192.168.30.1";
     
@@ -47,5 +47,4 @@ public class bacnetserver {
         }
     }
 
-    
 }
