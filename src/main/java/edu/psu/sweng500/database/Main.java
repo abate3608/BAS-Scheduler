@@ -16,8 +16,7 @@ public class Main {
 		//register with event queue
         dao.getEventHandler().addListener(new EventQueueListener());
         
-		dao.readDB();
-		
+		dao.readDB();	
 	}
 	
 	 static class EventQueueListener extends EventAdapter {
@@ -43,5 +42,4 @@ public class Main {
 	        	//do something
 	        }
 	    }
-	
 }
