@@ -8,10 +8,13 @@ import org.apache.camel.builder.RouteBuilder;
  * with BASGS.
  */
 public class ServerRoute extends RouteBuilder {
+	
+	String IP_ADDRESS = "127.0.0.1";
+	String PORT = "7000";
  
-  @Override
-  public void configure() throws Exception {
-    from("netty:tcp://localhost:7002?sync=true&allowDefaultCodec=false&encoder=#stringEncoder&decoder=#stringDecoder")
-      .to("bean:BASGS_API");
-  }
+	@Override
+	public void configure() throws Exception {
+		from("netty:tcp://"+IP_ADDRESS+":"+PORT+"?sync=true&allowDefaultCodec=false&encoder=#stringEncoder&decoder=#stringDecoder")
+		.to("bean:BASGS_API");
+	}
 }
