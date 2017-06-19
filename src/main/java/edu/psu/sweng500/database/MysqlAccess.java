@@ -47,7 +47,6 @@ public class MysqlAccess {
         	   connect.close();
     	} 
     	
-
     
     public EventHandler getEventHandler() {
         return eventHandler;
