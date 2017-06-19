@@ -1,5 +1,7 @@
 package edu.psu.sweng500.eventqueue.event;
 
+import java.util.Date;
+
 import edu.psu.sweng500.type.*;
 
 public class EventAdapter implements EventListener {
@@ -11,17 +13,21 @@ public class EventAdapter implements EventListener {
     
   
     //Database attaches to this and listen for BACnet server request
-    public void getBacnetDeviceRequest(String ObjectIdentifier) {
+    public void getBacnetDevice(String ObjectIdentifier) {
     	System.out.println("getBacnetDeviceRequest event fired!");
     }
 
     //Bacnet server attaches to this and listen for Database respond
-    public void getBacnetDeviceRespond(BacnetDevice d) {
+    public void bacnetDeviceUpdate(BacnetDevice d) {
     	System.out.println("getBacnetDeviceRespond fired!");
     }
     
-	public void getBacnetObject(BacnetObject o) {
+	public void getBacnetObject(String ObjectIdentifier) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void bacnetObjectUpdate(BacnetObject o) {
 		
 	}
 
@@ -35,8 +41,21 @@ public class EventAdapter implements EventListener {
 		
 	}
 
-	public void authenticateUserRepond(User u) {
+	public void authenticateUserUpdate(User u) {
 		// TODO Auto-generated method stub
 		
 	}
+
+    public void getEvents(Date Start, Date Stop) {
+    	
+    }
+  
+
+	public void eventUpdate(ScheduleEvent o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 }

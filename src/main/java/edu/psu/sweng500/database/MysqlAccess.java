@@ -1,7 +1,7 @@
 package edu.psu.sweng500.database;
 
 import java.sql.*;
-
+import java.util.Date;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 
 
@@ -13,7 +13,9 @@ public class MysqlAccess {
     private ResultSet rt = null;
     
     // Event listeners
-    private final EventHandler eventHandler = new EventHandler();
+    private final EventHandler eventHandler = EventHandler.getInstance();
+    
+    
     
     public void readDB() throws Exception {
     	try {

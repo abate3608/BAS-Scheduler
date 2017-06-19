@@ -12,9 +12,9 @@ import edu.psu.sweng500.type.*;
 
 public class BacnetServer {
 	static LocalDevice localBacnetDevice;
-	
+	private static boolean initialized = false;
 	 // Event listeners
-    private final EventHandler eventHandler = new EventHandler();
+    private final EventHandler eventHandler = EventHandler.getInstance();
     
 	public BacnetServer()
 	{
@@ -22,6 +22,7 @@ public class BacnetServer {
 		eventHandler.addListener(new EventQueueListener());
 		eventHandler.fireGetBacnetDeviceRequest(ObjectIdentifier);
 		System.out.println("BACnet Server name: " + ObjectIdentifier);
+		
 		
 	}
 	
@@ -40,12 +41,14 @@ public class BacnetServer {
 	            
 	            //listen to bacnet events
 	            localBacnetDevice.getEventHandler().addListener(new Bacnet4j2Listener());
+	            initialized = localBacnetDevice.isInitialized();
             }
             
             
-        }
-        finally {
+        
+	} catch (Exception e) {
         	localBacnetDevice.terminate();
+        	initialized = false;
         }
 	}
 	
@@ -62,12 +65,13 @@ public class BacnetServer {
 	        }
 	    }
 	    
+	
 	    static class EventQueueListener extends EventAdapter {
 	    	//listen to event queue
 	    	@Override
-	    	public void getBacnetDeviceRespond(BacnetDevice d) {
+	    	public void bacnetDeviceUpdate(BacnetDevice d) {
 	    		try {
-	    			if (!localBacnetDevice.isInitialized()){
+	    			if (!initialized){
 						start(d);
 		    		} else {
 		    			

@@ -21,7 +21,7 @@ public class Main {
 	
 	 static class EventQueueListener extends EventAdapter {
 	        @Override
-	        public void getBacnetDeviceRequest(String ObjectIdentifier) {
+	        public void getBacnetDevice(String ObjectIdentifier) {
 	            System.out.println("getBacnetDeviceReqeust received for " + ObjectIdentifier);
 	            
 	            //get information from data and send the data back to Bacnet server
@@ -34,7 +34,7 @@ public class Main {
 	            BacnetDevice bacnetDevice = new BacnetDevice(ObjectIdentifier, port, ipAddress);
 	            
 	            //Generate the event
-	            dao.getEventHandler().fireGetBacnetDeviceRespond(bacnetDevice);
+	            dao.getEventHandler().fireBacnetDeviceUpdate(bacnetDevice);
 	        }
 	        
 	        @Override

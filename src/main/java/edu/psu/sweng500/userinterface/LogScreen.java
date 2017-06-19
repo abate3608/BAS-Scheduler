@@ -23,9 +23,13 @@ public class LogScreen {
 	String passwordTextGet;
 
 	 // Event listeners
-    private final EventHandler eventHandler = new EventHandler();
+    private final EventHandler eventHandler = EventHandler.getInstance();
     
 	public LogScreen() {
+		
+		//setup event
+		eventHandler.addListener(new EventQueueListener());
+				
 		JFrame logWin = new JFrame("Global Schedular System Login");
 		//logWin.setSize(1800, 750);
 		logWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,11 +78,13 @@ public class LogScreen {
 	private final class loginButtonPress implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e) {
+			//TEam 7 To Do
+			//
 			String userName = "abc"; //replace with username from ui
 			String password = "123"; //replace with password from ui
 			
 			//fire request event with password
-			eventHandler.fireAutheticateUserRequest(userName, password);
+			eventHandler.fireAuthenticateUserRequest(userName, password);
 			
 			new CalenderScreen();
 			
@@ -94,8 +100,11 @@ public class LogScreen {
 	    	//listen to event queue
 		 
 			 @Override
-			 public void authenticateUserRepond(User u) {
-				 //user authentication is in user data type.
+			 public void authenticateUserUpdate(User u) {
+				 //TEAM 7 TO DO
+				 //User data type
+				 //u.isAuthenticated() = true when user is authenticated; false when user is not authenticated.
+				 //write code to handle user login and timeout. What happen if user is not authenticate.
 				 
 			 }
 	    }

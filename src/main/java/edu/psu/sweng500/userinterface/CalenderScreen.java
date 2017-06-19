@@ -1,14 +1,15 @@
 package edu.psu.sweng500.userinterface;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import edu.psu.sweng500.type.*;
 
 public class CalenderScreen {
 	static JLabel monthName; 
@@ -33,8 +34,15 @@ public class CalenderScreen {
 	static int getYear;
 	static int getMonth;
 
+	 // Event listeners
+    private final static EventHandler eventHandler = EventHandler.getInstance();
+    
 	public CalenderScreen(){
 
+		//setup event
+		eventHandler.addListener(new EventQueueListener());
+		
+		
 		//JAVA FRAME SETUP
 		panelLayout = new JFrame ("Global Schedular System"); 
 		//panelLayout.setSize(1375, 750); //USED TO SIZE FRAME 
@@ -134,6 +142,8 @@ public class CalenderScreen {
 			for (int i=year; i<=year+100; i++){
 				calendarYear.addItem(String.valueOf(i));
 			}
+			
+			
 
 			updateCalendar (month, year); //Refresh calendar
 	}
@@ -141,6 +151,8 @@ public class CalenderScreen {
 
 	public static void updateCalendar(int month, int year){
 
+		
+		
 		String[] monthNames =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 		int numDays, startMonth; //Number Of Days, Start Of Month   
@@ -171,6 +183,14 @@ public class CalenderScreen {
 		}
 		//Apply renderers
 		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new tblCalendarRenderer());
+		
+		//request events
+		Date Start = new Date();
+		Date Stop = new Date();
+		
+		eventHandler.fireGetEvents(Start, Stop);
+		
+		
 	}
 
 	//use to show scheduled events
@@ -235,6 +255,23 @@ public class CalenderScreen {
 
 		}
 	}
+	
+	public EventHandler getEventHandler() {
+		 return eventHandler;
+	 }
+	 
+	 static class EventQueueListener extends EventAdapter {
+	    	//listen to event queue
+		 
+			 @Override
+			 public void eventUpdate(ScheduleEvent o) {
+				 //TEAM 7 TO DO
+				 //EventObject data type
+				 //
+				 //write code to update UI calendar when event arrive
+				 
+			 }
+	    }
 }
 
 
