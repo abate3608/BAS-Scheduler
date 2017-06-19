@@ -5,7 +5,7 @@ public class User {
 	private String userName;
 	private boolean authenticated;
 	
-	public User (String userName) {
+	public User (String userName, boolean authenicated) {
 		this.userName = userName;
 		this.authenticated = false;
 	}
