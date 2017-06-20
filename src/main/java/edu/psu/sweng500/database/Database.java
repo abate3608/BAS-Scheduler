@@ -1,6 +1,10 @@
 package edu.psu.sweng500.database;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Date;
+
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
@@ -14,6 +18,9 @@ public class Database {
 
 	 // Event listeners
     private final static EventHandler eventHandler = EventHandler.getInstance();
+    private static Statement statement = null;
+    private static ResultSet rt = null;
+    private final static Connection connect = null;
     
 	public Database() {
 		eventHandler.addListener(new EventQueueListener());
@@ -52,7 +59,19 @@ public class Database {
 	    	public void getEvents(Date Start, Date Stop) {
 	    		try {
 	    			
+	    			
 		            //Query for events in date range
+	    			
+	    			statement = connect.createStatement();
+	    			
+	    			rt =statement.executeQuery("select ScheduleId, StartTime, EndTime from Schedule where StartTime = str_to_date('06-20-17','%m-%d-%y') and EndTime = str_to_date('06-25-17','%m-%d-%y')");
+	    			while((rt.next())){
+	    				int ScheduleID = rt.getInt("ScheduleID");
+	    			String StartTime = rt.getString("StartTime");
+	    			String EndTime = rt.getString("EndTime");
+	    			System.out.println(ScheduleID + "\n" + StartTime + "\n" + EndTime + "\n");
+	    			}
+	    			
 	    			//Loop to each event
 	    			//Create SheduleEvent object
 		            //Send each event to event queue

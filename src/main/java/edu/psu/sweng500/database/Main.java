@@ -8,7 +8,7 @@ import edu.psu.sweng500.type.*;
 public class Main {
 
 	
-	static MysqlAccess dao =  new MysqlAccess();
+	static MysqlConnection dao =  new MysqlConnection();
 	
 	public static void main(String[] args) throws Exception {
 		

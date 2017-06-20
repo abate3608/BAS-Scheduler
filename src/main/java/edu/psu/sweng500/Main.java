@@ -2,7 +2,8 @@ package edu.psu.sweng500;
 
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
 import edu.psu.sweng500.database.Database;
-import edu.psu.sweng500.database.MysqlAccess;
+//import edu.psu.sweng500.database.MysqlAccess;
+import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.userinterface.LogScreen;
 /**
  * This is the application main class.
@@ -17,7 +18,7 @@ public class Main
 		System.out.println("The main class has been run!");
 		
     	try {
-    		MysqlAccess dao =  new MysqlAccess();
+    		MysqlConnection dao =  new MysqlConnection();
 
     		
     		//test database
