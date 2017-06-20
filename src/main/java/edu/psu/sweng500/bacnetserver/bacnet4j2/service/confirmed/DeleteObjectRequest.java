@@ -36,67 +36,65 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class DeleteObjectRequest extends ConfirmedRequestService {
-    private static final long serialVersionUID = 6629196264191258622L;
+	private static final long serialVersionUID = 6629196264191258622L;
 
-    public static final byte TYPE_ID = 11;
+	public static final byte TYPE_ID = 11;
 
-    private final ObjectIdentifier objectIdentifier;
+	private final ObjectIdentifier objectIdentifier;
 
-    public DeleteObjectRequest(ObjectIdentifier objectIdentifier) {
-        this.objectIdentifier = objectIdentifier;
-    }
+	public DeleteObjectRequest(ObjectIdentifier objectIdentifier) {
+		this.objectIdentifier = objectIdentifier;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
-            throws BACnetErrorException {
-        try {
-            localDevice.removeObject(objectIdentifier);
-        }
-        catch (BACnetServiceException e) {
-            throw new BACnetErrorException(getChoiceId(), e);
-        }
+	@Override
+	public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
+			throws BACnetErrorException {
+		try {
+			localDevice.removeObject(objectIdentifier);
+		} catch (BACnetServiceException e) {
+			throw new BACnetErrorException(getChoiceId(), e);
+		}
 
-        // Returning null sends a simple ack.
-        return null;
-    }
+		// Returning null sends a simple ack.
+		return null;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, objectIdentifier);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, objectIdentifier);
+	}
 
-    DeleteObjectRequest(ByteQueue queue) throws BACnetException {
-        objectIdentifier = read(queue, ObjectIdentifier.class);
-    }
+	DeleteObjectRequest(ByteQueue queue) throws BACnetException {
+		objectIdentifier = read(queue, ObjectIdentifier.class);
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((objectIdentifier == null) ? 0 : objectIdentifier.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((objectIdentifier == null) ? 0 : objectIdentifier.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final DeleteObjectRequest other = (DeleteObjectRequest) obj;
-        if (objectIdentifier == null) {
-            if (other.objectIdentifier != null)
-                return false;
-        }
-        else if (!objectIdentifier.equals(other.objectIdentifier))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final DeleteObjectRequest other = (DeleteObjectRequest) obj;
+		if (objectIdentifier == null) {
+			if (other.objectIdentifier != null)
+				return false;
+		} else if (!objectIdentifier.equals(other.objectIdentifier))
+			return false;
+		return true;
+	}
 }

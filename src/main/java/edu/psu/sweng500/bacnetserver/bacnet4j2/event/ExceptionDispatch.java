@@ -7,38 +7,38 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ExceptionDispatch {
-    private static final List<ExceptionListener> listeners = new CopyOnWriteArrayList<ExceptionListener>();
-    private static final ExceptionListener defaultExceptionListener = new DefaultExceptionListener();
+	private static final List<ExceptionListener> listeners = new CopyOnWriteArrayList<ExceptionListener>();
+	private static final ExceptionListener defaultExceptionListener = new DefaultExceptionListener();
 
-    static {
-        listeners.add(defaultExceptionListener);
-    }
+	static {
+		listeners.add(defaultExceptionListener);
+	}
 
-    public static void addListener(ExceptionListener l) {
-        listeners.add(l);
-    }
+	public static void addListener(ExceptionListener l) {
+		listeners.add(l);
+	}
 
-    public static void removeListener(ExceptionListener l) {
-        listeners.remove(l);
-    }
+	public static void removeListener(ExceptionListener l) {
+		listeners.remove(l);
+	}
 
-    public void removeDefaultExceptionListener() {
-        listeners.remove(defaultExceptionListener);
-    }
+	public void removeDefaultExceptionListener() {
+		listeners.remove(defaultExceptionListener);
+	}
 
-    public static void fireUnimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber,
-            ByteQueue queue) {
-        for (ExceptionListener l : listeners)
-            l.unimplementedVendorService(vendorId, serviceNumber, queue);
-    }
+	public static void fireUnimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber,
+			ByteQueue queue) {
+		for (ExceptionListener l : listeners)
+			l.unimplementedVendorService(vendorId, serviceNumber, queue);
+	}
 
-    public static void fireReceivedException(Exception e) {
-        for (ExceptionListener l : listeners)
-            l.receivedException(e);
-    }
+	public static void fireReceivedException(Exception e) {
+		for (ExceptionListener l : listeners)
+			l.receivedException(e);
+	}
 
-    public static void fireReceivedThrowable(Throwable t) {
-        for (ExceptionListener l : listeners)
-            l.receivedThrowable(t);
-    }
+	public static void fireReceivedThrowable(Throwable t) {
+		for (ExceptionListener l : listeners)
+			l.receivedThrowable(t);
+	}
 }

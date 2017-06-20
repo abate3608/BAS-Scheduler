@@ -29,22 +29,22 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class DeviceStatus extends Enumerated {
-    private static final long serialVersionUID = -111489048861220863L;
-    public static final DeviceStatus operational = new DeviceStatus(0);
-    public static final DeviceStatus operationalReadOnly = new DeviceStatus(1);
-    public static final DeviceStatus downloadRequired = new DeviceStatus(2);
-    public static final DeviceStatus downloadInProgress = new DeviceStatus(3);
-    public static final DeviceStatus nonOperational = new DeviceStatus(4);
-    public static final DeviceStatus backupInProgress = new DeviceStatus(5);
+	private static final long serialVersionUID = -111489048861220863L;
+	public static final DeviceStatus operational = new DeviceStatus(0);
+	public static final DeviceStatus operationalReadOnly = new DeviceStatus(1);
+	public static final DeviceStatus downloadRequired = new DeviceStatus(2);
+	public static final DeviceStatus downloadInProgress = new DeviceStatus(3);
+	public static final DeviceStatus nonOperational = new DeviceStatus(4);
+	public static final DeviceStatus backupInProgress = new DeviceStatus(5);
 
-    public static final DeviceStatus[] ALL = { operational, operationalReadOnly, downloadRequired, downloadInProgress,
-            nonOperational, backupInProgress, };
+	public static final DeviceStatus[] ALL = { operational, operationalReadOnly, downloadRequired, downloadInProgress,
+			nonOperational, backupInProgress, };
 
-    public DeviceStatus(int value) {
-        super(value);
-    }
+	public DeviceStatus(int value) {
+		super(value);
+	}
 
-    public DeviceStatus(ByteQueue queue) {
-        super(queue);
-    }
+	public DeviceStatus(ByteQueue queue) {
+		super(queue);
+	}
 }

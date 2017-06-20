@@ -29,18 +29,18 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class LoggingType extends Enumerated {
-    private static final long serialVersionUID = 7142631539010266808L;
-    public static final LoggingType polled = new LoggingType(0);
-    public static final LoggingType cov = new LoggingType(1);
-    public static final LoggingType triggered = new LoggingType(2);
+	private static final long serialVersionUID = 7142631539010266808L;
+	public static final LoggingType polled = new LoggingType(0);
+	public static final LoggingType cov = new LoggingType(1);
+	public static final LoggingType triggered = new LoggingType(2);
 
-    public static final LoggingType[] ALL = { polled, cov, triggered, };
+	public static final LoggingType[] ALL = { polled, cov, triggered, };
 
-    public LoggingType(int value) {
-        super(value);
-    }
+	public LoggingType(int value) {
+		super(value);
+	}
 
-    public LoggingType(ByteQueue queue) {
-        super(queue);
-    }
+	public LoggingType(ByteQueue queue) {
+		super(queue);
+	}
 }

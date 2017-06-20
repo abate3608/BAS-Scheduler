@@ -28,7 +28,7 @@ package edu.psu.sweng500.bacnetserver.bacnet4j2.service;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
 
 abstract public class Service extends BaseType {
-    private static final long serialVersionUID = 6310521953905282247L;
+	private static final long serialVersionUID = 6310521953905282247L;
 
-    abstract public byte getChoiceId();
+	abstract public byte getChoiceId();
 }

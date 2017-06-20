@@ -33,103 +33,99 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.LifeSafetyState;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ChangeOfLifeSafety extends NotificationParameters {
-    private static final long serialVersionUID = -3145779272869271053L;
+	private static final long serialVersionUID = -3145779272869271053L;
 
-    public static final byte TYPE_ID = 8;
+	public static final byte TYPE_ID = 8;
 
-    private final LifeSafetyState newState;
-    private final LifeSafetyMode newMode;
-    private final StatusFlags statusFlags;
-    private final LifeSafetyOperation operationExpected;
+	private final LifeSafetyState newState;
+	private final LifeSafetyMode newMode;
+	private final StatusFlags statusFlags;
+	private final LifeSafetyOperation operationExpected;
 
-    public ChangeOfLifeSafety(LifeSafetyState newState, LifeSafetyMode newMode, StatusFlags statusFlags,
-            LifeSafetyOperation operationExpected) {
-        this.newState = newState;
-        this.newMode = newMode;
-        this.statusFlags = statusFlags;
-        this.operationExpected = operationExpected;
-    }
+	public ChangeOfLifeSafety(LifeSafetyState newState, LifeSafetyMode newMode, StatusFlags statusFlags,
+			LifeSafetyOperation operationExpected) {
+		this.newState = newState;
+		this.newMode = newMode;
+		this.statusFlags = statusFlags;
+		this.operationExpected = operationExpected;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, newState, 0);
-        write(queue, statusFlags, 1);
-        write(queue, newMode, 2);
-        write(queue, operationExpected, 3);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, newState, 0);
+		write(queue, statusFlags, 1);
+		write(queue, newMode, 2);
+		write(queue, operationExpected, 3);
+	}
 
-    public ChangeOfLifeSafety(ByteQueue queue) throws BACnetException {
-        newState = read(queue, LifeSafetyState.class, 0);
-        newMode = read(queue, LifeSafetyMode.class, 1);
-        statusFlags = read(queue, StatusFlags.class, 2);
-        operationExpected = read(queue, LifeSafetyOperation.class, 3);
-    }
+	public ChangeOfLifeSafety(ByteQueue queue) throws BACnetException {
+		newState = read(queue, LifeSafetyState.class, 0);
+		newMode = read(queue, LifeSafetyMode.class, 1);
+		statusFlags = read(queue, StatusFlags.class, 2);
+		operationExpected = read(queue, LifeSafetyOperation.class, 3);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public LifeSafetyState getNewState() {
-        return newState;
-    }
+	public LifeSafetyState getNewState() {
+		return newState;
+	}
 
-    public LifeSafetyMode getNewMode() {
-        return newMode;
-    }
+	public LifeSafetyMode getNewMode() {
+		return newMode;
+	}
 
-    public StatusFlags getStatusFlags() {
-        return statusFlags;
-    }
+	public StatusFlags getStatusFlags() {
+		return statusFlags;
+	}
 
-    public LifeSafetyOperation getOperationExpected() {
-        return operationExpected;
-    }
+	public LifeSafetyOperation getOperationExpected() {
+		return operationExpected;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((newMode == null) ? 0 : newMode.hashCode());
-        result = PRIME * result + ((newState == null) ? 0 : newState.hashCode());
-        result = PRIME * result + ((operationExpected == null) ? 0 : operationExpected.hashCode());
-        result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((newMode == null) ? 0 : newMode.hashCode());
+		result = PRIME * result + ((newState == null) ? 0 : newState.hashCode());
+		result = PRIME * result + ((operationExpected == null) ? 0 : operationExpected.hashCode());
+		result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ChangeOfLifeSafety other = (ChangeOfLifeSafety) obj;
-        if (newMode == null) {
-            if (other.newMode != null)
-                return false;
-        }
-        else if (!newMode.equals(other.newMode))
-            return false;
-        if (newState == null) {
-            if (other.newState != null)
-                return false;
-        }
-        else if (!newState.equals(other.newState))
-            return false;
-        if (operationExpected == null) {
-            if (other.operationExpected != null)
-                return false;
-        }
-        else if (!operationExpected.equals(other.operationExpected))
-            return false;
-        if (statusFlags == null) {
-            if (other.statusFlags != null)
-                return false;
-        }
-        else if (!statusFlags.equals(other.statusFlags))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ChangeOfLifeSafety other = (ChangeOfLifeSafety) obj;
+		if (newMode == null) {
+			if (other.newMode != null)
+				return false;
+		} else if (!newMode.equals(other.newMode))
+			return false;
+		if (newState == null) {
+			if (other.newState != null)
+				return false;
+		} else if (!newState.equals(other.newState))
+			return false;
+		if (operationExpected == null) {
+			if (other.operationExpected != null)
+				return false;
+		} else if (!operationExpected.equals(other.operationExpected))
+			return false;
+		if (statusFlags == null) {
+			if (other.statusFlags != null)
+				return false;
+		} else if (!statusFlags.equals(other.statusFlags))
+			return false;
+		return true;
+	}
 }

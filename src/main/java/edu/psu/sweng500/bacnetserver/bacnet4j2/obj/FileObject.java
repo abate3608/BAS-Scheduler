@@ -48,85 +48,83 @@ import com.serotonin.io.StreamUtils;
  * @author Matthew Lohbihler
  */
 public class FileObject extends BACnetObject {
-    private static final long serialVersionUID = 1089963077847602732L;
+	private static final long serialVersionUID = 1089963077847602732L;
 
-    /**
-     * The actual file that this object represents.
-     */
-    private final File file;
+	/**
+	 * The actual file that this object represents.
+	 */
+	private final File file;
 
-    public FileObject(LocalDevice localDevice, ObjectIdentifier oid, File file, FileAccessMethod fileAccessMethod) {
-        super(localDevice, oid);
-        this.file = file;
+	public FileObject(LocalDevice localDevice, ObjectIdentifier oid, File file, FileAccessMethod fileAccessMethod) {
+		super(localDevice, oid);
+		this.file = file;
 
-        if (file.isDirectory())
-            throw new BACnetRuntimeException("File is a directory");
+		if (file.isDirectory())
+			throw new BACnetRuntimeException("File is a directory");
 
-        updateProperties();
+		updateProperties();
 
-        try {
-            setProperty(PropertyIdentifier.fileAccessMethod, fileAccessMethod);
-        }
-        catch (BACnetServiceException e) {
-            // Should never happen, but wrap in an unchecked just in case.
-            throw new BACnetRuntimeException(e);
-        }
-    }
+		try {
+			setProperty(PropertyIdentifier.fileAccessMethod, fileAccessMethod);
+		} catch (BACnetServiceException e) {
+			// Should never happen, but wrap in an unchecked just in case.
+			throw new BACnetRuntimeException(e);
+		}
+	}
 
-    public void updateProperties() {
-        try {
-            // TODO this is only a snapshot. Property read methods need to be overridden to report real time values.
-            setProperty(PropertyIdentifier.fileSize, new UnsignedInteger(new BigInteger(Long.toString(length()))));
-            setProperty(PropertyIdentifier.modificationDate, new DateTime(file.lastModified()));
-            setProperty(PropertyIdentifier.readOnly, new Boolean(!file.canWrite()));
-        }
-        catch (BACnetServiceException e) {
-            // Should never happen, but wrap in an unchecked just in case.
-            throw new BACnetRuntimeException(e);
-        }
-    }
+	public void updateProperties() {
+		try {
+			// TODO this is only a snapshot. Property read methods need to be
+			// overridden to report real time values.
+			setProperty(PropertyIdentifier.fileSize, new UnsignedInteger(new BigInteger(Long.toString(length()))));
+			setProperty(PropertyIdentifier.modificationDate, new DateTime(file.lastModified()));
+			setProperty(PropertyIdentifier.readOnly, new Boolean(!file.canWrite()));
+		} catch (BACnetServiceException e) {
+			// Should never happen, but wrap in an unchecked just in case.
+			throw new BACnetRuntimeException(e);
+		}
+	}
 
-    public long length() {
-        return file.length();
-    }
+	public long length() {
+		return file.length();
+	}
 
-    public OctetString readData(long start, long length) throws IOException {
-        FileInputStream in = new FileInputStream(file);
-        try {
-            while (start > 0) {
-                long result = in.skip(start);
-                if (result == -1)
-                    // EOF
-                    break;
-                start -= result;
-            }
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            StreamUtils.transfer(in, out, length);
-            return new OctetString(out.toByteArray());
-        }
-        finally {
-            in.close();
-        }
-    }
+	public OctetString readData(long start, long length) throws IOException {
+		FileInputStream in = new FileInputStream(file);
+		try {
+			while (start > 0) {
+				long result = in.skip(start);
+				if (result == -1)
+					// EOF
+					break;
+				start -= result;
+			}
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			StreamUtils.transfer(in, out, length);
+			return new OctetString(out.toByteArray());
+		} finally {
+			in.close();
+		}
+	}
 
-    public void writeData(long start, OctetString fileData) throws IOException {
-        RandomAccessFile raf = new RandomAccessFile(file, "rw");
-        try {
-            byte data[] = fileData.getBytes();
-            long newLength = start + data.length;
-            raf.seek(start);
-            raf.write(data);
-            raf.setLength(newLength);
-        }
-        finally {
-            raf.close();
-        }
+	public void writeData(long start, OctetString fileData) throws IOException {
+		RandomAccessFile raf = new RandomAccessFile(file, "rw");
+		try {
+			byte data[] = fileData.getBytes();
+			long newLength = start + data.length;
+			raf.seek(start);
+			raf.write(data);
+			raf.setLength(newLength);
+		} finally {
+			raf.close();
+		}
 
-        updateProperties();
-    }
+		updateProperties();
+	}
 
-    //    
-    // public SequenceOf<OctetString> readRecords(int start, int length) throws IOException {
-    //        
-    // }
+	//
+	// public SequenceOf<OctetString> readRecords(int start, int length) throws
+	// IOException {
+	//
+	// }
 }

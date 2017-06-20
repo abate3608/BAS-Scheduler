@@ -29,17 +29,17 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Polarity extends Enumerated {
-    private static final long serialVersionUID = -1843145729195555092L;
-    public static final Polarity normal = new Polarity(0);
-    public static final Polarity reverse = new Polarity(1);
+	private static final long serialVersionUID = -1843145729195555092L;
+	public static final Polarity normal = new Polarity(0);
+	public static final Polarity reverse = new Polarity(1);
 
-    public static final Polarity[] ALL = { normal, reverse, };
+	public static final Polarity[] ALL = { normal, reverse, };
 
-    public Polarity(int value) {
-        super(value);
-    }
+	public Polarity(int value) {
+		super(value);
+	}
 
-    public Polarity(ByteQueue queue) {
-        super(queue);
-    }
+	public Polarity(ByteQueue queue) {
+		super(queue);
+	}
 }

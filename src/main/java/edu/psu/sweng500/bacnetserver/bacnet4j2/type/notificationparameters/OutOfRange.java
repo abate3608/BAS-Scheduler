@@ -31,102 +31,98 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
 import com.serotonin.util.queue.ByteQueue;
 
 public class OutOfRange extends NotificationParameters {
-    private static final long serialVersionUID = 8147853414874448191L;
+	private static final long serialVersionUID = 8147853414874448191L;
 
-    public static final byte TYPE_ID = 5;
+	public static final byte TYPE_ID = 5;
 
-    private final Real exceedingValue;
-    private final StatusFlags statusFlags;
-    private final Real deadband;
-    private final Real exceedingLimit;
+	private final Real exceedingValue;
+	private final StatusFlags statusFlags;
+	private final Real deadband;
+	private final Real exceedingLimit;
 
-    public OutOfRange(Real exceedingValue, StatusFlags statusFlags, Real deadband, Real exceedingLimit) {
-        this.exceedingValue = exceedingValue;
-        this.statusFlags = statusFlags;
-        this.deadband = deadband;
-        this.exceedingLimit = exceedingLimit;
-    }
+	public OutOfRange(Real exceedingValue, StatusFlags statusFlags, Real deadband, Real exceedingLimit) {
+		this.exceedingValue = exceedingValue;
+		this.statusFlags = statusFlags;
+		this.deadband = deadband;
+		this.exceedingLimit = exceedingLimit;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, exceedingValue, 0);
-        write(queue, statusFlags, 1);
-        write(queue, deadband, 2);
-        write(queue, exceedingLimit, 3);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, exceedingValue, 0);
+		write(queue, statusFlags, 1);
+		write(queue, deadband, 2);
+		write(queue, exceedingLimit, 3);
+	}
 
-    public OutOfRange(ByteQueue queue) throws BACnetException {
-        exceedingValue = read(queue, Real.class, 0);
-        statusFlags = read(queue, StatusFlags.class, 1);
-        deadband = read(queue, Real.class, 2);
-        exceedingLimit = read(queue, Real.class, 3);
-    }
+	public OutOfRange(ByteQueue queue) throws BACnetException {
+		exceedingValue = read(queue, Real.class, 0);
+		statusFlags = read(queue, StatusFlags.class, 1);
+		deadband = read(queue, Real.class, 2);
+		exceedingLimit = read(queue, Real.class, 3);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public Real getExceedingValue() {
-        return exceedingValue;
-    }
+	public Real getExceedingValue() {
+		return exceedingValue;
+	}
 
-    public StatusFlags getStatusFlags() {
-        return statusFlags;
-    }
+	public StatusFlags getStatusFlags() {
+		return statusFlags;
+	}
 
-    public Real getDeadband() {
-        return deadband;
-    }
+	public Real getDeadband() {
+		return deadband;
+	}
 
-    public Real getExceedingLimit() {
-        return exceedingLimit;
-    }
+	public Real getExceedingLimit() {
+		return exceedingLimit;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((deadband == null) ? 0 : deadband.hashCode());
-        result = PRIME * result + ((exceedingLimit == null) ? 0 : exceedingLimit.hashCode());
-        result = PRIME * result + ((exceedingValue == null) ? 0 : exceedingValue.hashCode());
-        result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((deadband == null) ? 0 : deadband.hashCode());
+		result = PRIME * result + ((exceedingLimit == null) ? 0 : exceedingLimit.hashCode());
+		result = PRIME * result + ((exceedingValue == null) ? 0 : exceedingValue.hashCode());
+		result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final OutOfRange other = (OutOfRange) obj;
-        if (deadband == null) {
-            if (other.deadband != null)
-                return false;
-        }
-        else if (!deadband.equals(other.deadband))
-            return false;
-        if (exceedingLimit == null) {
-            if (other.exceedingLimit != null)
-                return false;
-        }
-        else if (!exceedingLimit.equals(other.exceedingLimit))
-            return false;
-        if (exceedingValue == null) {
-            if (other.exceedingValue != null)
-                return false;
-        }
-        else if (!exceedingValue.equals(other.exceedingValue))
-            return false;
-        if (statusFlags == null) {
-            if (other.statusFlags != null)
-                return false;
-        }
-        else if (!statusFlags.equals(other.statusFlags))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final OutOfRange other = (OutOfRange) obj;
+		if (deadband == null) {
+			if (other.deadband != null)
+				return false;
+		} else if (!deadband.equals(other.deadband))
+			return false;
+		if (exceedingLimit == null) {
+			if (other.exceedingLimit != null)
+				return false;
+		} else if (!exceedingLimit.equals(other.exceedingLimit))
+			return false;
+		if (exceedingValue == null) {
+			if (other.exceedingValue != null)
+				return false;
+		} else if (!exceedingValue.equals(other.exceedingValue))
+			return false;
+		if (statusFlags == null) {
+			if (other.statusFlags != null)
+				return false;
+		} else if (!statusFlags.equals(other.statusFlags))
+			return false;
+		return true;
+	}
 }

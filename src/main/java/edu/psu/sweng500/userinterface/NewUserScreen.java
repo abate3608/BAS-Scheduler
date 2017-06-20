@@ -12,7 +12,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NewUserScreen implements ActionListener{
+public class NewUserScreen implements ActionListener {
 
 	private JFrame regWin;
 	private JPanel regPane;
@@ -31,7 +31,7 @@ public class NewUserScreen implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		regWin = new JFrame("Global Schedular System Login");
-		//regWin.setSize(1800, 750);
+		// regWin.setSize(1800, 750);
 		regWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		regWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		regWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,13 +41,14 @@ public class NewUserScreen implements ActionListener{
 		newuserLayout(regPane);
 		regWin.setVisible(true);
 	}
+
 	private final void newuserLayout(JPanel regPanel) {
 
 		regPanel.setLayout(null);
-		regPanel.setBorder(BorderFactory.createTitledBorder("New User Registration")); 
+		regPanel.setBorder(BorderFactory.createTitledBorder("New User Registration"));
 
 		firstName = new JLabel("First Name");
-		firstName.setBounds(550, 160 , 80, 25);
+		firstName.setBounds(550, 160, 80, 25);
 		regPanel.add(firstName);
 
 		firstNameTXT = new JTextField(20);
@@ -78,16 +79,16 @@ public class NewUserScreen implements ActionListener{
 		userNameTXT.setBounds(550, 380, 160, 25);
 		regPanel.add(userNameTXT);
 
-		passWord = new JLabel("Password"); 
+		passWord = new JLabel("Password");
 		passWord.setBounds(550, 420, 160, 25);
 		regPanel.add(passWord);
 
-		passwordText = new JPasswordField(20); 
+		passwordText = new JPasswordField(20);
 		passwordText.setBounds(550, 445, 160, 25);
 		regPanel.add(passwordText);
 
 		newuserButton = new JButton("Request Access");
-		newuserButton.setBounds(560,550, 140, 25);
+		newuserButton.setBounds(560, 550, 140, 25);
 		regPanel.add(newuserButton);
 		newuserButton.addActionListener(new userRegistration());
 
@@ -97,27 +98,25 @@ public class NewUserScreen implements ActionListener{
 		cancelButton.addActionListener(new cancelButtonPress());
 	}
 
-	private final class cancelButtonPress implements ActionListener{     
+	private final class cancelButtonPress implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			firstNameTXT.setText(null);
 			lastNameTXT.setText(null);
 			userNameTXT.setText(null);
 			emailTXT.setText(null);
-			passwordText.setText(null);		
-			regWin.dispose();				
+			passwordText.setText(null);
+			regWin.dispose();
 		}
 	}
 
-	private final class userRegistration implements ActionListener{
+	private final class userRegistration implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"Submitting Registration Request");
+			JOptionPane.showMessageDialog(null, "Submitting Registration Request");
 
 		}
 
 	}
 
-}	
-
-
+}

@@ -29,64 +29,62 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
 import com.serotonin.util.queue.ByteQueue;
 
 public class LogMultipleRecord extends BaseType {
-    private static final long serialVersionUID = 3817374635968734673L;
-    private final DateTime timestamp;
-    private final LogData logData;
+	private static final long serialVersionUID = 3817374635968734673L;
+	private final DateTime timestamp;
+	private final LogData logData;
 
-    public LogMultipleRecord(DateTime timestamp, LogData logData) {
-        this.timestamp = timestamp;
-        this.logData = logData;
-    }
+	public LogMultipleRecord(DateTime timestamp, LogData logData) {
+		this.timestamp = timestamp;
+		this.logData = logData;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, timestamp, 0);
-        write(queue, logData, 1);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, timestamp, 0);
+		write(queue, logData, 1);
+	}
 
-    public DateTime getTimestamp() {
-        return timestamp;
-    }
+	public DateTime getTimestamp() {
+		return timestamp;
+	}
 
-    public LogData getLogData() {
-        return logData;
-    }
+	public LogData getLogData() {
+		return logData;
+	}
 
-    public LogMultipleRecord(ByteQueue queue) throws BACnetException {
-        timestamp = read(queue, DateTime.class, 0);
-        logData = read(queue, LogData.class, 1);
-    }
+	public LogMultipleRecord(ByteQueue queue) throws BACnetException {
+		timestamp = read(queue, DateTime.class, 0);
+		logData = read(queue, LogData.class, 1);
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((logData == null) ? 0 : logData.hashCode());
-        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((logData == null) ? 0 : logData.hashCode());
+		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final LogMultipleRecord other = (LogMultipleRecord) obj;
-        if (logData == null) {
-            if (other.logData != null)
-                return false;
-        }
-        else if (!logData.equals(other.logData))
-            return false;
-        if (timestamp == null) {
-            if (other.timestamp != null)
-                return false;
-        }
-        else if (!timestamp.equals(other.timestamp))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final LogMultipleRecord other = (LogMultipleRecord) obj;
+		if (logData == null) {
+			if (other.logData != null)
+				return false;
+		} else if (!logData.equals(other.logData))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		return true;
+	}
 }

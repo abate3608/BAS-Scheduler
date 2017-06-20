@@ -1,7 +1,7 @@
 package edu.psu.sweng500.api;
 
 import org.apache.camel.builder.RouteBuilder;
- 
+
 /*
  * Author: Brian Abate
  * This class provides a means to configure the Camel Netty server

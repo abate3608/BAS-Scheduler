@@ -29,41 +29,41 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Segmentation extends Enumerated {
-    private static final long serialVersionUID = -7301676227213297779L;
-    public static final Segmentation segmentedBoth = new Segmentation(0);
-    public static final Segmentation segmentedTransmit = new Segmentation(1);
-    public static final Segmentation segmentedReceive = new Segmentation(2);
-    public static final Segmentation noSegmentation = new Segmentation(3);
+	private static final long serialVersionUID = -7301676227213297779L;
+	public static final Segmentation segmentedBoth = new Segmentation(0);
+	public static final Segmentation segmentedTransmit = new Segmentation(1);
+	public static final Segmentation segmentedReceive = new Segmentation(2);
+	public static final Segmentation noSegmentation = new Segmentation(3);
 
-    public static final Segmentation[] ALL = { segmentedBoth, segmentedTransmit, segmentedReceive, noSegmentation, };
+	public static final Segmentation[] ALL = { segmentedBoth, segmentedTransmit, segmentedReceive, noSegmentation, };
 
-    public Segmentation(int value) {
-        super(value);
-    }
+	public Segmentation(int value) {
+		super(value);
+	}
 
-    public Segmentation(ByteQueue queue) {
-        super(queue);
-    }
+	public Segmentation(ByteQueue queue) {
+		super(queue);
+	}
 
-    public boolean hasTransmitSegmentation() {
-        return this.equals(segmentedBoth) || this.equals(segmentedTransmit);
-    }
+	public boolean hasTransmitSegmentation() {
+		return this.equals(segmentedBoth) || this.equals(segmentedTransmit);
+	}
 
-    public boolean hasReceiveSegmentation() {
-        return this.equals(segmentedBoth) || this.equals(segmentedReceive);
-    }
+	public boolean hasReceiveSegmentation() {
+		return this.equals(segmentedBoth) || this.equals(segmentedReceive);
+	}
 
-    @Override
-    public String toString() {
-        int type = intValue();
-        if (type == segmentedBoth.intValue())
-            return "both";
-        if (type == segmentedTransmit.intValue())
-            return "transmit";
-        if (type == segmentedReceive.intValue())
-            return "receive";
-        if (type == noSegmentation.intValue())
-            return "none";
-        return "Unknown: " + type;
-    }
+	@Override
+	public String toString() {
+		int type = intValue();
+		if (type == segmentedBoth.intValue())
+			return "both";
+		if (type == segmentedTransmit.intValue())
+			return "transmit";
+		if (type == segmentedReceive.intValue())
+			return "receive";
+		if (type == noSegmentation.intValue())
+			return "none";
+		return "Unknown: " + type;
+	}
 }

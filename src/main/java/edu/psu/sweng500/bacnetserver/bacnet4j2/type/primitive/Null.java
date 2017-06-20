@@ -28,45 +28,45 @@ package edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Null extends Primitive {
-    private static final long serialVersionUID = 4511984655190634429L;
-    public static final byte TYPE_ID = 0;
+	private static final long serialVersionUID = 4511984655190634429L;
+	public static final byte TYPE_ID = 0;
 
-    public Null() {
-        // no op
-    }
+	public Null() {
+		// no op
+	}
 
-    public Null(ByteQueue queue) {
-        readTag(queue);
-    }
+	public Null(ByteQueue queue) {
+		readTag(queue);
+	}
 
-    @Override
-    public void writeImpl(ByteQueue queue) {
-        // no op
-    }
+	@Override
+	public void writeImpl(ByteQueue queue) {
+		// no op
+	}
 
-    @Override
-    protected long getLength() {
-        return 0;
-    }
+	@Override
+	protected long getLength() {
+		return 0;
+	}
 
-    @Override
-    protected byte getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected byte getTypeId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "Null";
-    }
+	@Override
+	public String toString() {
+		return "Null";
+	}
 }

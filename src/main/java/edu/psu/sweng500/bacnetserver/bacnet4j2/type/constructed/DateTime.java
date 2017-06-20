@@ -34,87 +34,85 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Time;
 import com.serotonin.util.queue.ByteQueue;
 
 public class DateTime extends BaseType {
-    private static final long serialVersionUID = -5792783146879193344L;
-    private final Date date;
-    private final Time time;
+	private static final long serialVersionUID = -5792783146879193344L;
+	private final Date date;
+	private final Time time;
 
-    public DateTime() {
-        this(new GregorianCalendar());
-    }
+	public DateTime() {
+		this(new GregorianCalendar());
+	}
 
-    public DateTime(Date date, Time time) {
-        this.date = date;
-        this.time = time;
-    }
+	public DateTime(Date date, Time time) {
+		this.date = date;
+		this.time = time;
+	}
 
-    public DateTime(long millis) {
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTimeInMillis(millis);
-        date = new Date(gc);
-        time = new Time(gc);
-    }
+	public DateTime(long millis) {
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(millis);
+		date = new Date(gc);
+		time = new Time(gc);
+	}
 
-    public DateTime(GregorianCalendar gc) {
-        date = new Date(gc);
-        time = new Time(gc);
-    }
+	public DateTime(GregorianCalendar gc) {
+		date = new Date(gc);
+		time = new Time(gc);
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        date.write(queue);
-        time.write(queue);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		date.write(queue);
+		time.write(queue);
+	}
 
-    public DateTime(ByteQueue queue) throws BACnetException {
-        date = read(queue, Date.class);
-        time = read(queue, Time.class);
-    }
+	public DateTime(ByteQueue queue) throws BACnetException {
+		date = read(queue, Date.class);
+		time = read(queue, Time.class);
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public Time getTime() {
-        return time;
-    }
+	public Time getTime() {
+		return time;
+	}
 
-    public long getTimeMillis() {
-        GregorianCalendar gc = new GregorianCalendar(date.getCenturyYear(), date.getMonth().getId() - 1, date.getDay(),
-                time.getHour(), time.getMinute(), time.getSecond());
-        gc.set(Calendar.MILLISECOND, time.getHundredth() * 10);
-        return gc.getTimeInMillis();
-    }
+	public long getTimeMillis() {
+		GregorianCalendar gc = new GregorianCalendar(date.getCenturyYear(), date.getMonth().getId() - 1, date.getDay(),
+				time.getHour(), time.getMinute(), time.getSecond());
+		gc.set(Calendar.MILLISECOND, time.getHundredth() * 10);
+		return gc.getTimeInMillis();
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((date == null) ? 0 : date.hashCode());
-        result = PRIME * result + ((time == null) ? 0 : time.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((date == null) ? 0 : date.hashCode());
+		result = PRIME * result + ((time == null) ? 0 : time.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final DateTime other = (DateTime) obj;
-        if (date == null) {
-            if (other.date != null)
-                return false;
-        }
-        else if (!date.equals(other.date))
-            return false;
-        if (time == null) {
-            if (other.time != null)
-                return false;
-        }
-        else if (!time.equals(other.time))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final DateTime other = (DateTime) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (time == null) {
+			if (other.time != null)
+				return false;
+		} else if (!time.equals(other.time))
+			return false;
+		return true;
+	}
 }

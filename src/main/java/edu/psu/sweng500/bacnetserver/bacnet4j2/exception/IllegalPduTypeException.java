@@ -26,9 +26,9 @@
 package edu.psu.sweng500.bacnetserver.bacnet4j2.exception;
 
 public class IllegalPduTypeException extends BACnetRuntimeException {
-    private static final long serialVersionUID = -1;
+	private static final long serialVersionUID = -1;
 
-    public IllegalPduTypeException(String message) {
-        super(message);
-    }
+	public IllegalPduTypeException(String message) {
+		super(message);
+	}
 }

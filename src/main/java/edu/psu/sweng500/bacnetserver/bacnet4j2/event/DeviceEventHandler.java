@@ -48,163 +48,152 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 /**
- * Class to handle various events that occur on the local device. This class accepts 0 to many listeners, and dispatches
- * notifications synchronously.
+ * Class to handle various events that occur on the local device. This class
+ * accepts 0 to many listeners, and dispatches notifications synchronously.
  * 
  * @author Matthew Lohbihler
  */
 public class DeviceEventHandler {
-    final ConcurrentLinkedQueue<DeviceEventListener> listeners = new ConcurrentLinkedQueue<DeviceEventListener>();
+	final ConcurrentLinkedQueue<DeviceEventListener> listeners = new ConcurrentLinkedQueue<DeviceEventListener>();
 
-    //
-    //
-    // Listener management
-    //
-    public void addListener(DeviceEventListener l) {
-        listeners.add(l);
-    }
+	//
+	//
+	// Listener management
+	//
+	public void addListener(DeviceEventListener l) {
+		listeners.add(l);
+	}
 
-    public void removeListener(DeviceEventListener l) {
-        listeners.remove(l);
-    }
+	public void removeListener(DeviceEventListener l) {
+		listeners.remove(l);
+	}
 
-    public int getListenerCount() {
-        return listeners.size();
-    }
+	public int getListenerCount() {
+		return listeners.size();
+	}
 
-    //
-    //
-    // Checks and notifications
-    //
-    public boolean checkAllowPropertyWrite(BACnetObject obj, PropertyValue pv) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                if (!l.allowPropertyWrite(obj, pv))
-                    return false;
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-        return true;
-    }
+	//
+	//
+	// Checks and notifications
+	//
+	public boolean checkAllowPropertyWrite(BACnetObject obj, PropertyValue pv) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				if (!l.allowPropertyWrite(obj, pv))
+					return false;
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+		return true;
+	}
 
-    public void fireIAmReceived(final RemoteDevice d) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.iAmReceived(d);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void fireIAmReceived(final RemoteDevice d) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.iAmReceived(d);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void propertyWritten(final BACnetObject obj, final PropertyValue pv) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.propertyWritten(obj, pv);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void propertyWritten(final BACnetObject obj, final PropertyValue pv) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.propertyWritten(obj, pv);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void fireIHaveReceived(final RemoteDevice d, final RemoteObject o) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.iHaveReceived(d, o);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void fireIHaveReceived(final RemoteDevice d, final RemoteObject o) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.iHaveReceived(d, o);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void fireCovNotification(final UnsignedInteger subscriberProcessIdentifier,
-            final RemoteDevice initiatingDevice, final ObjectIdentifier monitoredObjectIdentifier,
-            final UnsignedInteger timeRemaining, final SequenceOf<PropertyValue> listOfValues) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.covNotificationReceived(subscriberProcessIdentifier, initiatingDevice, monitoredObjectIdentifier,
-                        timeRemaining, listOfValues);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void fireCovNotification(final UnsignedInteger subscriberProcessIdentifier,
+			final RemoteDevice initiatingDevice, final ObjectIdentifier monitoredObjectIdentifier,
+			final UnsignedInteger timeRemaining, final SequenceOf<PropertyValue> listOfValues) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.covNotificationReceived(subscriberProcessIdentifier, initiatingDevice, monitoredObjectIdentifier,
+						timeRemaining, listOfValues);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void fireEventNotification(final UnsignedInteger processIdentifier, final RemoteDevice initiatingDevice,
-            final ObjectIdentifier eventObjectIdentifier, final TimeStamp timeStamp,
-            final UnsignedInteger notificationClass, final UnsignedInteger priority, final EventType eventType,
-            final CharacterString messageText, final NotifyType notifyType, final Boolean ackRequired,
-            final EventState fromState, final EventState toState, final NotificationParameters eventValues) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.eventNotificationReceived(processIdentifier, initiatingDevice, eventObjectIdentifier, timeStamp,
-                        notificationClass, priority, eventType, messageText, notifyType, ackRequired, fromState,
-                        toState, eventValues);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void fireEventNotification(final UnsignedInteger processIdentifier, final RemoteDevice initiatingDevice,
+			final ObjectIdentifier eventObjectIdentifier, final TimeStamp timeStamp,
+			final UnsignedInteger notificationClass, final UnsignedInteger priority, final EventType eventType,
+			final CharacterString messageText, final NotifyType notifyType, final Boolean ackRequired,
+			final EventState fromState, final EventState toState, final NotificationParameters eventValues) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.eventNotificationReceived(processIdentifier, initiatingDevice, eventObjectIdentifier, timeStamp,
+						notificationClass, priority, eventType, messageText, notifyType, ackRequired, fromState,
+						toState, eventValues);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void fireTextMessage(final RemoteDevice textMessageSourceDevice, final Choice messageClass,
-            final MessagePriority messagePriority, final CharacterString message) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.textMessageReceived(textMessageSourceDevice, messageClass, messagePriority, message);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void fireTextMessage(final RemoteDevice textMessageSourceDevice, final Choice messageClass,
+			final MessagePriority messagePriority, final CharacterString message) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.textMessageReceived(textMessageSourceDevice, messageClass, messagePriority, message);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void firePrivateTransfer(final UnsignedInteger vendorId, final UnsignedInteger serviceNumber,
-            final Encodable serviceParameters) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.privateTransferReceived(vendorId, serviceNumber, serviceParameters);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void firePrivateTransfer(final UnsignedInteger vendorId, final UnsignedInteger serviceNumber,
+			final Encodable serviceParameters) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.privateTransferReceived(vendorId, serviceNumber, serviceParameters);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void reinitializeDevice(final ReinitializedStateOfDevice reinitializedStateOfDevice) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.reinitializeDevice(reinitializedStateOfDevice);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void reinitializeDevice(final ReinitializedStateOfDevice reinitializedStateOfDevice) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.reinitializeDevice(reinitializedStateOfDevice);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    public void synchronizeTime(final DateTime dateTime, final boolean utc) {
-        for (DeviceEventListener l : listeners) {
-            try {
-                l.synchronizeTime(dateTime, utc);
-            }
-            catch (Throwable e) {
-                handleException(l, e);
-            }
-        }
-    }
+	public void synchronizeTime(final DateTime dateTime, final boolean utc) {
+		for (DeviceEventListener l : listeners) {
+			try {
+				l.synchronizeTime(dateTime, utc);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 
-    private void handleException(DeviceEventListener l, Throwable e) {
-        try {
-            l.listenerException(e);
-        }
-        catch (Throwable e1) {
-            // no op
-        }
-    }
+	private void handleException(DeviceEventListener l, Throwable e) {
+		try {
+			l.listenerException(e);
+		} catch (Throwable e1) {
+			// no op
+		}
+	}
 }

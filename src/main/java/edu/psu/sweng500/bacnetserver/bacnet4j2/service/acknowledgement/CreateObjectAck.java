@@ -30,62 +30,61 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import com.serotonin.util.queue.ByteQueue;
 
 public class CreateObjectAck extends AcknowledgementService {
-    private static final long serialVersionUID = -4870461712919333717L;
+	private static final long serialVersionUID = -4870461712919333717L;
 
-    public static final byte TYPE_ID = 10;
+	public static final byte TYPE_ID = 10;
 
-    private final ObjectIdentifier objectIdentifier;
+	private final ObjectIdentifier objectIdentifier;
 
-    public CreateObjectAck(ObjectIdentifier objectIdentifier) {
-        this.objectIdentifier = objectIdentifier;
-    }
+	public CreateObjectAck(ObjectIdentifier objectIdentifier) {
+		this.objectIdentifier = objectIdentifier;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    public ObjectIdentifier getObjectIdentifier() {
-        return objectIdentifier;
-    }
+	public ObjectIdentifier getObjectIdentifier() {
+		return objectIdentifier;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, objectIdentifier);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, objectIdentifier);
+	}
 
-    CreateObjectAck(ByteQueue queue) throws BACnetException {
-        objectIdentifier = read(queue, ObjectIdentifier.class);
-    }
+	CreateObjectAck(ByteQueue queue) throws BACnetException {
+		objectIdentifier = read(queue, ObjectIdentifier.class);
+	}
 
-    @Override
-    public String toString() {
-        return "CreateObjectAck(" + objectIdentifier + ")";
-    }
+	@Override
+	public String toString() {
+		return "CreateObjectAck(" + objectIdentifier + ")";
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((objectIdentifier == null) ? 0 : objectIdentifier.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((objectIdentifier == null) ? 0 : objectIdentifier.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final CreateObjectAck other = (CreateObjectAck) obj;
-        if (objectIdentifier == null) {
-            if (other.objectIdentifier != null)
-                return false;
-        }
-        else if (!objectIdentifier.equals(other.objectIdentifier))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final CreateObjectAck other = (CreateObjectAck) obj;
+		if (objectIdentifier == null) {
+			if (other.objectIdentifier != null)
+				return false;
+		} else if (!objectIdentifier.equals(other.objectIdentifier))
+			return false;
+		return true;
+	}
 }

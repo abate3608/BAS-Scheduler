@@ -32,87 +32,84 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
 import com.serotonin.util.queue.ByteQueue;
 
 public class CommandFailure extends NotificationParameters {
-    private static final long serialVersionUID = 5727410398456093753L;
+	private static final long serialVersionUID = 5727410398456093753L;
 
-    public static final byte TYPE_ID = 3;
+	public static final byte TYPE_ID = 3;
 
-    private final Encodable commandValue;
-    private final StatusFlags statusFlags;
-    private final Encodable feedbackValue;
+	private final Encodable commandValue;
+	private final StatusFlags statusFlags;
+	private final Encodable feedbackValue;
 
-    public CommandFailure(Encodable commandValue, StatusFlags statusFlags, Encodable feedbackValue) {
-        this.commandValue = commandValue;
-        this.statusFlags = statusFlags;
-        this.feedbackValue = feedbackValue;
-    }
+	public CommandFailure(Encodable commandValue, StatusFlags statusFlags, Encodable feedbackValue) {
+		this.commandValue = commandValue;
+		this.statusFlags = statusFlags;
+		this.feedbackValue = feedbackValue;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        writeEncodable(queue, commandValue, 0);
-        write(queue, statusFlags, 1);
-        writeEncodable(queue, feedbackValue, 2);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		writeEncodable(queue, commandValue, 0);
+		write(queue, statusFlags, 1);
+		writeEncodable(queue, feedbackValue, 2);
+	}
 
-    public CommandFailure(ByteQueue queue) throws BACnetException {
-        commandValue = new AmbiguousValue(queue, 0);
-        statusFlags = read(queue, StatusFlags.class, 1);
-        feedbackValue = new AmbiguousValue(queue, 2);
-    }
+	public CommandFailure(ByteQueue queue) throws BACnetException {
+		commandValue = new AmbiguousValue(queue, 0);
+		statusFlags = read(queue, StatusFlags.class, 1);
+		feedbackValue = new AmbiguousValue(queue, 2);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public Encodable getCommandValue() {
-        return commandValue;
-    }
+	public Encodable getCommandValue() {
+		return commandValue;
+	}
 
-    public StatusFlags getStatusFlags() {
-        return statusFlags;
-    }
+	public StatusFlags getStatusFlags() {
+		return statusFlags;
+	}
 
-    public Encodable getFeedbackValue() {
-        return feedbackValue;
-    }
+	public Encodable getFeedbackValue() {
+		return feedbackValue;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((commandValue == null) ? 0 : commandValue.hashCode());
-        result = PRIME * result + ((feedbackValue == null) ? 0 : feedbackValue.hashCode());
-        result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((commandValue == null) ? 0 : commandValue.hashCode());
+		result = PRIME * result + ((feedbackValue == null) ? 0 : feedbackValue.hashCode());
+		result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final CommandFailure other = (CommandFailure) obj;
-        if (commandValue == null) {
-            if (other.commandValue != null)
-                return false;
-        }
-        else if (!commandValue.equals(other.commandValue))
-            return false;
-        if (feedbackValue == null) {
-            if (other.feedbackValue != null)
-                return false;
-        }
-        else if (!feedbackValue.equals(other.feedbackValue))
-            return false;
-        if (statusFlags == null) {
-            if (other.statusFlags != null)
-                return false;
-        }
-        else if (!statusFlags.equals(other.statusFlags))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final CommandFailure other = (CommandFailure) obj;
+		if (commandValue == null) {
+			if (other.commandValue != null)
+				return false;
+		} else if (!commandValue.equals(other.commandValue))
+			return false;
+		if (feedbackValue == null) {
+			if (other.feedbackValue != null)
+				return false;
+		} else if (!feedbackValue.equals(other.feedbackValue))
+			return false;
+		if (statusFlags == null) {
+			if (other.statusFlags != null)
+				return false;
+		} else if (!statusFlags.equals(other.statusFlags))
+			return false;
+		return true;
+	}
 }

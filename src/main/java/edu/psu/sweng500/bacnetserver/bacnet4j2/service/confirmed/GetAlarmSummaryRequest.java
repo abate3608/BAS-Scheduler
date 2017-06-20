@@ -34,41 +34,41 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class GetAlarmSummaryRequest extends ConfirmedRequestService {
-    private static final long serialVersionUID = 7026623260581737268L;
-    public static final byte TYPE_ID = 3;
+	private static final long serialVersionUID = 7026623260581737268L;
+	public static final byte TYPE_ID = 3;
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    public GetAlarmSummaryRequest() {
-        // no op
-    }
+	public GetAlarmSummaryRequest() {
+		// no op
+	}
 
-    @Override
-    public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
-            throws BACnetException {
-        throw new NotImplementedException();
-    }
+	@Override
+	public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
+			throws BACnetException {
+		throw new NotImplementedException();
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        // no op
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		// no op
+	}
 
-    GetAlarmSummaryRequest(@SuppressWarnings("unused") ByteQueue queue) {
-        // no op
-    }
+	GetAlarmSummaryRequest(@SuppressWarnings("unused") ByteQueue queue) {
+		// no op
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
 }

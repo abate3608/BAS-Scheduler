@@ -29,14 +29,14 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class BaseType extends Encodable {
-    private static final long serialVersionUID = -2536344211247711774L;
+	private static final long serialVersionUID = -2536344211247711774L;
 
-    @Override
-    public void write(ByteQueue queue, int contextId) {
-        // Write a start tag
-        writeContextTag(queue, contextId, true);
-        write(queue);
-        // Write an end tag
-        writeContextTag(queue, contextId, false);
-    }
+	@Override
+	public void write(ByteQueue queue, int contextId) {
+		// Write a start tag
+		writeContextTag(queue, contextId, true);
+		write(queue);
+		// Write an end tag
+		writeContextTag(queue, contextId, false);
+	}
 }

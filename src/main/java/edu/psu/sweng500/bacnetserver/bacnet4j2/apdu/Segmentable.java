@@ -29,21 +29,21 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetException;
 import com.serotonin.util.queue.ByteQueue;
 
 public interface Segmentable {
-    byte getInvokeId();
+	byte getInvokeId();
 
-    boolean isSegmentedMessage();
+	boolean isSegmentedMessage();
 
-    boolean isMoreFollows();
+	boolean isMoreFollows();
 
-    int getSequenceNumber();
+	int getSequenceNumber();
 
-    int getProposedWindowSize();
+	int getProposedWindowSize();
 
-    void appendServiceData(ByteQueue segmentable);
+	void appendServiceData(ByteQueue segmentable);
 
-    void parseServiceData() throws BACnetException;
+	void parseServiceData() throws BACnetException;
 
-    ByteQueue getServiceData();
+	ByteQueue getServiceData();
 
-    APDU clone(boolean moreFollows, int sequenceNumber, int actualSegWindow, ByteQueue data);
+	APDU clone(boolean moreFollows, int sequenceNumber, int actualSegWindow, ByteQueue data);
 }

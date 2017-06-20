@@ -39,137 +39,134 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Extended extends NotificationParameters {
-    private static final long serialVersionUID = 7986979868840729311L;
+	private static final long serialVersionUID = 7986979868840729311L;
 
-    public static final byte TYPE_ID = 9;
+	public static final byte TYPE_ID = 9;
 
-    private final UnsignedInteger vendorId;
-    private final UnsignedInteger extendedEventType;
-    private final SequenceOf<Parameter> parameters;
+	private final UnsignedInteger vendorId;
+	private final UnsignedInteger extendedEventType;
+	private final SequenceOf<Parameter> parameters;
 
-    public Extended(UnsignedInteger vendorId, UnsignedInteger extendedEventType, SequenceOf<Parameter> parameters) {
-        this.vendorId = vendorId;
-        this.extendedEventType = extendedEventType;
-        this.parameters = parameters;
-    }
+	public Extended(UnsignedInteger vendorId, UnsignedInteger extendedEventType, SequenceOf<Parameter> parameters) {
+		this.vendorId = vendorId;
+		this.extendedEventType = extendedEventType;
+		this.parameters = parameters;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, vendorId, 0);
-        write(queue, extendedEventType, 1);
-        write(queue, parameters, 2);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, vendorId, 0);
+		write(queue, extendedEventType, 1);
+		write(queue, parameters, 2);
+	}
 
-    public Extended(ByteQueue queue) throws BACnetException {
-        vendorId = read(queue, UnsignedInteger.class, 0);
-        extendedEventType = read(queue, UnsignedInteger.class, 1);
-        parameters = readSequenceOf(queue, Parameter.class, 2);
-    }
+	public Extended(ByteQueue queue) throws BACnetException {
+		vendorId = read(queue, UnsignedInteger.class, 0);
+		extendedEventType = read(queue, UnsignedInteger.class, 1);
+		parameters = readSequenceOf(queue, Parameter.class, 2);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public UnsignedInteger getVendorId() {
-        return vendorId;
-    }
+	public UnsignedInteger getVendorId() {
+		return vendorId;
+	}
 
-    public UnsignedInteger getExtendedEventType() {
-        return extendedEventType;
-    }
+	public UnsignedInteger getExtendedEventType() {
+		return extendedEventType;
+	}
 
-    public SequenceOf<Parameter> getParameters() {
-        return parameters;
-    }
+	public SequenceOf<Parameter> getParameters() {
+		return parameters;
+	}
 
-    public static class Parameter extends BaseType {
-        private static final long serialVersionUID = 9016759459458667665L;
-        private Primitive primitive;
-        private DeviceObjectPropertyReference reference;
+	public static class Parameter extends BaseType {
+		private static final long serialVersionUID = 9016759459458667665L;
+		private Primitive primitive;
+		private DeviceObjectPropertyReference reference;
 
-        public Parameter(Null primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(Null primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(Real primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(Real primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(UnsignedInteger primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(UnsignedInteger primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Double primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Double primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(OctetString primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(OctetString primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(BitString primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(BitString primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(Enumerated primitive) {
-            this.primitive = primitive;
-        }
+		public Parameter(Enumerated primitive) {
+			this.primitive = primitive;
+		}
 
-        public Parameter(DeviceObjectPropertyReference reference) {
-            this.reference = reference;
-        }
+		public Parameter(DeviceObjectPropertyReference reference) {
+			this.reference = reference;
+		}
 
-        @Override
-        public void write(ByteQueue queue) {
-            if (primitive != null)
-                primitive.write(queue);
-            else
-                reference.write(queue, 0);
-        }
-    }
+		@Override
+		public void write(ByteQueue queue) {
+			if (primitive != null)
+				primitive.write(queue);
+			else
+				reference.write(queue, 0);
+		}
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((extendedEventType == null) ? 0 : extendedEventType.hashCode());
-        result = PRIME * result + ((parameters == null) ? 0 : parameters.hashCode());
-        result = PRIME * result + ((vendorId == null) ? 0 : vendorId.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((extendedEventType == null) ? 0 : extendedEventType.hashCode());
+		result = PRIME * result + ((parameters == null) ? 0 : parameters.hashCode());
+		result = PRIME * result + ((vendorId == null) ? 0 : vendorId.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Extended other = (Extended) obj;
-        if (extendedEventType == null) {
-            if (other.extendedEventType != null)
-                return false;
-        }
-        else if (!extendedEventType.equals(other.extendedEventType))
-            return false;
-        if (parameters == null) {
-            if (other.parameters != null)
-                return false;
-        }
-        else if (!parameters.equals(other.parameters))
-            return false;
-        if (vendorId == null) {
-            if (other.vendorId != null)
-                return false;
-        }
-        else if (!vendorId.equals(other.vendorId))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Extended other = (Extended) obj;
+		if (extendedEventType == null) {
+			if (other.extendedEventType != null)
+				return false;
+		} else if (!extendedEventType.equals(other.extendedEventType))
+			return false;
+		if (parameters == null) {
+			if (other.parameters != null)
+				return false;
+		} else if (!parameters.equals(other.parameters))
+			return false;
+		if (vendorId == null) {
+			if (other.vendorId != null)
+				return false;
+		} else if (!vendorId.equals(other.vendorId))
+			return false;
+		return true;
+	}
 }

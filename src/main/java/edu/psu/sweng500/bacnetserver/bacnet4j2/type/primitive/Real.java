@@ -29,67 +29,67 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.base.BACnetUtils;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Real extends Primitive {
-    private static final long serialVersionUID = -165304995181723832L;
+	private static final long serialVersionUID = -165304995181723832L;
 
-    public static final byte TYPE_ID = 4;
+	public static final byte TYPE_ID = 4;
 
-    private final float value;
+	private final float value;
 
-    public Real(float value) {
-        this.value = value;
-    }
+	public Real(float value) {
+		this.value = value;
+	}
 
-    public float floatValue() {
-        return value;
-    }
+	public float floatValue() {
+		return value;
+	}
 
-    //
-    // Reading and writing
-    //
-    public Real(ByteQueue queue) {
-        readTag(queue);
-        value = Float.intBitsToFloat(BACnetUtils.popInt(queue));
-    }
+	//
+	// Reading and writing
+	//
+	public Real(ByteQueue queue) {
+		readTag(queue);
+		value = Float.intBitsToFloat(BACnetUtils.popInt(queue));
+	}
 
-    @Override
-    public void writeImpl(ByteQueue queue) {
-        BACnetUtils.pushInt(queue, Float.floatToIntBits(value));
-    }
+	@Override
+	public void writeImpl(ByteQueue queue) {
+		BACnetUtils.pushInt(queue, Float.floatToIntBits(value));
+	}
 
-    @Override
-    protected long getLength() {
-        return 4;
-    }
+	@Override
+	protected long getLength() {
+		return 4;
+	}
 
-    @Override
-    protected byte getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected byte getTypeId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + Float.floatToIntBits(value);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + Float.floatToIntBits(value);
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Real other = (Real) obj;
-        if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Real other = (Real) obj;
+		if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value))
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return Float.toString(value);
-    }
+	@Override
+	public String toString() {
+		return Float.toString(value);
+	}
 }

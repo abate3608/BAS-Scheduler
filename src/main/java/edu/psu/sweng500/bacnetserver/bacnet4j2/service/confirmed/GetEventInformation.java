@@ -35,60 +35,59 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class GetEventInformation extends ConfirmedRequestService {
-    private static final long serialVersionUID = 5920365345189498832L;
+	private static final long serialVersionUID = 5920365345189498832L;
 
-    public static final byte TYPE_ID = 29;
+	public static final byte TYPE_ID = 29;
 
-    private final ObjectIdentifier lastReceivedObjectIdentifier;
+	private final ObjectIdentifier lastReceivedObjectIdentifier;
 
-    public GetEventInformation(ObjectIdentifier lastReceivedObjectIdentifier) {
-        this.lastReceivedObjectIdentifier = lastReceivedObjectIdentifier;
-    }
+	public GetEventInformation(ObjectIdentifier lastReceivedObjectIdentifier) {
+		this.lastReceivedObjectIdentifier = lastReceivedObjectIdentifier;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
-            throws BACnetException {
-        throw new NotImplementedException();
-    }
+	@Override
+	public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
+			throws BACnetException {
+		throw new NotImplementedException();
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        writeOptional(queue, lastReceivedObjectIdentifier, 0);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		writeOptional(queue, lastReceivedObjectIdentifier, 0);
+	}
 
-    GetEventInformation(ByteQueue queue) throws BACnetException {
-        lastReceivedObjectIdentifier = readOptional(queue, ObjectIdentifier.class, 0);
-    }
+	GetEventInformation(ByteQueue queue) throws BACnetException {
+		lastReceivedObjectIdentifier = readOptional(queue, ObjectIdentifier.class, 0);
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result
-                + ((lastReceivedObjectIdentifier == null) ? 0 : lastReceivedObjectIdentifier.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result
+				+ ((lastReceivedObjectIdentifier == null) ? 0 : lastReceivedObjectIdentifier.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final GetEventInformation other = (GetEventInformation) obj;
-        if (lastReceivedObjectIdentifier == null) {
-            if (other.lastReceivedObjectIdentifier != null)
-                return false;
-        }
-        else if (!lastReceivedObjectIdentifier.equals(other.lastReceivedObjectIdentifier))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final GetEventInformation other = (GetEventInformation) obj;
+		if (lastReceivedObjectIdentifier == null) {
+			if (other.lastReceivedObjectIdentifier != null)
+				return false;
+		} else if (!lastReceivedObjectIdentifier.equals(other.lastReceivedObjectIdentifier))
+			return false;
+		return true;
+	}
 }

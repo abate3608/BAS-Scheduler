@@ -30,72 +30,70 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class BufferReady extends EventParameter {
-    private static final long serialVersionUID = -6744922575783894743L;
+	private static final long serialVersionUID = -6744922575783894743L;
 
-    public static final byte TYPE_ID = 10;
+	public static final byte TYPE_ID = 10;
 
-    private final UnsignedInteger notificationThreshold;
-    private final UnsignedInteger previousNotificationCount;
+	private final UnsignedInteger notificationThreshold;
+	private final UnsignedInteger previousNotificationCount;
 
-    public BufferReady(UnsignedInteger notificationThreshold, UnsignedInteger previousNotificationCount) {
-        this.notificationThreshold = notificationThreshold;
-        this.previousNotificationCount = previousNotificationCount;
-    }
+	public BufferReady(UnsignedInteger notificationThreshold, UnsignedInteger previousNotificationCount) {
+		this.notificationThreshold = notificationThreshold;
+		this.previousNotificationCount = previousNotificationCount;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, notificationThreshold, 0);
-        write(queue, previousNotificationCount, 1);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, notificationThreshold, 0);
+		write(queue, previousNotificationCount, 1);
+	}
 
-    public BufferReady(ByteQueue queue) throws BACnetException {
-        notificationThreshold = read(queue, UnsignedInteger.class, 0);
-        previousNotificationCount = read(queue, UnsignedInteger.class, 1);
-    }
+	public BufferReady(ByteQueue queue) throws BACnetException {
+		notificationThreshold = read(queue, UnsignedInteger.class, 0);
+		previousNotificationCount = read(queue, UnsignedInteger.class, 1);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public UnsignedInteger getNotificationThreshold() {
-        return notificationThreshold;
-    }
+	public UnsignedInteger getNotificationThreshold() {
+		return notificationThreshold;
+	}
 
-    public UnsignedInteger getPreviousNotificationCount() {
-        return previousNotificationCount;
-    }
+	public UnsignedInteger getPreviousNotificationCount() {
+		return previousNotificationCount;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((notificationThreshold == null) ? 0 : notificationThreshold.hashCode());
-        result = PRIME * result + ((previousNotificationCount == null) ? 0 : previousNotificationCount.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((notificationThreshold == null) ? 0 : notificationThreshold.hashCode());
+		result = PRIME * result + ((previousNotificationCount == null) ? 0 : previousNotificationCount.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final BufferReady other = (BufferReady) obj;
-        if (notificationThreshold == null) {
-            if (other.notificationThreshold != null)
-                return false;
-        }
-        else if (!notificationThreshold.equals(other.notificationThreshold))
-            return false;
-        if (previousNotificationCount == null) {
-            if (other.previousNotificationCount != null)
-                return false;
-        }
-        else if (!previousNotificationCount.equals(other.previousNotificationCount))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final BufferReady other = (BufferReady) obj;
+		if (notificationThreshold == null) {
+			if (other.notificationThreshold != null)
+				return false;
+		} else if (!notificationThreshold.equals(other.notificationThreshold))
+			return false;
+		if (previousNotificationCount == null) {
+			if (other.previousNotificationCount != null)
+				return false;
+		} else if (!previousNotificationCount.equals(other.previousNotificationCount))
+			return false;
+		return true;
+	}
 }

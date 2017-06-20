@@ -28,16 +28,16 @@ package edu.psu.sweng500.bacnetserver.bacnet4j2.exception;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.apdu.Reject;
 
 public class RejectAPDUException extends BACnetException {
-    private static final long serialVersionUID = -1;
+	private static final long serialVersionUID = -1;
 
-    private final Reject apdu;
+	private final Reject apdu;
 
-    public RejectAPDUException(Reject apdu) {
-        super(apdu.toString());
-        this.apdu = apdu;
-    }
+	public RejectAPDUException(Reject apdu) {
+		super(apdu.toString());
+		this.apdu = apdu;
+	}
 
-    public Reject getApdu() {
-        return apdu;
-    }
+	public Reject getApdu() {
+		return apdu;
+	}
 }

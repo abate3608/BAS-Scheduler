@@ -31,49 +31,48 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ChangeListError extends BaseError {
-    private static final long serialVersionUID = -466623385798604884L;
-    private final UnsignedInteger firstFailedElementNumber;
+	private static final long serialVersionUID = -466623385798604884L;
+	private final UnsignedInteger firstFailedElementNumber;
 
-    public ChangeListError(byte choice, BACnetError error, UnsignedInteger firstFailedElementNumber) {
-        super(choice, error);
-        this.firstFailedElementNumber = firstFailedElementNumber;
-    }
+	public ChangeListError(byte choice, BACnetError error, UnsignedInteger firstFailedElementNumber) {
+		super(choice, error);
+		this.firstFailedElementNumber = firstFailedElementNumber;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        queue.push(choice);
-        write(queue, error, 0);
-        write(queue, firstFailedElementNumber, 1);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		queue.push(choice);
+		write(queue, error, 0);
+		write(queue, firstFailedElementNumber, 1);
+	}
 
-    ChangeListError(byte choice, ByteQueue queue) throws BACnetException {
-        super(choice, queue, 0);
-        firstFailedElementNumber = read(queue, UnsignedInteger.class, 1);
-    }
+	ChangeListError(byte choice, ByteQueue queue) throws BACnetException {
+		super(choice, queue, 0);
+		firstFailedElementNumber = read(queue, UnsignedInteger.class, 1);
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = super.hashCode();
-        result = PRIME * result + ((firstFailedElementNumber == null) ? 0 : firstFailedElementNumber.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((firstFailedElementNumber == null) ? 0 : firstFailedElementNumber.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ChangeListError other = (ChangeListError) obj;
-        if (firstFailedElementNumber == null) {
-            if (other.firstFailedElementNumber != null)
-                return false;
-        }
-        else if (!firstFailedElementNumber.equals(other.firstFailedElementNumber))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ChangeListError other = (ChangeListError) obj;
+		if (firstFailedElementNumber == null) {
+			if (other.firstFailedElementNumber != null)
+				return false;
+		} else if (!firstFailedElementNumber.equals(other.firstFailedElementNumber))
+			return false;
+		return true;
+	}
 }

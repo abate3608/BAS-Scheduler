@@ -29,27 +29,27 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class RejectReason extends Enumerated {
-    private static final long serialVersionUID = 3672606740809550085L;
-    public static final RejectReason other = new RejectReason(0);
-    public static final RejectReason bufferOverflow = new RejectReason(1);
-    public static final RejectReason inconsistentParameters = new RejectReason(2);
-    public static final RejectReason invalidParameterDataType = new RejectReason(3);
-    public static final RejectReason invalidTag = new RejectReason(4);
-    public static final RejectReason missingRequiredParameter = new RejectReason(5);
-    public static final RejectReason parameterOutOfRange = new RejectReason(6);
-    public static final RejectReason tooManyArguments = new RejectReason(7);
-    public static final RejectReason undefinedEnumeration = new RejectReason(8);
-    public static final RejectReason unrecognizedService = new RejectReason(9);
+	private static final long serialVersionUID = 3672606740809550085L;
+	public static final RejectReason other = new RejectReason(0);
+	public static final RejectReason bufferOverflow = new RejectReason(1);
+	public static final RejectReason inconsistentParameters = new RejectReason(2);
+	public static final RejectReason invalidParameterDataType = new RejectReason(3);
+	public static final RejectReason invalidTag = new RejectReason(4);
+	public static final RejectReason missingRequiredParameter = new RejectReason(5);
+	public static final RejectReason parameterOutOfRange = new RejectReason(6);
+	public static final RejectReason tooManyArguments = new RejectReason(7);
+	public static final RejectReason undefinedEnumeration = new RejectReason(8);
+	public static final RejectReason unrecognizedService = new RejectReason(9);
 
-    public static final RejectReason[] ALL = { other, bufferOverflow, inconsistentParameters, invalidParameterDataType,
-            invalidTag, missingRequiredParameter, parameterOutOfRange, tooManyArguments, undefinedEnumeration,
-            unrecognizedService, };
+	public static final RejectReason[] ALL = { other, bufferOverflow, inconsistentParameters, invalidParameterDataType,
+			invalidTag, missingRequiredParameter, parameterOutOfRange, tooManyArguments, undefinedEnumeration,
+			unrecognizedService, };
 
-    public RejectReason(int value) {
-        super(value);
-    }
+	public RejectReason(int value) {
+		super(value);
+	}
 
-    public RejectReason(ByteQueue queue) {
-        super(queue);
-    }
+	public RejectReason(ByteQueue queue) {
+		super(queue);
+	}
 }

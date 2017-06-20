@@ -31,57 +31,56 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.SequenceOf;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ReadPropertyConditionalAck extends AcknowledgementService {
-    private static final long serialVersionUID = 2007538802044831429L;
+	private static final long serialVersionUID = 2007538802044831429L;
 
-    public static final byte TYPE_ID = 13;
+	public static final byte TYPE_ID = 13;
 
-    private final SequenceOf<ReadAccessResult> listOfReadAccessResults;
+	private final SequenceOf<ReadAccessResult> listOfReadAccessResults;
 
-    public ReadPropertyConditionalAck(SequenceOf<ReadAccessResult> listOfReadAccessResults) {
-        this.listOfReadAccessResults = listOfReadAccessResults;
-    }
+	public ReadPropertyConditionalAck(SequenceOf<ReadAccessResult> listOfReadAccessResults) {
+		this.listOfReadAccessResults = listOfReadAccessResults;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, listOfReadAccessResults);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, listOfReadAccessResults);
+	}
 
-    ReadPropertyConditionalAck(ByteQueue queue) throws BACnetException {
-        listOfReadAccessResults = readSequenceOf(queue, ReadAccessResult.class);
-    }
+	ReadPropertyConditionalAck(ByteQueue queue) throws BACnetException {
+		listOfReadAccessResults = readSequenceOf(queue, ReadAccessResult.class);
+	}
 
-    public SequenceOf<ReadAccessResult> getListOfReadAccessResults() {
-        return listOfReadAccessResults;
-    }
+	public SequenceOf<ReadAccessResult> getListOfReadAccessResults() {
+		return listOfReadAccessResults;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((listOfReadAccessResults == null) ? 0 : listOfReadAccessResults.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((listOfReadAccessResults == null) ? 0 : listOfReadAccessResults.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ReadPropertyConditionalAck other = (ReadPropertyConditionalAck) obj;
-        if (listOfReadAccessResults == null) {
-            if (other.listOfReadAccessResults != null)
-                return false;
-        }
-        else if (!listOfReadAccessResults.equals(other.listOfReadAccessResults))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ReadPropertyConditionalAck other = (ReadPropertyConditionalAck) obj;
+		if (listOfReadAccessResults == null) {
+			if (other.listOfReadAccessResults != null)
+				return false;
+		} else if (!listOfReadAccessResults.equals(other.listOfReadAccessResults))
+			return false;
+		return true;
+	}
 }

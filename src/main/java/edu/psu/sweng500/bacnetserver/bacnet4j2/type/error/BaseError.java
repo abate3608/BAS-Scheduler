@@ -31,86 +31,85 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BaseType;
 import com.serotonin.util.queue.ByteQueue;
 
 public class BaseError extends BaseType {
-    private static final long serialVersionUID = 8363160647986011176L;
+	private static final long serialVersionUID = 8363160647986011176L;
 
-    public static BaseError createBaseError(ByteQueue queue) throws BACnetException {
-        byte choice = queue.pop();
+	public static BaseError createBaseError(ByteQueue queue) throws BACnetException {
+		byte choice = queue.pop();
 
-        switch (choice) {
-        case 8:
-        case 9:
-            return new ChangeListError(choice, queue);
-        case 10:
-            return new CreateObjectError(choice, queue);
-        case 16:
-            return new WritePropertyMultipleError(choice, queue);
-        case 18:
-            return new ConfirmedPrivateTransferError(choice, queue);
-        case 22:
-            return new VTCloseError(choice, queue);
-        }
-        return new BaseError(choice, queue);
-    }
+		switch (choice) {
+		case 8:
+		case 9:
+			return new ChangeListError(choice, queue);
+		case 10:
+			return new CreateObjectError(choice, queue);
+		case 16:
+			return new WritePropertyMultipleError(choice, queue);
+		case 18:
+			return new ConfirmedPrivateTransferError(choice, queue);
+		case 22:
+			return new VTCloseError(choice, queue);
+		}
+		return new BaseError(choice, queue);
+	}
 
-    protected byte choice;
-    protected BACnetError error;
+	protected byte choice;
+	protected BACnetError error;
 
-    public BaseError(byte choice, BACnetError error) {
-        this.choice = choice;
-        this.error = error;
-    }
+	public BaseError(byte choice, BACnetError error) {
+		this.choice = choice;
+		this.error = error;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        queue.push(choice);
-        write(queue, error);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		queue.push(choice);
+		write(queue, error);
+	}
 
-    public BaseError(byte choice, ByteQueue queue) throws BACnetException {
-        this.choice = choice;
-        error = read(queue, BACnetError.class);
-    }
+	public BaseError(byte choice, ByteQueue queue) throws BACnetException {
+		this.choice = choice;
+		error = read(queue, BACnetError.class);
+	}
 
-    public BaseError(byte choice, ByteQueue queue, int contextId) throws BACnetException {
-        this.choice = choice;
-        error = read(queue, BACnetError.class, contextId);
-    }
+	public BaseError(byte choice, ByteQueue queue, int contextId) throws BACnetException {
+		this.choice = choice;
+		error = read(queue, BACnetError.class, contextId);
+	}
 
-    @Override
-    public String toString() {
-        return "choice=" + (choice & 0xff) + ", " + error;
-    }
+	@Override
+	public String toString() {
+		return "choice=" + (choice & 0xff) + ", " + error;
+	}
 
-    public BACnetError getError() {
-        return error;
-    }
+	public BACnetError getError() {
+		return error;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + choice;
-        result = PRIME * result + ((error == null) ? 0 : error.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + choice;
+		result = PRIME * result + ((error == null) ? 0 : error.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final BaseError other = (BaseError) obj;
-        if (choice != other.choice)
-            return false;
-        if (error == null) {
-            if (other.error != null)
-                return false;
-        }
-        else if (!error.equals(other.error))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final BaseError other = (BaseError) obj;
+		if (choice != other.choice)
+			return false;
+		if (error == null) {
+			if (other.error != null)
+				return false;
+		} else if (!error.equals(other.error))
+			return false;
+		return true;
+	}
 }

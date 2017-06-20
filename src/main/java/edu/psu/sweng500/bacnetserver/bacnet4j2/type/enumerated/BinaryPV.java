@@ -29,17 +29,17 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class BinaryPV extends Enumerated {
-    private static final long serialVersionUID = -22603618114789798L;
-    public static final BinaryPV inactive = new BinaryPV(0);
-    public static final BinaryPV active = new BinaryPV(1);
+	private static final long serialVersionUID = -22603618114789798L;
+	public static final BinaryPV inactive = new BinaryPV(0);
+	public static final BinaryPV active = new BinaryPV(1);
 
-    public static final BinaryPV[] ALL = { inactive, active, };
+	public static final BinaryPV[] ALL = { inactive, active, };
 
-    public BinaryPV(int value) {
-        super(value);
-    }
+	public BinaryPV(int value) {
+		super(value);
+	}
 
-    public BinaryPV(ByteQueue queue) {
-        super(queue);
-    }
+	public BinaryPV(ByteQueue queue) {
+		super(queue);
+	}
 }

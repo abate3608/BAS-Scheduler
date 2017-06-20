@@ -29,17 +29,17 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class FileAccessMethod extends Enumerated {
-    private static final long serialVersionUID = -2447330212564862936L;
-    public static final FileAccessMethod recordAccess = new FileAccessMethod(0);
-    public static final FileAccessMethod streamAccess = new FileAccessMethod(1);
+	private static final long serialVersionUID = -2447330212564862936L;
+	public static final FileAccessMethod recordAccess = new FileAccessMethod(0);
+	public static final FileAccessMethod streamAccess = new FileAccessMethod(1);
 
-    public static final FileAccessMethod[] ALL = { recordAccess, streamAccess, };
+	public static final FileAccessMethod[] ALL = { recordAccess, streamAccess, };
 
-    public FileAccessMethod(int value) {
-        super(value);
-    }
+	public FileAccessMethod(int value) {
+		super(value);
+	}
 
-    public FileAccessMethod(ByteQueue queue) {
-        super(queue);
-    }
+	public FileAccessMethod(ByteQueue queue) {
+		super(queue);
+	}
 }
