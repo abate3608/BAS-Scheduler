@@ -16,6 +16,7 @@ public class Main {
 		System.out.println("The main class has been run!");
 
 		try {
+
 			MysqlConnection dao = new MysqlConnection();
 
 			// test database
@@ -28,6 +29,7 @@ public class Main {
 			while (true) {
 				Thread.sleep(2000);
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

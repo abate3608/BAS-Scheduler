@@ -291,8 +291,14 @@ public class CalenderScreen {
 			// EventObject data type
 			//
 			// write code to update UI calendar when event arrive
+			boolean hasComponent = false;
 			String eventDes = o.getEventName() + ": " + o.getEventStart() + " - " + o.getEventStop();
-			roomPanel.add(new JLabel(eventDes));
+			for (Component jc : roomPanel.getComponents()) {
+			    if ( jc instanceof JLabel ) {
+			        if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
+			    }
+			}
+			if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
 		}
 	}
 }
