@@ -34,74 +34,72 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ClientCov extends BaseType {
-    private static final long serialVersionUID = 654453440700433527L;
-    private Real realIncrement;
-    private Null defaultIncrement;
+	private static final long serialVersionUID = 654453440700433527L;
+	private Real realIncrement;
+	private Null defaultIncrement;
 
-    public ClientCov(Real realIncrement) {
-        this.realIncrement = realIncrement;
-    }
+	public ClientCov(Real realIncrement) {
+		this.realIncrement = realIncrement;
+	}
 
-    public ClientCov(Null defaultIncrement) {
-        this.defaultIncrement = defaultIncrement;
-    }
+	public ClientCov(Null defaultIncrement) {
+		this.defaultIncrement = defaultIncrement;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        if (realIncrement != null)
-            write(queue, realIncrement);
-        else
-            write(queue, defaultIncrement);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		if (realIncrement != null)
+			write(queue, realIncrement);
+		else
+			write(queue, defaultIncrement);
+	}
 
-    public ClientCov(ByteQueue queue) throws BACnetException {
-        int tag = (queue.peek(0) & 0xff) >> 4;
-        if (tag == Null.TYPE_ID)
-            defaultIncrement = new Null(queue);
-        else if (tag == Real.TYPE_ID)
-            realIncrement = new Real(queue);
-        else
-            throw new BACnetErrorException(ErrorClass.property, ErrorCode.invalidParameterDataType);
-    }
+	public ClientCov(ByteQueue queue) throws BACnetException {
+		int tag = (queue.peek(0) & 0xff) >> 4;
+		if (tag == Null.TYPE_ID)
+			defaultIncrement = new Null(queue);
+		else if (tag == Real.TYPE_ID)
+			realIncrement = new Real(queue);
+		else
+			throw new BACnetErrorException(ErrorClass.property, ErrorCode.invalidParameterDataType);
+	}
 
-    public Real getRealIncrement() {
-        return realIncrement;
-    }
+	public Real getRealIncrement() {
+		return realIncrement;
+	}
 
-    public Null getDefaultIncrement() {
-        return defaultIncrement;
-    }
+	public Null getDefaultIncrement() {
+		return defaultIncrement;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((defaultIncrement == null) ? 0 : defaultIncrement.hashCode());
-        result = PRIME * result + ((realIncrement == null) ? 0 : realIncrement.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((defaultIncrement == null) ? 0 : defaultIncrement.hashCode());
+		result = PRIME * result + ((realIncrement == null) ? 0 : realIncrement.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ClientCov other = (ClientCov) obj;
-        if (defaultIncrement == null) {
-            if (other.defaultIncrement != null)
-                return false;
-        }
-        else if (!defaultIncrement.equals(other.defaultIncrement))
-            return false;
-        if (realIncrement == null) {
-            if (other.realIncrement != null)
-                return false;
-        }
-        else if (!realIncrement.equals(other.realIncrement))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ClientCov other = (ClientCov) obj;
+		if (defaultIncrement == null) {
+			if (other.defaultIncrement != null)
+				return false;
+		} else if (!defaultIncrement.equals(other.defaultIncrement))
+			return false;
+		if (realIncrement == null) {
+			if (other.realIncrement != null)
+				return false;
+		} else if (!realIncrement.equals(other.realIncrement))
+			return false;
+		return true;
+	}
 }

@@ -44,241 +44,255 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 
 public class ObjectCovSubscription implements Serializable {
-    private static final long serialVersionUID = 3546250271813406695L;
+	private static final long serialVersionUID = 3546250271813406695L;
 
-    private static Set<ObjectType> supportedObjectTypes = new HashSet<ObjectType>();
-    private static Set<PropertyIdentifier> supportedPropertyIdentifiers = new HashSet<PropertyIdentifier>();
+	private static Set<ObjectType> supportedObjectTypes = new HashSet<ObjectType>();
+	private static Set<PropertyIdentifier> supportedPropertyIdentifiers = new HashSet<PropertyIdentifier>();
 
-    /** These types require a COV threshold, before any subscriptions are allowed */
-    private static Set<ObjectType> covThresholdRequired = new HashSet<ObjectType>();
+	/**
+	 * These types require a COV threshold, before any subscriptions are allowed
+	 */
+	private static Set<ObjectType> covThresholdRequired = new HashSet<ObjectType>();
 
-    static {
-        supportedObjectTypes.add(ObjectType.accessDoor);
-        supportedObjectTypes.add(ObjectType.accumulator);
-        supportedObjectTypes.add(ObjectType.analogInput);
-        supportedObjectTypes.add(ObjectType.analogOutput);
-        supportedObjectTypes.add(ObjectType.analogValue);
-        supportedObjectTypes.add(ObjectType.binaryInput);
-        supportedObjectTypes.add(ObjectType.binaryOutput);
-        supportedObjectTypes.add(ObjectType.binaryValue);
-        supportedObjectTypes.add(ObjectType.lifeSafetyPoint);
-        supportedObjectTypes.add(ObjectType.loop);
-        supportedObjectTypes.add(ObjectType.multiStateInput);
-        supportedObjectTypes.add(ObjectType.multiStateOutput);
-        supportedObjectTypes.add(ObjectType.multiStateValue);
-        supportedObjectTypes.add(ObjectType.pulseConverter);
+	static {
+		supportedObjectTypes.add(ObjectType.accessDoor);
+		supportedObjectTypes.add(ObjectType.accumulator);
+		supportedObjectTypes.add(ObjectType.analogInput);
+		supportedObjectTypes.add(ObjectType.analogOutput);
+		supportedObjectTypes.add(ObjectType.analogValue);
+		supportedObjectTypes.add(ObjectType.binaryInput);
+		supportedObjectTypes.add(ObjectType.binaryOutput);
+		supportedObjectTypes.add(ObjectType.binaryValue);
+		supportedObjectTypes.add(ObjectType.lifeSafetyPoint);
+		supportedObjectTypes.add(ObjectType.loop);
+		supportedObjectTypes.add(ObjectType.multiStateInput);
+		supportedObjectTypes.add(ObjectType.multiStateOutput);
+		supportedObjectTypes.add(ObjectType.multiStateValue);
+		supportedObjectTypes.add(ObjectType.pulseConverter);
 
-        supportedPropertyIdentifiers.add(PropertyIdentifier.presentValue);
-        supportedPropertyIdentifiers.add(PropertyIdentifier.statusFlags);
-        supportedPropertyIdentifiers.add(PropertyIdentifier.doorAlarmState);
+		supportedPropertyIdentifiers.add(PropertyIdentifier.presentValue);
+		supportedPropertyIdentifiers.add(PropertyIdentifier.statusFlags);
+		supportedPropertyIdentifiers.add(PropertyIdentifier.doorAlarmState);
 
-        covThresholdRequired.add(ObjectType.analogInput);
-        covThresholdRequired.add(ObjectType.analogOutput);
-        covThresholdRequired.add(ObjectType.analogValue);
-        covThresholdRequired.add(ObjectType.loop);
-        covThresholdRequired.add(ObjectType.pulseConverter);
-    }
+		covThresholdRequired.add(ObjectType.analogInput);
+		covThresholdRequired.add(ObjectType.analogOutput);
+		covThresholdRequired.add(ObjectType.analogValue);
+		covThresholdRequired.add(ObjectType.loop);
+		covThresholdRequired.add(ObjectType.pulseConverter);
+	}
 
-    public static void addSupportedObjectType(ObjectType objectType) {
-        supportedObjectTypes.add(objectType);
-    }
+	public static void addSupportedObjectType(ObjectType objectType) {
+		supportedObjectTypes.add(objectType);
+	}
 
-    public static void addSupportedPropertyIdentifier(PropertyIdentifier propertyIdentifier) {
-        supportedPropertyIdentifiers.add(propertyIdentifier);
-    }
+	public static void addSupportedPropertyIdentifier(PropertyIdentifier propertyIdentifier) {
+		supportedPropertyIdentifiers.add(propertyIdentifier);
+	}
 
-    public static boolean supportedObjectType(ObjectType objectType) {
-        return supportedObjectTypes.contains(objectType);
-    }
+	public static boolean supportedObjectType(ObjectType objectType) {
+		return supportedObjectTypes.contains(objectType);
+	}
 
-    public static boolean sendCovNotification(ObjectType objectType, PropertyIdentifier pid, Real covThresholdValue) {
-        if (!supportedObjectType(objectType))
-            return false;
+	public static boolean sendCovNotification(ObjectType objectType, PropertyIdentifier pid, Real covThresholdValue) {
+		if (!supportedObjectType(objectType))
+			return false;
 
-        if (pid != null && !supportedPropertyIdentifiers.contains(pid))
-            return false;
+		if (pid != null && !supportedPropertyIdentifiers.contains(pid))
+			return false;
 
-        // Don't allow COV notifications when there is no threshold for Objects that require thresholds.
-        if (covThresholdRequired.contains(objectType) && covThresholdValue == null)
-            return false;
+		// Don't allow COV notifications when there is no threshold for Objects
+		// that require thresholds.
+		if (covThresholdRequired.contains(objectType) && covThresholdValue == null)
+			return false;
 
-        return true;
-    }
+		return true;
+	}
 
-    public static List<PropertyValue> getValues(BACnetObject obj) {
-        List<PropertyValue> values = new ArrayList<PropertyValue>();
-        for (PropertyIdentifier pid : supportedPropertyIdentifiers)
-            addValue(obj, values, pid);
-        return values;
-    }
+	public static List<PropertyValue> getValues(BACnetObject obj) {
+		List<PropertyValue> values = new ArrayList<PropertyValue>();
+		for (PropertyIdentifier pid : supportedPropertyIdentifiers)
+			addValue(obj, values, pid);
+		return values;
+	}
 
-    private static void addValue(BACnetObject obj, List<PropertyValue> values, PropertyIdentifier pid) {
-        try {
-            // Ensure that the obj has the given property. The addition of doorAlarmState requires this.
-            if (ObjectProperties.getPropertyTypeDefinition(obj.getId().getObjectType(), pid) != null) {
-                Encodable value = obj.getProperty(pid);
-                if (value != null)
-                    values.add(new PropertyValue(pid, value));
-            }
-        }
-        catch (BACnetServiceException e) {
-            // Should never happen, so wrap in a RuntimeException
-            throw new RuntimeException(e);
-        }
-    }
+	private static void addValue(BACnetObject obj, List<PropertyValue> values, PropertyIdentifier pid) {
+		try {
+			// Ensure that the obj has the given property. The addition of
+			// doorAlarmState requires this.
+			if (ObjectProperties.getPropertyTypeDefinition(obj.getId().getObjectType(), pid) != null) {
+				Encodable value = obj.getProperty(pid);
+				if (value != null)
+					values.add(new PropertyValue(pid, value));
+			}
+		} catch (BACnetServiceException e) {
+			// Should never happen, so wrap in a RuntimeException
+			throw new RuntimeException(e);
+		}
+	}
 
-    private final Address address;
-    private final OctetString linkService;
-    private final UnsignedInteger subscriberProcessIdentifier;
-    private boolean issueConfirmedNotifications;
-    private long expiryTime;
+	private final Address address;
+	private final OctetString linkService;
+	private final UnsignedInteger subscriberProcessIdentifier;
+	private boolean issueConfirmedNotifications;
+	private long expiryTime;
 
-    /**
-     * The increment/threshold at which COV notifications should be sent out. Only applies to property identifiers that
-     * are {@link Real}'s
-     * and {@link ObjectType}'s mentioned in {@link ObjectCovSubscription#covThresholdRequired}.
-     */
-    private final Real covIncrement;
+	/**
+	 * The increment/threshold at which COV notifications should be sent out.
+	 * Only applies to property identifiers that are {@link Real}'s and
+	 * {@link ObjectType}'s mentioned in
+	 * {@link ObjectCovSubscription#covThresholdRequired}.
+	 */
+	private final Real covIncrement;
 
-    /**
-     * Contains the last sent values per property identifier. It is used to determine if a COV notification should be
-     * sent.
-     */
-    private final Map<PropertyIdentifier, Encodable> lastSentValues = new HashMap<PropertyIdentifier, Encodable>();
+	/**
+	 * Contains the last sent values per property identifier. It is used to
+	 * determine if a COV notification should be sent.
+	 */
+	private final Map<PropertyIdentifier, Encodable> lastSentValues = new HashMap<PropertyIdentifier, Encodable>();
 
-    public ObjectCovSubscription(Address address, OctetString linkService, UnsignedInteger subscriberProcessIdentifier,
-            Real covIncrement) {
-        this.address = address;
-        this.linkService = linkService;
-        this.subscriberProcessIdentifier = subscriberProcessIdentifier;
-        this.covIncrement = covIncrement;
-    }
+	public ObjectCovSubscription(Address address, OctetString linkService, UnsignedInteger subscriberProcessIdentifier,
+			Real covIncrement) {
+		this.address = address;
+		this.linkService = linkService;
+		this.subscriberProcessIdentifier = subscriberProcessIdentifier;
+		this.covIncrement = covIncrement;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public Address getAddress() {
+		return address;
+	}
 
-    public OctetString getLinkService() {
-        return linkService;
-    }
+	public OctetString getLinkService() {
+		return linkService;
+	}
 
-    public boolean isIssueConfirmedNotifications() {
-        return issueConfirmedNotifications;
-    }
+	public boolean isIssueConfirmedNotifications() {
+		return issueConfirmedNotifications;
+	}
 
-    public UnsignedInteger getSubscriberProcessIdentifier() {
-        return subscriberProcessIdentifier;
-    }
+	public UnsignedInteger getSubscriberProcessIdentifier() {
+		return subscriberProcessIdentifier;
+	}
 
-    public void setIssueConfirmedNotifications(boolean issueConfirmedNotifications) {
-        this.issueConfirmedNotifications = issueConfirmedNotifications;
-    }
+	public void setIssueConfirmedNotifications(boolean issueConfirmedNotifications) {
+		this.issueConfirmedNotifications = issueConfirmedNotifications;
+	}
 
-    public void setExpiryTime(int seconds) {
-        if (seconds == 0)
-            expiryTime = -1;
-        else
-            expiryTime = System.currentTimeMillis() + seconds * 1000;
-    }
+	public void setExpiryTime(int seconds) {
+		if (seconds == 0)
+			expiryTime = -1;
+		else
+			expiryTime = System.currentTimeMillis() + seconds * 1000;
+	}
 
-    public boolean hasExpired(long now) {
-        if (expiryTime == -1)
-            return false;
-        return expiryTime < now;
-    }
+	public boolean hasExpired(long now) {
+		if (expiryTime == -1)
+			return false;
+		return expiryTime < now;
+	}
 
-    public int getTimeRemaining(long now) {
-        if (expiryTime == -1)
-            return 0;
-        int left = (int) ((expiryTime - now) / 1000);
-        if (left < 1)
-            return 1;
-        return left;
-    }
+	public int getTimeRemaining(long now) {
+		if (expiryTime == -1)
+			return 0;
+		int left = (int) ((expiryTime - now) / 1000);
+		if (left < 1)
+			return 1;
+		return left;
+	}
 
-    /**
-     * Determine if a notification needs to be sent out based on the Threshold if relevant.
-     * 
-     * @param pid
-     *            The {@link PropertyIdentifier} being updated
-     * @param value
-     *            The new value
-     * @return true if a COV notification should be sent out, false otherwise.
-     */
-    public boolean isNotificationRequired(PropertyIdentifier pid, Encodable value) {
-        Encodable lastSentValue = this.lastSentValues.get(pid);
+	/**
+	 * Determine if a notification needs to be sent out based on the Threshold
+	 * if relevant.
+	 * 
+	 * @param pid
+	 *            The {@link PropertyIdentifier} being updated
+	 * @param value
+	 *            The new value
+	 * @return true if a COV notification should be sent out, false otherwise.
+	 */
+	public boolean isNotificationRequired(PropertyIdentifier pid, Encodable value) {
+		Encodable lastSentValue = this.lastSentValues.get(pid);
 
-        boolean notificationRequired = ThresholdCalculator.isValueOutsideOfThreshold(this.covIncrement, lastSentValue,
-                value);
+		boolean notificationRequired = ThresholdCalculator.isValueOutsideOfThreshold(this.covIncrement, lastSentValue,
+				value);
 
-        if (notificationRequired) {
-            this.lastSentValues.put(pid, value);
-        }
+		if (notificationRequired) {
+			this.lastSentValues.put(pid, value);
+		}
 
-        return notificationRequired;
-    }
+		return notificationRequired;
+	}
 
-    /**
-     * Utility Class to determine whether COV thresholds/increments have been surpassed.
-     * 
-     * @author japearson
-     * 
-     */
-    public static class ThresholdCalculator {
-        /**
-         * Convert the given encodable value to a {@link Float} if possible.
-         * 
-         * @param value
-         *            The value to attempt to convert to a {@link Float}.
-         * @return A {@link Float} value if the {@link Encodable} can be converted, otherwise null.
-         */
-        private static Float convertEncodableToFloat(Encodable value) {
-            Float floatValue = null;
+	/**
+	 * Utility Class to determine whether COV thresholds/increments have been
+	 * surpassed.
+	 * 
+	 * @author japearson
+	 * 
+	 */
+	public static class ThresholdCalculator {
+		/**
+		 * Convert the given encodable value to a {@link Float} if possible.
+		 * 
+		 * @param value
+		 *            The value to attempt to convert to a {@link Float}.
+		 * @return A {@link Float} value if the {@link Encodable} can be
+		 *         converted, otherwise null.
+		 */
+		private static Float convertEncodableToFloat(Encodable value) {
+			Float floatValue = null;
 
-            if (value instanceof Real) {
-                floatValue = ((Real) value).floatValue();
-            }
+			if (value instanceof Real) {
+				floatValue = ((Real) value).floatValue();
+			}
 
-            return floatValue;
-        }
+			return floatValue;
+		}
 
-        /**
-         * Determine if the newValue has surpassed the threshold value compared with the original value.
-         * <p>
-         * When the originalValue is null, it is automatically assumed to be outside the threshold, because it means the
-         * property hasn't been seen before.
-         * <p>
-         * If any of the parameters cannot be converted to a {@link Float}, then this method returns true when the
-         * original and new value are not equal and false otherwise.
-         * 
-         * @param threshold
-         *            The threshold value
-         * @param originalValue
-         *            The original or last sent value
-         * @param newValue
-         *            The new value to check
-         * @return true if the new value is outside the threshold or false otherwise.
-         */
-        public static boolean isValueOutsideOfThreshold(Real threshold, Encodable originalValue, Encodable newValue) {
-            Float floatThreshold = convertEncodableToFloat(threshold);
-            Float floatOriginal = convertEncodableToFloat(originalValue);
-            Float floatNewValue = convertEncodableToFloat(newValue);
+		/**
+		 * Determine if the newValue has surpassed the threshold value compared
+		 * with the original value.
+		 * <p>
+		 * When the originalValue is null, it is automatically assumed to be
+		 * outside the threshold, because it means the property hasn't been seen
+		 * before.
+		 * <p>
+		 * If any of the parameters cannot be converted to a {@link Float}, then
+		 * this method returns true when the original and new value are not
+		 * equal and false otherwise.
+		 * 
+		 * @param threshold
+		 *            The threshold value
+		 * @param originalValue
+		 *            The original or last sent value
+		 * @param newValue
+		 *            The new value to check
+		 * @return true if the new value is outside the threshold or false
+		 *         otherwise.
+		 */
+		public static boolean isValueOutsideOfThreshold(Real threshold, Encodable originalValue, Encodable newValue) {
+			Float floatThreshold = convertEncodableToFloat(threshold);
+			Float floatOriginal = convertEncodableToFloat(originalValue);
+			Float floatNewValue = convertEncodableToFloat(newValue);
 
-            // This property hasn't been seen before, so a notification is required
-            if (originalValue == null) {
-                return true;
-            }
-            // Handle types that can't do threshold comparisons
-            else if (floatThreshold == null || floatOriginal == null || floatNewValue == null) {
-                return !originalValue.equals(newValue);
-            }
-            else {
-                // Due to floating point maths, it's possible that where the difference should be equal to the threshold
-                // and not be outside the threshold actually evaluates to true due to precision errors.  However since
-                // this threshold is calculated only for use in deciding whether to trigger a COV notification, small
-                // margins of error on boundary cases are acceptable.
-                return Math.abs(floatNewValue - floatOriginal) > floatThreshold;
-            }
-        }
-    }
+			// This property hasn't been seen before, so a notification is
+			// required
+			if (originalValue == null) {
+				return true;
+			}
+			// Handle types that can't do threshold comparisons
+			else if (floatThreshold == null || floatOriginal == null || floatNewValue == null) {
+				return !originalValue.equals(newValue);
+			} else {
+				// Due to floating point maths, it's possible that where the
+				// difference should be equal to the threshold
+				// and not be outside the threshold actually evaluates to true
+				// due to precision errors. However since
+				// this threshold is calculated only for use in deciding whether
+				// to trigger a COV notification, small
+				// margins of error on boundary cases are acceptable.
+				return Math.abs(floatNewValue - floatOriginal) > floatThreshold;
+			}
+		}
+	}
 }

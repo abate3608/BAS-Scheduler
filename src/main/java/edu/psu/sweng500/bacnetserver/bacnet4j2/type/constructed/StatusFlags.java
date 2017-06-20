@@ -29,29 +29,29 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.BitString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class StatusFlags extends BitString {
-    private static final long serialVersionUID = 2553458399968003127L;
+	private static final long serialVersionUID = 2553458399968003127L;
 
-    public StatusFlags(boolean inAlarm, boolean fault, boolean overridden, boolean outOfService) {
-        super(new boolean[] { inAlarm, fault, overridden, outOfService });
-    }
+	public StatusFlags(boolean inAlarm, boolean fault, boolean overridden, boolean outOfService) {
+		super(new boolean[] { inAlarm, fault, overridden, outOfService });
+	}
 
-    public StatusFlags(ByteQueue queue) {
-        super(queue);
-    }
+	public StatusFlags(ByteQueue queue) {
+		super(queue);
+	}
 
-    public boolean isInAlarm() {
-        return getValue()[0];
-    }
+	public boolean isInAlarm() {
+		return getValue()[0];
+	}
 
-    public boolean isFault() {
-        return getValue()[1];
-    }
+	public boolean isFault() {
+		return getValue()[1];
+	}
 
-    public boolean isOverridden() {
-        return getValue()[2];
-    }
+	public boolean isOverridden() {
+		return getValue()[2];
+	}
 
-    public boolean isOutOfService() {
-        return getValue()[3];
-    }
+	public boolean isOutOfService() {
+		return getValue()[3];
+	}
 }

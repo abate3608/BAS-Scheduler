@@ -30,64 +30,62 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class SessionKey extends BaseType {
-    private static final long serialVersionUID = 2276895536699919255L;
-    private final OctetString sessionKey;
-    private final Address peerAddress;
+	private static final long serialVersionUID = 2276895536699919255L;
+	private final OctetString sessionKey;
+	private final Address peerAddress;
 
-    public SessionKey(OctetString sessionKey, Address peerAddress) {
-        this.sessionKey = sessionKey;
-        this.peerAddress = peerAddress;
-    }
+	public SessionKey(OctetString sessionKey, Address peerAddress) {
+		this.sessionKey = sessionKey;
+		this.peerAddress = peerAddress;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, sessionKey);
-        write(queue, peerAddress);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, sessionKey);
+		write(queue, peerAddress);
+	}
 
-    public SessionKey(ByteQueue queue) throws BACnetException {
-        sessionKey = read(queue, OctetString.class);
-        peerAddress = read(queue, Address.class);
-    }
+	public SessionKey(ByteQueue queue) throws BACnetException {
+		sessionKey = read(queue, OctetString.class);
+		peerAddress = read(queue, Address.class);
+	}
 
-    public OctetString getSessionKey() {
-        return sessionKey;
-    }
+	public OctetString getSessionKey() {
+		return sessionKey;
+	}
 
-    public Address getPeerAddress() {
-        return peerAddress;
-    }
+	public Address getPeerAddress() {
+		return peerAddress;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((peerAddress == null) ? 0 : peerAddress.hashCode());
-        result = PRIME * result + ((sessionKey == null) ? 0 : sessionKey.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((peerAddress == null) ? 0 : peerAddress.hashCode());
+		result = PRIME * result + ((sessionKey == null) ? 0 : sessionKey.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final SessionKey other = (SessionKey) obj;
-        if (peerAddress == null) {
-            if (other.peerAddress != null)
-                return false;
-        }
-        else if (!peerAddress.equals(other.peerAddress))
-            return false;
-        if (sessionKey == null) {
-            if (other.sessionKey != null)
-                return false;
-        }
-        else if (!sessionKey.equals(other.sessionKey))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final SessionKey other = (SessionKey) obj;
+		if (peerAddress == null) {
+			if (other.peerAddress != null)
+				return false;
+		} else if (!peerAddress.equals(other.peerAddress))
+			return false;
+		if (sessionKey == null) {
+			if (other.sessionKey != null)
+				return false;
+		} else if (!sessionKey.equals(other.sessionKey))
+			return false;
+		return true;
+	}
 }

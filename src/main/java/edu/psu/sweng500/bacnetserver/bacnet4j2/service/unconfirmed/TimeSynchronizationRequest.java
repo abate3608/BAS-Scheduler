@@ -36,66 +36,64 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class TimeSynchronizationRequest extends UnconfirmedRequestService {
-    private static final long serialVersionUID = -7891171877308926353L;
+	private static final long serialVersionUID = -7891171877308926353L;
 
-    public static final byte TYPE_ID = 6;
+	public static final byte TYPE_ID = 6;
 
-    private final DateTime time;
+	private final DateTime time;
 
-    public TimeSynchronizationRequest(DateTime time) {
-        this.time = time;
-    }
+	public TimeSynchronizationRequest(DateTime time) {
+		this.time = time;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, time);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, time);
+	}
 
-    TimeSynchronizationRequest(ByteQueue queue) throws BACnetException {
-        time = read(queue, DateTime.class);
-    }
+	TimeSynchronizationRequest(ByteQueue queue) throws BACnetException {
+		time = read(queue, DateTime.class);
+	}
 
-    @Override
-    public void handle(LocalDevice localDevice, Address from, OctetString linkService) {
-        try {
-            ServicesSupported servicesSupported = (ServicesSupported) localDevice.getConfiguration().getProperty(
-                    PropertyIdentifier.protocolServicesSupported);
-            if (servicesSupported.isTimeSynchronization())
-                localDevice.getEventHandler().synchronizeTime(time, false);
-        }
-        catch (BACnetServiceException e) {
-            // no op
-        }
-    }
+	@Override
+	public void handle(LocalDevice localDevice, Address from, OctetString linkService) {
+		try {
+			ServicesSupported servicesSupported = (ServicesSupported) localDevice.getConfiguration()
+					.getProperty(PropertyIdentifier.protocolServicesSupported);
+			if (servicesSupported.isTimeSynchronization())
+				localDevice.getEventHandler().synchronizeTime(time, false);
+		} catch (BACnetServiceException e) {
+			// no op
+		}
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((time == null) ? 0 : time.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((time == null) ? 0 : time.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final TimeSynchronizationRequest other = (TimeSynchronizationRequest) obj;
-        if (time == null) {
-            if (other.time != null)
-                return false;
-        }
-        else if (!time.equals(other.time))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final TimeSynchronizationRequest other = (TimeSynchronizationRequest) obj;
+		if (time == null) {
+			if (other.time != null)
+				return false;
+		} else if (!time.equals(other.time))
+			return false;
+		return true;
+	}
 }

@@ -30,34 +30,34 @@ import java.math.BigInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Enumerated extends UnsignedInteger {
-    private static final long serialVersionUID = 2462119559912570064L;
-    public static final byte TYPE_ID = 9;
+	private static final long serialVersionUID = 2462119559912570064L;
+	public static final byte TYPE_ID = 9;
 
-    public Enumerated(int value) {
-        super(value);
-    }
+	public Enumerated(int value) {
+		super(value);
+	}
 
-    public Enumerated(BigInteger value) {
-        super(value);
-    }
+	public Enumerated(BigInteger value) {
+		super(value);
+	}
 
-    public byte byteValue() {
-        return (byte) intValue();
-    }
+	public byte byteValue() {
+		return (byte) intValue();
+	}
 
-    public boolean equals(Enumerated that) {
-        return intValue() == that.intValue();
-    }
+	public boolean equals(Enumerated that) {
+		return intValue() == that.intValue();
+	}
 
-    //
-    // Reading and writing
-    //
-    public Enumerated(ByteQueue queue) {
-        super(queue);
-    }
+	//
+	// Reading and writing
+	//
+	public Enumerated(ByteQueue queue) {
+		super(queue);
+	}
 
-    @Override
-    protected byte getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected byte getTypeId() {
+		return TYPE_ID;
+	}
 }

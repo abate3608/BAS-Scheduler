@@ -11,53 +11,54 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class EditEventScreen implements ActionListener{
+public class EditEventScreen implements ActionListener {
 
 	private JFrame newEventWin;
 	private JPanel newEventPane;
-	private JLabel eventName; 
-	private JLabel eventStartTime; 
-	private JLabel eventEndTime ; 
-	private JLabel eventDate; 
-	private JLabel eventRoom; 
-	private JLabel lightSetting; 
-	private JLabel temperatureSetting; 
-	private JTextField eventNameTXT;  
-	private JTextField eventStartTimeTXT; 
-	private JTextField eventEndTimeTXT; 
-	private JTextField eventDateTXT; 
+	private JLabel eventName;
+	private JLabel eventStartTime;
+	private JLabel eventEndTime;
+	private JLabel eventDate;
+	private JLabel eventRoom;
+	private JLabel lightSetting;
+	private JLabel temperatureSetting;
+	private JTextField eventNameTXT;
+	private JTextField eventStartTimeTXT;
+	private JTextField eventEndTimeTXT;
+	private JTextField eventDateTXT;
 	private JTextField eventRoomText; // Changed NEED FIXED TEXT******
-	private JTextField lightSettingTXT; 
-	private JTextField temperatureSettingTXT; 
+	private JTextField lightSettingTXT;
+	private JTextField temperatureSettingTXT;
 	private JButton getButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
 
 	public void actionPerformed(ActionEvent e) {
 
-		newEventWin = new JFrame("Global Schedular System New Event"); 
-		newEventWin .setExtendedState(JFrame.MAXIMIZED_BOTH);
-		newEventWin .setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		newEventWin .setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		newEventWin = new JFrame("Global Schedular System New Event");
+		newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		newEventWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		newEventPane = new JPanel(); 
-		newEventWin .add(newEventPane);
+		newEventPane = new JPanel();
+		newEventWin.add(newEventPane);
 		newuserLayout(newEventPane);
 
-		newEventWin .setVisible(true);
+		newEventWin.setVisible(true);
 
-		JOptionPane.showMessageDialog(null,"Enter Event Name and Press 'Get Event Details Button'");
+		JOptionPane.showMessageDialog(null, "Enter Event Name and Press 'Get Event Details Button'");
 	}
+
 	private final void newuserLayout(JPanel newEventPanel) {
 
 		newEventPanel.setLayout(null);
-		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));  
+		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
 
-		eventName = new JLabel("Event Name"); 
-		eventName.setBounds(550, 100 , 80, 25);
+		eventName = new JLabel("Event Name");
+		eventName.setBounds(550, 100, 80, 25);
 		newEventPanel.add(eventName);
 
-		eventNameTXT = new JTextField(20);   
+		eventNameTXT = new JTextField(20);
 		eventNameTXT.setBounds(550, 125, 300, 25);
 		newEventPanel.add(eventNameTXT);
 
@@ -65,48 +66,48 @@ public class EditEventScreen implements ActionListener{
 		eventStartTime.setBounds(550, 165, 100, 25);
 		newEventPanel.add(eventStartTime);
 
-		eventStartTimeTXT = new JTextField(20); 
+		eventStartTimeTXT = new JTextField(20);
 		eventStartTimeTXT.setBounds(550, 190, 160, 25);
 		newEventPanel.add(eventStartTimeTXT);
 
-		eventEndTime = new JLabel("Event End Time"); 
-		eventEndTime .setBounds(550, 230, 100, 25);
-		newEventPanel.add(eventEndTime );
+		eventEndTime = new JLabel("Event End Time");
+		eventEndTime.setBounds(550, 230, 100, 25);
+		newEventPanel.add(eventEndTime);
 
-		eventEndTimeTXT = new JTextField(20); 
+		eventEndTimeTXT = new JTextField(20);
 		eventEndTimeTXT.setBounds(550, 255, 160, 25);
 		newEventPanel.add(eventEndTimeTXT);
 
-		eventDate = new JLabel("Date of Event"); 
+		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(550, 295, 100, 25);
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
-		eventDateTXT.setBounds(550, 320, 160, 25); 
+		eventDateTXT.setBounds(550, 320, 160, 25);
 		newEventPanel.add(eventDateTXT);
 
-		eventRoom = new JLabel("Event Room");  
-		eventRoom.setBounds(550, 360, 160, 25);  
+		eventRoom = new JLabel("Event Room");
+		eventRoom.setBounds(550, 360, 160, 25);
 		newEventPanel.add(eventRoom);
 
-		eventRoomText = new JTextField(20); 
-		eventRoomText.setBounds(550, 385, 160, 25); 
-		newEventPanel.add(eventRoomText); 
+		eventRoomText = new JTextField(20);
+		eventRoomText.setBounds(550, 385, 160, 25);
+		newEventPanel.add(eventRoomText);
 
-		lightSetting = new JLabel("Light Setting"); 
-		lightSetting .setBounds(550,425, 160, 25); 
-		newEventPanel.add(lightSetting); 
+		lightSetting = new JLabel("Light Setting");
+		lightSetting.setBounds(550, 425, 160, 25);
+		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
-		lightSettingTXT.setBounds(550, 450, 160, 25); 
+		lightSettingTXT.setBounds(550, 450, 160, 25);
 		newEventPanel.add(lightSettingTXT);
 
-		temperatureSetting = new JLabel("Temperature Setting");  
-		temperatureSetting .setBounds(550, 490, 160, 25); 
-		newEventPanel.add(temperatureSetting); 
+		temperatureSetting = new JLabel("Temperature Setting");
+		temperatureSetting.setBounds(550, 490, 160, 25);
+		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
-		temperatureSettingTXT.setBounds(550, 515, 160, 25); 
+		temperatureSettingTXT.setBounds(550, 515, 160, 25);
 		newEventPanel.add(temperatureSettingTXT);
 
 		getButton = new JButton("Get Event Details");
@@ -115,7 +116,7 @@ public class EditEventScreen implements ActionListener{
 		getButton.addActionListener(new getEvent());
 
 		editEventButton = new JButton("Edit Event");
-		editEventButton.setBounds(560,575, 140, 25);
+		editEventButton.setBounds(560, 575, 140, 25);
 		newEventPanel.add(editEventButton);
 		editEventButton.addActionListener(new editEvent());
 
@@ -125,35 +126,34 @@ public class EditEventScreen implements ActionListener{
 		cancelButton.addActionListener(new cancelButtonPress());
 	}
 
-	private final class cancelButtonPress implements ActionListener{   
+	private final class cancelButtonPress implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			eventNameTXT.setText(null); 
-			eventStartTimeTXT.setText(null); 
-			eventEndTimeTXT.setText(null); 
+			eventNameTXT.setText(null);
+			eventStartTimeTXT.setText(null);
+			eventEndTimeTXT.setText(null);
 			eventDateTXT.setText(null);
-			eventRoomText.setText(null); 
+			eventRoomText.setText(null);
 			lightSettingTXT.setText(null);
-			temperatureSettingTXT.setText(null); 
-			newEventWin.dispose();			
+			temperatureSettingTXT.setText(null);
+			newEventWin.dispose();
 		}
 	}
 
-	private final class editEvent implements ActionListener{
+	private final class editEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"Submitting Editited Event Request");
+			JOptionPane.showMessageDialog(null, "Submitting Editited Event Request");
 		}
 
 	}
 
-	private final class getEvent implements ActionListener{
+	private final class getEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"Retrieving Event Information");
+			JOptionPane.showMessageDialog(null, "Retrieving Event Information");
 		}
 
 	}
 
 }
-

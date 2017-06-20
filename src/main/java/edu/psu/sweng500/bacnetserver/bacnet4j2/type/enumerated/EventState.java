@@ -29,38 +29,38 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class EventState extends Enumerated {
-    private static final long serialVersionUID = -8567972022145562375L;
-    public static final EventState normal = new EventState(0);
-    public static final EventState fault = new EventState(1);
-    public static final EventState offnormal = new EventState(2);
-    public static final EventState highLimit = new EventState(3);
-    public static final EventState lowLimit = new EventState(4);
-    public static final EventState lifeSafetyAlarm = new EventState(5);
+	private static final long serialVersionUID = -8567972022145562375L;
+	public static final EventState normal = new EventState(0);
+	public static final EventState fault = new EventState(1);
+	public static final EventState offnormal = new EventState(2);
+	public static final EventState highLimit = new EventState(3);
+	public static final EventState lowLimit = new EventState(4);
+	public static final EventState lifeSafetyAlarm = new EventState(5);
 
-    public static final EventState[] ALL = { normal, fault, offnormal, highLimit, lowLimit, lifeSafetyAlarm, };
+	public static final EventState[] ALL = { normal, fault, offnormal, highLimit, lowLimit, lifeSafetyAlarm, };
 
-    public EventState(int value) {
-        super(value);
-    }
+	public EventState(int value) {
+		super(value);
+	}
 
-    public EventState(ByteQueue queue) {
-        super(queue);
-    }
+	public EventState(ByteQueue queue) {
+		super(queue);
+	}
 
-    @Override
-    public String toString() {
-        if (intValue() == 0)
-            return "normal";
-        if (intValue() == 1)
-            return "fault";
-        if (intValue() == 2)
-            return "off normal";
-        if (intValue() == 3)
-            return "high limit";
-        if (intValue() == 4)
-            return "low limit";
-        if (intValue() == 5)
-            return "life safety alarm";
-        return "Unknown";
-    }
+	@Override
+	public String toString() {
+		if (intValue() == 0)
+			return "normal";
+		if (intValue() == 1)
+			return "fault";
+		if (intValue() == 2)
+			return "off normal";
+		if (intValue() == 3)
+			return "high limit";
+		if (intValue() == 4)
+			return "low limit";
+		if (intValue() == 5)
+			return "life safety alarm";
+		return "Unknown";
+	}
 }

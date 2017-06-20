@@ -29,16 +29,16 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class DefaultExceptionListener implements ExceptionListener {
-    public void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue) {
-        System.out.println("Received unimplemented vendor service: vendor id=" + vendorId + ", service number="
-                + serviceNumber + ", bytes (with context id)=" + queue);
-    }
+	public void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue) {
+		System.out.println("Received unimplemented vendor service: vendor id=" + vendorId + ", service number="
+				+ serviceNumber + ", bytes (with context id)=" + queue);
+	}
 
-    public void receivedException(Exception e) {
-        e.printStackTrace();
-    }
+	public void receivedException(Exception e) {
+		e.printStackTrace();
+	}
 
-    public void receivedThrowable(Throwable t) {
-        t.printStackTrace();
-    }
+	public void receivedThrowable(Throwable t) {
+		t.printStackTrace();
+	}
 }

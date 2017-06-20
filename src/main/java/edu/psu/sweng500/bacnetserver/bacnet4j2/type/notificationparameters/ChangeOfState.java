@@ -31,72 +31,70 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ChangeOfState extends NotificationParameters {
-    private static final long serialVersionUID = -3581834332371728769L;
+	private static final long serialVersionUID = -3581834332371728769L;
 
-    public static final byte TYPE_ID = 1;
+	public static final byte TYPE_ID = 1;
 
-    private final PropertyStates newState;
-    private final StatusFlags statusFlags;
+	private final PropertyStates newState;
+	private final StatusFlags statusFlags;
 
-    public ChangeOfState(PropertyStates newState, StatusFlags statusFlags) {
-        this.newState = newState;
-        this.statusFlags = statusFlags;
-    }
+	public ChangeOfState(PropertyStates newState, StatusFlags statusFlags) {
+		this.newState = newState;
+		this.statusFlags = statusFlags;
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, newState, 0);
-        write(queue, statusFlags, 1);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, newState, 0);
+		write(queue, statusFlags, 1);
+	}
 
-    public ChangeOfState(ByteQueue queue) throws BACnetException {
-        newState = read(queue, PropertyStates.class, 0);
-        statusFlags = read(queue, StatusFlags.class, 1);
-    }
+	public ChangeOfState(ByteQueue queue) throws BACnetException {
+		newState = read(queue, PropertyStates.class, 0);
+		statusFlags = read(queue, StatusFlags.class, 1);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public PropertyStates getNewState() {
-        return newState;
-    }
+	public PropertyStates getNewState() {
+		return newState;
+	}
 
-    public StatusFlags getStatusFlags() {
-        return statusFlags;
-    }
+	public StatusFlags getStatusFlags() {
+		return statusFlags;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((newState == null) ? 0 : newState.hashCode());
-        result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((newState == null) ? 0 : newState.hashCode());
+		result = PRIME * result + ((statusFlags == null) ? 0 : statusFlags.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final ChangeOfState other = (ChangeOfState) obj;
-        if (newState == null) {
-            if (other.newState != null)
-                return false;
-        }
-        else if (!newState.equals(other.newState))
-            return false;
-        if (statusFlags == null) {
-            if (other.statusFlags != null)
-                return false;
-        }
-        else if (!statusFlags.equals(other.statusFlags))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ChangeOfState other = (ChangeOfState) obj;
+		if (newState == null) {
+			if (other.newState != null)
+				return false;
+		} else if (!newState.equals(other.newState))
+			return false;
+		if (statusFlags == null) {
+			if (other.statusFlags != null)
+				return false;
+		} else if (!statusFlags.equals(other.statusFlags))
+			return false;
+		return true;
+	}
 }

@@ -22,41 +22,40 @@ import com.serotonin.io.serial.SerialParameters;
  * 
  */
 public class SerialTest {
-    static LocalDevice localDevice;
+	static LocalDevice localDevice;
 
-    public static void main(String[] args) throws Exception {
-        Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST);
+	public static void main(String[] args) throws Exception {
+		Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST);
 
-        SerialParameters params = new SerialParameters();
-        params.setCommPortId("COM4");
-        params.setBaudRate(9600);
-        params.setPortOwnerName("Testing");
+		SerialParameters params = new SerialParameters();
+		params.setCommPortId("COM4");
+		params.setBaudRate(9600);
+		params.setPortOwnerName("Testing");
 
-        MasterNode master = new MasterNode(params, (byte) 0x4, 2);
-        MstpNetwork network = new MstpNetwork(master);
-        Transport transport = new Transport(network);
-        localDevice = new LocalDevice(1234, transport);
-        localDevice.getEventHandler().addListener(new Listener());
+		MasterNode master = new MasterNode(params, (byte) 0x4, 2);
+		MstpNetwork network = new MstpNetwork(master);
+		Transport transport = new Transport(network);
+		localDevice = new LocalDevice(1234, transport);
+		localDevice.getEventHandler().addListener(new Listener());
 
-        localDevice.initialize();
+		localDevice.initialize();
 
-        localDevice.sendGlobalBroadcast(new WhoIsRequest());
+		localDevice.sendGlobalBroadcast(new WhoIsRequest());
 
-        network.sendTestRequest((byte) 8);
-    }
+		network.sendTestRequest((byte) 8);
+	}
 
-    static class Listener extends DeviceEventAdapter {
-        @Override
-        public void iAmReceived(RemoteDevice d) {
-            System.out.println("Received IAm from " + d);
+	static class Listener extends DeviceEventAdapter {
+		@Override
+		public void iAmReceived(RemoteDevice d) {
+			System.out.println("Received IAm from " + d);
 
-            try {
-                System.out.println(RequestUtils.sendReadPropertyAllowNull(localDevice, d, d.getObjectIdentifier(),
-                        PropertyIdentifier.objectList));
-            }
-            catch (BACnetException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			try {
+				System.out.println(RequestUtils.sendReadPropertyAllowNull(localDevice, d, d.getObjectIdentifier(),
+						PropertyIdentifier.objectList));
+			} catch (BACnetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

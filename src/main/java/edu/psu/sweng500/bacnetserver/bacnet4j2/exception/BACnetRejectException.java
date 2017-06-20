@@ -28,15 +28,15 @@ package edu.psu.sweng500.bacnetserver.bacnet4j2.exception;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.RejectReason;
 
 public class BACnetRejectException extends BACnetException {
-    private static final long serialVersionUID = -1;
+	private static final long serialVersionUID = -1;
 
-    private final RejectReason rejectReason;
+	private final RejectReason rejectReason;
 
-    public BACnetRejectException(RejectReason rejectReason) {
-        this.rejectReason = rejectReason;
-    }
+	public BACnetRejectException(RejectReason rejectReason) {
+		this.rejectReason = rejectReason;
+	}
 
-    public RejectReason getRejectReason() {
-        return rejectReason;
-    }
+	public RejectReason getRejectReason() {
+		return rejectReason;
+	}
 }

@@ -31,15 +31,15 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.BACnetError;
  * @author Matthew Lohbihler
  */
 public class PropertyValueException extends Exception {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final BACnetError error;
+	private final BACnetError error;
 
-    public PropertyValueException(BACnetError error) {
-        this.error = error;
-    }
+	public PropertyValueException(BACnetError error) {
+		this.error = error;
+	}
 
-    public BACnetError getError() {
-        return error;
-    }
+	public BACnetError getError() {
+		return error;
+	}
 }

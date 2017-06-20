@@ -29,17 +29,17 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Action extends Enumerated {
-    private static final long serialVersionUID = -6669625812130523631L;
-    public static final Action direct = new Action(0);
-    public static final Action reverse = new Action(1);
+	private static final long serialVersionUID = -6669625812130523631L;
+	public static final Action direct = new Action(0);
+	public static final Action reverse = new Action(1);
 
-    public static final Action[] ALL = { direct, reverse, };
+	public static final Action[] ALL = { direct, reverse, };
 
-    public Action(int value) {
-        super(value);
-    }
+	public Action(int value) {
+		super(value);
+	}
 
-    public Action(ByteQueue queue) {
-        super(queue);
-    }
+	public Action(ByteQueue queue) {
+		super(queue);
+	}
 }

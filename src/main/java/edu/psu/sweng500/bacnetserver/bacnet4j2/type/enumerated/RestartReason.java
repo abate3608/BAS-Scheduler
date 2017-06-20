@@ -29,24 +29,24 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class RestartReason extends Enumerated {
-    private static final long serialVersionUID = -4199348259202899844L;
-    public static final RestartReason unknown = new RestartReason(0);
-    public static final RestartReason coldstart = new RestartReason(1);
-    public static final RestartReason warmstart = new RestartReason(2);
-    public static final RestartReason detectedPowerLost = new RestartReason(3);
-    public static final RestartReason detectedPoweredOff = new RestartReason(4);
-    public static final RestartReason hardwareWatchdog = new RestartReason(5);
-    public static final RestartReason softwareWatchdog = new RestartReason(6);
-    public static final RestartReason suspended = new RestartReason(7);
+	private static final long serialVersionUID = -4199348259202899844L;
+	public static final RestartReason unknown = new RestartReason(0);
+	public static final RestartReason coldstart = new RestartReason(1);
+	public static final RestartReason warmstart = new RestartReason(2);
+	public static final RestartReason detectedPowerLost = new RestartReason(3);
+	public static final RestartReason detectedPoweredOff = new RestartReason(4);
+	public static final RestartReason hardwareWatchdog = new RestartReason(5);
+	public static final RestartReason softwareWatchdog = new RestartReason(6);
+	public static final RestartReason suspended = new RestartReason(7);
 
-    public static final RestartReason[] ALL = { unknown, coldstart, warmstart, detectedPowerLost, detectedPoweredOff,
-            hardwareWatchdog, softwareWatchdog, suspended, };
+	public static final RestartReason[] ALL = { unknown, coldstart, warmstart, detectedPowerLost, detectedPoweredOff,
+			hardwareWatchdog, softwareWatchdog, suspended, };
 
-    public RestartReason(int value) {
-        super(value);
-    }
+	public RestartReason(int value) {
+		super(value);
+	}
 
-    public RestartReason(ByteQueue queue) {
-        super(queue);
-    }
+	public RestartReason(ByteQueue queue) {
+		super(queue);
+	}
 }

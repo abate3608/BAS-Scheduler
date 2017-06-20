@@ -33,39 +33,40 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ServicesSupporte
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class APDU implements Serializable {
-    private static final long serialVersionUID = -5844093063653180470L;
+	private static final long serialVersionUID = -5844093063653180470L;
 
-    public static APDU createAPDU(ServicesSupported services, ByteQueue queue) throws BACnetException {
-        // Get the first byte. The 4 high-order bits will tell us the type of PDU this is.
-        byte type = queue.peek(0);
-        type = (byte) ((type & 0xff) >> 4);
+	public static APDU createAPDU(ServicesSupported services, ByteQueue queue) throws BACnetException {
+		// Get the first byte. The 4 high-order bits will tell us the type of
+		// PDU this is.
+		byte type = queue.peek(0);
+		type = (byte) ((type & 0xff) >> 4);
 
-        if (type == ConfirmedRequest.TYPE_ID)
-            return new ConfirmedRequest(services, queue);
-        if (type == UnconfirmedRequest.TYPE_ID)
-            return new UnconfirmedRequest(services, queue);
-        if (type == SimpleACK.TYPE_ID)
-            return new SimpleACK(queue);
-        if (type == ComplexACK.TYPE_ID)
-            return new ComplexACK(queue);
-        if (type == SegmentACK.TYPE_ID)
-            return new SegmentACK(queue);
-        if (type == Error.TYPE_ID)
-            return new Error(queue);
-        if (type == Reject.TYPE_ID)
-            return new Reject(queue);
-        if (type == Abort.TYPE_ID)
-            return new Abort(queue);
-        throw new IllegalPduTypeException(Byte.toString(type));
-    }
+		if (type == ConfirmedRequest.TYPE_ID)
+			return new ConfirmedRequest(services, queue);
+		if (type == UnconfirmedRequest.TYPE_ID)
+			return new UnconfirmedRequest(services, queue);
+		if (type == SimpleACK.TYPE_ID)
+			return new SimpleACK(queue);
+		if (type == ComplexACK.TYPE_ID)
+			return new ComplexACK(queue);
+		if (type == SegmentACK.TYPE_ID)
+			return new SegmentACK(queue);
+		if (type == Error.TYPE_ID)
+			return new Error(queue);
+		if (type == Reject.TYPE_ID)
+			return new Reject(queue);
+		if (type == Abort.TYPE_ID)
+			return new Abort(queue);
+		throw new IllegalPduTypeException(Byte.toString(type));
+	}
 
-    abstract public byte getPduType();
+	abstract public byte getPduType();
 
-    abstract public void write(ByteQueue queue);
+	abstract public void write(ByteQueue queue);
 
-    protected int getShiftedTypeId(byte typeId) {
-        return typeId << 4;
-    }
+	protected int getShiftedTypeId(byte typeId) {
+		return typeId << 4;
+	}
 
-    abstract public boolean expectsReply();
+	abstract public boolean expectsReply();
 }

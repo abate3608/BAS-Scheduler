@@ -29,23 +29,23 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class BackupState extends Enumerated {
-    private static final long serialVersionUID = -4811672152182130623L;
-    public static final BackupState idle = new BackupState(0);
-    public static final BackupState preparingForBackup = new BackupState(1);
-    public static final BackupState preparingForRestore = new BackupState(2);
-    public static final BackupState performingABackup = new BackupState(3);
-    public static final BackupState performingARestore = new BackupState(4);
-    public static final BackupState backupFailure = new BackupState(5);
-    public static final BackupState restoreFailure = new BackupState(6);
+	private static final long serialVersionUID = -4811672152182130623L;
+	public static final BackupState idle = new BackupState(0);
+	public static final BackupState preparingForBackup = new BackupState(1);
+	public static final BackupState preparingForRestore = new BackupState(2);
+	public static final BackupState performingABackup = new BackupState(3);
+	public static final BackupState performingARestore = new BackupState(4);
+	public static final BackupState backupFailure = new BackupState(5);
+	public static final BackupState restoreFailure = new BackupState(6);
 
-    public static final BackupState[] ALL = { idle, preparingForBackup, preparingForRestore, performingABackup,
-            performingARestore, backupFailure, restoreFailure, };
+	public static final BackupState[] ALL = { idle, preparingForBackup, preparingForRestore, performingABackup,
+			performingARestore, backupFailure, restoreFailure, };
 
-    public BackupState(int value) {
-        super(value);
-    }
+	public BackupState(int value) {
+		super(value);
+	}
 
-    public BackupState(ByteQueue queue) {
-        super(queue);
-    }
+	public BackupState(ByteQueue queue) {
+		super(queue);
+	}
 }

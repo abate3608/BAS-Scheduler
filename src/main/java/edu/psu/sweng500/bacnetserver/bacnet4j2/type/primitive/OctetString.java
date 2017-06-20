@@ -38,189 +38,187 @@ import com.serotonin.util.IpAddressUtils;
 import com.serotonin.util.queue.ByteQueue;
 
 public class OctetString extends Primitive {
-    private static final long serialVersionUID = -3557657941142811228L;
+	private static final long serialVersionUID = -3557657941142811228L;
 
-    public static final byte TYPE_ID = 6;
+	public static final byte TYPE_ID = 6;
 
-    private final byte[] value;
+	private final byte[] value;
 
-    public OctetString(byte[] value) {
-        this.value = value;
-    }
+	public OctetString(byte[] value) {
+		this.value = value;
+	}
 
-    public OctetString(String dottedString) {
-        this(dottedString, IpNetwork.DEFAULT_PORT);
-    }
+	public OctetString(String dottedString) {
+		this(dottedString, IpNetwork.DEFAULT_PORT);
+	}
 
-    public OctetString(String dottedString, int defaultPort) {
-        dottedString = dottedString.trim();
-        int colon = dottedString.indexOf(":");
-        if (colon == -1) {
-            byte[] b = BACnetUtils.dottedStringToBytes(dottedString);
-            if (b.length == 4)
-                value = toBytes(b, defaultPort);
-            else
-                value = b;
-        }
-        else {
-            byte[] ip = BACnetUtils.dottedStringToBytes(dottedString.substring(0, colon));
-            int port = Integer.parseInt(dottedString.substring(colon + 1));
-            value = toBytes(ip, port);
-        }
-    }
+	public OctetString(String dottedString, int defaultPort) {
+		dottedString = dottedString.trim();
+		int colon = dottedString.indexOf(":");
+		if (colon == -1) {
+			byte[] b = BACnetUtils.dottedStringToBytes(dottedString);
+			if (b.length == 4)
+				value = toBytes(b, defaultPort);
+			else
+				value = b;
+		} else {
+			byte[] ip = BACnetUtils.dottedStringToBytes(dottedString.substring(0, colon));
+			int port = Integer.parseInt(dottedString.substring(colon + 1));
+			value = toBytes(ip, port);
+		}
+	}
 
-    /**
-     * Convenience constructor for MS/TP addresses local to this network.
-     * 
-     * @param station
-     *            the station id
-     */
-    public OctetString(byte station) {
-        value = new byte[] { station };
-    }
+	/**
+	 * Convenience constructor for MS/TP addresses local to this network.
+	 * 
+	 * @param station
+	 *            the station id
+	 */
+	public OctetString(byte station) {
+		value = new byte[] { station };
+	}
 
-    /**
-     * Convenience constructor for IP addresses local to this network.
-     * 
-     * @param ipAddress
-     * @param port
-     */
-    public OctetString(byte[] ipAddress, int port) {
-        value = toBytes(ipAddress, port);
-    }
+	/**
+	 * Convenience constructor for IP addresses local to this network.
+	 * 
+	 * @param ipAddress
+	 * @param port
+	 */
+	public OctetString(byte[] ipAddress, int port) {
+		value = toBytes(ipAddress, port);
+	}
 
-    public OctetString(InetSocketAddress addr) {
-        this(addr.getAddress().getAddress(), addr.getPort());
-    }
+	public OctetString(InetSocketAddress addr) {
+		this(addr.getAddress().getAddress(), addr.getPort());
+	}
 
-    public byte[] getBytes() {
-        return value;
-    }
+	public byte[] getBytes() {
+		return value;
+	}
 
-    private static byte[] toBytes(byte[] ipAddress, int port) {
-        if (ipAddress.length != 4)
-            throw new IllegalArgumentException("IP address must have 4 parts, not " + ipAddress.length);
+	private static byte[] toBytes(byte[] ipAddress, int port) {
+		if (ipAddress.length != 4)
+			throw new IllegalArgumentException("IP address must have 4 parts, not " + ipAddress.length);
 
-        byte[] b = new byte[6];
-        System.arraycopy(ipAddress, 0, b, 0, ipAddress.length);
-        b[ipAddress.length] = (byte) (port >> 8);
-        b[ipAddress.length + 1] = (byte) port;
-        return b;
-    }
+		byte[] b = new byte[6];
+		System.arraycopy(ipAddress, 0, b, 0, ipAddress.length);
+		b[ipAddress.length] = (byte) (port >> 8);
+		b[ipAddress.length + 1] = (byte) port;
+		return b;
+	}
 
-    //
-    //
-    // I/P convenience
-    //
-    public String getMacAddressDottedString() {
-        return BACnetUtils.bytesToDottedString(value);
-    }
+	//
+	//
+	// I/P convenience
+	//
+	public String getMacAddressDottedString() {
+		return BACnetUtils.bytesToDottedString(value);
+	}
 
-    public InetAddress getInetAddress() {
-        try {
-            return InetAddress.getByAddress(getIpBytes());
-        }
-        catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public InetAddress getInetAddress() {
+		try {
+			return InetAddress.getByAddress(getIpBytes());
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    public InetSocketAddress getInetSocketAddress() {
-        return InetAddrCache.get(getInetAddress(), getPort());
-    }
+	public InetSocketAddress getInetSocketAddress() {
+		return InetAddrCache.get(getInetAddress(), getPort());
+	}
 
-    public int getPort() {
-        if (value.length == 6)
-            return ((value[4] & 0xff) << 8) | (value[5] & 0xff);
-        return -1;
-    }
+	public int getPort() {
+		if (value.length == 6)
+			return ((value[4] & 0xff) << 8) | (value[5] & 0xff);
+		return -1;
+	}
 
-    public String toIpString() {
-        return IpAddressUtils.toIpString(getIpBytes());
-    }
+	public String toIpString() {
+		return IpAddressUtils.toIpString(getIpBytes());
+	}
 
-    public String toIpPortString() {
-        return toIpString() + ":" + getPort();
-    }
+	public String toIpPortString() {
+		return toIpString() + ":" + getPort();
+	}
 
-    public byte[] getIpBytes() {
-        if (value.length == 4)
-            return value;
+	public byte[] getIpBytes() {
+		if (value.length == 4)
+			return value;
 
-        byte[] b = new byte[4];
-        System.arraycopy(value, 0, b, 0, 4);
-        return b;
-    }
+		byte[] b = new byte[4];
+		System.arraycopy(value, 0, b, 0, 4);
+		return b;
+	}
 
-    //
-    //
-    // MS/TP convenience
-    //
-    public byte getMstpAddress() {
-        return value[0];
-    }
+	//
+	//
+	// MS/TP convenience
+	//
+	public byte getMstpAddress() {
+		return value[0];
+	}
 
-    //
-    // Reading and writing
-    //
-    public OctetString(ByteQueue queue) {
-        int length = (int) readTag(queue);
-        value = new byte[length];
-        queue.pop(value);
-    }
+	//
+	// Reading and writing
+	//
+	public OctetString(ByteQueue queue) {
+		int length = (int) readTag(queue);
+		value = new byte[length];
+		queue.pop(value);
+	}
 
-    @Override
-    public void writeImpl(ByteQueue queue) {
-        queue.push(value);
-    }
+	@Override
+	public void writeImpl(ByteQueue queue) {
+		queue.push(value);
+	}
 
-    @Override
-    public long getLength() {
-        return value.length;
-    }
+	@Override
+	public long getLength() {
+		return value.length;
+	}
 
-    @Override
-    protected byte getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected byte getTypeId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + Arrays.hashCode(value);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + Arrays.hashCode(value);
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final OctetString other = (OctetString) obj;
-        if (!Arrays.equals(value, other.value))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final OctetString other = (OctetString) obj;
+		if (!Arrays.equals(value, other.value))
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return ArrayUtils.toHexString(value);
-    }
+	@Override
+	public String toString() {
+		return ArrayUtils.toHexString(value);
+	}
 
-    public String getDescription() {
-        StringBuilder sb = new StringBuilder();
-        if (value.length == 1)
-            // Assume an MS/TP address
-            sb.append(getMstpAddress() & 0xff);
-        else if (value.length == 6)
-            // Assume an I/P address
-            sb.append(toIpPortString());
-        else
-            sb.append(toString());
-        return sb.toString();
-    }
+	public String getDescription() {
+		StringBuilder sb = new StringBuilder();
+		if (value.length == 1)
+			// Assume an MS/TP address
+			sb.append(getMstpAddress() & 0xff);
+		else if (value.length == 6)
+			// Assume an I/P address
+			sb.append(toIpPortString());
+		else
+			sb.append(toString());
+		return sb.toString();
+	}
 }

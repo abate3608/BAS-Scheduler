@@ -31,208 +31,209 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.Address;
 import com.serotonin.util.queue.ByteQueue;
 
 /**
- * Network layer protocol control information. This class currently only implements the reading of information.
+ * Network layer protocol control information. This class currently only
+ * implements the reading of information.
  * 
  * @author mlohbihler
  */
 public class NPCI {
-    private final int version;
-    private BigInteger control;
-    private int destinationNetwork;
-    private int destinationLength;
-    private byte[] destinationAddress;
-    private int sourceNetwork;
-    private int sourceLength;
-    private byte[] sourceAddress;
-    private int hopCount;
-    private int messageType;
-    private int vendorId;
+	private final int version;
+	private BigInteger control;
+	private int destinationNetwork;
+	private int destinationLength;
+	private byte[] destinationAddress;
+	private int sourceNetwork;
+	private int sourceLength;
+	private byte[] sourceAddress;
+	private int hopCount;
+	private int messageType;
+	private int vendorId;
 
-    /**
-     * For sending global broadcasts
-     * 
-     * @param source
-     *            optional source address
-     */
-    public NPCI(Address source) {
-        version = 1;
-        control = BigInteger.valueOf(0);
+	/**
+	 * For sending global broadcasts
+	 * 
+	 * @param source
+	 *            optional source address
+	 */
+	public NPCI(Address source) {
+		version = 1;
+		control = BigInteger.valueOf(0);
 
-        control = control.setBit(5);
-        destinationNetwork = 0xFFFF;
-        hopCount = 0xFF;
+		control = control.setBit(5);
+		destinationNetwork = 0xFFFF;
+		hopCount = 0xFF;
 
-        setSourceAddress(source);
-    }
+		setSourceAddress(source);
+	}
 
-    public NPCI(Address destination, Address source, boolean expectsReply) {
-        version = 1;
-        control = BigInteger.valueOf(0);
+	public NPCI(Address destination, Address source, boolean expectsReply) {
+		version = 1;
+		control = BigInteger.valueOf(0);
 
-        if (destination != null) {
-            control = control.setBit(5);
-            destinationNetwork = destination.getNetworkNumber().intValue();
-            destinationAddress = destination.getMacAddress().getBytes();
-            if (destinationAddress != null)
-                destinationLength = destinationAddress.length;
-            hopCount = 0xFF;
-        }
+		if (destination != null) {
+			control = control.setBit(5);
+			destinationNetwork = destination.getNetworkNumber().intValue();
+			destinationAddress = destination.getMacAddress().getBytes();
+			if (destinationAddress != null)
+				destinationLength = destinationAddress.length;
+			hopCount = 0xFF;
+		}
 
-        setSourceAddress(source);
+		setSourceAddress(source);
 
-        if (expectsReply)
-            control = control.setBit(2);
-    }
+		if (expectsReply)
+			control = control.setBit(2);
+	}
 
-    public NPCI(Address destination, Address source, boolean expectsReply, int messageType, int vendorId) {
-        this(destination, source, expectsReply);
+	public NPCI(Address destination, Address source, boolean expectsReply, int messageType, int vendorId) {
+		this(destination, source, expectsReply);
 
-        control = control.setBit(7);
-        this.messageType = messageType;
-        this.vendorId = vendorId;
-    }
+		control = control.setBit(7);
+		this.messageType = messageType;
+		this.vendorId = vendorId;
+	}
 
-    private void setSourceAddress(Address source) {
-        if (source != null) {
-            control = control.setBit(3);
-            sourceNetwork = source.getNetworkNumber().intValue();
-            sourceAddress = source.getMacAddress().getBytes();
-            sourceLength = sourceAddress.length;
-        }
-    }
+	private void setSourceAddress(Address source) {
+		if (source != null) {
+			control = control.setBit(3);
+			sourceNetwork = source.getNetworkNumber().intValue();
+			sourceAddress = source.getMacAddress().getBytes();
+			sourceLength = sourceAddress.length;
+		}
+	}
 
-    public NPCI(ByteQueue queue) {
-        version = queue.popU1B();
-        control = BigInteger.valueOf(queue.popU1B());
+	public NPCI(ByteQueue queue) {
+		version = queue.popU1B();
+		control = BigInteger.valueOf(queue.popU1B());
 
-        if (control.testBit(5)) {
-            destinationNetwork = queue.popU2B();
-            destinationLength = queue.popU1B();
-            if (destinationLength > 0) {
-                destinationAddress = new byte[destinationLength];
-                queue.pop(destinationAddress);
-            }
-        }
+		if (control.testBit(5)) {
+			destinationNetwork = queue.popU2B();
+			destinationLength = queue.popU1B();
+			if (destinationLength > 0) {
+				destinationAddress = new byte[destinationLength];
+				queue.pop(destinationAddress);
+			}
+		}
 
-        if (control.testBit(3)) {
-            sourceNetwork = queue.popU2B();
-            sourceLength = queue.popU1B();
-            sourceAddress = new byte[sourceLength];
-            queue.pop(sourceAddress);
-        }
+		if (control.testBit(3)) {
+			sourceNetwork = queue.popU2B();
+			sourceLength = queue.popU1B();
+			sourceAddress = new byte[sourceLength];
+			queue.pop(sourceAddress);
+		}
 
-        if (control.testBit(5))
-            hopCount = queue.popU1B();
+		if (control.testBit(5))
+			hopCount = queue.popU1B();
 
-        if (control.testBit(7)) {
-            messageType = queue.popU1B();
-            if (messageType >= 80)
-                vendorId = queue.popU2B();
-        }
-    }
+		if (control.testBit(7)) {
+			messageType = queue.popU1B();
+			if (messageType >= 80)
+				vendorId = queue.popU2B();
+		}
+	}
 
-    public void write(ByteQueue queue) {
-        queue.push(version);
-        queue.push(control.intValue());
+	public void write(ByteQueue queue) {
+		queue.push(version);
+		queue.push(control.intValue());
 
-        if (control.testBit(5)) {
-            queue.pushU2B(destinationNetwork);
-            queue.push(destinationLength);
-            if (destinationAddress != null)
-                queue.push(destinationAddress);
-        }
+		if (control.testBit(5)) {
+			queue.pushU2B(destinationNetwork);
+			queue.push(destinationLength);
+			if (destinationAddress != null)
+				queue.push(destinationAddress);
+		}
 
-        if (control.testBit(3)) {
-            queue.pushU2B(sourceNetwork);
-            queue.push(sourceLength);
-            queue.push(sourceAddress);
-        }
+		if (control.testBit(3)) {
+			queue.pushU2B(sourceNetwork);
+			queue.push(sourceLength);
+			queue.push(sourceAddress);
+		}
 
-        if (control.testBit(5))
-            queue.push(hopCount);
+		if (control.testBit(5))
+			queue.push(hopCount);
 
-        if (control.testBit(7)) {
-            queue.push(messageType);
-            if (messageType >= 80)
-                queue.pushU2B(vendorId);
-        }
-    }
+		if (control.testBit(7)) {
+			queue.push(messageType);
+			if (messageType >= 80)
+				queue.pushU2B(vendorId);
+		}
+	}
 
-    public boolean hasDestinationInfo() {
-        return control.testBit(5);
-    }
+	public boolean hasDestinationInfo() {
+		return control.testBit(5);
+	}
 
-    public boolean isDestinationBroadcast() {
-        return destinationLength == 0;
-    }
+	public boolean isDestinationBroadcast() {
+		return destinationLength == 0;
+	}
 
-    public boolean hasSourceInfo() {
-        return control.testBit(3);
-    }
+	public boolean hasSourceInfo() {
+		return control.testBit(3);
+	}
 
-    public boolean isExpectingReply() {
-        return control.testBit(2);
-    }
+	public boolean isExpectingReply() {
+		return control.testBit(2);
+	}
 
-    public boolean isNetworkMessage() {
-        return control.testBit(7);
-    }
+	public boolean isNetworkMessage() {
+		return control.testBit(7);
+	}
 
-    public boolean isVendorSpecificNetworkMessage() {
-        return isNetworkMessage() && messageType >= 80;
-    }
+	public boolean isVendorSpecificNetworkMessage() {
+		return isNetworkMessage() && messageType >= 80;
+	}
 
-    public int getNetworkPriority() {
-        return (control.testBit(1) ? 2 : 0) | (control.testBit(0) ? 1 : 0);
-    }
+	public int getNetworkPriority() {
+		return (control.testBit(1) ? 2 : 0) | (control.testBit(0) ? 1 : 0);
+	}
 
-    public byte[] getDestinationAddress() {
-        return destinationAddress;
-    }
+	public byte[] getDestinationAddress() {
+		return destinationAddress;
+	}
 
-    public int getDestinationLength() {
-        return destinationLength;
-    }
+	public int getDestinationLength() {
+		return destinationLength;
+	}
 
-    public int getDestinationNetwork() {
-        return destinationNetwork;
-    }
+	public int getDestinationNetwork() {
+		return destinationNetwork;
+	}
 
-    public int getHopCount() {
-        return hopCount;
-    }
+	public int getHopCount() {
+		return hopCount;
+	}
 
-    public int getMessageType() {
-        return messageType;
-    }
+	public int getMessageType() {
+		return messageType;
+	}
 
-    public byte[] getSourceAddress() {
-        return sourceAddress;
-    }
+	public byte[] getSourceAddress() {
+		return sourceAddress;
+	}
 
-    public int getSourceLength() {
-        return sourceLength;
-    }
+	public int getSourceLength() {
+		return sourceLength;
+	}
 
-    public int getSourceNetwork() {
-        return sourceNetwork;
-    }
+	public int getSourceNetwork() {
+		return sourceNetwork;
+	}
 
-    public int getVendorId() {
-        return vendorId;
-    }
+	public int getVendorId() {
+		return vendorId;
+	}
 
-    public int getVersion() {
-        return version;
-    }
-    //    
-    // public static void main(String[] args) {
-    // byte[] b1 = {(byte)0x81,(byte)0xb,(byte)0x0,(byte)0x18};
-    // byte[] b2 = {(byte)0x1,(byte)0x8,(byte)0x0,(byte)0x64,(byte)0x1,
-    // (byte)0x2,(byte)0x10,(byte)0x0,(byte)0xc4,(byte)0x2,(byte)0x0,(byte)0x7,(byte)0xd0,(byte)0x22,
-    // (byte)0x1,(byte)0xe0,(byte)0x91,(byte)0x0,(byte)0x21,(byte)0x23};
-    // ByteQueue q = new ByteQueue(b2);
-    // new NPCI(q);
-    //
-    // }
+	public int getVersion() {
+		return version;
+	}
+	//
+	// public static void main(String[] args) {
+	// byte[] b1 = {(byte)0x81,(byte)0xb,(byte)0x0,(byte)0x18};
+	// byte[] b2 = {(byte)0x1,(byte)0x8,(byte)0x0,(byte)0x64,(byte)0x1,
+	// (byte)0x2,(byte)0x10,(byte)0x0,(byte)0xc4,(byte)0x2,(byte)0x0,(byte)0x7,(byte)0xd0,(byte)0x22,
+	// (byte)0x1,(byte)0xe0,(byte)0x91,(byte)0x0,(byte)0x21,(byte)0x23};
+	// ByteQueue q = new ByteQueue(b2);
+	// new NPCI(q);
+	//
+	// }
 }

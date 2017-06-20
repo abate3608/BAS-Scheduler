@@ -37,84 +37,82 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ChangeOfValue extends EventParameter {
-    private static final long serialVersionUID = 2660470709377346618L;
+	private static final long serialVersionUID = 2660470709377346618L;
 
-    public static final byte TYPE_ID = 2;
+	public static final byte TYPE_ID = 2;
 
-    private static List<Class<? extends Encodable>> classes;
-    static {
-        classes = new ArrayList<Class<? extends Encodable>>();
-        classes.add(BitString.class);
-        classes.add(Real.class);
-    }
+	private static List<Class<? extends Encodable>> classes;
+	static {
+		classes = new ArrayList<Class<? extends Encodable>>();
+		classes.add(BitString.class);
+		classes.add(Real.class);
+	}
 
-    private final UnsignedInteger timeDelay;
-    private final Choice newValue;
+	private final UnsignedInteger timeDelay;
+	private final Choice newValue;
 
-    public ChangeOfValue(UnsignedInteger timeDelay, BitString bitmask) {
-        this.timeDelay = timeDelay;
-        this.newValue = new Choice(0, bitmask);
-    }
+	public ChangeOfValue(UnsignedInteger timeDelay, BitString bitmask) {
+		this.timeDelay = timeDelay;
+		this.newValue = new Choice(0, bitmask);
+	}
 
-    public ChangeOfValue(UnsignedInteger timeDelay, Real referencedPropertyIncrement) {
-        this.timeDelay = timeDelay;
-        this.newValue = new Choice(1, referencedPropertyIncrement);
-    }
+	public ChangeOfValue(UnsignedInteger timeDelay, Real referencedPropertyIncrement) {
+		this.timeDelay = timeDelay;
+		this.newValue = new Choice(1, referencedPropertyIncrement);
+	}
 
-    public ChangeOfValue(ByteQueue queue) throws BACnetException {
-        timeDelay = read(queue, UnsignedInteger.class, 0);
-        newValue = new Choice(queue, classes, 1);
-    }
+	public ChangeOfValue(ByteQueue queue) throws BACnetException {
+		timeDelay = read(queue, UnsignedInteger.class, 0);
+		newValue = new Choice(queue, classes, 1);
+	}
 
-    @Override
-    protected void writeImpl(ByteQueue queue) {
-        write(queue, timeDelay, 0);
-        write(queue, newValue, 1);
-    }
+	@Override
+	protected void writeImpl(ByteQueue queue) {
+		write(queue, timeDelay, 0);
+		write(queue, newValue, 1);
+	}
 
-    @Override
-    protected int getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected int getTypeId() {
+		return TYPE_ID;
+	}
 
-    public UnsignedInteger getTimeDelay() {
-        return timeDelay;
-    }
+	public UnsignedInteger getTimeDelay() {
+		return timeDelay;
+	}
 
-    public Choice getNewValue() {
-        return newValue;
-    }
+	public Choice getNewValue() {
+		return newValue;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((newValue == null) ? 0 : newValue.hashCode());
-        result = prime * result + ((timeDelay == null) ? 0 : timeDelay.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((newValue == null) ? 0 : newValue.hashCode());
+		result = prime * result + ((timeDelay == null) ? 0 : timeDelay.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ChangeOfValue other = (ChangeOfValue) obj;
-        if (newValue == null) {
-            if (other.newValue != null)
-                return false;
-        }
-        else if (!newValue.equals(other.newValue))
-            return false;
-        if (timeDelay == null) {
-            if (other.timeDelay != null)
-                return false;
-        }
-        else if (!timeDelay.equals(other.timeDelay))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChangeOfValue other = (ChangeOfValue) obj;
+		if (newValue == null) {
+			if (other.newValue != null)
+				return false;
+		} else if (!newValue.equals(other.newValue))
+			return false;
+		if (timeDelay == null) {
+			if (other.timeDelay != null)
+				return false;
+		} else if (!timeDelay.equals(other.timeDelay))
+			return false;
+		return true;
+	}
 }

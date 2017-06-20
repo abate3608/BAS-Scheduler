@@ -32,54 +32,54 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
 
 public class PropertyTypeDefinition {
-    private final ObjectType objectType;
-    private final PropertyIdentifier propertyIdentifier;
-    private final Class<? extends Encodable> clazz;
-    private final boolean sequence;
-    private final boolean required;
-    private final Encodable defaultValue;
+	private final ObjectType objectType;
+	private final PropertyIdentifier propertyIdentifier;
+	private final Class<? extends Encodable> clazz;
+	private final boolean sequence;
+	private final boolean required;
+	private final Encodable defaultValue;
 
-    PropertyTypeDefinition(ObjectType objectType, PropertyIdentifier propertyIdentifier,
-            Class<? extends Encodable> clazz, boolean sequence, boolean required, Encodable defaultValue) {
-        this.objectType = objectType;
-        this.propertyIdentifier = propertyIdentifier;
-        this.clazz = clazz;
-        this.sequence = sequence;
-        this.required = required;
-        this.defaultValue = defaultValue;
-    }
+	PropertyTypeDefinition(ObjectType objectType, PropertyIdentifier propertyIdentifier,
+			Class<? extends Encodable> clazz, boolean sequence, boolean required, Encodable defaultValue) {
+		this.objectType = objectType;
+		this.propertyIdentifier = propertyIdentifier;
+		this.clazz = clazz;
+		this.sequence = sequence;
+		this.required = required;
+		this.defaultValue = defaultValue;
+	}
 
-    public ObjectType getObjectType() {
-        return objectType;
-    }
+	public ObjectType getObjectType() {
+		return objectType;
+	}
 
-    public PropertyIdentifier getPropertyIdentifier() {
-        return propertyIdentifier;
-    }
+	public PropertyIdentifier getPropertyIdentifier() {
+		return propertyIdentifier;
+	}
 
-    public Class<? extends Encodable> getClazz() {
-        return clazz;
-    }
+	public Class<? extends Encodable> getClazz() {
+		return clazz;
+	}
 
-    public boolean isSequence() {
-        return sequence;
-    }
+	public boolean isSequence() {
+		return sequence;
+	}
 
-    public boolean isRequired() {
-        return required;
-    }
+	public boolean isRequired() {
+		return required;
+	}
 
-    public boolean isOptional() {
-        return !required;
-    }
+	public boolean isOptional() {
+		return !required;
+	}
 
-    public Encodable getDefaultValue() {
-        return defaultValue;
-    }
+	public Encodable getDefaultValue() {
+		return defaultValue;
+	}
 
-    public Class<? extends Encodable> getInnerType() {
-        if (clazz == PriorityArray.class)
-            return PriorityValue.class;
-        return null;
-    }
+	public Class<? extends Encodable> getInnerType() {
+		if (clazz == PriorityArray.class)
+			return PriorityValue.class;
+		return null;
+	}
 }

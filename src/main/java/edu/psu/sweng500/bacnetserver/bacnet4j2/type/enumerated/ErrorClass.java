@@ -29,46 +29,46 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class ErrorClass extends Enumerated {
-    private static final long serialVersionUID = 1756743535333051828L;
-    public static final ErrorClass device = new ErrorClass(0);
-    public static final ErrorClass object = new ErrorClass(1);
-    public static final ErrorClass property = new ErrorClass(2);
-    public static final ErrorClass resources = new ErrorClass(3);
-    public static final ErrorClass security = new ErrorClass(4);
-    public static final ErrorClass services = new ErrorClass(5);
-    public static final ErrorClass vt = new ErrorClass(6);
-    public static final ErrorClass communication = new ErrorClass(7);
+	private static final long serialVersionUID = 1756743535333051828L;
+	public static final ErrorClass device = new ErrorClass(0);
+	public static final ErrorClass object = new ErrorClass(1);
+	public static final ErrorClass property = new ErrorClass(2);
+	public static final ErrorClass resources = new ErrorClass(3);
+	public static final ErrorClass security = new ErrorClass(4);
+	public static final ErrorClass services = new ErrorClass(5);
+	public static final ErrorClass vt = new ErrorClass(6);
+	public static final ErrorClass communication = new ErrorClass(7);
 
-    public static final ErrorClass[] ALL = { device, object, property, resources, security, services, vt,
-            communication, };
+	public static final ErrorClass[] ALL = { device, object, property, resources, security, services, vt,
+			communication, };
 
-    public ErrorClass(int value) {
-        super(value);
-    }
+	public ErrorClass(int value) {
+		super(value);
+	}
 
-    public ErrorClass(ByteQueue queue) {
-        super(queue);
-    }
+	public ErrorClass(ByteQueue queue) {
+		super(queue);
+	}
 
-    @Override
-    public String toString() {
-        int type = intValue();
-        if (type == device.intValue())
-            return "Device";
-        if (type == object.intValue())
-            return "Object";
-        if (type == property.intValue())
-            return "Property";
-        if (type == resources.intValue())
-            return "Resources";
-        if (type == security.intValue())
-            return "Security";
-        if (type == services.intValue())
-            return "Services";
-        if (type == vt.intValue())
-            return "VT";
-        if (type == communication.intValue())
-            return "Communication";
-        return "Unknown: " + type;
-    }
+	@Override
+	public String toString() {
+		int type = intValue();
+		if (type == device.intValue())
+			return "Device";
+		if (type == object.intValue())
+			return "Object";
+		if (type == property.intValue())
+			return "Property";
+		if (type == resources.intValue())
+			return "Resources";
+		if (type == security.intValue())
+			return "Security";
+		if (type == services.intValue())
+			return "Services";
+		if (type == vt.intValue())
+			return "VT";
+		if (type == communication.intValue())
+			return "Communication";
+		return "Unknown: " + type;
+	}
 }

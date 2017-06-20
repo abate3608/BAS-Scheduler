@@ -31,71 +31,72 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.ServicesSupporte
 import com.serotonin.util.queue.ByteQueue;
 
 public class UnconfirmedRequest extends APDU {
-    private static final long serialVersionUID = 1606568334137370062L;
+	private static final long serialVersionUID = 1606568334137370062L;
 
-    public static final byte TYPE_ID = 1;
+	public static final byte TYPE_ID = 1;
 
-    /**
-     * This parameter shall contain the parameters of the specific service that is being requested, encoded according to
-     * the rules of 20.2. These parameters are defined in the individual service descriptions in this standard and are
-     * represented in Clause 21 in accordance with the rules of ASN.1.
-     */
-    private final UnconfirmedRequestService service;
+	/**
+	 * This parameter shall contain the parameters of the specific service that
+	 * is being requested, encoded according to the rules of 20.2. These
+	 * parameters are defined in the individual service descriptions in this
+	 * standard and are represented in Clause 21 in accordance with the rules of
+	 * ASN.1.
+	 */
+	private final UnconfirmedRequestService service;
 
-    public UnconfirmedRequest(UnconfirmedRequestService service) {
-        this.service = service;
-    }
+	public UnconfirmedRequest(UnconfirmedRequestService service) {
+		this.service = service;
+	}
 
-    @Override
-    public byte getPduType() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getPduType() {
+		return TYPE_ID;
+	}
 
-    public UnconfirmedRequestService getService() {
-        return service;
-    }
+	public UnconfirmedRequestService getService() {
+		return service;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        queue.push(getShiftedTypeId(TYPE_ID));
-        queue.push(service.getChoiceId());
-        service.write(queue);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		queue.push(getShiftedTypeId(TYPE_ID));
+		queue.push(service.getChoiceId());
+		service.write(queue);
+	}
 
-    public UnconfirmedRequest(ServicesSupported services, ByteQueue queue) throws BACnetException {
-        queue.pop();
-        byte choiceId = queue.pop();
-        service = UnconfirmedRequestService.createUnconfirmedRequestService(services, choiceId, queue);
-    }
+	public UnconfirmedRequest(ServicesSupported services, ByteQueue queue) throws BACnetException {
+		queue.pop();
+		byte choiceId = queue.pop();
+		service = UnconfirmedRequestService.createUnconfirmedRequestService(services, choiceId, queue);
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((service == null) ? 0 : service.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((service == null) ? 0 : service.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final UnconfirmedRequest other = (UnconfirmedRequest) obj;
-        if (service == null) {
-            if (other.service != null)
-                return false;
-        }
-        else if (!service.equals(other.service))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final UnconfirmedRequest other = (UnconfirmedRequest) obj;
+		if (service == null) {
+			if (other.service != null)
+				return false;
+		} else if (!service.equals(other.service))
+			return false;
+		return true;
+	}
 
-    @Override
-    public boolean expectsReply() {
-        return false;
-    }
+	@Override
+	public boolean expectsReply() {
+		return false;
+	}
 }

@@ -9,18 +9,18 @@ import com.serotonin.io.serial.SerialParameters;
 import com.serotonin.io.serial.SerialUtils;
 
 public class PortTest {
-    public static void main(String[] args) throws Exception {
-        SerialParameters params = new SerialParameters();
-        params.setCommPortId("COM4");
-        params.setBaudRate(9600);
-        params.setPortOwnerName("Testing");
+	public static void main(String[] args) throws Exception {
+		SerialParameters params = new SerialParameters();
+		params.setCommPortId("COM4");
+		params.setBaudRate(9600);
+		params.setPortOwnerName("Testing");
 
-        SerialPort serialPort = SerialUtils.openSerialPort(params);
-        InputStream in = serialPort.getInputStream();
-        OutputStream out = serialPort.getOutputStream();
+		SerialPort serialPort = SerialUtils.openSerialPort(params);
+		InputStream in = serialPort.getInputStream();
+		OutputStream out = serialPort.getOutputStream();
 
-        while (true) {
-            System.out.print(Integer.toString(in.read(), 16));
-        }
-    }
+		while (true) {
+			System.out.print(Integer.toString(in.read(), 16));
+		}
+	}
 }

@@ -26,19 +26,20 @@
 package edu.psu.sweng500.bacnetserver.bacnet4j2.apdu;
 
 abstract public class AckAPDU extends APDU {
-    private static final long serialVersionUID = -1568364467441619342L;
+	private static final long serialVersionUID = -1568364467441619342L;
 
-    /**
-     * This parameter shall be the 'invokeID' contained in the confirmed service request being acknowledged. The same
-     * 'originalinvokeID' shall be used for all segments of a segmented acknowledgment.
-     */
-    protected byte originalInvokeId;
+	/**
+	 * This parameter shall be the 'invokeID' contained in the confirmed service
+	 * request being acknowledged. The same 'originalinvokeID' shall be used for
+	 * all segments of a segmented acknowledgment.
+	 */
+	protected byte originalInvokeId;
 
-    public byte getOriginalInvokeId() {
-        return originalInvokeId;
-    }
+	public byte getOriginalInvokeId() {
+		return originalInvokeId;
+	}
 
-    public boolean isServer() {
-        return true;
-    }
+	public boolean isServer() {
+		return true;
+	}
 }

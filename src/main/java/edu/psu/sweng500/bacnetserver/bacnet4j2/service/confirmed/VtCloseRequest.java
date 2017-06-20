@@ -36,60 +36,59 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public class VtCloseRequest extends ConfirmedRequestService {
-    private static final long serialVersionUID = -7857063472279095665L;
+	private static final long serialVersionUID = -7857063472279095665L;
 
-    public static final byte TYPE_ID = 22;
+	public static final byte TYPE_ID = 22;
 
-    private final SequenceOf<UnsignedInteger> listOfRemoteVTSessionIdentifiers;
+	private final SequenceOf<UnsignedInteger> listOfRemoteVTSessionIdentifiers;
 
-    public VtCloseRequest(SequenceOf<UnsignedInteger> listOfRemoteVTSessionIdentifiers) {
-        this.listOfRemoteVTSessionIdentifiers = listOfRemoteVTSessionIdentifiers;
-    }
+	public VtCloseRequest(SequenceOf<UnsignedInteger> listOfRemoteVTSessionIdentifiers) {
+		this.listOfRemoteVTSessionIdentifiers = listOfRemoteVTSessionIdentifiers;
+	}
 
-    @Override
-    public byte getChoiceId() {
-        return TYPE_ID;
-    }
+	@Override
+	public byte getChoiceId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, listOfRemoteVTSessionIdentifiers);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, listOfRemoteVTSessionIdentifiers);
+	}
 
-    VtCloseRequest(ByteQueue queue) throws BACnetException {
-        listOfRemoteVTSessionIdentifiers = readSequenceOf(queue, UnsignedInteger.class);
-    }
+	VtCloseRequest(ByteQueue queue) throws BACnetException {
+		listOfRemoteVTSessionIdentifiers = readSequenceOf(queue, UnsignedInteger.class);
+	}
 
-    @Override
-    public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
-            throws BACnetException {
-        throw new NotImplementedException();
-    }
+	@Override
+	public AcknowledgementService handle(LocalDevice localDevice, Address from, OctetString linkService)
+			throws BACnetException {
+		throw new NotImplementedException();
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result
-                + ((listOfRemoteVTSessionIdentifiers == null) ? 0 : listOfRemoteVTSessionIdentifiers.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result
+				+ ((listOfRemoteVTSessionIdentifiers == null) ? 0 : listOfRemoteVTSessionIdentifiers.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final VtCloseRequest other = (VtCloseRequest) obj;
-        if (listOfRemoteVTSessionIdentifiers == null) {
-            if (other.listOfRemoteVTSessionIdentifiers != null)
-                return false;
-        }
-        else if (!listOfRemoteVTSessionIdentifiers.equals(other.listOfRemoteVTSessionIdentifiers))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final VtCloseRequest other = (VtCloseRequest) obj;
+		if (listOfRemoteVTSessionIdentifiers == null) {
+			if (other.listOfRemoteVTSessionIdentifiers != null)
+				return false;
+		} else if (!listOfRemoteVTSessionIdentifiers.equals(other.listOfRemoteVTSessionIdentifiers))
+			return false;
+		return true;
+	}
 }

@@ -31,34 +31,34 @@ import java.util.List;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
 
 public class ThreadLocalObjectTypeStack {
-    private static ThreadLocal<List<ObjectType>> objType = new ThreadLocal<List<ObjectType>>();
+	private static ThreadLocal<List<ObjectType>> objType = new ThreadLocal<List<ObjectType>>();
 
-    public static void set(ObjectType objectType) {
-        List<ObjectType> stack = objType.get();
+	public static void set(ObjectType objectType) {
+		List<ObjectType> stack = objType.get();
 
-        if (stack == null) {
-            stack = new ArrayList<ObjectType>();
-            objType.set(stack);
-        }
+		if (stack == null) {
+			stack = new ArrayList<ObjectType>();
+			objType.set(stack);
+		}
 
-        stack.add(objectType);
-    }
+		stack.add(objectType);
+	}
 
-    public static ObjectType get() {
-        List<ObjectType> stack = objType.get();
-        if (stack == null)
-            return null;
-        return stack.get(stack.size() - 1);
-    }
+	public static ObjectType get() {
+		List<ObjectType> stack = objType.get();
+		if (stack == null)
+			return null;
+		return stack.get(stack.size() - 1);
+	}
 
-    public static void remove() {
-        List<ObjectType> stack = objType.get();
-        if (stack == null)
-            return;
+	public static void remove() {
+		List<ObjectType> stack = objType.get();
+		if (stack == null)
+			return;
 
-        if (stack.size() <= 1)
-            objType.remove();
-        else
-            stack.remove(stack.size() - 1);
-    }
+		if (stack.size() <= 1)
+			objType.remove();
+		else
+			stack.remove(stack.size() - 1);
+	}
 }

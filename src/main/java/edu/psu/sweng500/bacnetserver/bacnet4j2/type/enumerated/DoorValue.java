@@ -32,19 +32,19 @@ import com.serotonin.util.queue.ByteQueue;
  * @author Matthew Lohbihler
  */
 public class DoorValue extends Enumerated {
-    private static final long serialVersionUID = -2200245400075159155L;
-    public static final DoorValue lock = new DoorValue(0);
-    public static final DoorValue unlock = new DoorValue(1);
-    public static final DoorValue pulseUnlock = new DoorValue(2);
-    public static final DoorValue extendedPulseUnlock = new DoorValue(3);
+	private static final long serialVersionUID = -2200245400075159155L;
+	public static final DoorValue lock = new DoorValue(0);
+	public static final DoorValue unlock = new DoorValue(1);
+	public static final DoorValue pulseUnlock = new DoorValue(2);
+	public static final DoorValue extendedPulseUnlock = new DoorValue(3);
 
-    public static final DoorValue[] ALL = { lock, unlock, pulseUnlock, extendedPulseUnlock, };
+	public static final DoorValue[] ALL = { lock, unlock, pulseUnlock, extendedPulseUnlock, };
 
-    public DoorValue(int value) {
-        super(value);
-    }
+	public DoorValue(int value) {
+		super(value);
+	}
 
-    public DoorValue(ByteQueue queue) {
-        super(queue);
-    }
+	public DoorValue(ByteQueue queue) {
+		super(queue);
+	}
 }

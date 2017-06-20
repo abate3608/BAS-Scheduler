@@ -34,72 +34,72 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import com.serotonin.util.queue.ByteQueue;
 
 abstract public class UnconfirmedRequestService extends Service {
-    private static final long serialVersionUID = 8962921362279665295L;
+	private static final long serialVersionUID = 8962921362279665295L;
 
-    public static UnconfirmedRequestService createUnconfirmedRequestService(ServicesSupported services, byte type,
-            ByteQueue queue) throws BACnetException {
-        if (type == IAmRequest.TYPE_ID) {
-            if (services.isIAm())
-                return new IAmRequest(queue);
-            return null;
-        }
+	public static UnconfirmedRequestService createUnconfirmedRequestService(ServicesSupported services, byte type,
+			ByteQueue queue) throws BACnetException {
+		if (type == IAmRequest.TYPE_ID) {
+			if (services.isIAm())
+				return new IAmRequest(queue);
+			return null;
+		}
 
-        if (type == IHaveRequest.TYPE_ID) {
-            if (services.isIHave())
-                return new IHaveRequest(queue);
-            return null;
-        }
+		if (type == IHaveRequest.TYPE_ID) {
+			if (services.isIHave())
+				return new IHaveRequest(queue);
+			return null;
+		}
 
-        if (type == UnconfirmedCovNotificationRequest.TYPE_ID) {
-            if (services.isUnconfirmedCovNotification())
-                return new UnconfirmedCovNotificationRequest(queue);
-            return null;
-        }
+		if (type == UnconfirmedCovNotificationRequest.TYPE_ID) {
+			if (services.isUnconfirmedCovNotification())
+				return new UnconfirmedCovNotificationRequest(queue);
+			return null;
+		}
 
-        if (type == UnconfirmedEventNotificationRequest.TYPE_ID) {
-            if (services.isUnconfirmedEventNotification())
-                return new UnconfirmedEventNotificationRequest(queue);
-            return null;
-        }
+		if (type == UnconfirmedEventNotificationRequest.TYPE_ID) {
+			if (services.isUnconfirmedEventNotification())
+				return new UnconfirmedEventNotificationRequest(queue);
+			return null;
+		}
 
-        if (type == UnconfirmedPrivateTransferRequest.TYPE_ID) {
-            if (services.isUnconfirmedPrivateTransfer())
-                return new UnconfirmedPrivateTransferRequest(queue);
-            return null;
-        }
+		if (type == UnconfirmedPrivateTransferRequest.TYPE_ID) {
+			if (services.isUnconfirmedPrivateTransfer())
+				return new UnconfirmedPrivateTransferRequest(queue);
+			return null;
+		}
 
-        if (type == UnconfirmedTextMessageRequest.TYPE_ID) {
-            if (services.isUnconfirmedTextMessage())
-                return new UnconfirmedTextMessageRequest(queue);
-            return null;
-        }
+		if (type == UnconfirmedTextMessageRequest.TYPE_ID) {
+			if (services.isUnconfirmedTextMessage())
+				return new UnconfirmedTextMessageRequest(queue);
+			return null;
+		}
 
-        if (type == TimeSynchronizationRequest.TYPE_ID) {
-            if (services.isTimeSynchronization())
-                return new TimeSynchronizationRequest(queue);
-            return null;
-        }
+		if (type == TimeSynchronizationRequest.TYPE_ID) {
+			if (services.isTimeSynchronization())
+				return new TimeSynchronizationRequest(queue);
+			return null;
+		}
 
-        if (type == WhoHasRequest.TYPE_ID) {
-            if (services.isWhoHas())
-                return new WhoHasRequest(queue);
-            return null;
-        }
+		if (type == WhoHasRequest.TYPE_ID) {
+			if (services.isWhoHas())
+				return new WhoHasRequest(queue);
+			return null;
+		}
 
-        if (type == WhoIsRequest.TYPE_ID) {
-            if (services.isWhoIs())
-                return new WhoIsRequest(queue);
-            return null;
-        }
+		if (type == WhoIsRequest.TYPE_ID) {
+			if (services.isWhoIs())
+				return new WhoIsRequest(queue);
+			return null;
+		}
 
-        if (type == UTCTimeSynchronizationRequest.TYPE_ID) {
-            if (services.isUtcTimeSynchronization())
-                return new UTCTimeSynchronizationRequest(queue);
-            return null;
-        }
+		if (type == UTCTimeSynchronizationRequest.TYPE_ID) {
+			if (services.isUtcTimeSynchronization())
+				return new UTCTimeSynchronizationRequest(queue);
+			return null;
+		}
 
-        throw new BACnetException("Unsupported unconfirmed service: " + (type & 0xff));
-    }
+		throw new BACnetException("Unsupported unconfirmed service: " + (type & 0xff));
+	}
 
-    abstract public void handle(LocalDevice localDevice, Address from, OctetString linkService) throws BACnetException;
+	abstract public void handle(LocalDevice localDevice, Address from, OctetString linkService) throws BACnetException;
 }

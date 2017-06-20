@@ -31,195 +31,195 @@ import java.util.GregorianCalendar;
 import com.serotonin.util.queue.ByteQueue;
 
 public class Time extends Primitive {
-    private static final long serialVersionUID = -5256831366663750858L;
+	private static final long serialVersionUID = -5256831366663750858L;
 
-    public static final byte TYPE_ID = 11;
+	public static final byte TYPE_ID = 11;
 
-    private final int hour;
-    private final int minute;
-    private final int second;
-    private final int hundredth;
+	private final int hour;
+	private final int minute;
+	private final int second;
+	private final int hundredth;
 
-    public Time(int hour, int minute, int second, int hundredth) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-        this.hundredth = hundredth;
-    }
+	public Time(int hour, int minute, int second, int hundredth) {
+		this.hour = hour;
+		this.minute = minute;
+		this.second = second;
+		this.hundredth = hundredth;
+	}
 
-    public Time() {
-        this(new GregorianCalendar());
-    }
+	public Time() {
+		this(new GregorianCalendar());
+	}
 
-    public Time(GregorianCalendar now) {
-        this.hour = now.get(Calendar.HOUR_OF_DAY);
-        this.minute = now.get(Calendar.MINUTE);
-        this.second = now.get(Calendar.SECOND);
-        this.hundredth = now.get(Calendar.MILLISECOND) / 10;
-    }
+	public Time(GregorianCalendar now) {
+		this.hour = now.get(Calendar.HOUR_OF_DAY);
+		this.minute = now.get(Calendar.MINUTE);
+		this.second = now.get(Calendar.SECOND);
+		this.hundredth = now.get(Calendar.MILLISECOND) / 10;
+	}
 
-    public boolean isHourUnspecified() {
-        return hour == 255;
-    }
+	public boolean isHourUnspecified() {
+		return hour == 255;
+	}
 
-    public int getHour() {
-        return hour;
-    }
+	public int getHour() {
+		return hour;
+	}
 
-    public boolean isMinuteUnspecified() {
-        return minute == 255;
-    }
+	public boolean isMinuteUnspecified() {
+		return minute == 255;
+	}
 
-    public int getMinute() {
-        return minute;
-    }
+	public int getMinute() {
+		return minute;
+	}
 
-    public boolean isSecondUnspecified() {
-        return second == 255;
-    }
+	public boolean isSecondUnspecified() {
+		return second == 255;
+	}
 
-    public int getSecond() {
-        return second;
-    }
+	public int getSecond() {
+		return second;
+	}
 
-    public boolean isHundredthUnspecified() {
-        return hundredth == 255;
-    }
+	public boolean isHundredthUnspecified() {
+		return hundredth == 255;
+	}
 
-    public int getHundredth() {
-        return hundredth;
-    }
+	public int getHundredth() {
+		return hundredth;
+	}
 
-    /**
-     * @param that
-     *            The time with which to compare this
-     * @return true if this < that.
-     */
-    public boolean before(Time that) {
-        if (!this.isHourUnspecified() && !that.isHourUnspecified()) {
-            if (this.hour < that.hour)
-                return true;
-            if (this.hour > that.hour)
-                return false;
-        }
+	/**
+	 * @param that
+	 *            The time with which to compare this
+	 * @return true if this < that.
+	 */
+	public boolean before(Time that) {
+		if (!this.isHourUnspecified() && !that.isHourUnspecified()) {
+			if (this.hour < that.hour)
+				return true;
+			if (this.hour > that.hour)
+				return false;
+		}
 
-        if (!this.isMinuteUnspecified() && !that.isMinuteUnspecified()) {
-            if (this.minute < that.minute)
-                return true;
-            if (this.minute > that.minute)
-                return false;
-        }
+		if (!this.isMinuteUnspecified() && !that.isMinuteUnspecified()) {
+			if (this.minute < that.minute)
+				return true;
+			if (this.minute > that.minute)
+				return false;
+		}
 
-        if (!this.isSecondUnspecified() && !that.isSecondUnspecified()) {
-            if (this.second < that.second)
-                return true;
-            if (this.second > that.second)
-                return false;
-        }
+		if (!this.isSecondUnspecified() && !that.isSecondUnspecified()) {
+			if (this.second < that.second)
+				return true;
+			if (this.second > that.second)
+				return false;
+		}
 
-        if (this.isHundredthUnspecified() || that.isHundredthUnspecified())
-            return false;
+		if (this.isHundredthUnspecified() || that.isHundredthUnspecified())
+			return false;
 
-        return this.hundredth < that.hundredth;
-    }
+		return this.hundredth < that.hundredth;
+	}
 
-    /**
-     * @param that
-     *            The time with which to compare this
-     * @return true if this >= that
-     */
-    public boolean after(Time that) {
-        if (!this.isHourUnspecified() && !that.isHourUnspecified()) {
-            if (this.hour > that.hour)
-                return true;
-            if (this.hour < that.hour)
-                return false;
-        }
+	/**
+	 * @param that
+	 *            The time with which to compare this
+	 * @return true if this >= that
+	 */
+	public boolean after(Time that) {
+		if (!this.isHourUnspecified() && !that.isHourUnspecified()) {
+			if (this.hour > that.hour)
+				return true;
+			if (this.hour < that.hour)
+				return false;
+		}
 
-        if (!this.isMinuteUnspecified() && !that.isMinuteUnspecified()) {
-            if (this.minute > that.minute)
-                return true;
-            if (this.minute < that.minute)
-                return false;
-        }
+		if (!this.isMinuteUnspecified() && !that.isMinuteUnspecified()) {
+			if (this.minute > that.minute)
+				return true;
+			if (this.minute < that.minute)
+				return false;
+		}
 
-        if (!this.isSecondUnspecified() && !that.isSecondUnspecified()) {
-            if (this.second > that.second)
-                return true;
-            if (this.second < that.second)
-                return false;
-        }
+		if (!this.isSecondUnspecified() && !that.isSecondUnspecified()) {
+			if (this.second > that.second)
+				return true;
+			if (this.second < that.second)
+				return false;
+		}
 
-        if (this.isHundredthUnspecified() || that.isHundredthUnspecified())
-            return true;
+		if (this.isHundredthUnspecified() || that.isHundredthUnspecified())
+			return true;
 
-        return this.hundredth >= that.hundredth;
-    }
+		return this.hundredth >= that.hundredth;
+	}
 
-    //
-    // Reading and writing
-    //
-    public Time(ByteQueue queue) {
-        readTag(queue);
-        hour = queue.popU1B();
-        minute = queue.popU1B();
-        second = queue.popU1B();
-        hundredth = queue.popU1B();
-    }
+	//
+	// Reading and writing
+	//
+	public Time(ByteQueue queue) {
+		readTag(queue);
+		hour = queue.popU1B();
+		minute = queue.popU1B();
+		second = queue.popU1B();
+		hundredth = queue.popU1B();
+	}
 
-    @Override
-    public void writeImpl(ByteQueue queue) {
-        queue.push((byte) hour);
-        queue.push((byte) minute);
-        queue.push((byte) second);
-        queue.push((byte) hundredth);
-    }
+	@Override
+	public void writeImpl(ByteQueue queue) {
+		queue.push((byte) hour);
+		queue.push((byte) minute);
+		queue.push((byte) second);
+		queue.push((byte) hundredth);
+	}
 
-    @Override
-    protected long getLength() {
-        return 4;
-    }
+	@Override
+	protected long getLength() {
+		return 4;
+	}
 
-    @Override
-    protected byte getTypeId() {
-        return TYPE_ID;
-    }
+	@Override
+	protected byte getTypeId() {
+		return TYPE_ID;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + hour;
-        result = PRIME * result + hundredth;
-        result = PRIME * result + minute;
-        result = PRIME * result + second;
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + hour;
+		result = PRIME * result + hundredth;
+		result = PRIME * result + minute;
+		result = PRIME * result + second;
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final Time other = (Time) obj;
-        if (hour != other.hour)
-            return false;
-        if (hundredth != other.hundredth)
-            return false;
-        if (minute != other.minute)
-            return false;
-        if (second != other.second)
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Time other = (Time) obj;
+		if (hour != other.hour)
+			return false;
+		if (hundredth != other.hundredth)
+			return false;
+		if (minute != other.minute)
+			return false;
+		if (second != other.second)
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return Integer.toString(hour) + ":" + Integer.toString(minute) + ":" + Integer.toString(second) + "."
-                + hundredth;
+	@Override
+	public String toString() {
+		return Integer.toString(hour) + ":" + Integer.toString(minute) + ":" + Integer.toString(second) + "."
+				+ hundredth;
 
-    }
+	}
 }

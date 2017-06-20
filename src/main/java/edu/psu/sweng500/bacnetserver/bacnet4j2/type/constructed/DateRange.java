@@ -30,64 +30,62 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Date;
 import com.serotonin.util.queue.ByteQueue;
 
 public class DateRange extends BaseType {
-    private static final long serialVersionUID = 7219491325251523667L;
-    private final Date startDate;
-    private final Date endDate;
+	private static final long serialVersionUID = 7219491325251523667L;
+	private final Date startDate;
+	private final Date endDate;
 
-    public DateRange(Date startDate, Date endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+	public DateRange(Date startDate, Date endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 
-    @Override
-    public void write(ByteQueue queue) {
-        write(queue, startDate);
-        write(queue, endDate);
-    }
+	@Override
+	public void write(ByteQueue queue) {
+		write(queue, startDate);
+		write(queue, endDate);
+	}
 
-    public DateRange(ByteQueue queue) throws BACnetException {
-        startDate = read(queue, Date.class);
-        endDate = read(queue, Date.class);
-    }
+	public DateRange(ByteQueue queue) throws BACnetException {
+		startDate = read(queue, Date.class);
+		endDate = read(queue, Date.class);
+	}
 
-    public Date getStartDate() {
-        return startDate;
-    }
+	public Date getStartDate() {
+		return startDate;
+	}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = PRIME * result + ((startDate == null) ? 0 : startDate.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = PRIME * result + ((startDate == null) ? 0 : startDate.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final DateRange other = (DateRange) obj;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        }
-        else if (!endDate.equals(other.endDate))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        }
-        else if (!startDate.equals(other.startDate))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final DateRange other = (DateRange) obj;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		return true;
+	}
 }

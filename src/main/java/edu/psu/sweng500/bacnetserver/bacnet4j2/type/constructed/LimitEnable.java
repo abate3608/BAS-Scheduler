@@ -29,21 +29,21 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.BitString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class LimitEnable extends BitString {
-    private static final long serialVersionUID = -8754983228968085042L;
+	private static final long serialVersionUID = -8754983228968085042L;
 
-    public LimitEnable(boolean lowLimitEnable, boolean highLimitEnable) {
-        super(new boolean[] { lowLimitEnable, highLimitEnable });
-    }
+	public LimitEnable(boolean lowLimitEnable, boolean highLimitEnable) {
+		super(new boolean[] { lowLimitEnable, highLimitEnable });
+	}
 
-    public LimitEnable(ByteQueue queue) {
-        super(queue);
-    }
+	public LimitEnable(ByteQueue queue) {
+		super(queue);
+	}
 
-    public boolean isLowLimitEnable() {
-        return getValue()[0];
-    }
+	public boolean isLowLimitEnable() {
+		return getValue()[0];
+	}
 
-    public boolean isHighLimitEnable() {
-        return getValue()[1];
-    }
+	public boolean isHighLimitEnable() {
+		return getValue()[1];
+	}
 }

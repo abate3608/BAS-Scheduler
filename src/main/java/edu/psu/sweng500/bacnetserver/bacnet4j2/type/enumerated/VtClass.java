@@ -29,23 +29,23 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Enumerated;
 import com.serotonin.util.queue.ByteQueue;
 
 public class VtClass extends Enumerated {
-    private static final long serialVersionUID = 8557805107090951917L;
-    public static final VtClass defaultTerminal = new VtClass(0);
-    public static final VtClass ansi_x3_64 = new VtClass(1);
-    public static final VtClass dec_vt52 = new VtClass(2);
-    public static final VtClass dec_vt100 = new VtClass(3);
-    public static final VtClass dec_vt220 = new VtClass(4);
-    public static final VtClass hp_700_94 = new VtClass(5);
-    public static final VtClass ibm_3130 = new VtClass(6);
+	private static final long serialVersionUID = 8557805107090951917L;
+	public static final VtClass defaultTerminal = new VtClass(0);
+	public static final VtClass ansi_x3_64 = new VtClass(1);
+	public static final VtClass dec_vt52 = new VtClass(2);
+	public static final VtClass dec_vt100 = new VtClass(3);
+	public static final VtClass dec_vt220 = new VtClass(4);
+	public static final VtClass hp_700_94 = new VtClass(5);
+	public static final VtClass ibm_3130 = new VtClass(6);
 
-    public static final VtClass[] ALL = { defaultTerminal, ansi_x3_64, dec_vt52, dec_vt100, dec_vt220, hp_700_94,
-            ibm_3130, };
+	public static final VtClass[] ALL = { defaultTerminal, ansi_x3_64, dec_vt52, dec_vt100, dec_vt220, hp_700_94,
+			ibm_3130, };
 
-    public VtClass(int value) {
-        super(value);
-    }
+	public VtClass(int value) {
+		super(value);
+	}
 
-    public VtClass(ByteQueue queue) {
-        super(queue);
-    }
+	public VtClass(ByteQueue queue) {
+		super(queue);
+	}
 }
