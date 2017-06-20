@@ -45,5 +45,9 @@ public class MysqlConnection {
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
+	
+	public Connection getConnection() {
+		return connect;
+	}
 
 }

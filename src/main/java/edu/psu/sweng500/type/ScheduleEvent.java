@@ -20,6 +20,30 @@ public class ScheduleEvent {
 		this.lightIntensity = lightIntensity;
 	}
 
+	public void setEventName(String str) {
+		eventName = str;
+	}
+
+	public void setEventDescription(String str) {
+		eventDescription = str;
+	}
+
+	public void setEventStart(Date date) {
+		eventStart = date;
+	}
+
+	public void setEventStop(Date date) {
+		eventStop = date;
+	}
+
+	public void getTemperatureSetpoint(float temp) {
+		temperatureSetpoint = temp;
+	}
+
+	public void setLightIntensity(float light) {
+		lightIntensity = light;
+	}
+	
 	public String getEventName() {
 		return eventName;
 	}

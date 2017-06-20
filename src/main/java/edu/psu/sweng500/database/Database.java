@@ -21,10 +21,11 @@ public class Database {
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	private static Statement statement = null;
 	private static ResultSet rt = null;
-	private final static Connection connect = null;
+	private static Connection connect = null;
 
-	public Database() {
+	public Database(Connection connect) {
 		eventHandler.addListener(new EventQueueListener());
+		this.connect = connect;
 	}
 
 	static class EventQueueListener extends EventAdapter {
@@ -62,23 +63,29 @@ public class Database {
 			try {
 
 				// Query for events in date range
-				/*
-				 * statement = connect.createStatement();
-				 * 
-				 * rt = statement.executeQuery(
-				 * "select ScheduleId, StartTime, EndTime from Schedule where StartTime = str_to_date('06-20-17','%m-%d-%y') and EndTime = str_to_date('06-25-17','%m-%d-%y')"
-				 * ); while ((rt.next())) { int ScheduleID =
-				 * rt.getInt("ScheduleID"); String StartTime =
-				 * rt.getString("StartTime"); String EndTime =
-				 * rt.getString("EndTime"); System.out.println(ScheduleID + "\n"
-				 * + StartTime + "\n" + EndTime + "\n"); }
-				 */
-				// Loop to each event
-				// Create SheduleEvent object
-				ScheduleEvent scheduleevent = new ScheduleEvent();
+				  statement = connect.createStatement();
+				  
+				  rt = statement.executeQuery(
+				  "select * "
+				  + "from psuteam7.schedule "
+				  + "where StartTime = str_to_date('06-20-17','%m-%d-%y') "
+				  + "and EndTime = str_to_date('06-25-17','%m-%d-%y')"); 
+				  while ((rt.next())) { 
+					  
+					  // Loop to each event
+					  // Create SheduleEvent object
+					  ScheduleEvent scheduleEvent = new ScheduleEvent();
+					  scheduleEvent.setEventName(rt.getString("Name"));
+					  scheduleEvent.setEventDescription(rt.getString("Description"));
+					  scheduleEvent.setEventStart(rt.getDate("StartTime"));
+					  scheduleEvent.setEventStop(rt.getDate("EndTime")); 
+					  
+					  // Send each event to event queue
+					  eventHandler.fireEventUpdate(scheduleEvent);
+				  }
+				
 
-				// Send each event to event queue
-				eventHandler.fireEventUpdate(scheduleevent);
+				
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

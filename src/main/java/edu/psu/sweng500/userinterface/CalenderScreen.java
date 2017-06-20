@@ -291,7 +291,7 @@ public class CalenderScreen {
 			// EventObject data type
 			//
 			// write code to update UI calendar when event arrive
-			String eventDes = o.getEventName() + ": " + o.getEventStart() + "-" + o.getEventStop();
+			String eventDes = o.getEventName() + ": " + o.getEventStart() + " - " + o.getEventStop();
 			roomPanel.add(new JLabel(eventDes));
 		}
 	}

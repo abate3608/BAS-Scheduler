@@ -20,7 +20,7 @@ public class Main {
 
 			// test database
 			dao.readDB();
-			new Database(); // start the database
+			new Database(dao.getConnection()); // start the database
 
 			new LogScreen(); // start logscreen
 
