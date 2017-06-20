@@ -62,18 +62,17 @@ public class Database {
 			try {
 
 				// Query for events in date range
-/*
-				statement = connect.createStatement();
-
-				rt = statement.executeQuery(
-						"select ScheduleId, StartTime, EndTime from Schedule where StartTime = str_to_date('06-20-17','%m-%d-%y') and EndTime = str_to_date('06-25-17','%m-%d-%y')");
-				while ((rt.next())) {
-					int ScheduleID = rt.getInt("ScheduleID");
-					String StartTime = rt.getString("StartTime");
-					String EndTime = rt.getString("EndTime");
-					System.out.println(ScheduleID + "\n" + StartTime + "\n" + EndTime + "\n");
-				}
-*/
+				/*
+				 * statement = connect.createStatement();
+				 * 
+				 * rt = statement.executeQuery(
+				 * "select ScheduleId, StartTime, EndTime from Schedule where StartTime = str_to_date('06-20-17','%m-%d-%y') and EndTime = str_to_date('06-25-17','%m-%d-%y')"
+				 * ); while ((rt.next())) { int ScheduleID =
+				 * rt.getInt("ScheduleID"); String StartTime =
+				 * rt.getString("StartTime"); String EndTime =
+				 * rt.getString("EndTime"); System.out.println(ScheduleID + "\n"
+				 * + StartTime + "\n" + EndTime + "\n"); }
+				 */
 				// Loop to each event
 				// Create SheduleEvent object
 				ScheduleEvent scheduleevent = new ScheduleEvent();

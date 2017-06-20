@@ -22,12 +22,12 @@ public class Main {
 			dao.readDB();
 			new Database(); // start the database
 
-			//new LogScreen(); // start logscreen
+			new LogScreen(); // start logscreen
 
-			//new BacnetServer(); // start bacner server
-			//while (true) {
-			//	Thread.sleep(2000);
-			//}
+			new BacnetServer(); // start bacner server
+			while (true) {
+				Thread.sleep(2000);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
