@@ -76,6 +76,17 @@ public class BacnetServer {
 			}
 
 		}
+		
+		@Override
+		public void eventUpdate(ScheduleEvent o) {
+			// TEAM 7 TO DO
+			// EventObject data type
+			//
+
+			
+			//String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
+			
+		}
 	}
 
 	public static boolean isNumeric(String s) {

@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
 
@@ -194,6 +197,7 @@ public class CalenderScreen {
 		numDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		startMonth = cal.get(GregorianCalendar.DAY_OF_WEEK);
 
+		
 		// Draw calendar
 		for (int i = 1; i <= numDays; i++) {
 			int calendarRow = new Integer((i + startMonth - 2) / 7);
@@ -203,11 +207,30 @@ public class CalenderScreen {
 		// Apply renderers
 		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new tblCalendarRenderer());
 
+		//clear room panel because month refresh
+		roomPanel.removeAll();
+		roomPanel.revalidate();
+		roomPanel.repaint();   // This is required in some cases
+		
 		// request events
-		Date Start = new Date();
-		Date Stop = new Date();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+		Date Start;
+		Date Stop;
+		String stringCurrentMonth= Integer.toString(month+1);
+		
+		try {
+			Start = df.parse(stringCurrentMonth + "/01/" + year);
+			Stop = df.parse(stringCurrentMonth + "/" + numDays + "/" + year);
+			
+			eventHandler.fireGetEvents(Start, Stop);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
-		eventHandler.fireGetEvents(Start, Stop);
+		
 
 	}
 
@@ -292,7 +315,7 @@ public class CalenderScreen {
 			//
 			// write code to update UI calendar when event arrive
 			boolean hasComponent = false;
-			String eventDes = o.getEventName() + ": " + o.getEventStart() + " - " + o.getEventStop();
+			String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
 			for (Component jc : roomPanel.getComponents()) {
 			    if ( jc instanceof JLabel ) {
 			        if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }

@@ -3,6 +3,8 @@ package edu.psu.sweng500.database;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
@@ -62,14 +64,14 @@ public class Database {
 		public void getEvents(Date Start, Date Stop) {
 			try {
 
-				// Query for events in date range
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+
 				  statement = connect.createStatement();
 				  
-				  rt = statement.executeQuery(
-				  "select * "
-				  + "from psuteam7.schedule "
-				  + "where StartTime = str_to_date('06-20-17','%m-%d-%y') "
-				  + "and EndTime = str_to_date('06-25-17','%m-%d-%y')"); 
+				  String s = "select * from psuteam7.schedule where StartTime >= '" + df.format(Start) + "' and EndTime <= '" + df.format(Stop) + "'";
+				  
+				  rt = statement.executeQuery(s); 
+				  
 				  while ((rt.next())) { 
 					  
 					  // Loop to each event
