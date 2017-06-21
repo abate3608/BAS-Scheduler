@@ -1,11 +1,25 @@
 package edu.psu.sweng500.bacnetserver.server;
 
+import java.awt.Component;
+
+import javax.swing.JLabel;
+
 import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.exception.BACnetServiceException;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EngineeringUnits;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
@@ -86,6 +100,38 @@ public class BacnetServer {
 			
 			//String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
 			
+	        
+	        try {
+	        	ObjectIdentifier objectId = new ObjectIdentifier(ObjectType.analogValue, o.getEventID());
+
+		        BACnetObject object = new BACnetObject(localBacnetDevice, objectId);
+				object.setProperty(PropertyIdentifier.presentValue, new Real(1.0f));
+				object.setProperty(PropertyIdentifier.description, new CharacterString(o.getEventName()));
+		        object.setProperty(PropertyIdentifier.units, EngineeringUnits.noUnits);
+		        object.setProperty(PropertyIdentifier.statusFlags, new StatusFlags(false, false, false, false));
+		        object.setProperty(PropertyIdentifier.eventState, EventState.normal);
+
+		        boolean hasComponent = false;
+				for (BACnetObject jc : localBacnetDevice.getLocalObjects()) {
+				    if ( jc instanceof BACnetObject ) {
+				    	if (jc.getObjectName().equals(object.getObjectName())) {
+				    		hasComponent = true;
+				    	}
+				    	
+				        
+				    }
+				}object.setProperty(PropertyIdentifier.outOfService, new edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean(false));
+		        
+		        if (!hasComponent) {
+		        	localBacnetDevice.addObject(object);
+		        	System.out.println("New object added to BACnet Server " + object.getObjectName() + " " + object.getDescription());
+		        }
+		       
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
 		}
 	}
 

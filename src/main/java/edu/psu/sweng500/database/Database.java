@@ -77,6 +77,7 @@ public class Database {
 					  // Loop to each event
 					  // Create SheduleEvent object
 					  ScheduleEvent scheduleEvent = new ScheduleEvent();
+					  scheduleEvent.setEventID(rt.getInt("ScheduleId"));
 					  scheduleEvent.setEventName(rt.getString("Name"));
 					  scheduleEvent.setEventDescription(rt.getString("Description"));
 					  scheduleEvent.setEventStart(rt.getDate("StartTime"));
