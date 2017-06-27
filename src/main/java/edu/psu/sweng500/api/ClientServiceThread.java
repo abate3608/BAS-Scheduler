@@ -16,13 +16,13 @@ public class ClientServiceThread extends Thread {
     Socket myClientSocket;
     boolean m_bRunThread = true; 
     private BASGS_API api;
-    private MultiThreadedServer multiThreadedServer;
+    private MultiThreadedAPIServer multiThreadedServer;
     
     public ClientServiceThread() { 
        super(); 
     } 
 		
-    ClientServiceThread(MultiThreadedServer multiThreadedServer, Socket s) { 
+    ClientServiceThread(MultiThreadedAPIServer multiThreadedServer, Socket s) { 
        myClientSocket = s; 
        this.multiThreadedServer = multiThreadedServer;
        api = new BASGS_API(this);

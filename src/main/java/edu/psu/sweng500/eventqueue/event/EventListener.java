@@ -26,8 +26,6 @@ public interface EventListener {
 	public void setBacnetObject(BacnetObject o);
 	
 	public void createEvents(ArrayList<ScheduleEvent> events);
-
-	public void getEvents();
 	
 	public void getEvents(Date Start, Date Stop);
 

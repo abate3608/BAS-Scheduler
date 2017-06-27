@@ -16,26 +16,11 @@ public class TestClient {
 	public static void main(String argv[]) throws Exception {
 
 		// How to read file into String before Java 7
-		String filename = "TestCreateObj.json";
+		String filename = "TestAPI.json";
 		// Getting ClassLoader obj
 		ClassLoader classLoader = TestClient.class.getClassLoader();
-		// Getting resource(File) from class loader
 		System.out.println(classLoader.getResource(filename).getFile().toString());
-//		BufferedReader buf = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(filename)));
-//		
 		Socket clientSocket = new Socket("localhost", 8888);
-//		DataInputStream input = new DataInputStream(clientSocket.getInputStream());
-//		DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-//
-//		String line = buf.readLine();
-//		StringBuilder sb = new StringBuilder();
-//		while (line != null) {
-//			sb.append(line).append("\n");
-//			line = buf.readLine();
-//		}
-//		String fileAsString = sb.toString();
-//
-//		outToServer.writeBytes(fileAsString);
 		
 		API_Object apiObj = readJsonStream(classLoader.getResourceAsStream(filename));
 		writeJsonStream(clientSocket.getOutputStream(),apiObj);
@@ -43,8 +28,11 @@ public class TestClient {
 		API_Object apiObj2;
 		while(true) {
 			apiObj2 = readJsonStream(clientSocket.getInputStream());
-			if(apiObj2 != null)
-				System.out.println("Received msg: " + apiObj2.message);
+			if(apiObj2 != null) {
+				Gson gson = new Gson();
+				String json = gson.toJson(apiObj2);
+				System.out.println(json);
+			}
 		}
 
 		//buf.close();

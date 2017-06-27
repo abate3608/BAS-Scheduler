@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.camel.spring.Main;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,8 @@ public class BASGS_API {
 		int action_id;
 		int num_of_obj;
 		String message;
+		String start_date;
+		String stop_date;
 		ArrayList<BacnetObj> bacnet = new ArrayList<BacnetObj>();
 	}
 
@@ -86,7 +89,6 @@ public class BASGS_API {
 	 * This method allows external applications to create BASGS events.
 	 */
 	private void create(API_Object api) throws IOException {
-		System.out.println("Entered Create " + api.num_of_obj);
 		try {
 			ArrayList<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
 			for(int i = 0; i < api.num_of_obj; i++) {
@@ -112,19 +114,39 @@ public class BASGS_API {
 	 * This method allows external applications to read BASGS events.
 	 */
 	private void read(API_Object api) {
-		if(api.action_id == 1) {
-			
-		} else if(api.action_id == 2) {
-			eventHandler.fireGetEvents();
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date startDate = df.parse(api.start_date);
+			Date endDate = df.parse(api.stop_date);
+			eventHandler.fireGetEvents(startDate, endDate);
+		} catch(ParseException e) {
+			e.printStackTrace();
 		}
-
 	}
 
 	/*
 	 * This method allows external applications to update BASGS events.
 	 */
 	private void update(API_Object api) {
-
+		try {
+			ArrayList<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
+			for(int i = 0; i < api.num_of_obj; i++) {
+				ScheduleEvent event = new ScheduleEvent();
+				System.out.println(api.bacnet.get(i).eventID);
+				event.setEventID(Integer.parseInt(api.bacnet.get(i).eventID));
+				event.setEventName(api.bacnet.get(i).eventName);
+				event.setEventDescription(api.bacnet.get(i).eventDescription);
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				event.setEventStart(df.parse(api.bacnet.get(i).eventStart));
+				event.setEventStop(df.parse(api.bacnet.get(i).eventStop));
+				event.setLightIntensity(Float.parseFloat(api.bacnet.get(i).lightIntensity));
+				event.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
+				events.add(event);
+			}
+			eventHandler.fireCreateEvents(events);
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -142,18 +164,22 @@ public class BASGS_API {
 	 */
 	public void parseMsg(API_Object api) throws IOException {
 		this.apiObj = api;
+		
+		// Case 0 - Create
+		// Case 1 - Read events between dates
+		// Case 2 - Update Event
+		// Case 3 - Delete Event
 		switch (this.apiObj.action_id) {
 			case 0:
 				create(api);
 				break;
 			case 1:
-			case 2:
 				read(api);
 				break;
-			case 3:
+			case 2:
 				update(api);
 				break;
-			case 4:
+			case 3:
 				delete(api);
 				break;
 			default:
@@ -175,6 +201,7 @@ public class BASGS_API {
 			//
 			// write code to update API when event arrive
 			API_Object apiObj = new API_Object();
+			apiObj.num_of_obj = 1;
 			BacnetObj bacnetObj = new BacnetObj();
 			apiObj.message = "Action Complete";
 			bacnetObj.eventID = String.valueOf(o.getEventID());

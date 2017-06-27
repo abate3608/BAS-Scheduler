@@ -100,17 +100,6 @@ public class EventHandler {
 		}
 
 	}
-	
-	public void fireGetEvents() {
-		for (EventListener l : listeners) {
-			try {
-				l.getEvents();
-			} catch (Throwable e) {
-				handleException(l, e);
-			}
-		}
-
-	}
 
 	public void fireGetEvents(Date start, Date stop) {
 		for (EventListener l : listeners) {

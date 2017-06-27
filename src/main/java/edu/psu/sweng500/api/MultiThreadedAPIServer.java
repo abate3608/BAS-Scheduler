@@ -7,10 +7,10 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
  
-public class MultiThreadedServer {
+public class MultiThreadedAPIServer {
    ServerSocket myServerSocket;
    boolean ServerOn = true;
-   public MultiThreadedServer() { 
+   public MultiThreadedAPIServer() { 
       try {
          myServerSocket = new ServerSocket(8888);
       } catch(IOException ioe) { 
@@ -47,7 +47,7 @@ public class MultiThreadedServer {
    }
 	
    public static void main (String[] args) { 
-      new MultiThreadedServer();   
+      new MultiThreadedAPIServer();   
    } 
 	
    

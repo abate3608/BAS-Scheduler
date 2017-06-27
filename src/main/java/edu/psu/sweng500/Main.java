@@ -1,5 +1,6 @@
 package edu.psu.sweng500;
 
+import edu.psu.sweng500.api.MultiThreadedAPIServer;
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
 import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
@@ -22,6 +23,7 @@ public class Main {
 			// test database
 			dao.readDB();
 			new Database(dao.getConnection()); // start the database
+			new MultiThreadedAPIServer();//Start the API Server
 
 			new LogScreen(); // start logscreen
 

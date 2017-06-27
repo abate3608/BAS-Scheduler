@@ -45,10 +45,6 @@ public class EventAdapter implements EventListener {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void getEvents() {
-		// TODO Auto-generated method stub
-	}
 
 	public void getEvents(Date Start, Date Stop) {
 		// TODO Auto-generated method stub
