@@ -1,0 +1,19 @@
+{
+	"username":"hilton",
+	"password":"1234",
+	"id":1,
+	"action_id":0,
+	"num_of_obj":1,
+	"message":" ",
+	"bacnet":[
+		{
+			"eventID":"54321",
+			"eventName":"API Create Test",
+			"eventDescription":"Testing the creation of an event.",
+			"eventStart":"2017-07-01 12:00:00",
+			"eventStop":"2017-07-04 12:00:00",
+			"temperatureSetpoint":"75.0",
+			"lightIntensity":"5.0"
+		}
+	]
+}

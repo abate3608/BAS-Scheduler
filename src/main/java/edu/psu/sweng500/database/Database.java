@@ -1,10 +1,13 @@
 package edu.psu.sweng500.database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
@@ -12,7 +15,6 @@ import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.BacnetDevice;
 import edu.psu.sweng500.type.ScheduleEvent;
 import edu.psu.sweng500.type.User;
-import edu.psu.sweng500.database.MysqlConnection;
 
 /*
  * Class to get data based on CalendarID. Can be changed as development progresses. 
@@ -64,7 +66,7 @@ public class Database {
 		public void getEvents(Date Start, Date Stop) {
 			try {
 
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+				  DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
 
 				  statement = connect.createStatement();
 				  
@@ -89,6 +91,63 @@ public class Database {
 				
 
 				
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		
+		@Override
+		public void createEvents(ArrayList<ScheduleEvent> events) {
+			System.out.println("Databse: Entering createEvents");
+			try{  
+				String query = "INSERT INTO psuteam7.schedule (ScheduleId, Name, Description, StartTime, EndTime) "
+						+ "VALUES (?, ?, ?, ?, ?)";   
+				PreparedStatement ps = connect.prepareStatement(query);
+				for (ScheduleEvent event : events) {
+					ps.setInt(1, event.getEventID());
+					ps.setString(2, event.getEventName());
+					ps.setString(3, event.getEventDescription());
+					ps.setString(4, event.getEventDescription());
+					Calendar cal = Calendar.getInstance();
+		            cal.setTime(event.getEventStart());
+					ps.setDate(5, new java.sql.Date(cal.DATE));
+					cal.setTime(event.getEventStop());
+					ps.setDate(6, new java.sql.Date(cal.DATE));
+					ps.addBatch();
+				}
+				ps.executeBatch();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		@Override
+		public void getEvents() {
+			try {
+				  statement = connect.createStatement();
+				  
+				  String s = "select * from psuteam7.schedule";
+				  
+				  rt = statement.executeQuery(s); 
+				  
+				  while ((rt.next())) { 
+					  
+					  // Loop to each event
+					  // Create SheduleEvent object
+					  ScheduleEvent scheduleEvent = new ScheduleEvent();
+					  scheduleEvent.setEventID(rt.getInt("ScheduleId"));
+					  scheduleEvent.setEventName(rt.getString("Name"));
+					  scheduleEvent.setEventDescription(rt.getString("Description"));
+					  scheduleEvent.setEventStart(rt.getDate("StartTime"));
+					  scheduleEvent.setEventStop(rt.getDate("EndTime")); 
+					  
+					  // Send each event to event queue
+					  eventHandler.fireEventUpdate(scheduleEvent);
+				  }
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

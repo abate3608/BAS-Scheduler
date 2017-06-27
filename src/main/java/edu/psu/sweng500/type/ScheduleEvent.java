@@ -42,7 +42,7 @@ public class ScheduleEvent {
 		eventStop = date;
 	}
 
-	public void getTemperatureSetpoint(float temp) {
+	public void setTemperatureSetpoint(float temp) {
 		temperatureSetpoint = temp;
 	}
 

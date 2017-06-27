@@ -1,5 +1,6 @@
 package edu.psu.sweng500.eventqueue.event;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -87,6 +88,28 @@ public class EventHandler {
 				handleException(l, e);
 			}
 		}
+	}
+	
+	public void fireCreateEvents(ArrayList<ScheduleEvent> events) {
+		for (EventListener l : listeners) {
+			try {
+				l.createEvents(events);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+	}
+	
+	public void fireGetEvents() {
+		for (EventListener l : listeners) {
+			try {
+				l.getEvents();
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
 	}
 
 	public void fireGetEvents(Date start, Date stop) {

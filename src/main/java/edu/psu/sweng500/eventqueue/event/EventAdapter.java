@@ -1,5 +1,6 @@
 package edu.psu.sweng500.eventqueue.event;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.psu.sweng500.type.*;
@@ -44,14 +45,22 @@ public class EventAdapter implements EventListener {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void getEvents() {
+		// TODO Auto-generated method stub
+	}
 
 	public void getEvents(Date Start, Date Stop) {
-
+		// TODO Auto-generated method stub
 	}
 
 	public void eventUpdate(ScheduleEvent o) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void createEvents(ArrayList<ScheduleEvent> events) {
+		System.out.println("createEvents fired!");
 	}
 
 }

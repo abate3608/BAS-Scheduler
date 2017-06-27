@@ -1,5 +1,6 @@
 package edu.psu.sweng500.eventqueue.event;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.psu.sweng500.type.*;
@@ -23,7 +24,11 @@ public interface EventListener {
 	public void bacnetObjectUpdate(BacnetObject o);
 
 	public void setBacnetObject(BacnetObject o);
+	
+	public void createEvents(ArrayList<ScheduleEvent> events);
 
+	public void getEvents();
+	
 	public void getEvents(Date Start, Date Stop);
 
 	public void eventUpdate(ScheduleEvent o);
