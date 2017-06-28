@@ -7,14 +7,24 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
  
+/*
+ * Author: Brian Abate
+ * This class provides a multi threaded TCP server for client
+ * applications to connect to
+ */
 public class MultiThreadedAPIServer {
    ServerSocket myServerSocket;
+   private final int PORT = 8888;
    boolean ServerOn = true;
+   
+   /*
+	 * Constructor that instanciates server
+	 */
    public MultiThreadedAPIServer() { 
       try {
-         myServerSocket = new ServerSocket(8888);
+         myServerSocket = new ServerSocket(PORT);
       } catch(IOException ioe) { 
-         System.out.println("Could not create server socket on port 8888. Quitting.");
+         System.out.println("Could not create server socket on port " + String.valueOf(PORT) + ". Quitting.");
          System.exit(-1);
       } 
 		
@@ -42,10 +52,20 @@ public class MultiThreadedAPIServer {
       } 
    }
    
+   /*
+	 * This method returns the servers status
+	 * @return the status of the server
+	 */
    public boolean getServiceStatus() {
 	   return ServerOn;
    }
 	
+   /*
+	 * The main method used for running the BASGS_API and starts Camel Spring
+	 * Main.
+	 * 
+	 * @param [in] args - String array of arguements passed in.
+	 */
    public static void main (String[] args) { 
       new MultiThreadedAPIServer();   
    } 

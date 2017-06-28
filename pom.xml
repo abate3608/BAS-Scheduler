@@ -31,11 +31,6 @@
 			<url>http://clojars.org/repo</url>
 		</repository>
   	</repositories>
-  	
-  	<properties>
-	    <!-- Camel -->
-	    <camel.version>2.14.1</camel.version>
-  	</properties>
 
 	<dependencies>
 		<dependency>
@@ -70,31 +65,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>6.0.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
-			<version>${camel.version}</version>
-	    </dependency>
-	    <dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-spring</artifactId>
-			<version>${camel.version}</version>
-	    </dependency>
-	    <dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-netty</artifactId>
-			<version>${camel.version}</version>
-	    </dependency>
-       <dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.5</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-log4j12</artifactId>
-		    <version>1.7.5</version>
 		</dependency>
 	</dependencies>
 

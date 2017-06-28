@@ -7,9 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.camel.spring.Main;
-import org.springframework.stereotype.Service;
-
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.ScheduleEvent;
@@ -19,13 +16,12 @@ import edu.psu.sweng500.type.ScheduleEvent;
  * This class provides an API for external application to interact
  * with BASGS.
  */
-@Service
 public class BASGS_API {
 	
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	private static ClientServiceThread client;
-	private API_Object apiObj;
+	private static API_Object apiObj;
 
 	/*
 	 * Constructor for BASGS_API
@@ -87,6 +83,7 @@ public class BASGS_API {
 
 	/*
 	 * This method allows external applications to create BASGS events.
+	 * @param [in] api - API_Object that is to be added to the database
 	 */
 	private void create(API_Object api) throws IOException {
 		try {
@@ -112,6 +109,8 @@ public class BASGS_API {
 
 	/*
 	 * This method allows external applications to read BASGS events.
+	 * @param [in] api - API_Object that specifies what event should
+	 * be read from the database
 	 */
 	private void read(API_Object api) {
 		try {
@@ -126,6 +125,7 @@ public class BASGS_API {
 
 	/*
 	 * This method allows external applications to update BASGS events.
+	 * @param [in] api - API_Object that is to be updated in the database
 	 */
 	private void update(API_Object api) {
 		try {
@@ -151,6 +151,7 @@ public class BASGS_API {
 
 	/*
 	 * This method allows external applications to delete BASGS events.
+	 * @param [in] api - API_Object that is to be deleted from the database
 	 */
 	private void delete(API_Object api) {
 
@@ -160,7 +161,8 @@ public class BASGS_API {
 	 * This method is called when the Server receives data, parses the data, and
 	 * sends the converted api object to the appropriate message.
 	 * 
-	 * @param [in] api_obj - String of the json api object
+	 * @param [in] api_obj - API_Object that will be parsed to determine what
+	 * action will be taken.
 	 */
 	public void parseMsg(API_Object api) throws IOException {
 		this.apiObj = api;
@@ -187,31 +189,43 @@ public class BASGS_API {
 		}
 	}
 	
+	/*
+	 * This method returns the BASGS_API eventHandler
+	 * @return the BASGS event handler
+	 */
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
 	
+	/*
+	 * This class allows the BASGS to listen for event updates from the event queue
+	 */
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 
+		/*
+		 * This method is called when an event update takes place
+		 * 
+		 * @param [in] 0 - ScheduleEvent object that has been returned from the database
+		 */
 		@Override
 		public void eventUpdate(ScheduleEvent o) {
 			// TEAM 7 TO DO
 			// EventObject data type
 			//
 			// write code to update API when event arrive
-			API_Object apiObj = new API_Object();
-			apiObj.num_of_obj = 1;
+			API_Object apiObjReturn = new API_Object();
+			apiObjReturn.num_of_obj = 1;
 			BacnetObj bacnetObj = new BacnetObj();
-			apiObj.message = "Action Complete";
+			apiObjReturn.message = "Action Complete";
 			bacnetObj.eventID = String.valueOf(o.getEventID());
 			bacnetObj.eventDescription = o.getEventDescription();
 			bacnetObj.eventName = o.getEventName();
 			bacnetObj.eventStart = o.getEventStart().toString();
 			bacnetObj.eventStop = o.getEventStop().toString();
-			apiObj.bacnet.add(bacnetObj);
+			apiObjReturn.bacnet.add(bacnetObj);
 			try {
-				client.writeJsonStream(apiObj);
+				client.writeJsonStream(apiObjReturn);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -225,7 +239,7 @@ public class BASGS_API {
 	 * @param [in] args - String array of arguements passed in.
 	 */
 	public static void main(String[] args) throws Exception {
-		new Main().run(args);
+
 	}
 
 }
