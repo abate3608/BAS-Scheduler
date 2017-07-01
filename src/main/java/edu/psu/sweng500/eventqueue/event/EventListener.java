@@ -3,6 +3,7 @@ package edu.psu.sweng500.eventqueue.event;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import edu.psu.sweng500.type.*;
 
 public interface EventListener {
@@ -30,4 +31,7 @@ public interface EventListener {
 	public void getEvents(Date Start, Date Stop);
 
 	public void eventUpdate(ScheduleEvent o);
+
+	//public void createUser(ArrayList<UserRegister> events);
+
 }

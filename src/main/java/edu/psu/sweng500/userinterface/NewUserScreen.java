@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import edu.psu.sweng500.type.*;
 
 public class NewUserScreen implements ActionListener {
 
@@ -40,6 +41,7 @@ public class NewUserScreen implements ActionListener {
 		regWin.add(regPane);
 		newuserLayout(regPane);
 		regWin.setVisible(true);
+		
 	}
 
 	private final void newuserLayout(JPanel regPanel) {
@@ -107,16 +109,22 @@ public class NewUserScreen implements ActionListener {
 			emailTXT.setText(null);
 			passwordText.setText(null);
 			regWin.dispose();
+			
 		}
 	}
 
 	private final class userRegistration implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Submitting Registration Request");
-
+			//JOptionPane.showMessageDialog(null, "Submitting Registration Request");{
+			createUser();
 		}
+		}
+	//}
 
+	public void createUser() {
+		System.out.println("Registration Complete");
+		
 	}
 
 }

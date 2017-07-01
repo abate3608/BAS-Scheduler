@@ -80,12 +80,12 @@ public class LogScreen {
 
 		public void actionPerformed(ActionEvent e) {
 			// TEam 7 To Do
-			//
-			String userName = "abc"; // replace with username from ui
-			String password = "123"; // replace with password from ui
+			
+			String userName = "abc "; // replace with username from ui
+			String passWord = " 123"; // replace with password from ui
 
 			// fire request event with password
-			eventHandler.fireAuthenticateUserRequest(userName, password);
+			eventHandler.fireAuthenticateUserRequest(userName, passWord);
 
 			new CalenderScreen();
 
@@ -103,7 +103,7 @@ public class LogScreen {
 		public void authenticateUserUpdate(User u) {
 			// TEAM 7 TO DO
 			// User data type
-			// u.isAuthenticated() = true when user is authenticated; false when
+			//u.isAuthenticated() = true when user is authenticated; false when
 			// user is not authenticated.
 			// write code to handle user login and timeout. What happen if user
 			// is not authenticate.

@@ -121,4 +121,16 @@ public class EventHandler {
 			}
 		}
 	}
+		
+
+	/*public void fireAutheticateUserRespond(String userName) {
+	for (EventListener l : listeners) {
+		try {
+			l.authenticateUserRequest(userName);
+		} catch (Throwable e) {
+			handleException(l, e);
+		}
+	}
+		
+	}*/
 }

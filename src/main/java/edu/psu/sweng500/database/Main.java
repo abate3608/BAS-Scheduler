@@ -39,9 +39,11 @@ public class Main {
 		}
 
 		@Override
-		public void authenticateUserRequest(String userName, String password) {
+		public void authenticateUserRequest(String userName, boolean passWord) {
 			// do something
-			// dao.getEventHandler().fireAutheticateUserRespond(u);
+			User u = new User(userName, passWord);
+			
+			dao.getEventHandler().fireAuthenticateUserUpdate(u);
 		}
 	}
 }

@@ -3,9 +3,10 @@ package edu.psu.sweng500.eventqueue.event;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import edu.psu.sweng500.type.*;
 
-public class EventAdapter implements EventListener {
+public class EventAdapter<ScheduleUserEvents> implements EventListener {
 	// @Override
 	public void listenerException(Throwable e) {
 		// Override as required
@@ -36,7 +37,7 @@ public class EventAdapter implements EventListener {
 
 	}
 
-	public void authenticateUserRequest(String userName, String password) {
+	public void authenticateUserRequest(String userName, boolean password) {
 		// TODO Auto-generated method stub
 
 	}
@@ -58,5 +59,21 @@ public class EventAdapter implements EventListener {
 	public void createEvents(ArrayList<ScheduleEvent> events) {
 		System.out.println("createEvents fired!");
 	}
+
+	public void authenticateUserRequest(String userName, String password) {
+		 //TODO Auto-generated method stub
+		
+	}
+
+	public void CreateUser() {
+		System.out.println("Registration Fired");
+		
+	}
+
+	//public void createUser(ArrayList<UserRegister> events) {
+		// TODO Auto-generated method stub
+		
+	//}
+
 
 }
