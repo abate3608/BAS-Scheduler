@@ -1,9 +1,5 @@
 package edu.psu.sweng500.bacnetserver.server;
 
-import java.awt.Component;
-
-import javax.swing.JLabel;
-
 import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;

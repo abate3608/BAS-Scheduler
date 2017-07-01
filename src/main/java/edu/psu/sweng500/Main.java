@@ -27,11 +27,11 @@ public class Main {
 
 			new LogScreen(); // start logscreen
 
-			//new BacnetServer(); // start bacner server
-			//while (true) {
-			//	Thread.sleep(2000);
+			new BacnetServer(); // start bacner server
+			while (true) {
+				Thread.sleep(2000);
 				
-			//}
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

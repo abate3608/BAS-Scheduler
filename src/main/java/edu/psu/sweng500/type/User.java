@@ -17,4 +17,8 @@ public class User {
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
+	
+	public void setAuthenticated(boolean b) {
+		authenticated = b;
+	}
 }

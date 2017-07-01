@@ -22,6 +22,8 @@ public class LogScreen {
 	String userNameGet;
 	String passwordTextGet;
 
+	static String userName;
+	String password;
 	// Event listeners
 	private final EventHandler eventHandler = EventHandler.getInstance();
 
@@ -80,14 +82,13 @@ public class LogScreen {
 
 		public void actionPerformed(ActionEvent e) {
 			// TEam 7 To Do
-			
-			String userName = "abc "; // replace with username from ui
-			String passWord = " 123"; // replace with password from ui
+			userName = userNameText.getText();
+			password = passwordText.getText();
 
 			// fire request event with password
-			eventHandler.fireAuthenticateUserRequest(userName, passWord);
+			eventHandler.fireAuthenticateUserRequest(userName, password);
 
-			new CalenderScreen();
+			
 
 		}
 	}
@@ -101,13 +102,14 @@ public class LogScreen {
 
 		@Override
 		public void authenticateUserUpdate(User u) {
-			// TEAM 7 TO DO
-			// User data type
-			//u.isAuthenticated() = true when user is authenticated; false when
-			// user is not authenticated.
-			// write code to handle user login and timeout. What happen if user
-			// is not authenticate.
-
+			System.out.println("LogScreen > Authentication user update received. User: " + userName + " isAuthenicated:" + u.isAuthenticated());
+			if (u.getUserName() == userName && u.isAuthenticated())
+			{
+				new CalenderScreen();
+			} else
+			{
+				//DO SOMETHING : login fail
+			}
 		}
 	}
 

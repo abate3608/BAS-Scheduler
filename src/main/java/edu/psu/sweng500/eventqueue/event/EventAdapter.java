@@ -6,7 +6,7 @@ import java.util.Date;
 
 import edu.psu.sweng500.type.*;
 
-public class EventAdapter<ScheduleUserEvents> implements EventListener {
+public class EventAdapter implements EventListener {
 	// @Override
 	public void listenerException(Throwable e) {
 		// Override as required
@@ -37,13 +37,9 @@ public class EventAdapter<ScheduleUserEvents> implements EventListener {
 
 	}
 
-	public void authenticateUserRequest(String userName, boolean password) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void authenticateUserUpdate(User u) {
 		// TODO Auto-generated method stub
+		//System.out.println("Authenticate User Update Fired");
 
 	}
 
@@ -56,17 +52,21 @@ public class EventAdapter<ScheduleUserEvents> implements EventListener {
 
 	}
 	
-	public void createEvents(ArrayList<ScheduleEvent> events) {
-		System.out.println("createEvents fired!");
-	}
+
 
 	public void authenticateUserRequest(String userName, String password) {
 		 //TODO Auto-generated method stub
+		//System.out.println("Authentication request Fired");
 		
 	}
 
 	public void CreateUser() {
 		System.out.println("Registration Fired");
+		
+	}
+
+	public void createEvents(ArrayList<ScheduleEvent> events) {
+		// TODO Auto-generated method stub
 		
 	}
 

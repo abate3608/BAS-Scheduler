@@ -17,9 +17,6 @@ import org.apache.log4j.chainsaw.Main;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
-import edu.psu.sweng500.type.BacnetDevice;
-import edu.psu.sweng500.type.ScheduleEvent;
-import edu.psu.sweng500.type.User;
 import edu.psu.sweng500.type.*;
 
 /*
@@ -43,7 +40,7 @@ public class Database {
 		this.connect = connect;
 	}
 
-	static class EventQueueListener<UserEvents> extends EventAdapter {
+	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 		@Override
 		public void getBacnetDevice(String ObjectIdentifier) {
@@ -146,37 +143,44 @@ public class Database {
 
 		@Override
 		public void authenticateUserRequest(String userName, String passWord) {
-			boolean exist = false;
+			//display debug message
+			System.out.println("Database > Authentication request received. User: " + userName + " Password:" + passWord);
 			try {
 				
-				
-				String userquery = "Select * from psuteam7.User_Profile where userName=' ' and passWord= ' ' ";
+				//sql statement
+				String userquery = "Select * from psuteam7.User_Profile where userName = '" + userName + "' and passWord = '" + passWord + "' ";
 				statement = connect.createStatement();
 				rt=statement.executeQuery(userquery);
 				
-				
-				 while(rt.next()) {					 
-					 String IDName = rt.getString(4);
-					 String DBpass = rt.getString(5);
+				//create new user variable
+				User u = new User(userName, false);
+				while(rt.next()) 
+				{
+					String IDName = rt.getString(5);
+					String DBpass = rt.getString(6);
 					 
-					 if(userName.equals(IDName) && (passWord.equals(DBpass))) {
-						//exist =true;
+					if(userName.equals(IDName) && (passWord.equals(DBpass))) {
+						//found matching credential
 						
-					 JOptionPane.showMessageDialog(null, "Login Successful");
-					} 			
-					//rt.close();	
-				if(!exist) 
+						JOptionPane.showMessageDialog(null, "Login Successful");
+						u.setAuthenticated(true);
+						//exit while loop
+						break;
+					} 	else
 					{
-					JOptionPane.showMessageDialog(null, "Enter Correct UserName and Password");
+						u.setAuthenticated(false);
+					}
 				}
-				// for now, check to see if the password match
-				// Send out authenticate user update
-				User u = new User(userName, true);
-				//User u = new User(userName, passWord);
-				
+				//rt.close();	
+				//if user is not authenicated. Display 
+				if(!u.isAuthenticated()) 
+				{
+					JOptionPane.showMessageDialog(null, "Login Fail. Please Enter Correct UserName and Password");
+				}
+			
 				eventHandler.fireAuthenticateUserUpdate(u);
 
-				 }
+				 
 			}catch (SQLException e) {
 				System.out.println(e);	
 				}

@@ -39,10 +39,16 @@ public class Main {
 		}
 
 		@Override
-		public void authenticateUserRequest(String userName, boolean passWord) {
+		public void authenticateUserRequest(String userName, String passWord) {
 			// do something
-			User u = new User(userName, passWord);
-			
+			User u;
+			if (userName == "test" && passWord == "test")
+			{
+				u = new User(userName, true);
+			} else
+			{
+				u = new User(userName, true);
+			}
 			dao.getEventHandler().fireAuthenticateUserUpdate(u);
 		}
 	}
