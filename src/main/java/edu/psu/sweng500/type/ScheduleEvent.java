@@ -11,6 +11,7 @@ public class ScheduleEvent {
 	private float temperatureSetpoint;
 	private float lightIntensity;
 
+
 	public void EventOBject(int eventID, String eventName, String eventDescription, Date eventStart, Date eventStop,
 			float temperatureSetpoint, float lightIntensity) {
 		this.eventID = eventID;

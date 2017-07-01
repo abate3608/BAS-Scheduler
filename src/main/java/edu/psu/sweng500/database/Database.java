@@ -104,15 +104,16 @@ public class Database {
 		}
 		
 		@Override
-		public void createEvents(ArrayList<ScheduleEvent> events) {
-			System.out.println("Database: Entering createEvents");
+		public void createEvent(ScheduleEvent event) {
+			System.out.println("Database > Create event received: Name - " + event.getEventName());
+			int err = 1;
 			try{  
 				String query = "INSERT INTO psuteam7.schedule (RowGuid, ScheduleId, ScheduleSiteId, Name, "
 						+ "Description, Notes, ControlToState, StartTime, EndTime, MarkedForDelete, CalendarId, "
 						+ "CalendarSiteId, DownloadStatus, SaveStatus, ActiveOnCalendarDays) "
 						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
 				PreparedStatement ps = connect.prepareStatement(query);
-				for (ScheduleEvent event : events) {
+				//for (ScheduleEvent event : events) {
 					ps.setString(1, "E45E13D8-CFF0-4FC7-B7C8"); //RowGuid
 					ps.setInt(2, 5528 ); // ScheduleId
 					ps.setInt(3, 25); // ScheduleSiteId
@@ -133,10 +134,14 @@ public class Database {
 					ps.setInt(14, 0);//SaveStatus
 					ps.setBoolean(15, false);//ActiveOnCalendarDays
 					ps.addBatch();
-				}
+				//}
 				ps.executeBatch();
+				err = 0; //0 = good
+				eventHandler.fireCreateEventRespond(event, err);
 			} catch (Exception e) {
 				e.printStackTrace();
+				err = 1;
+				eventHandler.fireCreateEventRespond(event, err);
 			}
 			
 		}

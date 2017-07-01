@@ -3,6 +3,8 @@ package edu.psu.sweng500.userinterface;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.NewEvent;
+import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.type.User;
+import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
 
 public class NewEventScreen implements ActionListener {
 
@@ -34,7 +43,13 @@ public class NewEventScreen implements ActionListener {
 	private JButton newEventButton;
 	private JButton cancelButton;
 
+	// Event listeners
+		private final EventHandler eventHandler = EventHandler.getInstance();
+		
 	public void actionPerformed(ActionEvent e) {
+
+		// setup event
+		eventHandler.addListener(new EventQueueListener());
 
 		newEventWin = new JFrame("Global Schedular System New Event");
 		newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -135,11 +150,62 @@ public class NewEventScreen implements ActionListener {
 		}
 	}
 
+///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
+
 	private final class userRegistration implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-
+			String eventName = eventNameTXT.getText(); 
+			String startTime = eventStartTimeTXT.getText(); 
+			String endTime= eventEndTimeTXT.getText(); 
+			String eventDate = eventDateTXT.getText(); 
+			String eventRoom = eventRoomText.getText(); 
+			String lightSetting = lightSettingTXT.getText(); 
+			String tempSetting = temperatureSettingTXT.getText(); 
+			
+			
+			ScheduleEvent se = new ScheduleEvent();
+			se.setEventName(eventName);
+			se.setEventDescription("Description");
+			
+			//end to match Schedule Event Data type
+			
+			//se.setEventStart(startTime);
+			//se.setEventStop(endTime);
+			//se.setTemperatureSetpoint(tempSetting);
+			//se.setLightIntensity(lightSetting);
+							
+			// fire request event with password
+			//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
+			
+			eventHandler.fireCreateEvent(se);
+			
 		}
 	}
+
+	public EventHandler getEventHandler() {
+		return eventHandler;
+	}
+
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
+	
+		@Override
+		public void createEventRespond(ScheduleEvent se, int err) {
+			System.out.println("NewEventScreen > Create event respond received. Name: " + se.getEventName() + " Error Code:" + err);
+			if (err == 0) //good
+			{
+				new CalenderScreen();
+			} else
+			{
+				//need error code for create event
+				//DO SOMETHING : login fail
+				JOptionPane.showMessageDialog(null, "Error - Please Re-enter Data");
+				new NewEventScreen();
+			}
+		}
+	}
+
 }
+

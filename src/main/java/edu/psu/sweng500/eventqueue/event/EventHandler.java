@@ -47,26 +47,26 @@ public class EventHandler {
 	}
 
 	// UI fire request
-	public void fireAuthenticateUserRequest(final String userName, final String password) {
-		for (EventListener l : listeners) {
-			try {
-				l.authenticateUserRequest(userName, password);
-			} catch (Throwable e) {
-				handleException(l, e);
-			}
-		}
-	}
-
-	// UI fire request
-	public void fireAuthenticateUserUpdate(final User u) {
-		for (EventListener l : listeners) {
-			try {
-				l.authenticateUserUpdate(u);
-			} catch (Throwable e) {
-				handleException(l, e);
-			}
-		}
-	}
+//	public void fireAuthenticateUserRequest(final String userName, final String password) {
+//		for (EventListener l : listeners) {
+//			try {
+//				l.authenticateUserRequest(userName, password);
+//			} catch (Throwable e) {
+//				handleException(l, e);
+//			}
+//		}
+//	}
+//
+//	// UI fire request
+//	public void fireAuthenticateUserUpdate(final User u) {
+//		for (EventListener l : listeners) {
+//			try {
+//				l.authenticateUserUpdate(u);
+//			} catch (Throwable e) {
+//				handleException(l, e);
+//			}
+//		}
+//	}
 
 	// Bacnet Server calls this function to request for BACnet Device info
 	public void fireGetBacnetDeviceRequest(final String ObjectIdentifier) {
@@ -90,10 +90,10 @@ public class EventHandler {
 		}
 	}
 	
-	public void fireCreateEvents(ArrayList<ScheduleEvent> events) {
+	public void fireCreateEvent(ScheduleEvent event) {
 		for (EventListener l : listeners) {
 			try {
-				l.createEvents(events);
+				l.createEvent(event);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}
@@ -143,16 +143,112 @@ public class EventHandler {
 			}
 		}
 	}
-		
 
-	/*public void fireAutheticateUserRespond(String userName) {
-	for (EventListener l : listeners) {
-		try {
-			l.authenticateUserRequest(userName);
-		} catch (Throwable e) {
-			handleException(l, e);
+
+	///////////////////////////////////////////////////////////////////////////////////////////// - USER INTERFACE	
+	// UI fire request - Log Screen
+	public void fireAuthenticateUserRequest(final String userName, final String password) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateUserRequest(userName, password);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
 		}
 	}
-		
+
+	// UI fire request - Log Screen
+	public void fireAuthenticateUserUpdate(final User u) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateUserUpdate(u);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+
+/*	// UI fire request - NEW USER
+	public void fireAuthenticateNewUserRequest(final String firstName, final String lastName, final String email, final String userName, final String password) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateNewUserRequest(firstName, lastName, email, userName, password); // EVENT hander
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	// UI fire request - NEW USER
+	public void fireAuthenticateNewUserUpdate(final NewUser u) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateNewUserUpdate(u);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
 	}*/
+
+	// NEW EVENT        
+	public void fireAuthenticateNewEventRequest(final String  eventName, final String startTime, final String endTime, 
+			final String eventDate, final String eventRoom, final String lightSetting, final String tempSetting) {
+
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting); 
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	// NEW EVENT
+	public void fireAuthenticateNewEventUpdate(final NewEvent u) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateNewEventUpdate(u);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}		
+
+	//EDIT EVENT SUBMIT
+	public void fireAuthenticateEditEventRequest(final String  eventName, final String startTime, final String endTime, 
+			final String eventDate, final String eventRoom, final String lightSetting, final String tempSetting) {
+
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateEditEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting); 
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	//EDIT EVENT SUBMIT
+	public void fireAuthenticateEditEventUpdate(final EditEvent u) {
+		for (EventListener l : listeners) {
+			try {
+				l.authenticateEditEventUpdate(u);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}		
+	///////////////////////////////////////////////////////////////////////////////////////////	
+
+	public void fireCreateEventRespond(ScheduleEvent event, int err) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.createEventRespond(event, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
 }

@@ -37,11 +37,11 @@ public class EventAdapter implements EventListener {
 
 	}
 
-	public void authenticateUserUpdate(User u) {
+//	public void authenticateUserUpdate(User u) {
 		// TODO Auto-generated method stub
 		//System.out.println("Authenticate User Update Fired");
 
-	}
+//	}
 
 	public void getEvents(Date Start, Date Stop) {
 		// TODO Auto-generated method stub
@@ -54,11 +54,11 @@ public class EventAdapter implements EventListener {
 	
 
 
-	public void authenticateUserRequest(String userName, String password) {
+//	public void authenticateUserRequest(String userName, String password) {
 		 //TODO Auto-generated method stub
 		//System.out.println("Authentication request Fired");
 		
-	}
+//	}
 
 	public void createUser(User u) {
 		//System.out.println("Registration Fired");
@@ -69,15 +69,52 @@ public class EventAdapter implements EventListener {
 		
 	}
 
-	public void createEvents(ArrayList<ScheduleEvent> events) {
+	public void createEvent(ScheduleEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	//public void createUser(ArrayList<UserRegister> events) {
-		// TODO Auto-generated method stub
+	////////////////////////////////////////////////////////////////////////////////- USER INTERFACE
+	
+	// LOG SCREEN
+	public void authenticateUserRequest(String userName, String password) {
+	// TODO Auto-generated method stub
+	
+	}
+	// LOG SCREEN
+	public void authenticateUserUpdate(User u) {
+	// TODO Auto-generated method stub
+	
+	}
+	
+	// NEW USER
+//	public void authenticateNewUserRequest(String firstName, String lastName, String email, String userName, String password) {
+	// TODO Auto-generated method stub
+//	}
+	//NEW USER
+//	public void authenticateNewUserUpdate(NewUser u){
+	
+//	}
+	
+	// NEW EVENT
+	public void authenticateNewEventRequest(String  eventName, String startTime, String endTime, 
+	String eventDate, String eventRoom, String lightSetting, String tempSetting){
+	}
+	//NEW EVENT
+	public void authenticateNewEventUpdate(final NewEvent u){	
+	}
+	
+	// EDIT EVENT - SUBMIT
+	public void authenticateEditEventRequest(String  eventName, String startTime, String endTime, 
+	String eventDate, String eventRoom, String lightSetting, String tempSetting){
+	}
+	// EDIT EVENT - SUBMIT
+	public void authenticateEditEventUpdate(final EditEvent u){	
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void createEventRespond(ScheduleEvent event, int err) {
 		
-	//}
-
-
+	}
+	
 }
