@@ -60,8 +60,12 @@ public class EventAdapter implements EventListener {
 		
 	}
 
-	public void CreateUser() {
-		System.out.println("Registration Fired");
+	public void createUser(User u) {
+		//System.out.println("Registration Fired");
+		
+	}
+	
+	public void createUserRespond(User u, int err) {
 		
 	}
 

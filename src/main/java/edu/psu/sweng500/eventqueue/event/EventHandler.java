@@ -121,6 +121,28 @@ public class EventHandler {
 			}
 		}
 	}
+
+	public void fireCreteUser(User u) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.createUser(u);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireCreteUserRespond(User u, int err) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.createUserRespond(u, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 		
 
 	/*public void fireAutheticateUserRespond(String userName) {

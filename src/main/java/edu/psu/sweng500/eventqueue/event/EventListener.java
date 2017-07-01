@@ -32,6 +32,10 @@ public interface EventListener {
 
 	public void eventUpdate(ScheduleEvent o);
 
+	public void createUser(User u);
+
+	public void createUserRespond(User u, int err);
+
 	//public void createUser(ArrayList<UserRegister> events);
 
 }

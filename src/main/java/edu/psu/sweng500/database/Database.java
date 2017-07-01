@@ -186,20 +186,23 @@ public class Database {
 				}
 			}
 	@Override
-		public void CreateUser() {
-			
+		public void createUser(User u) {
+			//display debug message
+			System.out.println("Database > Create user request received. User: " + u.getUserName());
+			int err = 1;
 			try {
 				
 				
 				statement= connect.createStatement();
 				
-				statement.executeQuery("Insert into psuteam7.User_Profile VALUES (null,?,?,?,?,?)");
-				
+				statement.executeQuery("Insert into psuteam7.User_Profile VALUES (null," + u.getFirstName() + ", " + u.getLastName() + ", " + u.getEmail() + ", " + u.getUserName() + ", " + u.getPassword());
+				err = 0;
+				eventHandler.fireCreteUserRespond(u, err);
 				JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
 				
 		} catch(Exception e) {
 			System.out.println(e);
-			
+			eventHandler.fireCreteUserRespond(u, err);
 			
 		}
 	}
