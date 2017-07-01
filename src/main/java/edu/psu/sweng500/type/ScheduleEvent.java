@@ -3,6 +3,7 @@ package edu.psu.sweng500.type;
 import java.util.Date;
 
 public class ScheduleEvent {
+	private String roomName;
 	private int eventID;
 	private String eventName;
 	private String eventDescription;

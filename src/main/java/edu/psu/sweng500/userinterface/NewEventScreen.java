@@ -3,6 +3,10 @@ package edu.psu.sweng500.userinterface;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -164,17 +168,47 @@ public class NewEventScreen implements ActionListener {
 			String lightSetting = lightSettingTXT.getText(); 
 			String tempSetting = temperatureSettingTXT.getText(); 
 			
+			Date startDateTime = null;
+			Date endDateTime = null;
 			
+			/*Calendar cal = Calendar.getInstance();
+			if (startTime == "") {
+				startTime = cal.getTime().toString();
+			}
+			if (endTime == "")
+			{
+				endTime = cal.getTime().toString();
+			}
+			
+			// request events
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
+			Date startDateTime = null;
+			Date endDateTime = null;
+			try {
+				startDateTime = df.parse(eventDate + " " + startTime);
+				endDateTime= df.parse(eventDate + " " + endTime);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
+			
+			//if (tempSetting == null) {
+				tempSetting = "72";
+			//''}
+			
+			//if (lightSetting == null) {
+				lightSetting = "100";
+			//}
 			ScheduleEvent se = new ScheduleEvent();
 			se.setEventName(eventName);
 			se.setEventDescription("Description");
 			
 			//end to match Schedule Event Data type
 			
-			//se.setEventStart(startTime);
-			//se.setEventStop(endTime);
-			//se.setTemperatureSetpoint(tempSetting);
-			//se.setLightIntensity(lightSetting);
+			se.setEventStart(startDateTime);
+			se.setEventStop(endDateTime);
+			se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
+			se.setLightIntensity(Float.parseFloat(lightSetting));
 							
 			// fire request event with password
 			//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
