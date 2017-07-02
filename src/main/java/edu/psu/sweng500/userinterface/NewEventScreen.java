@@ -55,9 +55,12 @@ public class NewEventScreen implements ActionListener {
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
+		
 		newEventWin = new JFrame("Global Schedular System New Event");
-		newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		newEventWin.setSize(360, 505);
+		newEventWin.setLocationRelativeTo(null);
+		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		newEventWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		newEventPane = new JPanel();
@@ -73,68 +76,68 @@ public class NewEventScreen implements ActionListener {
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
 
 		eventName = new JLabel("Event Name");
-		eventName.setBounds(550, 100, 80, 25);
+		eventName.setBounds(20, 25, 80, 25);
 		newEventPanel.add(eventName);
 
 		eventNameTXT = new JTextField(20);
-		eventNameTXT.setBounds(550, 125, 300, 25);
+		eventNameTXT.setBounds(20, 50, 300, 25);
 		newEventPanel.add(eventNameTXT);
 
 		eventStartTime = new JLabel("Event Start Time");
-		eventStartTime.setBounds(550, 165, 100, 25);
+		eventStartTime.setBounds(20, 75, 100, 25);
 		newEventPanel.add(eventStartTime);
 
 		eventStartTimeTXT = new JTextField(20);
-		eventStartTimeTXT.setBounds(550, 190, 160, 25);
+		eventStartTimeTXT.setBounds(20, 100, 160, 25);
 		newEventPanel.add(eventStartTimeTXT);
 
 		eventEndTime = new JLabel("Event End Time");
-		eventEndTime.setBounds(550, 230, 100, 25);
+		eventEndTime.setBounds(20, 125, 100, 25);
 		newEventPanel.add(eventEndTime);
 
 		eventEndTimeTXT = new JTextField(20);
-		eventEndTimeTXT.setBounds(550, 255, 160, 25);
+		eventEndTimeTXT.setBounds(20, 150, 160, 25);
 		newEventPanel.add(eventEndTimeTXT);
 
 		eventDate = new JLabel("Date of Event");
-		eventDate.setBounds(550, 295, 100, 25);
+		eventDate.setBounds(20, 175, 100, 25);
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
-		eventDateTXT.setBounds(550, 320, 160, 25);
+		eventDateTXT.setBounds(20, 200, 160, 25);
 		newEventPanel.add(eventDateTXT);
 
 		eventRoom = new JLabel("Event Room");
-		eventRoom.setBounds(550, 360, 160, 25);
+		eventRoom.setBounds(20, 225, 160, 25);
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
-		eventRoomText.setBounds(550, 385, 160, 25);
+		eventRoomText.setBounds(20, 250, 160, 25);
 		newEventPanel.add(eventRoomText);
 
 		lightSetting = new JLabel("Light Setting");
-		lightSetting.setBounds(550, 425, 160, 25);
+		lightSetting.setBounds(20, 275, 160, 25);
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
-		lightSettingTXT.setBounds(550, 450, 160, 25);
+		lightSettingTXT.setBounds(20, 300, 160, 25);
 		newEventPanel.add(lightSettingTXT);
 
 		temperatureSetting = new JLabel("Temperature Setting");
-		temperatureSetting.setBounds(550, 490, 160, 25);
+		temperatureSetting.setBounds(20, 325, 160, 25);
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
-		temperatureSettingTXT.setBounds(550, 515, 160, 25);
+		temperatureSettingTXT.setBounds(20, 350, 160, 25);
 		newEventPanel.add(temperatureSettingTXT);
 
 		newEventButton = new JButton("Submit Request");
-		newEventButton.setBounds(560, 575, 140, 25);
+		newEventButton.setBounds(30, 380, 140, 25);
 		newEventPanel.add(newEventButton);
 		newEventButton.addActionListener(new userRegistration());
 
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(560, 625, 140, 25);
+		cancelButton.setBounds(30, 410, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 

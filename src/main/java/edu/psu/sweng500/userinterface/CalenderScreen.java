@@ -25,7 +25,7 @@ public class CalenderScreen {
 	static JButton backBTN;
 	static JButton nextBTN;
 	static JButton newEventBTN;
-	static JButton editEventBTN; //////////////////// ^^need actionlistener
+	static JButton editEventBTN; 
 	static JPanel roomPanel;
 	static JPanel calenderWindow;
 	static JPanel navigationWindow;
@@ -45,6 +45,7 @@ public class CalenderScreen {
 
 	public CalenderScreen() {
 
+		
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 

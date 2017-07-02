@@ -6,6 +6,7 @@ import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
 import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.userinterface.CalenderScreen;
+
 //import edu.psu.sweng500.userinterface.LogScreen;
 
 /**
@@ -26,8 +27,8 @@ public class Main {
 			new Database(dao.getConnection()); // start the database
 			//new MultiThreadedAPIServer();//Start the API Server
 
-			new CalenderScreen(); // start CalenderScreen
-			//new LogScreen(); // start logscreen
+			new CalenderScreen(); // UI StartScreen
+			
 
 			new BacnetServer(); // start bacner server
 			while (true) {
