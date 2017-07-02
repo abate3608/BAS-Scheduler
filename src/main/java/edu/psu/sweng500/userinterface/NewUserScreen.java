@@ -43,9 +43,10 @@ public class NewUserScreen implements ActionListener {
 		eventHandler.addListener(new EventQueueListener());
 				
 		regWin = new JFrame("Global Schedular System Login");
-		// regWin.setSize(1800, 750);
-		regWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		regWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		regWin.setSize(700, 550);
+		regWin.setLocationRelativeTo(null);
+	//	regWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	//	regWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		regWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		regPane = new JPanel();
@@ -61,52 +62,52 @@ public class NewUserScreen implements ActionListener {
 		regPanel.setBorder(BorderFactory.createTitledBorder("New User Registration"));
 
 		firstName = new JLabel("First Name");
-		firstName.setBounds(550, 160, 80, 25);
+		firstName.setBounds(275, 50, 80, 25);
 		regPanel.add(firstName);
 
 		firstNameTXT = new JTextField(20);
-		firstNameTXT.setBounds(550, 185, 160, 25);
+		firstNameTXT.setBounds(275, 75, 160, 25);
 		regPanel.add(firstNameTXT);
 
 		lastName = new JLabel("Last Name");
-		lastName.setBounds(550, 225, 80, 25);
+		lastName.setBounds(275, 115, 80, 25);
 		regPanel.add(lastName);
 
 		lastNameTXT = new JTextField(20);
-		lastNameTXT.setBounds(550, 250, 160, 25);
+		lastNameTXT.setBounds(275, 140, 160, 25);
 		regPanel.add(lastNameTXT);
 
 		email = new JLabel("Email");
-		email.setBounds(550, 290, 80, 25);
+		email.setBounds(275, 180, 80, 25);
 		regPanel.add(email);
 
 		emailTXT = new JTextField(20);
-		emailTXT.setBounds(550, 315, 160, 25);
+		emailTXT.setBounds(275, 205, 160, 25);
 		regPanel.add(emailTXT);
 
 		userName = new JLabel("UserName");
-		userName.setBounds(550, 355, 80, 25);
+		userName.setBounds(275, 245, 80, 25);
 		regPanel.add(userName);
 
 		userNameTXT = new JTextField(20);
-		userNameTXT.setBounds(550, 380, 160, 25);
+		userNameTXT.setBounds(275, 270, 160, 25);
 		regPanel.add(userNameTXT);
 
 		passWord = new JLabel("Password");
-		passWord.setBounds(550, 420, 160, 25);
+		passWord.setBounds(275, 310, 160, 25);
 		regPanel.add(passWord);
 
 		passwordText = new JPasswordField(20);
-		passwordText.setBounds(550, 445, 160, 25);
+		passwordText.setBounds(275, 335, 160, 25);
 		regPanel.add(passwordText);
 
 		newuserButton = new JButton("Request Access");
-		newuserButton.setBounds(560, 550, 140, 25);
+		newuserButton.setBounds(285, 375, 140, 25);
 		regPanel.add(newuserButton);
 		newuserButton.addActionListener(new userRegistration());
 
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(560, 590, 140, 25);
+		cancelButton.setBounds(285, 415, 140, 25);
 		regPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 	}

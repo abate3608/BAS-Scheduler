@@ -33,10 +33,11 @@ public class LogScreen {
 		eventHandler.addListener(new EventQueueListener());
 
 		JFrame logWin = new JFrame("Global Schedular System Login");
-		// logWin.setSize(1800, 750);
+		logWin.setSize(700, 450);
+		logWin.setLocationRelativeTo(null);  
 		logWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		logWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		logWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+	//	logWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	//	logWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
 		logPane = new JPanel();
 		logWin.add(logPane);
@@ -50,29 +51,30 @@ public class LogScreen {
 		logPanel.setBorder(BorderFactory.createTitledBorder("Login"));
 
 		userLabel = new JLabel("Username");
-		userLabel.setBounds(550, 225, 80, 25);
+		userLabel.setBounds(275, 105, 80, 25);
 		logPanel.add(userLabel);
 
 		userNameText = new JTextField();
-		userNameText.setBounds(550, 250, 160, 25);
+		userNameText.setBounds(275, 130, 160, 25);
 		logPanel.add(userNameText);
-		userNameText.getText();
-
+		//userNameText.getText();
+		
+		
 		passWord = new JLabel("Password");
-		passWord.setBounds(550, 290, 80, 25);
+		passWord.setBounds(275, 170, 80, 25);
 		logPanel.add(passWord);
 
 		passwordText = new JPasswordField();
-		passwordText.setBounds(550, 315, 160, 25);
+		passwordText.setBounds(275, 195, 160, 25);
 		logPanel.add(passwordText);
 
 		loginButton = new JButton("Login");
-		loginButton.setBounds(592, 350, 80, 25);
+		loginButton.setBounds(312, 235, 80, 25);
 		logPanel.add(loginButton);
 		loginButton.addActionListener(new loginButtonPress());
 
 		newuserButton = new JButton("Request Access");
-		newuserButton.setBounds(562, 390, 140, 25);
+		newuserButton.setBounds(282, 275, 140, 25);
 		logPanel.add(newuserButton);
 		newuserButton.addActionListener(new NewUserScreen());
 	}
@@ -86,9 +88,7 @@ public class LogScreen {
 			password = passwordText.getText();
 
 			// fire request event with password
-			eventHandler.fireAuthenticateUserRequest(userName, password);
-
-			
+			eventHandler.fireAuthenticateUserRequest(userName, password);		
 
 		}
 	}

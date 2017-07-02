@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
+import edu.psu.sweng500.userinterface.LogScreen;
 
 public class CalenderScreen {
 	static JLabel monthName;
@@ -162,6 +163,8 @@ public class CalenderScreen {
 		}
 
 		updateCalendar(month, year); // Refresh calendar
+		
+		new LogScreen();
 	}
 
 	public static void updateCalendar(int month, int year) {
