@@ -14,7 +14,11 @@ public class OpenWeatherMapAPI {
 	private static final String API_KEY = "61544e3e538b756d02b74bdc831e7c2b";
 	private static final String UNITS = "imperial"; // sets all OpenWeatherMap
 													// received units
-
+	private double temperature;
+	private double humidity;
+	private double dewpoint;
+	private String g_zipcode;
+	
 	// Class structure used to store OpenWeatherMap requested data
 	static class ZipCode {
 		Coord coord;
@@ -74,6 +78,25 @@ public class OpenWeatherMapAPI {
 		double all;
 	}
 
+	public double getTemperature() {
+		return temperature;
+	}
+	
+	public double getHumidity() {
+		return temperature;
+	}
+	
+	public double getDewpoint() {
+		return dewpoint;
+	}
+	
+	public String getZipcode() {
+		return g_zipcode;
+	}
+	
+	public void setZipcode(String zip) {
+		g_zipcode = zip;
+	}
 	/*
 	 * This method uses zipcode and country code to query the OpenWeatherMap
 	 * server for location weather information.
@@ -90,14 +113,14 @@ public class OpenWeatherMapAPI {
 		String json;
 		try {
 			json = UrlReader.readUrl("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + "," + countryCode
-					+ "&" + UNITS + "&APPID=" + API_KEY);
+					+ "&units=" + UNITS + "&APPID=" + API_KEY);
 			Gson gson = new Gson();
 			zipCode = gson.fromJson(json, ZipCode.class);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return zipCode;
 	}
 
@@ -119,10 +142,58 @@ public class OpenWeatherMapAPI {
 		}
 		return Double.MAX_VALUE;
 	}
+	
+	public ZipCode getWeatherFromZip(String zip) {
+		String countryCode = "us";
+		ZipCode zipCode = null;
+		String json;
+		try {
+			json = UrlReader.readUrl("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + "," + countryCode
+					+ "&units=" + UNITS + "&APPID=" + API_KEY);
+			Gson gson = new Gson();
+			zipCode = gson.fromJson(json, ZipCode.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		temperature = zipCode.main.temp;
+		humidity = zipCode.main.humidity;
+		dewpoint = getDewpoint(temperature, humidity);
+		g_zipcode = zip;
+		return zipCode;
+	}
+	
+	
+	public void updateWeather() {
+		String countryCode = "us";
+		String zip = g_zipcode;
+		ZipCode zipCode = null;
+		String json;
+		try {
+			json = UrlReader.readUrl("http://api.openweathermap.org/data/2.5/weather?zip=" + zip + "," + countryCode
+					+ "&units=" + UNITS + "&APPID=" + API_KEY);
+			Gson gson = new Gson();
+			zipCode = gson.fromJson(json, ZipCode.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		temperature = zipCode.main.temp;
+		humidity = zipCode.main.humidity;
+		dewpoint = getDewpoint(temperature, humidity);
+		g_zipcode = zip;
 
+	}
+	
+	private double getDewpoint(double temp, double humidity) {
+		return temp - ((100-humidity) / 5);
+	}
+	
 	public static void main(String[] args) {
 		OpenWeatherMapAPI owm = new OpenWeatherMapAPI();
-		owm.getWeatherFromZip("92109", "us");
+		ZipCode zip = owm.getWeatherFromZip("92109", "us");
+		double temp = zip.main.temp;
+		
 	}
 
 }

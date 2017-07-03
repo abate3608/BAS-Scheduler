@@ -1,6 +1,5 @@
 package edu.psu.sweng500.eventqueue.event;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -62,6 +61,24 @@ public interface EventListener {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void createEventRespond(ScheduleEvent event, int err);
+
+	public void siteInfoRequest();
+
+	public void siteInfoUpdate(DBSiteTable s);
+
+	public void weatherInfoRequest(int siteId);
+
+	public void weatherInfoUpdate(DBWeatherTable w);
+
+	public void siteInfoUpdateDB(DBSiteTable s);
+
+	public void siteInfoUpdateDBRespond(DBSiteTable s, int err);
+
+	public void weatherInfoUpdateDB(DBWeatherTable w);
+
+	public void weatherInfoUpdateDBRespond(DBWeatherTable w, int err);
+
+
 
 
 }
