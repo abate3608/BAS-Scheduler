@@ -33,6 +33,10 @@ public class Database {
 	private static Statement statement = null;
 	private static ResultSet rt = null;
 	private static Connection connect = null;
+
+	private static DBSiteTable site = new DBSiteTable();
+	private static DBWeatherTable weather = new DBWeatherTable();
+
 	public static String lastName;
 
 	public Database(Connection connect) {
@@ -105,8 +109,8 @@ public class Database {
 
 		@Override
 		public void createEvent(ScheduleEvent event) {
-			
-			
+
+
 			System.out.println("Database > Create event received: Name - " + event.getEventName());
 			int err = 1;
 			try{  
@@ -139,9 +143,9 @@ public class Database {
 				//}
 				ps.executeBatch();
 				err = 0; //0 = good
-				
-				
-				
+
+
+
 				eventHandler.fireCreateEventRespond(event, err);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -233,25 +237,147 @@ public class Database {
 			}
 		}
 
-		public void readData(DataEvent b) {
-			System.out.println("Data being read from Importor " + b);
+		@Override
+		public void siteInfoRequest() {
+			//display debug message
+			System.out.println("Database > Site information request received.");
+			try {
+
+				//sql statement
+				String userquery = "Select * from psuteam7.site";
+				statement = connect.createStatement();
+				rt=statement.executeQuery(userquery);
+
+
+				while(rt.next()) 
+				{
+					if (rt.getInt(1) > 0) {
+						site = new DBSiteTable(rt.getInt(1), rt.getString(2), rt.getString(3), rt.getString(4), rt.getString(5), rt.getString(6), rt.getString(7), rt.getString(8), rt.getString(9));
+
+						break; //the system currently only support one site. 
+					}
+
+				}
+
+				//set update info to event queue
+				eventHandler.fireSiteInfoUpdate(site);
+
+
+			}catch (SQLException e) {
+				System.out.println(e);	
+			}
+
 		}
 
-		public void updateData(DataEvent b) {
-			System.out.println("Data has been successfully received from " + b);
+		@Override
+		public void siteInfoUpdateDB(DBSiteTable s) {
+			//display debug message
+			System.out.println("Database > Site infomation update request received. Site: " + s.getName());
+			int err = 1; //bad
+			try {
+				// the mysql insert statement
+				String query = " Update psuteam7.site set Name = ?, Description = ?, Address = ?, Address2 = ?, City = ?, State = ?, Zipcode = ?, CountryCode = ?"
+						+ " where ID = " + s.getId();
+
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt = connect.prepareStatement(query);
+				preparedStmt.setString (1, s.getName());
+				preparedStmt.setString (2, s.getDescription());
+				preparedStmt.setString (3, s.getAddress());
+				preparedStmt.setString (4, s.getAddress2());
+				preparedStmt.setString (5, s.getCity());
+				preparedStmt.setString (6, s.getState());
+				preparedStmt.setString (7, s.getZipCode());
+				preparedStmt.setString (8, s.getCountryCode());
+				preparedStmt.setInt (9, s.getId());
+				// execute the preparedstatement
+				preparedStmt.execute();
+
+
+				err = 0; //good
+				eventHandler.fireSiteInfoUpdateDBRespond(s, err);
+				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
+
+			} catch(Exception e) {
+				System.out.println(e);
+				eventHandler.fireSiteInfoUpdateDBRespond(s, err);
+
+			}
+
 		}
 
-		public void deleteData(DataEvent b) {
-			System.out.println("Old data has been deleted from " + b);
+		@Override
+		public void weatherInfoRequest(int siteId) {
+
+
+			//display debug message
+			System.out.println("Database > Weather information request received for site Id: " + siteId);
+			try {
+
+				//sql statement
+				String userquery = "Select top 1 * from psuteam7.weather where SiteID = " + siteId + " ORDER BY LastUpdate DESC";
+				statement = connect.createStatement();
+				rt=statement.executeQuery(userquery);
+
+
+				while(rt.next()) 
+				{
+					if (rt.getInt(1) > 0) {
+						weather = new DBWeatherTable(rt.getInt(1), rt.getInt(2), rt.getDouble(3), rt.getDouble(4), rt.getDouble(5), rt.getInt(6), rt.getDate(7));
+
+						break; //get only current information
+					}
+
+				}
+
+				//set update info to event queue
+				eventHandler.fireWeatherInfoUpdate(weather);
+
+
+			}catch (SQLException e) {
+				System.out.println(e);	
+			}
 		}
 
-		public void validateData(DataEvent b) {
-			System.out.println("Datas in the database are valid " + b);
+		@Override
+		public void weatherInfoUpdateDB(DBWeatherTable w) {
+			//display debug message
+			System.out.println("Database > Weather infomation update DB request received. Site: " + w.getSiteId());
+			int err = 1; //bad
+			try {
+				//add to database if change
+				if (w.getTemperature() != weather.getTemperature() || w.getHumidity() != weather.getHumidity() || w.getConditionId() != weather.getConditionId()) {
+					// the mysql insert statement
+					String query = " insert into psuteam7.weather (SiteID, Temperature, Humidity, DewPoint, ConditionID)"
+							+ " values (?, ?, ?, ?, ?)";
+
+					// create the mysql insert preparedstatement
+					PreparedStatement preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setInt (1, w.getSiteId());
+					preparedStmt.setDouble (2, w.getTemperature());
+					preparedStmt.setDouble (3, w.getHumidity());
+					preparedStmt.setDouble (4, w.getDewpoint());
+					preparedStmt.setInt (5, w.getConditionId());
+
+					// execute the preparedstatement
+					preparedStmt.execute();
+
+
+					err = 0; //good
+
+				} else {
+					err = 999; //no change
+				}
+				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
+				eventHandler.fireWeatherInfoUpdateDBRespond(w, err);
+
+			} catch(Exception e) {
+				System.out.println(e);
+				eventHandler.fireWeatherInfoUpdateDBRespond(w, err);
+			}
 		}
 
-		public void notify(DataEvent b) {
-			System.out.println("Data in " + b + "has been changed");
-		}
+
 	}
 
 	private int calendarId;

@@ -47,26 +47,26 @@ public class EventHandler {
 	}
 
 	// UI fire request
-//	public void fireAuthenticateUserRequest(final String userName, final String password) {
-//		for (EventListener l : listeners) {
-//			try {
-//				l.authenticateUserRequest(userName, password);
-//			} catch (Throwable e) {
-//				handleException(l, e);
-//			}
-//		}
-//	}
-//
-//	// UI fire request
-//	public void fireAuthenticateUserUpdate(final User u) {
-//		for (EventListener l : listeners) {
-//			try {
-//				l.authenticateUserUpdate(u);
-//			} catch (Throwable e) {
-//				handleException(l, e);
-//			}
-//		}
-//	}
+	//	public void fireAuthenticateUserRequest(final String userName, final String password) {
+	//		for (EventListener l : listeners) {
+	//			try {
+	//				l.authenticateUserRequest(userName, password);
+	//			} catch (Throwable e) {
+	//				handleException(l, e);
+	//			}
+	//		}
+	//	}
+	//
+	//	// UI fire request
+	//	public void fireAuthenticateUserUpdate(final User u) {
+	//		for (EventListener l : listeners) {
+	//			try {
+	//				l.authenticateUserUpdate(u);
+	//			} catch (Throwable e) {
+	//				handleException(l, e);
+	//			}
+	//		}
+	//	}
 
 	// Bacnet Server calls this function to request for BACnet Device info
 	public void fireGetBacnetDeviceRequest(final String ObjectIdentifier) {
@@ -89,7 +89,7 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 	public void fireCreateEvent(ScheduleEvent event) {
 		for (EventListener l : listeners) {
 			try {
@@ -169,7 +169,7 @@ public class EventHandler {
 	}
 
 
-/*	// UI fire request - NEW USER
+	/*	// UI fire request - NEW USER
 	public void fireAuthenticateNewUserRequest(final String firstName, final String lastName, final String email, final String userName, final String password) {
 		for (EventListener l : listeners) {
 			try {
@@ -251,4 +251,98 @@ public class EventHandler {
 		}
 	}
 
+	public void fireSiteInfoRequest() {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.siteInfoRequest();
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireSiteInfoUpdate(DBSiteTable s) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.siteInfoUpdate(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireWeatherInfoRequest(int siteId) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.weatherInfoRequest(siteId);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireWeatherInfoUpdate(DBWeatherTable w) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.weatherInfoUpdate(w);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireSiteInfoUpdateDB(DBSiteTable s) {
+		// TODO Auto-generated method stub
+				for (EventListener l : listeners) {
+					try {
+						l.siteInfoUpdateDB(s);
+					} catch (Throwable e) {
+						handleException(l, e);
+					}
+				}
+				
+		
+	}
+	
+	public void fireSiteInfoUpdateDBRespond(DBSiteTable s, int err) {
+		// TODO Auto-generated method stub
+				for (EventListener l : listeners) {
+					try {
+						l.siteInfoUpdateDBRespond(s, err);
+					} catch (Throwable e) {
+						handleException(l, e);
+					}
+				}
+				
+		
+	}
+	
+	public void fireWeatherInfoUpdateDB(DBWeatherTable w) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.weatherInfoUpdateDB(w);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+
+	public void fireWeatherInfoUpdateDBRespond(DBWeatherTable w, int err) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.weatherInfoUpdateDBRespond(w, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 }
