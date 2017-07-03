@@ -44,8 +44,7 @@ public class Main {
 			// test database
 			dao.readDB();
 			new Database(dao.getConnection()); // start the database
-			
-			
+				
 			System.out.println("Main > Get site information from DB.");
 			eventHandler.fireSiteInfoRequest();
 			
@@ -72,6 +71,10 @@ public class Main {
 			System.out.println("Main > Open UI calendar Screen.");
 			new CalenderScreen(); // UI StartScreen
 			
+			
+			//new MultiThreadedAPIServer();//Start the API Server
+
+
 			System.out.println("Main > System is running!");
 			while (status == 1) {
 				

@@ -92,7 +92,7 @@ public class LogScreen {
 			userName = userNameText.getText();
 			password = passwordText.getText();
 			logWin.setVisible(false); 
-			logWin.dispose(); 
+			//logWin.dispose(); 
 			// fire request event with password
 			eventHandler.fireAuthenticateUserRequest(userName, password);		
 
@@ -108,7 +108,7 @@ public class LogScreen {
 				userName = userNameText.getText();
 				password = passwordText.getText();
 				logWin.setVisible(false); 
-				//logWin.dispose(); 
+				logWin.dispose(); 
 
 				// fire request event with password
 				eventHandler.fireAuthenticateUserRequest(userName, password);	
