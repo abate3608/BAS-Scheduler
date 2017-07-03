@@ -101,7 +101,10 @@ public class BASGS_API {
 				event.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
 				events.add(event);
 			}
-			eventHandler.fireCreateEvents(events);
+			
+			for (ScheduleEvent event : events) {
+				eventHandler.fireCreateEvent(event);
+			}
 		} catch(ParseException e) {
 			e.printStackTrace();
 		}
@@ -143,7 +146,9 @@ public class BASGS_API {
 				event.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
 				events.add(event);
 			}
-			eventHandler.fireCreateEvents(events);
+			for (ScheduleEvent event : events) {
+				eventHandler.fireCreateEvent(event);
+			}
 		} catch(ParseException e) {
 			e.printStackTrace();
 		}

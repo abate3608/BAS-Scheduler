@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
+import edu.psu.sweng500.userinterface.LogScreen;
 
 public class CalenderScreen {
 	static JLabel monthName;
@@ -24,7 +25,7 @@ public class CalenderScreen {
 	static JButton backBTN;
 	static JButton nextBTN;
 	static JButton newEventBTN;
-	static JButton editEventBTN; //////////////////// ^^need actionlistener
+	static JButton editEventBTN; 
 	static JPanel roomPanel;
 	static JPanel calenderWindow;
 	static JPanel navigationWindow;
@@ -44,6 +45,7 @@ public class CalenderScreen {
 
 	public CalenderScreen() {
 
+		
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
@@ -162,6 +164,8 @@ public class CalenderScreen {
 		}
 
 		updateCalendar(month, year); // Refresh calendar
+		
+		new LogScreen();
 	}
 
 	public static void updateCalendar(int month, int year) {

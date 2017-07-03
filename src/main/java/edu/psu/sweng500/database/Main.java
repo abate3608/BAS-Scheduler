@@ -39,9 +39,17 @@ public class Main {
 		}
 
 		@Override
-		public void authenticateUserRequest(String userName, String password) {
+		public void authenticateUserRequest(String userName, String passWord) {
 			// do something
-			// dao.getEventHandler().fireAutheticateUserRespond(u);
+			User u;
+			if (userName == "test" && passWord == "test")
+			{
+				u = new User(userName, true);
+			} else
+			{
+				u = new User(userName, true);
+			}
+			dao.getEventHandler().fireAuthenticateUserUpdate(u);
 		}
 	}
 }

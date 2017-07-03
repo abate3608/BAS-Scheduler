@@ -5,7 +5,9 @@ import edu.psu.sweng500.bacnetserver.server.BacnetServer;
 import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
 import edu.psu.sweng500.database.MysqlConnection;
-import edu.psu.sweng500.userinterface.LogScreen;
+import edu.psu.sweng500.userinterface.CalenderScreen;
+
+//import edu.psu.sweng500.userinterface.LogScreen;
 
 /**
  * This is the application main class. When the built jar file is run, this
@@ -23,13 +25,15 @@ public class Main {
 			// test database
 			dao.readDB();
 			new Database(dao.getConnection()); // start the database
-			new MultiThreadedAPIServer();//Start the API Server
+			//new MultiThreadedAPIServer();//Start the API Server
 
-			new LogScreen(); // start logscreen
+			new CalenderScreen(); // UI StartScreen
+			
 
 			new BacnetServer(); // start bacner server
 			while (true) {
 				Thread.sleep(2000);
+				
 			}
 			
 		} catch (Exception e) {

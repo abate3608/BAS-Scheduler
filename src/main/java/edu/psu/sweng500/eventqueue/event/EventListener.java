@@ -3,6 +3,7 @@ package edu.psu.sweng500.eventqueue.event;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import edu.psu.sweng500.type.*;
 
 public interface EventListener {
@@ -11,9 +12,9 @@ public interface EventListener {
 	 */
 	void listenerException(Throwable e);
 
-	public void authenticateUserRequest(String userName, String password);
+//	public void authenticateUserRequest(String userName, String password);
 
-	public void authenticateUserUpdate(User u);
+//	public void authenticateUserUpdate(User u);
 
 	public void getBacnetDevice(String ObjectIdentifier);
 
@@ -25,9 +26,42 @@ public interface EventListener {
 
 	public void setBacnetObject(BacnetObject o);
 	
-	public void createEvents(ArrayList<ScheduleEvent> events);
+	public void createEvent(ScheduleEvent event);
 	
 	public void getEvents(Date Start, Date Stop);
 
 	public void eventUpdate(ScheduleEvent o);
+
+	public void createUser(User u);
+
+	public void createUserRespond(User u, int err);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////// - USER INTERFACE	
+	// Log Screen
+	public void authenticateUserRequest(String userName, String password);
+	// Log Screen
+	public void authenticateUserUpdate(User u);
+	
+/*	// NEW USER
+	public void authenticateNewUserRequest(final String firstName, final String lastName, final String email, 
+	final String userName, final String password);
+	//NEW USER
+	public void authenticateNewUserUpdate(NewUser u);*/
+	
+	// NEW EVENT
+	public void authenticateNewEventRequest(final String  eventName, final String startTime, final String endTime, 
+	final String eventDate, final String eventRoom, final String lightSetting, final String tempSetting);
+	//NEW EVENT
+	public void authenticateNewEventUpdate(final NewEvent u);
+	
+	//EDIT EVENT - SUBMIT
+	public void authenticateEditEventRequest(final String  eventName, final String startTime, final String endTime, 
+	final String eventDate, final String eventRoom, final String lightSetting, final String tempSetting);
+	//EDIT EVENT - SUBMIT
+	public void authenticateEditEventUpdate(final EditEvent u);
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void createEventRespond(ScheduleEvent event, int err);
+
+
 }
