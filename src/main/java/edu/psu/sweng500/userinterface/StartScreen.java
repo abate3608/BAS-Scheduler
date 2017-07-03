@@ -17,10 +17,10 @@ import java.text.SimpleDateFormat;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
 
-public class CalenderScreen {
+public class StartScreen {
 	static JLabel monthName;
 	static JLabel yearNumber;
-	static JFrame panelLayout;
+	static JFrame panelLayoutSS;
 	static Container windowLayout;
 	static JButton backBTN;
 	static JButton nextBTN;
@@ -43,25 +43,25 @@ public class CalenderScreen {
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 
-	public CalenderScreen() {
+	public StartScreen() {
 
 		
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
 		// JAVA FRAME SETUP
-		panelLayout = new JFrame("Global Schedular System");
+		panelLayoutSS = new JFrame("Global Schedular System");
 		// panelLayout.setSize(1375, 750); //USED TO SIZE FRAME
-		panelLayout.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		panelLayout.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		panelLayout.setLayout(new GridLayout());
-		panelLayout.validate();
-		panelLayout.pack();
-		panelLayout.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panelLayout.setResizable(true);
-		panelLayout.setVisible(true);
+		panelLayoutSS.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		panelLayoutSS.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		panelLayoutSS.setLayout(new GridLayout());
+		panelLayoutSS.validate();
+		panelLayoutSS.pack();
+		panelLayoutSS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panelLayoutSS.setResizable(true);
+		panelLayoutSS.setVisible(true);
 
-		windowLayout = panelLayout.getContentPane();
+		windowLayout = panelLayoutSS.getContentPane();
 		windowLayout.setLayout(null); // "NULL" LAYOUT
 
 		monthName = new JLabel("January");
@@ -165,7 +165,7 @@ public class CalenderScreen {
 
 		updateCalendar(month, year); // Refresh calendar
 		
-		//new LogScreen();
+		new LogScreen();
 	}
 
 	public static void updateCalendar(int month, int year) {
@@ -230,10 +230,6 @@ public class CalenderScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-
-		
 
 	}
 
@@ -307,24 +303,21 @@ public class CalenderScreen {
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
-
+	
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ScheduleEvent o) {
-			// TEAM 7 TO DO
-			// EventObject data type
-			//
-			// write code to update UI calendar when event arrive
-			boolean hasComponent = false;
-			String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
-			for (Component jc : roomPanel.getComponents()) {
-			    if ( jc instanceof JLabel ) {
-			        if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
-			    }
+		public void authenticateUserUpdate(User u) {
+			
+			if (u.isAuthenticated())
+			{
+				panelLayoutSS.setVisible(false);
+				
+				
+			} 
+				
 			}
-			if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
 		}
 	}
-}
+
