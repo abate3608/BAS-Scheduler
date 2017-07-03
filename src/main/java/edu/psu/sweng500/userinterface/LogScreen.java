@@ -61,6 +61,7 @@ public class LogScreen {
 		userNameText.setBounds(20, 50, 160, 25);
 		logPanel.add(userNameText);
 		//userNameText.getText();
+		userNameText.addKeyListener(new EnterButtonPress());
 		userNameText.addMouseListener(new UserMouseClicked());
 		
 		passWord = new JLabel("Password");

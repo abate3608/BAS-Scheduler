@@ -1,8 +1,13 @@
 package edu.psu.sweng500.userinterface;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +29,7 @@ import edu.psu.sweng500.type.NewEvent;
 import edu.psu.sweng500.type.ScheduleEvent;
 import edu.psu.sweng500.type.User;
 import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
+import edu.psu.sweng500.userinterface.NewUserScreen.FirstMouseClicked;
 
 public class NewEventScreen implements ActionListener {
 
@@ -48,14 +54,14 @@ public class NewEventScreen implements ActionListener {
 	private JButton cancelButton;
 
 	// Event listeners
-		private final EventHandler eventHandler = EventHandler.getInstance();
-		
+	private final EventHandler eventHandler = EventHandler.getInstance();
+
 	public void actionPerformed(ActionEvent e) {
 
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
-		
+
 		newEventWin = new JFrame("Global Schedular System New Event");
 		newEventWin.setSize(360, 505);
 		newEventWin.setLocationRelativeTo(null);
@@ -82,6 +88,8 @@ public class NewEventScreen implements ActionListener {
 		eventNameTXT = new JTextField(20);
 		eventNameTXT.setBounds(20, 50, 300, 25);
 		newEventPanel.add(eventNameTXT);
+		eventNameTXT.addKeyListener(new EnterButtonPress());
+		eventNameTXT.addMouseListener(new EventMouseClicked());
 
 		eventStartTime = new JLabel("Event Start Time");
 		eventStartTime.setBounds(20, 75, 100, 25);
@@ -90,6 +98,9 @@ public class NewEventScreen implements ActionListener {
 		eventStartTimeTXT = new JTextField(20);
 		eventStartTimeTXT.setBounds(20, 100, 160, 25);
 		newEventPanel.add(eventStartTimeTXT);
+		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
+		eventStartTimeTXT.addMouseListener(new StartMouseClicked());
+
 
 		eventEndTime = new JLabel("Event End Time");
 		eventEndTime.setBounds(20, 125, 100, 25);
@@ -98,6 +109,8 @@ public class NewEventScreen implements ActionListener {
 		eventEndTimeTXT = new JTextField(20);
 		eventEndTimeTXT.setBounds(20, 150, 160, 25);
 		newEventPanel.add(eventEndTimeTXT);
+		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
+		eventEndTimeTXT.addMouseListener(new EndMouseClicked());
 
 		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(20, 175, 100, 25);
@@ -106,6 +119,8 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT = new JTextField(20);
 		eventDateTXT.setBounds(20, 200, 160, 25);
 		newEventPanel.add(eventDateTXT);
+		eventDateTXT.addKeyListener(new EnterButtonPress());
+		eventDateTXT.addMouseListener(new DateMouseClicked());
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 225, 160, 25);
@@ -114,6 +129,8 @@ public class NewEventScreen implements ActionListener {
 		eventRoomText = new JTextField(20);
 		eventRoomText.setBounds(20, 250, 160, 25);
 		newEventPanel.add(eventRoomText);
+		eventRoomText.addKeyListener(new EnterButtonPress());
+		eventRoomText.addMouseListener(new RoomMouseClicked());
 
 		lightSetting = new JLabel("Light Setting");
 		lightSetting.setBounds(20, 275, 160, 25);
@@ -122,6 +139,8 @@ public class NewEventScreen implements ActionListener {
 		lightSettingTXT = new JTextField(20);
 		lightSettingTXT.setBounds(20, 300, 160, 25);
 		newEventPanel.add(lightSettingTXT);
+		lightSettingTXT.addKeyListener(new EnterButtonPress());
+		lightSettingTXT.addMouseListener(new LightMouseClicked());
 
 		temperatureSetting = new JLabel("Temperature Setting");
 		temperatureSetting.setBounds(20, 325, 160, 25);
@@ -130,6 +149,8 @@ public class NewEventScreen implements ActionListener {
 		temperatureSettingTXT = new JTextField(20);
 		temperatureSettingTXT.setBounds(20, 350, 160, 25);
 		newEventPanel.add(temperatureSettingTXT);
+		temperatureSettingTXT.addKeyListener(new EnterButtonPress());
+		temperatureSettingTXT.addMouseListener(new TempMouseClicked());
 
 		newEventButton = new JButton("Submit Request");
 		newEventButton.setBounds(30, 380, 140, 25);
@@ -143,6 +164,170 @@ public class NewEventScreen implements ActionListener {
 
 	}
 
+	//Event Name Highlight
+	public final class EventMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {		
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			eventNameTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			eventNameTXT.setBackground(Color.white );			
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			eventNameTXT.setBackground(Color.white );		
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			eventNameTXT.setBackground(Color.white );
+		}                                         
+	}    
+
+	//Event Start Time Highlight
+	public final class StartMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {		
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			eventStartTimeTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			eventStartTimeTXT.setBackground(Color.white );			
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			eventStartTimeTXT.setBackground(Color.white );		
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			eventStartTimeTXT.setBackground(Color.white );
+		}                                         
+	}               
+
+
+	//Event End Time Highlight
+	public final class EndMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {		
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			eventEndTimeTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			eventEndTimeTXT.setBackground(Color.white );			
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			eventEndTimeTXT.setBackground(Color.white );		
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			eventEndTimeTXT.setBackground(Color.white );
+		}                                         
+	}               
+
+
+	//Event Date Highlight
+	public final class DateMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {		
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			eventDateTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			eventDateTXT.setBackground(Color.white );			
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			eventDateTXT.setBackground(Color.white );		
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			eventDateTXT.setBackground(Color.white );
+		}                                         
+	}               
+
+	//Room Highlight
+	public final class RoomMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {	
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			eventRoomText.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			eventRoomText.setBackground(Color.white );
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			eventRoomText.setBackground(Color.white );
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			eventRoomText.setBackground(Color.white );
+		}                                         
+	} 
+
+	// Light Highlighted
+	public final class LightMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {	
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			lightSettingTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			lightSettingTXT.setBackground(Color.white );
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			lightSettingTXT.setBackground(Color.white );
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			lightSettingTXT.setBackground(Color.white );
+		}                                         
+	}     	
+
+	//Temp Highlighted
+	public final class TempMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {	
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			temperatureSettingTXT.setBackground(Color.LIGHT_GRAY );
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+			temperatureSettingTXT.setBackground(Color.white );
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+			temperatureSettingTXT.setBackground(Color.white );
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			temperatureSettingTXT.setBackground(Color.white );
+		}                                         
+	}     	
+
+	// Cancel Button
 	private final class cancelButtonPress implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -157,7 +342,7 @@ public class NewEventScreen implements ActionListener {
 		}
 	}
 
-///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
+	///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
 
 	private final class userRegistration implements ActionListener {
 
@@ -170,10 +355,10 @@ public class NewEventScreen implements ActionListener {
 			String eventRoom = eventRoomText.getText(); 
 			String lightSetting = lightSettingTXT.getText(); 
 			String tempSetting = temperatureSettingTXT.getText(); 
-			
+
 			Date startDateTime = null;
 			Date endDateTime = null;
-			
+
 			/*Calendar cal = Calendar.getInstance();
 			if (startTime == "") {
 				startTime = cal.getTime().toString();
@@ -182,7 +367,7 @@ public class NewEventScreen implements ActionListener {
 			{
 				endTime = cal.getTime().toString();
 			}
-			
+
 			// request events
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
 			Date startDateTime = null;
@@ -194,30 +379,95 @@ public class NewEventScreen implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}*/
-			
+
 			//if (tempSetting == null) {
-				tempSetting = "72";
+			tempSetting = "72";
 			//''}
-			
+
 			//if (lightSetting == null) {
-				lightSetting = "100";
+			lightSetting = "100";
 			//}
 			ScheduleEvent se = new ScheduleEvent();
 			se.setEventName(eventName);
 			se.setEventDescription("Description");
-			
+
 			//end to match Schedule Event Data type
-			
+
 			se.setEventStart(startDateTime);
 			se.setEventStop(endDateTime);
 			se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
 			se.setLightIntensity(Float.parseFloat(lightSetting));
-							
+
 			// fire request event with password
 			//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
-			
+
 			eventHandler.fireCreateEvent(se);
-			
+
+		}
+	}
+
+	//Enter Button Press
+	private final class EnterButtonPress extends KeyAdapter {
+
+		public void keyPressed(KeyEvent e) {
+
+			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
+				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
+				String eventName = eventNameTXT.getText(); 
+				String startTime = eventStartTimeTXT.getText(); 
+				String endTime= eventEndTimeTXT.getText(); 
+				String eventDate = eventDateTXT.getText(); 
+				String eventRoom = eventRoomText.getText(); 
+				String lightSetting = lightSettingTXT.getText(); 
+				String tempSetting = temperatureSettingTXT.getText(); 
+
+				Date startDateTime = null;
+				Date endDateTime = null;
+
+				/*Calendar cal = Calendar.getInstance();
+						if (startTime == "") {
+							startTime = cal.getTime().toString();
+						}
+						if (endTime == "")
+						{
+							endTime = cal.getTime().toString();
+						}
+
+						// request events
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
+						Date startDateTime = null;
+						Date endDateTime = null;
+						try {
+							startDateTime = df.parse(eventDate + " " + startTime);
+							endDateTime= df.parse(eventDate + " " + endTime);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}*/
+
+				//if (tempSetting == null) {
+				tempSetting = "72";
+				//''}
+
+				//if (lightSetting == null) {
+				lightSetting = "100";
+				//}
+				ScheduleEvent se = new ScheduleEvent();
+				se.setEventName(eventName);
+				se.setEventDescription("Description");
+
+				//end to match Schedule Event Data type
+
+				se.setEventStart(startDateTime);
+				se.setEventStop(endDateTime);
+				se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
+				se.setLightIntensity(Float.parseFloat(lightSetting));
+
+				// fire request event with password
+				//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
+
+				eventHandler.fireCreateEvent(se);
+			}
 		}
 	}
 
@@ -227,7 +477,7 @@ public class NewEventScreen implements ActionListener {
 
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
-	
+
 		@Override
 		public void createEventRespond(ScheduleEvent se, int err) {
 			System.out.println("NewEventScreen > Create event respond received. Name: " + se.getEventName() + " Error Code:" + err);
@@ -243,6 +493,8 @@ public class NewEventScreen implements ActionListener {
 			}
 		}
 	}
+
+
 
 }
 
