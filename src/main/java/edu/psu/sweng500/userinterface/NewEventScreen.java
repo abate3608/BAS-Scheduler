@@ -483,7 +483,7 @@ public class NewEventScreen implements ActionListener {
 			System.out.println("NewEventScreen > Create event respond received. Name: " + se.getEventName() + " Error Code:" + err);
 			if (err == 0) //good
 			{
-				new CalenderScreen();
+				//new CalenderScreen();
 			} else
 			{
 				//need error code for create event

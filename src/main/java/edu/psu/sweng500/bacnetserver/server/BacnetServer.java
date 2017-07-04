@@ -110,6 +110,9 @@ public class BacnetServer {
 				    if ( jc instanceof BACnetObject ) {
 				    	if (jc.getObjectName().equals(object.getObjectName())) {
 				    		Encodable d = jc.getProperty(PropertyIdentifier.presentValue);
+				    		
+				    		jc.setProperty(PropertyIdentifier.presentValue, new Real(r.getOccState()));
+				    		System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Update Presenvalue: " + d);
 				    		hasComponent = true;
 				    	}
 				    }
