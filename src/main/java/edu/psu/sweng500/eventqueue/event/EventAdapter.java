@@ -155,5 +155,14 @@ public class EventAdapter implements EventListener {
 			// TODO Auto-generated method stub
 			
 		}
+
+		public void roomInfoRequest() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void roomInfoUpdate(DBRoomTable r) {
+			
+		}
 		
 }

@@ -268,6 +268,34 @@ public class Database {
 			}
 
 		}
+		
+		@Override
+		public void roomInfoRequest() {
+			//display debug message
+			System.out.println("Database > Rooms information request received.");
+			try {
+
+				//sql statement
+				String userquery = "Select * from psuteam7.room";
+				statement = connect.createStatement();
+				rt=statement.executeQuery(userquery);
+
+				
+				while(rt.next()) 
+				{
+					if (rt.getInt(1) > 0) {
+						DBRoomTable r = new DBRoomTable(rt.getInt(1), rt.getString(2), rt.getString(3), rt.getString(4), rt.getInt(5), rt.getInt(6));
+						//set update info to event queue
+						eventHandler.fireRoomInfoUpdate(r); 
+					}
+
+				}
+
+			}catch (SQLException e) {
+				System.out.println(e);	
+			}
+
+		}
 
 		@Override
 		public void siteInfoUpdateDB(DBSiteTable s) {
@@ -315,7 +343,7 @@ public class Database {
 			try {
 
 				//sql statement
-				String userquery = "Select top 1 * from psuteam7.weather where SiteID = " + siteId + " ORDER BY LastUpdate DESC";
+				String userquery = "Select * from psuteam7.weather where SiteID = " + siteId + " ORDER BY ID DESC";
 				statement = connect.createStatement();
 				rt=statement.executeQuery(userquery);
 
@@ -325,7 +353,7 @@ public class Database {
 					if (rt.getInt(1) > 0) {
 						weather = new DBWeatherTable(rt.getInt(1), rt.getInt(2), rt.getDouble(3), rt.getDouble(4), rt.getDouble(5), rt.getInt(6), rt.getDate(7));
 
-						break; //get only current information
+						break; //get only current (latest) information
 					}
 
 				}
@@ -346,7 +374,7 @@ public class Database {
 			int err = 1; //bad
 			try {
 				//add to database if change
-				if (w.getTemperature() != weather.getTemperature() || w.getHumidity() != weather.getHumidity() || w.getConditionId() != weather.getConditionId()) {
+				if ((int)w.getTemperature() != (int)weather.getTemperature() || (int)w.getHumidity() != (int)weather.getHumidity() || w.getConditionId() != weather.getConditionId()) {
 					// the mysql insert statement
 					String query = " insert into psuteam7.weather (SiteID, Temperature, Humidity, DewPoint, ConditionID)"
 							+ " values (?, ?, ?, ?, ?)";

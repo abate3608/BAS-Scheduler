@@ -78,6 +78,9 @@ public interface EventListener {
 
 	public void weatherInfoUpdateDBRespond(DBWeatherTable w, int err);
 
+	public void roomInfoRequest();
+
+	public void roomInfoUpdate(DBRoomTable r);
 
 
 

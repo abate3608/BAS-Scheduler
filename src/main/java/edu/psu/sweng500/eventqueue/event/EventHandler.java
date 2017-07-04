@@ -296,33 +296,33 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 	public void fireSiteInfoUpdateDB(DBSiteTable s) {
 		// TODO Auto-generated method stub
-				for (EventListener l : listeners) {
-					try {
-						l.siteInfoUpdateDB(s);
-					} catch (Throwable e) {
-						handleException(l, e);
-					}
-				}
-				
-		
+		for (EventListener l : listeners) {
+			try {
+				l.siteInfoUpdateDB(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+
 	}
-	
+
 	public void fireSiteInfoUpdateDBRespond(DBSiteTable s, int err) {
 		// TODO Auto-generated method stub
-				for (EventListener l : listeners) {
-					try {
-						l.siteInfoUpdateDBRespond(s, err);
-					} catch (Throwable e) {
-						handleException(l, e);
-					}
-				}
-				
-		
+		for (EventListener l : listeners) {
+			try {
+				l.siteInfoUpdateDBRespond(s, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+
 	}
-	
+
 	public void fireWeatherInfoUpdateDB(DBWeatherTable w) {
 		// TODO Auto-generated method stub
 		for (EventListener l : listeners) {
@@ -333,13 +333,35 @@ public class EventHandler {
 			}
 		}
 	}
-	
+
 
 	public void fireWeatherInfoUpdateDBRespond(DBWeatherTable w, int err) {
 		// TODO Auto-generated method stub
 		for (EventListener l : listeners) {
 			try {
 				l.weatherInfoUpdateDBRespond(w, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireRoomInfoRequest() {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.roomInfoRequest();
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+
+	public void fireRoomInfoUpdate(DBRoomTable r) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.roomInfoUpdate(r);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}
