@@ -43,6 +43,12 @@ public class CalenderScreen {
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 
+	private static DBWeatherTable weather = new DBWeatherTable();
+	
+	private static boolean isAuthenticated;
+	
+	private final static LogScreen loginScreen = new LogScreen();
+	
 	public CalenderScreen() {
 
 		
@@ -165,7 +171,8 @@ public class CalenderScreen {
 
 		updateCalendar(month, year); // Refresh calendar
 		
-		//new LogScreen();
+		loginScreen.create();
+		
 	}
 
 	public static void updateCalendar(int month, int year) {
@@ -313,10 +320,12 @@ public class CalenderScreen {
 
 		@Override
 		public void eventUpdate(ScheduleEvent o) {
-			// TEAM 7 TO DO
-			// EventObject data type
-			//
-			// write code to update UI calendar when event arrive
+			System.out.println("CalendarScreen > Schedule event update received. Event Name: " + o.getEventID());
+			
+			if (!isAuthenticated) {
+				System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
+				return;
+			}
 			boolean hasComponent = false;
 			String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
 			for (Component jc : roomPanel.getComponents()) {
@@ -325,6 +334,26 @@ public class CalenderScreen {
 			    }
 			}
 			if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
+		}
+		
+		@Override
+		public void weatherInfoUpdate(DBWeatherTable w) {
+			System.out.println("CalendarScreen > Received weather data from DB for SiteID: " + w.getSiteId() + " Temperature: " + w.getTemperature());
+			weather = w; //write data from db to local variable
+			
+		}
+		
+		@Override
+		public void authenticateUserUpdate(User u) {
+			System.out.println("CalendarScreen > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
+			isAuthenticated = false;
+			if (u.getUserName() == loginScreen.getUserName())
+			{
+				isAuthenticated = u.isAuthenticated();
+				//new CalenderScreen();
+				//logWin.dispose();
+				
+			} 
 		}
 	}
 }

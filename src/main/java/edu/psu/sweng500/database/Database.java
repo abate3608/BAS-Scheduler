@@ -176,7 +176,7 @@ public class Database {
 					if(userName.equals(IDName) && (passWord.equals(DBpass))) {
 						//found matching credential
 
-						JOptionPane.showMessageDialog(null, "Login Successful");
+						//JOptionPane.showMessageDialog(null, "Login Successful");
 						u.setAuthenticated(true);
 						//exit while loop
 						break;
@@ -185,13 +185,7 @@ public class Database {
 						u.setAuthenticated(false);
 					}
 				}
-				//rt.close();	
-				//if user is not authenicated. Display 
-				if(!u.isAuthenticated()) 
-				{
-					JOptionPane.showMessageDialog(null, "Login Fail. Please Enter Correct UserName and Password");
-				}
-
+				
 				eventHandler.fireAuthenticateUserUpdate(u);
 
 

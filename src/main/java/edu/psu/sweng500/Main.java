@@ -10,7 +10,6 @@ import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
-import edu.psu.sweng500.userinterface.StartScreen;
 
 //import edu.psu.sweng500.userinterface.LogScreen;
 
@@ -73,8 +72,8 @@ public class Main {
 			
 			
 			System.out.println("Main > Open UI calendar Screen.");
-			//new CalenderScreen(); // UI StartScreen
-			new StartScreen();
+			new CalenderScreen(); // UI StartScreen
+			//new StartScreen();
 			
 			//new MultiThreadedAPIServer();//Start the API Server
 
