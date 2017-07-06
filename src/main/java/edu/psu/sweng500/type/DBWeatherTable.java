@@ -21,14 +21,14 @@ public class DBWeatherTable {
 		lastUpdate = null;
 	}
 	
-	public DBWeatherTable (int pid, int psiteId, double ptemperature, double phumidity, double pdewpoint, int pconditionId, Date plateUpdate) {
-		id = pid;
-		siteId = psiteId;
-		temperature = ptemperature;
-		humidity = phumidity;
-		dewpoint = pdewpoint;
-		conditionId = pconditionId;
-		lastUpdate = plateUpdate;
+	public DBWeatherTable (int id, int siteId, double temperature, double humidity, double dewpoint, int conditionId, Date lateUpdate) {
+		this.id = id;
+		this.siteId = siteId;
+		this.temperature = temperature;
+		this.humidity = humidity;
+		this.dewpoint = dewpoint;
+		this.conditionId = conditionId;
+		this.lastUpdate = lateUpdate;
 	}
 	
 	public int getId() {
@@ -43,32 +43,32 @@ public class DBWeatherTable {
 		return siteId;
 	}
 	
-	public void setTemperature (double ptemperature) {
-		temperature = ptemperature;
+	public void setTemperature (double temperature) {
+		this.temperature = temperature;
 	}
 	
 	public double getTemperature () {
 		return temperature;
 	}
 	
-	public void setHumidity (double phumidity) {
-		humidity = phumidity;
+	public void setHumidity (double humidity) {
+		this.humidity = humidity;
 	}
 	
 	public double getHumidity () {
 		return humidity;
 	}
 	
-	public void setDewpoint (double pdewpoint) {
-		dewpoint = pdewpoint;
+	public void setDewpoint (double dewpoint) {
+		this.dewpoint = dewpoint;
 	}
 	
 	public double getDewpoint () {
 		return dewpoint;
 	}
 	
-	public void setConditionId (int pconditionId) {
-		conditionId = pconditionId;
+	public void setConditionId (int conditionId) {
+		this.conditionId = conditionId;
 	}
 	
 	public int getConditionId () {

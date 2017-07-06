@@ -18,6 +18,10 @@ import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
 
 public class CalenderScreen {
+	static JLabel temperature;
+	static JLabel humidity;
+	static JLabel loginStatus;
+	
 	static JLabel monthName;
 	static JLabel yearNumber;
 	static JFrame panelLayout;
@@ -51,7 +55,6 @@ public class CalenderScreen {
 
 	public CalenderScreen() {
 
-
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
@@ -69,7 +72,15 @@ public class CalenderScreen {
 
 		windowLayout = panelLayout.getContentPane();
 		windowLayout.setLayout(null); // "NULL" LAYOUT
-
+		
+		temperature = new JLabel ("Temperature");
+		temperature.setBounds(900, 50, 200, 30);
+		humidity = new JLabel ("Humidity");
+		humidity.setBounds(1100, 50, 200, 30);
+		
+		loginStatus = new JLabel ("User: ");
+		loginStatus.setBounds(900, 70, 200, 30);
+		
 		monthName = new JLabel("January");
 
 		calendarYear = new JComboBox<String>();
@@ -84,6 +95,7 @@ public class CalenderScreen {
 			}
 		};
 
+		
 		// Calendar Table
 		calendarTable = new JTable(calenderTable);
 		calendarTable.setColumnSelectionAllowed(true); // Single cell selection
@@ -118,7 +130,7 @@ public class CalenderScreen {
 		editEventBTN = new JButton("Edit Event");
 		editEventBTN.setBounds(150, 140, 148, 25); // Button Sizing and Location
 		editEventBTN.addActionListener(new EditEventScreen());
-
+		
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
@@ -134,6 +146,10 @@ public class CalenderScreen {
 		// Add controls to calenderWindow
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
+		calenderWindow.add(temperature);
+		calenderWindow.add(humidity);
+		calenderWindow.add(loginStatus);
+		
 		calenderWindow.add(monthName);
 		calenderWindow.add(calendarYear);
 		calenderWindow.add(backBTN);
@@ -341,7 +357,8 @@ public class CalenderScreen {
 		public void weatherInfoUpdate(DBWeatherTable w) {
 			System.out.println("CalendarScreen > Received weather data from DB for SiteID: " + w.getSiteId() + " Temperature: " + w.getTemperature());
 			weather = w; //write data from db to local variable
-
+			temperature.setText("Outside Temperature: " + w.getTemperature() + " F");
+			humidity.setText("Humdity: " + w.getHumidity() + " %");
 		}
 
 		@Override
@@ -357,7 +374,7 @@ public class CalenderScreen {
 						String b = calendarYear.getSelectedItem().toString();
 						getYear = Integer.parseInt(b);
 						updateCalendar(getMonth, getYear);
-
+						loginStatus.setText("User: " + u.getUserName());
 					}
 				}
 				//new CalenderScreen();

@@ -67,6 +67,7 @@ public class Main {
 			System.out.println("Main > Get weather data from Open Weather Map API for Site Zip Code: " + site.getZipCode() + ".");
 			OpenWeatherMapAPI owm = new OpenWeatherMapAPI();
 			owm.getWeatherFromZip(site.getZipCode()); //currently for US only
+						
 			
 			System.out.println("Main > Start BACnet Server.");			
 			new BacnetServer(); // start bacner server
