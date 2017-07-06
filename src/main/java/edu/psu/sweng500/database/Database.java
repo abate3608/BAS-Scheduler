@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.chainsaw.Main;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
@@ -37,6 +39,7 @@ public class Database {
 	private static DBSiteTable site = new DBSiteTable();
 	private static DBWeatherTable weather = new DBWeatherTable();
 
+
 	public static String lastName;
 
 	public Database(Connection connect) {
@@ -49,7 +52,7 @@ public class Database {
 		@Override
 		public void getBacnetDevice(String ObjectIdentifier) {
 			try {
-				System.out.println("getBacnetDeviceReqeust received for " + ObjectIdentifier);
+				System.out.println("Database > Bacnet Device Request received for " + ObjectIdentifier);
 
 				// get information from data and send the data back to Bacnet
 				// server
@@ -75,30 +78,30 @@ public class Database {
 		}
 
 		@Override
-		public void getEvents(Date Start, Date Stop) {
+		public void getEvents(Date startDateTime, Date endDateTime) {
 			try {
-
+				System.out.println("Database > Get Events received for date range: " + startDateTime.toString() + " - " + endDateTime.toString());
+				
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
 
 				statement = connect.createStatement();
 
-				String s = "select * from psuteam7.schedule where StartTime >= '" + df.format(Start) + "' and EndTime <= '" + df.format(Stop) + "'";
+				String query = "select * from psuteam7.schedule where StartDateTime >= '" + df.format(startDateTime) + "' and EndDateTime <= '" + df.format(endDateTime) + "'";
 
-				rt = statement.executeQuery(s); 
+				rt = statement.executeQuery(query); 
 
 				while ((rt.next())) { 
 
-					// Loop to each event
-					// Create SheduleEvent object
-					ScheduleEvent scheduleEvent = new ScheduleEvent();
-					scheduleEvent.setEventID(rt.getInt("ScheduleId"));
-					scheduleEvent.setEventName(rt.getString("Name"));
-					scheduleEvent.setEventDescription(rt.getString("Description"));
-					scheduleEvent.setEventStart(rt.getDate("StartTime"));
-					scheduleEvent.setEventStop(rt.getDate("EndTime")); 
+
+					DBScheduleTable s = new DBScheduleTable();
+					s.setScheduleId(rt.getInt("ScheduleId"));
+					s.setName(rt.getString("Name"));
+					s.setDescription(rt.getString("Description"));
+					s.setStartDateTime(rt.getDate("StartDateTime"));
+					s.setEndDateTime(rt.getDate("EndDateTime")); 
 
 					// Send each event to event queue
-					eventHandler.fireEventUpdate(scheduleEvent);
+					eventHandler.fireEventUpdate(s);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -108,49 +111,99 @@ public class Database {
 		}
 
 		@Override
-		public void createEvent(ScheduleEvent event) {
+		public void createEvent(DBScheduleTable s) {
 
 
-			System.out.println("Database > Create event received: Name - " + event.getEventName());
-			int err = 1;
-			try{  
-				String query = "INSERT INTO psuteam7.schedule (RowGuid, ScheduleSiteId, Name, "
-						+ "Description, Notes, ControlToState, StartTime, EndTime, MarkedForDelete, CalendarId, "
-						+ "CalendarSiteId, DownloadStatus, SaveStatus, ActiveOnCalendarDays) "
-						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
-				PreparedStatement ps = connect.prepareStatement(query);
-				//for (ScheduleEvent event : events) {
-				UUID uuid = UUID.randomUUID();
-				ps.setString(1, uuid.toString()); //RowGuid
-				ps.setInt(3, 1); // ScheduleSiteId
-				//ps.setInt(1, event.getEventID());
-				ps.setString(4, event.getEventName()); //Name
-				ps.setString(5, event.getEventDescription());//Description
-				ps.setString(6," ");//Notes
-				ps.setInt(7, 1);//ControlToState
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(event.getEventStart());
-				ps.setDate(8, new java.sql.Date(cal.DATE));//start time
-				cal.setTime(event.getEventStop());
-				ps.setDate(9, new java.sql.Date(cal.DATE));//end time
-				ps.setBoolean(10, false); //MarkedForDelete
-				ps.setInt(11,1); //CalendarId
-				ps.setInt(12, 1);//CalendarSiteId
-				ps.setInt(13, 0);//download status
-				ps.setInt(14, 0);//SaveStatus
-				ps.setBoolean(15, false);//ActiveOnCalendarDays
-				ps.addBatch();
-				//}
-				ps.executeBatch();
-				err = 0; //0 = good
+			System.out.println("Database > Create schedule event received: Name - " + s.getName());
+			int err = 0; //failed
+			try {
+
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+				statement = connect.createStatement();
+				Date d = DateUtils.addHours(s.getStartDateTime(), -2);
+				String query = "select * from psuteam7.schedule where (StartDateTime <= '" + df.format(d) + "'" 
+						+ " and EndDateTime > '" + df.format(d) + "') and RoomName = '" + s.getRoomName() + "'";
+
+				rt = statement.executeQuery(query); 
+				//check for existing schedule
+				while (rt.next()) { 
+					String rowGuid = rt.getString("RowGuid");
+					if (rowGuid.equalsIgnoreCase(s.getRowGuid())) {
+						err = 2; //guid exist. schedule exist.
+						//System.out.println("Database > Schedule event existed in DB: Name - " + s.getName());
+					}
+					String datetime = null;
+					Timestamp timestamp = rt.getTimestamp("StartDateTime");
+					if (timestamp != null) {
+						datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+					}
+
+					Date startDateTime = df.parse(datetime);
+					
+					timestamp = rt.getTimestamp("EndDateTime");
+					if (timestamp != null) {
+						datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
+					}
+					Date endDateTime = df.parse(datetime);
+					
+					if (startDateTime.compareTo(s.getStartDateTime()) <= 0 && endDateTime.compareTo(s.getStartDateTime()) > 0) {
+						err = 3; //conflict time
+						//System.out.println("Database > Event [" + s.getName() + "] cannot be added for room [" + s.getRoomName() + "]. Another event already rescheduled at this time - Name: " + rt.getString("Name"));
+					}
+				}
 
 
+				if (err < 1) { //no error
+					String query2 = "INSERT INTO psuteam7.schedule (RowGuid, ScheduleSiteId, Name, "
+							+ "Description, Notes, ControlToState, StartDateTime, EndDateTime, MarkedForDelete, "
+							+ "RoomName, TemperatureSetpoint, LightIntensity) "
+							+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";   
+					PreparedStatement ps = connect.prepareStatement(query2);
 
-				eventHandler.fireCreateEventRespond(event, err);
+					UUID uuid = UUID.randomUUID();
+					String rowGuid = s.getRowGuid();
+					//if (rowGuid == null || rowGuid.equalsIgnoreCase("")) {
+						ps.setString(1, uuid.toString()); //RowGuid
+					//} else {
+					//	ps.setString(1, rowGuid); //RowGuid
+					//}
+
+					if (s.getScheduleSiteId() < 1) { //if no schedule id set
+						ps.setInt(2, 1); // ScheduleSiteId
+					} else
+					{
+						ps.setInt(2, s.getScheduleSiteId()); // ScheduleSiteId
+					}
+
+					//ps.setInt(1, event.getEventID());
+					ps.setString(3, s.getName()); //Name
+					ps.setString(4, s.getDescription());//Description
+					ps.setString(5, s.getName());//Notes
+
+					ps.setInt(6, s.getControlToState());//ControlToState
+					
+					java.sql.Timestamp sqlStartDateTime = new java.sql.Timestamp(s.getStartDateTime().getTime());
+					java.sql.Timestamp sqlEndDateTime = new java.sql.Timestamp(s.getEndDateTime().getTime());
+					
+					ps.setObject(7, sqlStartDateTime);//start time
+					ps.setObject(8, sqlEndDateTime);//end time
+					ps.setBoolean(9, s.getMarkedForDelete()); //MarkedForDelete
+					ps.setString(10, s.getRoomName());
+					ps.setFloat(11, s.getTemperatureSetpoint());
+					ps.setInt(12, s.getLightIntensity());
+					ps.addBatch();
+
+					ps.executeBatch();
+					err = 0; //0 = good
+
+				} 
+
+				eventHandler.fireCreateEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
 				err = 1;
-				eventHandler.fireCreateEventRespond(event, err);
+				eventHandler.fireCreateEventRespond(s, err);
 			}
 
 		}
@@ -185,7 +238,7 @@ public class Database {
 						u.setAuthenticated(false);
 					}
 				}
-				
+
 				eventHandler.fireAuthenticateUserUpdate(u);
 
 
@@ -262,7 +315,7 @@ public class Database {
 			}
 
 		}
-		
+
 		@Override
 		public void roomInfoRequest() {
 			//display debug message
@@ -274,7 +327,7 @@ public class Database {
 				statement = connect.createStatement();
 				rt=statement.executeQuery(userquery);
 
-				
+
 				while(rt.next()) 
 				{
 					if (rt.getInt(1) > 0) {
@@ -291,6 +344,66 @@ public class Database {
 
 		}
 
+		@Override
+		public void roomInfoUpdateDB(DBRoomTable r) {
+			//display debug message
+			System.out.println("Database > Room infomation update DB request received. Room name: " + r.getRoomName());
+			int err = 0; //good
+			String query = null;
+			
+			
+			try {
+				
+				query = "select * from psuteam7.room where RoomNumber = '" + r.getRoomNumber() +"'";
+				statement = connect.createStatement();
+				rt=statement.executeQuery(query);
+				//check for existing schedule
+				if (rt.next()) { 
+					
+					//System.out.println("Database > Room exist. Update room info.");
+					err = 2;
+
+				}
+				
+				if (err == 2) {
+					query = " Update psuteam7.room set RoomName = ?, RoomType = ?"
+						+ " where RoomNumber = ?";
+					// create the mysql insert preparedstatement
+					PreparedStatement preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setString (1, r.getRoomName());
+					preparedStmt.setString (2, r.getRoomTye());
+					preparedStmt.setString (3, r.getRoomNumber());
+					// execute the preparedstatement
+					preparedStmt.execute();
+					
+				} else if (err == 0) {
+					query = " insert into psuteam7.room (RoomNumber, RoomName, RoomType)"
+							+ " values (?, ?, ?)";
+					
+					// create the mysql insert preparedstatement
+					PreparedStatement preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setString (1, r.getRoomNumber());
+					preparedStmt.setString (2, r.getRoomName());
+					preparedStmt.setString (3, r.getRoomTye());
+					// execute the preparedstatement
+					preparedStmt.execute();
+				}
+				
+
+
+				err = 0; //good
+				//eventHandler.fireRoomInfoUpdateDBRespond(r, err);
+				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
+
+			} catch(Exception e) {
+				System.out.println(e);
+				err = 1; //bad
+				//eventHandler.fireRoomInfoUpdateDBRespond(r, err);
+
+			}
+
+		}
+		
 		@Override
 		public void siteInfoUpdateDB(DBSiteTable s) {
 			//display debug message
@@ -322,6 +435,7 @@ public class Database {
 
 			} catch(Exception e) {
 				System.out.println(e);
+				err = 1; //bad
 				eventHandler.fireSiteInfoUpdateDBRespond(s, err);
 
 			}

@@ -320,15 +320,15 @@ public class CalenderScreen {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ScheduleEvent o) {
-			System.out.println("CalendarScreen > Schedule event update received. Event Name: " + o.getEventID());
+		public void eventUpdate(DBScheduleTable s) {
+			System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
 
 			if (!isAuthenticated) {
 				System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
 				return;
 			}
 			boolean hasComponent = false;
-			String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
+			String eventDes = "<html>" + s.getName() + ": " + s.getDescription() + " "+ s.getStartDateTime() + " - " + s.getEndDateTime()+"</hmtl>";
 			for (Component jc : roomPanel.getComponents()) {
 				if ( jc instanceof JLabel ) {
 					if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }

@@ -25,11 +25,11 @@ public interface EventListener {
 
 	public void setBacnetObject(BacnetObject o);
 	
-	public void createEvent(ScheduleEvent event);
+	public void createEvent(DBScheduleTable s);
 	
-	public void getEvents(Date Start, Date Stop);
+	public void getEvents(Date startDateTime, Date endDateTime);
 
-	public void eventUpdate(ScheduleEvent o);
+	public void eventUpdate(DBScheduleTable s);
 
 	public void createUser(User u);
 
@@ -60,7 +60,7 @@ public interface EventListener {
 	public void authenticateEditEventUpdate(final EditEvent u);
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void createEventRespond(ScheduleEvent event, int err);
+	public void createEventRespond(DBScheduleTable s, int err);
 
 	public void siteInfoRequest();
 
@@ -82,6 +82,7 @@ public interface EventListener {
 
 	public void roomInfoUpdate(DBRoomTable r);
 
+	public void roomInfoUpdateDB(DBRoomTable r);
 
 
 }

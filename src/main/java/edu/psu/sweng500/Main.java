@@ -8,6 +8,7 @@ import edu.psu.sweng500.database.Database;
 import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.importer.XMLImporter;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
 
@@ -77,7 +78,10 @@ public class Main {
 			
 			//new MultiThreadedAPIServer();//Start the API Server
 
-
+			//create new xml importer
+			//
+			XMLImporter xmlImporter = new XMLImporter();
+			
 			System.out.println("Main > System is running!");
 			while (status == 1) {
 				
@@ -92,10 +96,11 @@ public class Main {
 				eventHandler.fireWeatherInfoUpdateDB(w);
 				
 				eventHandler.fireRoomInfoRequest();
+				eventHandler.fireWeatherInfoRequest(site.getId());
 				
-				
-				Thread.sleep(10000);  //5 minutes
+				Thread.sleep(50000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
+				xmlImporter.parseXML();
 			}
 			
 		} catch (Exception e) {

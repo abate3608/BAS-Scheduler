@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
-import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.type.*;
 
 /*
  * Author: Brian Abate
@@ -90,23 +90,23 @@ public class BASGS_API {
 	 */
 	private void create(API_Object api) throws IOException {
 		try {
-			ArrayList<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
+			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
-				ScheduleEvent event = new ScheduleEvent();
+				DBScheduleTable s = new DBScheduleTable();
 				System.out.println(api.bacnet.get(i).eventID);
-				event.setEventID(Integer.parseInt(api.bacnet.get(i).eventID));
-				event.setEventName(api.bacnet.get(i).eventName);
-				event.setEventDescription(api.bacnet.get(i).eventDescription);
+				s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
+				s.setName(api.bacnet.get(i).eventName);
+				s.setDescription(api.bacnet.get(i).eventDescription);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-				event.setEventStart(df.parse(api.bacnet.get(i).eventStart));
-				event.setEventStop(df.parse(api.bacnet.get(i).eventStop));
-				event.setLightIntensity(Float.parseFloat(api.bacnet.get(i).lightIntensity));
-				event.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
-				events.add(event);
+				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
+				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
+				s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
+				s.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
+				schedules.add(s);
 			}
 			
-			for (ScheduleEvent event : events) {
-				eventHandler.fireCreateEvent(event);
+			for (DBScheduleTable s : schedules) {
+				eventHandler.fireCreateEvent(s);
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();
@@ -132,22 +132,22 @@ public class BASGS_API {
 	 */
 	private void update(API_Object api) {
 		try {
-			ArrayList<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
+			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
-				ScheduleEvent event = new ScheduleEvent();
+				DBScheduleTable s = new DBScheduleTable();
 				System.out.println(api.bacnet.get(i).eventID);
-				event.setEventID(Integer.parseInt(api.bacnet.get(i).eventID));
-				event.setEventName(api.bacnet.get(i).eventName);
-				event.setEventDescription(api.bacnet.get(i).eventDescription);
+				s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
+				s.setName(api.bacnet.get(i).eventName);
+				s.setDescription(api.bacnet.get(i).eventDescription);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-				event.setEventStart(df.parse(api.bacnet.get(i).eventStart));
-				event.setEventStop(df.parse(api.bacnet.get(i).eventStop));
-				event.setLightIntensity(Float.parseFloat(api.bacnet.get(i).lightIntensity));
-				event.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
-				events.add(event);
+				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
+				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
+				s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
+				s.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
+				schedules.add(s);
 			}
-			for (ScheduleEvent event : events) {
-				eventHandler.fireCreateEvent(event);
+			for (DBScheduleTable s : schedules) {
+				eventHandler.fireCreateEvent(s);
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();
@@ -200,7 +200,7 @@ public class BASGS_API {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ScheduleEvent o) {
+		public void eventUpdate(DBScheduleTable s) {
 			// TEAM 7 TO DO
 			// EventObject data type
 			//
@@ -209,11 +209,11 @@ public class BASGS_API {
 			apiObj.num_of_obj = 1;
 			BacnetObj bacnetObj = new BacnetObj();
 			apiObj.message = "Action Complete";
-			bacnetObj.eventID = String.valueOf(o.getEventID());
-			bacnetObj.eventDescription = o.getEventDescription();
-			bacnetObj.eventName = o.getEventName();
-			bacnetObj.eventStart = o.getEventStart().toString();
-			bacnetObj.eventStop = o.getEventStop().toString();
+			bacnetObj.eventID = String.valueOf(s.getScheduleId());
+			bacnetObj.eventDescription = s.getDescription();
+			bacnetObj.eventName = s.getName();
+			bacnetObj.eventStart = s.getStartDateTime().toString();
+			bacnetObj.eventStop = s.getEndDateTime().toString();
 			apiObj.bacnet.add(bacnetObj);
 			try {
 				client.writeJsonStream(apiObj);

@@ -25,15 +25,14 @@ import javax.swing.JTextField;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
-import edu.psu.sweng500.type.NewEvent;
-import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.type.User;
 import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.NewUserScreen.FirstMouseClicked;
 
 public class NewEventScreen implements ActionListener {
 
-	private JFrame newEventWin;
+	private static JFrame newEventWin;
 	private JPanel newEventPane;
 	private JLabel eventName;
 	private JLabel eventStartTime;
@@ -161,7 +160,7 @@ public class NewEventScreen implements ActionListener {
 		cancelButton.setBounds(30, 410, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
-
+		
 	}
 
 	//Event Name Highlight
@@ -347,61 +346,7 @@ public class NewEventScreen implements ActionListener {
 	private final class userRegistration implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-			String eventName = eventNameTXT.getText(); 
-			String startTime = eventStartTimeTXT.getText(); 
-			String endTime= eventEndTimeTXT.getText(); 
-			String eventDate = eventDateTXT.getText(); 
-			String eventRoom = eventRoomText.getText(); 
-			String lightSetting = lightSettingTXT.getText(); 
-			String tempSetting = temperatureSettingTXT.getText(); 
 
-			Date startDateTime = null;
-			Date endDateTime = null;
-
-			/*Calendar cal = Calendar.getInstance();
-			if (startTime == "") {
-				startTime = cal.getTime().toString();
-			}
-			if (endTime == "")
-			{
-				endTime = cal.getTime().toString();
-			}
-
-			// request events
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
-			Date startDateTime = null;
-			Date endDateTime = null;
-			try {
-				startDateTime = df.parse(eventDate + " " + startTime);
-				endDateTime= df.parse(eventDate + " " + endTime);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
-
-			//if (tempSetting == null) {
-			tempSetting = "72";
-			//''}
-
-			//if (lightSetting == null) {
-			lightSetting = "100";
-			//}
-			ScheduleEvent se = new ScheduleEvent();
-			se.setEventName(eventName);
-			se.setEventDescription("Description");
-
-			//end to match Schedule Event Data type
-
-			se.setEventStart(startDateTime);
-			se.setEventStop(endDateTime);
-			se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
-			se.setLightIntensity(Float.parseFloat(lightSetting));
-
-			// fire request event with password
-			//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
-
-			eventHandler.fireCreateEvent(se);
 
 		}
 	}
@@ -410,63 +355,51 @@ public class NewEventScreen implements ActionListener {
 	private final class EnterButtonPress extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
+			try {
+				if (e.getKeyCode()== KeyEvent.VK_ENTER) {
+					JOptionPane.showMessageDialog(null, "Submitting New Event Request");
+					String eventName = eventNameTXT.getText(); 
+					String startTime = eventStartTimeTXT.getText(); 
+					String endTime= eventEndTimeTXT.getText(); 
+					String eventDate = eventDateTXT.getText(); 
+					String eventRoom = eventRoomText.getText(); 
+					String lightIntensity = lightSettingTXT.getText(); 
+					String temperatureSetpoint = temperatureSettingTXT.getText(); 
 
-			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-				String eventName = eventNameTXT.getText(); 
-				String startTime = eventStartTimeTXT.getText(); 
-				String endTime= eventEndTimeTXT.getText(); 
-				String eventDate = eventDateTXT.getText(); 
-				String eventRoom = eventRoomText.getText(); 
-				String lightSetting = lightSettingTXT.getText(); 
-				String tempSetting = temperatureSettingTXT.getText(); 
+					Date startDateTime = null;
+					Date endDateTime = null;
 
-				Date startDateTime = null;
-				Date endDateTime = null;
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 
-				/*Calendar cal = Calendar.getInstance();
-						if (startTime == "") {
-							startTime = cal.getTime().toString();
-						}
-						if (endTime == "")
-						{
-							endTime = cal.getTime().toString();
-						}
 
-						// request events
-						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
-						Date startDateTime = null;
-						Date endDateTime = null;
-						try {
-							startDateTime = df.parse(eventDate + " " + startTime);
-							endDateTime= df.parse(eventDate + " " + endTime);
-						} catch (ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}*/
+					startDateTime = df.parse(eventDate + " " + startTime);
+					endDateTime = df.parse(eventDate + " " + endTime);
 
-				//if (tempSetting == null) {
-				tempSetting = "72";
-				//''}
 
-				//if (lightSetting == null) {
-				lightSetting = "100";
-				//}
-				ScheduleEvent se = new ScheduleEvent();
-				se.setEventName(eventName);
-				se.setEventDescription("Description");
 
-				//end to match Schedule Event Data type
+					//if (tempSetting == null) {
+					//tempSetting = "72";
+					//''}
 
-				se.setEventStart(startDateTime);
-				se.setEventStop(endDateTime);
-				se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
-				se.setLightIntensity(Float.parseFloat(lightSetting));
+					//if (lightSetting == null) {
+					//lightSetting = "100";
+					//}
+					DBScheduleTable s = new DBScheduleTable();
+					s.setName(eventName);
+					s.setDescription(" ");
 
-				// fire request event with password
-				//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
+					//end to match Schedule Event Data type
 
-				eventHandler.fireCreateEvent(se);
+					s.setStartDateTime(startDateTime);
+					s.setEndDateTime(endDateTime);
+					s.setRoomName(eventRoom);
+					s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
+					s.setLightIntensity(Integer.parseInt(lightIntensity));
+					eventHandler.fireCreateEvent(s);
+				}
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -479,17 +412,19 @@ public class NewEventScreen implements ActionListener {
 		// listen to event queue
 
 		@Override
-		public void createEventRespond(ScheduleEvent se, int err) {
-			System.out.println("NewEventScreen > Create event respond received. Name: " + se.getEventName() + " Error Code:" + err);
+		public void createEventRespond(DBScheduleTable s, int err) {
+			System.out.println("NewEventScreen > Create event respond received. Name: " + s.getName() + " Error Code:" + err);
 			if (err == 0) //good
 			{
 				//new CalenderScreen();
+				newEventWin.dispose();
 			} else
 			{
 				//need error code for create event
 				//DO SOMETHING : login fail
-				JOptionPane.showMessageDialog(null, "Error - Please Re-enter Data");
-				new NewEventScreen();
+				//JOptionPane.showMessageDialog(null, "Error - Please Re-enter Data");
+				//new NewEventScreen();
+				newEventWin.setVisible(true);
 			}
 		}
 	}

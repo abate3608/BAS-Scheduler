@@ -15,12 +15,12 @@ public class EventAdapter implements EventListener {
 
 	// Database attaches to this and listen for BACnet server request
 		public void getBacnetDevice(String ObjectIdentifier) {
-			System.out.println("getBacnetDeviceRequest event fired!");
+			//System.out.println("getBacnetDeviceRequest event fired!");
 		}
 
 		// Bacnet server attaches to this and listen for Database respond
 		public void bacnetDeviceUpdate(BacnetDevice d) {
-			System.out.println("getBacnetDeviceRespond fired!");
+			//System.out.println("getBacnetDeviceRespond fired!");
 		}
 
 		public void getBacnetObject(String ObjectIdentifier) {
@@ -43,11 +43,11 @@ public class EventAdapter implements EventListener {
 
 //		}
 
-		public void getEvents(Date Start, Date Stop) {
+		public void getEvents(Date startDateTime, Date endDateTime) {
 			// TODO Auto-generated method stub
 		}
 
-		public void eventUpdate(ScheduleEvent o) {
+		public void eventUpdate(DBScheduleTable s) {
 			// TODO Auto-generated method stub
 
 		}
@@ -69,7 +69,7 @@ public class EventAdapter implements EventListener {
 			
 		}
 
-		public void createEvent(ScheduleEvent event) {
+		public void createEvent(DBScheduleTable s) {
 			// TODO Auto-generated method stub
 			
 		}
@@ -113,7 +113,7 @@ public class EventAdapter implements EventListener {
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void createEventRespond(ScheduleEvent event, int err) {
+	public void createEventRespond(DBScheduleTable s, int err) {
 			
 		}
 
@@ -162,6 +162,11 @@ public class EventAdapter implements EventListener {
 		}
 		
 		public void roomInfoUpdate(DBRoomTable r) {
+			
+		}
+
+		public void roomInfoUpdateDB(DBRoomTable r) {
+			// TODO Auto-generated method stub
 			
 		}
 		
