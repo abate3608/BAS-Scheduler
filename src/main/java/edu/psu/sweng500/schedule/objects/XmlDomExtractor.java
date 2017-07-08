@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- *  
+ * Extracts the DOM structure from an XML document. 
  * @author awb
  */
 public class XmlDomExtractor
