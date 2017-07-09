@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <MeetingSpaceResponse>
-    <Property>
-        <propertyKey/>
-        <propertyName/>
-        <Event>
-            <eventKey/>
-            <eventName/>
-            <eventPostAs/>
-            <Group>
-                <key/>
-                <name/>
-            </Group>
-            <MeetingSpace>
-                <agr_attend/>
-                <endDateTime/>
-                <exp_attend/>
-                <gtd_attend/>
-                <isExhibit/>
-                <isPostable/>
-                <meetingKey/>
-                <meetingName/>
-                <meetingPostAs/>
-                <roomKey/>
-                <roomName/>
-                <set_attend/>
-                <startDateTime/>
-            </MeetingSpace>
+    <Property propertyKey="" propertyName="">
+        <Event eventKey="" eventName="" eventPostAs="">
+            <Group key="" name=""/>
+            <MeetingSpace agr_attend="" endDateTime="" exp_attend="" gtd_attend="" isExhibit="" isPostable="" meetingKey="" meetingName="" meetingPostAs="" roomKey="" roomName="" set_attend="" startDateTime=""/>
         </Event>
     </Property>
 </MeetingSpaceResponse>

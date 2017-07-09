@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -67,7 +68,7 @@ public class XmlDomExtractor
 			{
 				m = structure.createElement( n.getNodeName() );
 				current.appendChild( m );
-				getAttributesAsElements( structure, m, n.getAttributes() );
+				getAttributesAsElements( structure, (Element) m, n.getAttributes() );
 			}
 			traverseNodes( structure, m, n.getChildNodes() );
 		}
@@ -80,13 +81,13 @@ public class XmlDomExtractor
 	 * @param parent the parent {@link Element} of the mapping structure
 	 * @param attributes the {@link NamedNodeMap} of attributes of the external XML {@link Element}
 	 */
-	private static void getAttributesAsElements( Document structure, Node parent, NamedNodeMap attributes )
+	private static void getAttributesAsElements( Document structure, Element parent, NamedNodeMap attributes )
 	{
 		if( attributes != null )
 		{
 			for( int a = 0; a < attributes.getLength(); a++ )
 			{
-				parent.appendChild( structure.createElement( attributes.item( a ).getNodeName() ) );
+				parent.setAttributeNode( structure.createAttribute( attributes.item( a ).getNodeName() ) );
 			}
 		}
 	}
@@ -115,35 +116,42 @@ public class XmlDomExtractor
 	}
 	
 	/**
-	 * Old print method.
-	 * @param document the Document to print
+	 * Produces the XPath expression for a given {@link Node}
+	 * @param node the {@link Node} to find the XPath expression for
+	 * @return {@link String} representation of the XPath expression
 	 */
-	public static void oldPrintMap( Document document )
+	public static String getXPath( Node node ) 
 	{
-		StringBuffer buffer = new StringBuffer();
-		oldPrintMap( document.getChildNodes(), buffer, 0 );
-		System.out.println( buffer.toString() );
+	    Node parent = node.getParentNode();
+	    if( node instanceof Attr )
+	    {
+	    	return getXPath( ((Attr) node).getOwnerElement() ) + "/@" + node.getNodeName();
+	    }
+	    else if( parent == null || parent instanceof Document ) 
+	    {
+	        return "/" + node.getNodeName();
+	    }
+	    return getXPath( parent ) + "/" + node.getNodeName();
 	}
 	
-	private static void oldPrintMap( final NodeList nodes, final StringBuffer buffer, int depth )
+	/**
+	 * Produces the XPath expression for a given {@link Node} 
+	 * relative to a given parent or root {@link Node}
+	 * @param root the parent or root {@link Node}
+	 * @param node the {@link Node} to find the XPath expression for
+	 * @return {@link String} representation of the XPath expression
+	 */
+	public static String getXPath( Node root, Node node )
 	{
-		for( int i = 0; i < nodes.getLength(); i++ )
+		if( node instanceof Attr )
 		{
-			Node n = nodes.item( i );
-			if( n instanceof Element )
-			{
-				for( int d = 0; d < depth; d++ )
-					buffer.append( "\t" );
-				buffer.append("[Depth " + depth + "] " + n.getNodeName() );
-			}
-			else
-			{
-				String value = n.getNodeValue();
-				if( value != null )
-					buffer.append( " : " + value );
-			}
-			buffer.append( "\n" );
-			oldPrintMap( n.getChildNodes(), buffer, depth+1 );
+			return getXPath( root, ((Attr) node).getOwnerElement() ) + "/@" + node.getNodeName(); 
 		}
+		if( root.getNodeName().equals( node.getNodeName() ) )
+		{
+			return "./";
+		}
+		return getXPath( root, node.getParentNode() ) + "/" + node.getNodeName();
 	}
+
 }
