@@ -1,12 +1,7 @@
 package edu.psu.sweng500.importer;
 
-import java.io.File;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -17,6 +12,9 @@ import org.w3c.dom.NodeList;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
 
+/**
+ * @deprecated
+ */
 public class XMLImporter {
 	private String siteTagName = "Property";
 	private String siteIDTagName = "propertyKey";

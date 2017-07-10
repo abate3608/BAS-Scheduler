@@ -1,5 +1,7 @@
 package edu.psu.sweng500;
 
+import java.nio.file.Paths;
+
 import edu.psu.sweng500.api.MultiThreadedAPIServer;
 import edu.psu.sweng500.api.OpenWeatherMapAPI;
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
@@ -9,6 +11,7 @@ import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.importer.XMLImporter;
+import edu.psu.sweng500.schedule.importer.XmlScheduleImporter;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
 
@@ -81,7 +84,8 @@ public class Main {
 
 			//create new xml importer
 			//
-			XMLImporter xmlImporter = new XMLImporter();
+			XmlScheduleImporter xmlImporter = new XmlScheduleImporter();
+			xmlImporter.setXmlDomMap( Paths.get("defaultXmlDomMap.properties") );
 			
 			System.out.println("Main > System is running!");
 			while (status == 1) {
@@ -101,7 +105,7 @@ public class Main {
 				
 				Thread.sleep(50000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
-				xmlImporter.parseXML();
+				xmlImporter.take( Paths.get("MeetingSpaceOutput.xml") );
 			}
 			
 		} catch (Exception e) {
