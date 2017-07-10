@@ -13,8 +13,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import edu.psu.sweng500.schedule.objects.XmlDomMap;
-import edu.psu.sweng500.testUtils.DocumentLoader;
 import edu.psu.sweng500.type.DBScheduleTable;
+import edu.psu.sweng500.util.DocumentLoader;
 
 public class XmlScheduleParserTest 
 {

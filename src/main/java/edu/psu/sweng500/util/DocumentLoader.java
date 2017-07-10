@@ -1,6 +1,7 @@
-package edu.psu.sweng500.testUtils;
+package edu.psu.sweng500.util;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +43,19 @@ public enum DocumentLoader
 		DocumentBuilder builder = FACTORY.newDocumentBuilder();
 		builder.setErrorHandler( new SimpleErrorHandler() );
 		return builder.parse( path );
+	}
+	
+	/**
+	 * Creates a {@link Document} from an XML file. 
+	 * @param path to XML file
+	 * @return {@link Document}
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Document loadDocument( Path path ) throws ParserConfigurationException, SAXException, IOException
+	{
+		return loadDocument( path.toString() );
 	}
 
 }
