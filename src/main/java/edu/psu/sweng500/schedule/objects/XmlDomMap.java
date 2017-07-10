@@ -1,61 +1,95 @@
 package edu.psu.sweng500.schedule.objects;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Properties;
 
-public class XmlDomMap 
+/**
+ * 
+ * @author awb
+ */
+public class XmlDomMap extends Properties
 {
-	private String scheduleRoot;
-	private Map<String, String> map = new ConcurrentHashMap<String, String>();
+	/**
+	 * default
+	 */
+	private static final long serialVersionUID = 1L;
 
-	public void setScheduleRoot( String xpath )
+	/**
+	 * Reads a properties file into this {@link XmlDomMap}. 
+	 * @param path to properties file
+	 * @throws IOException
+	 */
+	public void readMapFromFile( Path path ) throws IOException
 	{
-		scheduleRoot = xpath;
+		try ( InputStream in = Files.newInputStream( path ) )
+		{
+			this.load( in );
+		}
 	}
-	
-	public String getScheduleRoot()
+
+	/**
+	 * Writes this {@link XmlDomMap} to a properties file.
+	 * @param path to write to
+	 * @throws IOException
+	 */
+	public void writeMapToFile( Path path ) throws IOException
 	{
-		return scheduleRoot;
+		try ( OutputStream out = new BufferedOutputStream(
+				Files.newOutputStream( path, StandardOpenOption.CREATE, StandardOpenOption.WRITE ) ) )
+		{
+			this.store( out, null );
+		}
 	}
-	
-	public Map<String, String> getMap()
+
+	public String setScheduleRoot( String xpath )
 	{
-		return map;
+		return (String) this.setProperty( "scheduleRoot", xpath);
 	}
 
 	public String setEventIDElement( String xpath )
 	{
-		return map.put( "eventID", xpath );
+		return (String) this.setProperty( "eventID", xpath );
 	}
 	
+	public String setEventRoomNameElement( String xpath )
+	{
+		return (String) this.setProperty( "roomName", xpath );
+	}
+
 	public String setEventNameElement( String xpath )
 	{
-		return map.put( "eventName", xpath );
+		return (String) this.setProperty( "eventName", xpath );
 	}
-	
+
 	public String setEventDescriptionElement( String xpath )
 	{
-		return map.put( "eventDescription", xpath);
+		return (String) this.setProperty( "eventDescription", xpath);
 	}
-	
+
 	public String setEventStartElement( String xpath )
 	{
-		return map.put( "eventStart", xpath );
+		return (String) this.setProperty( "eventStart", xpath );
 	}
-	
+
 	public String setEventStopElement( String xpath )
 	{
-		return map.put( "eventStop", xpath );
+		return (String) this.setProperty( "eventStop", xpath );
 	}
-	
+
 	public String setTemperatureElement( String xpath )
 	{
-		return map.put( "temperatureSetpoint", xpath );
+		return (String) this.setProperty( "temperatureSetpoint", xpath );
 	}
-	
+
 	public String setLighingElement( String xpath )
 	{
-		return map.put( "lightIntensity", xpath );
+		return (String) this.setProperty( "lightIntensity", xpath );
 	}
-	
+
 }

@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 import edu.psu.sweng500.schedule.objects.XmlDomMap;
 import edu.psu.sweng500.testUtils.DocumentLoader;
-import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.type.DBScheduleTable;
 
 public class XmlScheduleParserTest 
 {
@@ -35,20 +35,20 @@ public class XmlScheduleParserTest
 		map.setLighingElement(".//Light");
 		
 		XmlScheduleParser parser = new XmlScheduleParser();
-		ArrayList<ScheduleEvent> events = parser.parse(document, map);
+		ArrayList<DBScheduleTable> events = parser.parse(document, map);
 		
 		boolean pass = true;
-		for( ScheduleEvent event : events )
+		for( DBScheduleTable event : events )
 		{
-			pass &= ( event.getEventID() == 65733 );
-			pass &= ( ("Group").equals(event.getEventName()) );
-			pass &= ( ("Audit Year 3@Deloitte: Go the Distance").equals(event.getEventDescription()) );
-			pass &= ( ("Fri Apr 06 08:00:00 EDT 2018").equals(event.getEventStart().toString()) );
+			pass &= ( event.getScheduleId() == 65733 );
+			pass &= ( ("Group").equals(event.getName()) );
+			pass &= ( ("Audit Year 3@Deloitte: Go the Distance").equals(event.getDescription()) );
+			pass &= ( ("Fri Apr 06 08:00:00 EDT 2018").equals(event.getStartDateTime().toString()) );
 			//System.out.println( event.getEventStart() );
-			pass &= ( ("Fri Apr 06 14:15:00 EDT 2018").equals(event.getEventStop().toString()) );
+			pass &= ( ("Fri Apr 06 14:15:00 EDT 2018").equals(event.getEndDateTime().toString()) );
 			//System.out.println( event.getEventStop() );
 			pass &= ( event.getTemperatureSetpoint() == 20.0 );
-			pass &= ( event.getLightIntensity() == 70.0 );
+			pass &= ( event.getLightIntensity() == 70 );
 		}
 		
 		assertTrue( pass );

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -17,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.psu.sweng500.schedule.objects.XmlDomMap;
+import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
 
 /**
@@ -35,19 +35,19 @@ public class XmlScheduleParser
 	 * @return an {@link ArrayList} of {@link ScheduleEvent}s
 	 * @throws XPathExpressionException
 	 */
-	public ArrayList<ScheduleEvent> parse( Document document, XmlDomMap map ) throws XPathExpressionException
+	public ArrayList<DBScheduleTable> parse( Document document, XmlDomMap map ) throws XPathExpressionException
 	{
 		NodeList nodes = (NodeList) XPATH
-				.compile( map.getScheduleRoot() )
+				.compile( map.getProperty("scheduleRoot") )
 				.evaluate( document, XPathConstants.NODESET );
 
-		ArrayList<ScheduleEvent> scheduleEvents = new ArrayList<ScheduleEvent>();
+		ArrayList<DBScheduleTable> scheduleEvents = new ArrayList<DBScheduleTable>();
 		for( int i = 0; i < nodes.getLength(); i++ )
 		{
 			Node root = nodes.item( i );
-			ScheduleEvent event = new ScheduleEvent();
+			DBScheduleTable event = new DBScheduleTable();
 			try{
-				fillEventField( event, root, map.getMap() );
+				fillEventField( event, root, map );
 				scheduleEvents.add( event );
 			} catch (ParseException e) {
 				System.err.println("Failed to parse datetime from event. Schedule event discarded...");
@@ -66,36 +66,41 @@ public class XmlScheduleParser
 	 * @throws XPathExpressionException
 	 * @throws ParseException if a datetime value could not be parsed
 	 */
-	private ScheduleEvent fillEventField( ScheduleEvent event, Node root, Map<String, String> map ) 
+	private DBScheduleTable fillEventField( DBScheduleTable event, Node root, XmlDomMap map ) 
 			throws XPathExpressionException, ParseException
 	{
-		for( String field : map.keySet() )
+		for( Object field : map.keySet() )
 		{
-			XPathExpression xpath = XPATH.compile( map.get( field ) );
-			switch( field )
+			XPathExpression xpath = XPATH.compile( map.getProperty((String) field) );
+			switch( (String) field )
 			{
 			case "eventID":
-				event.setEventID(
+				event.setScheduleId(
 						((Double) xpath.evaluate(root, XPathConstants.NUMBER )).intValue()
 						);
 				break;
 			case "eventName":
-				event.setEventName(
+				event.setName(
+						(String) xpath.evaluate( root, XPathConstants.STRING )
+						);
+				break;
+			case "roomName":
+				event.setRoomName(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						);
 				break;
 			case "eventDescription":
-				event.setEventDescription(
+				event.setDescription(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						);
 				break;
 			case "eventStart":
-				event.setEventStart( parseDate(
+				event.setStartDateTime(	parseDate(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						) );
 				break;
 			case "eventStop":
-				event.setEventStop( parseDate(
+				event.setEndDateTime( parseDate(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						) );
 				break;
@@ -106,8 +111,10 @@ public class XmlScheduleParser
 				break;
 			case "lightIntensity":
 				event.setLightIntensity(
-						((Double) xpath.evaluate( root, XPathConstants.NUMBER )).floatValue()
+						((Double) xpath.evaluate( root, XPathConstants.NUMBER )).intValue()
 						);
+				break;
+			default:
 				break;
 			}
 		}

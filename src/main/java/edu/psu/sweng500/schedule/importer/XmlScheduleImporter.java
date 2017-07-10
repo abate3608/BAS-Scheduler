@@ -13,6 +13,10 @@ import org.xml.sax.SAXException;
 import edu.psu.sweng500.schedule.objects.SimpleErrorHandler;
 import edu.psu.sweng500.schedule.objects.XmlDomExtractor;
 
+/**
+ * 
+ * @author awb
+ */
 public class XmlScheduleImporter extends ScheduleImporter 
 {
 	private static final DocumentBuilderFactory FACTORY = getDocumentBuilderFactory();
@@ -24,7 +28,7 @@ public class XmlScheduleImporter extends ScheduleImporter
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
-		factory.setNamespaceAware(true);
+		factory.setNamespaceAware(false);
 		return factory;
 	}
 	
