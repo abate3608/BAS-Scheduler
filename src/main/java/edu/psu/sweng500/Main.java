@@ -8,6 +8,7 @@ import edu.psu.sweng500.database.Database;
 import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.importer.XMLImporter;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
 
@@ -60,9 +61,13 @@ public class Main {
 			System.out.println("Main > System site ID: " + site.getId() + ".");
 			
 			
+			System.out.println("Main > Get weather data from DB for Site: " + site.getId() + ".");
+			eventHandler.fireWeatherInfoRequest(site.getId());
+			
 			System.out.println("Main > Get weather data from Open Weather Map API for Site Zip Code: " + site.getZipCode() + ".");
 			OpenWeatherMapAPI owm = new OpenWeatherMapAPI();
 			owm.getWeatherFromZip(site.getZipCode()); //currently for US only
+						
 			
 			System.out.println("Main > Start BACnet Server.");			
 			new BacnetServer(); // start bacner server
@@ -70,11 +75,14 @@ public class Main {
 			
 			System.out.println("Main > Open UI calendar Screen.");
 			new CalenderScreen(); // UI StartScreen
-			
+			//new StartScreen();
 			
 			//new MultiThreadedAPIServer();//Start the API Server
 
-
+			//create new xml importer
+			//
+			XMLImporter xmlImporter = new XMLImporter();
+			
 			System.out.println("Main > System is running!");
 			while (status == 1) {
 				
@@ -88,8 +96,12 @@ public class Main {
 				DBWeatherTable w = new DBWeatherTable(0, site.getId(), owm.getTemperature(), owm.getHumidity(), owm.getDewpoint(), 0, null);
 				eventHandler.fireWeatherInfoUpdateDB(w);
 				
+				eventHandler.fireRoomInfoRequest();
+				eventHandler.fireWeatherInfoRequest(site.getId());
+				
 				Thread.sleep(50000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
+				xmlImporter.parseXML();
 			}
 			
 		} catch (Exception e) {
@@ -108,9 +120,9 @@ public class Main {
 		// listen to event queue
 
 		@Override
-		public void weatherInfoUpdate(DBWeatherTable w) {
-			System.out.println("Main > Received weather data from DB for SiteID: " + w.getSiteId());
-			weather = w; //write data from db to local variable
+		public void weatherInfoUpdateDBRespond(DBWeatherTable w, int err) {
+			System.out.println("Main > Received weather data update DB confirmation for SiteID: " + w.getSiteId() + " Error Code: " + err);
+
 		}
 		
 		@Override
@@ -120,6 +132,12 @@ public class Main {
 			
 		}
 		
+		@Override
+		public void weatherInfoUpdate(DBWeatherTable w) {
+			System.out.println("Main > Received weather data from DB for SiteID: " + w.getSiteId() + " Temperature: " + w.getTemperature());
+			weather = w; //write data from db to local variable
+			
+		}
 		
 	}
 

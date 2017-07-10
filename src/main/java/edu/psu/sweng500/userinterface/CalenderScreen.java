@@ -18,6 +18,10 @@ import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
 
 public class CalenderScreen {
+	static JLabel temperature;
+	static JLabel humidity;
+	static JLabel loginStatus;
+	
 	static JLabel monthName;
 	static JLabel yearNumber;
 	static JFrame panelLayout;
@@ -43,9 +47,14 @@ public class CalenderScreen {
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 
+	private static DBWeatherTable weather = new DBWeatherTable();
+
+	private static boolean isAuthenticated;
+
+	private final static LogScreen loginScreen = new LogScreen();
+
 	public CalenderScreen() {
 
-		
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
 
@@ -63,7 +72,15 @@ public class CalenderScreen {
 
 		windowLayout = panelLayout.getContentPane();
 		windowLayout.setLayout(null); // "NULL" LAYOUT
-
+		
+		temperature = new JLabel ("Temperature");
+		temperature.setBounds(900, 50, 200, 30);
+		humidity = new JLabel ("Humidity");
+		humidity.setBounds(1100, 50, 200, 30);
+		
+		loginStatus = new JLabel ("User: ");
+		loginStatus.setBounds(900, 70, 200, 30);
+		
 		monthName = new JLabel("January");
 
 		calendarYear = new JComboBox<String>();
@@ -78,6 +95,7 @@ public class CalenderScreen {
 			}
 		};
 
+		
 		// Calendar Table
 		calendarTable = new JTable(calenderTable);
 		calendarTable.setColumnSelectionAllowed(true); // Single cell selection
@@ -90,8 +108,8 @@ public class CalenderScreen {
 		// Calendar Scrolling
 		calenderScroll = new JScrollPane(calendarTable);
 		calenderScroll.setBounds(300, 140, 1035, 550); // Used to change
-														// calendar Pane size
-														// and Location
+		// calendar Pane size
+		// and Location
 
 		// Back and Next Buttons
 		backBTN = new JButton("<< BACK");
@@ -112,7 +130,7 @@ public class CalenderScreen {
 		editEventBTN = new JButton("Edit Event");
 		editEventBTN.setBounds(150, 140, 148, 25); // Button Sizing and Location
 		editEventBTN.addActionListener(new EditEventScreen());
-
+		
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
@@ -128,6 +146,10 @@ public class CalenderScreen {
 		// Add controls to calenderWindow
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
+		calenderWindow.add(temperature);
+		calenderWindow.add(humidity);
+		calenderWindow.add(loginStatus);
+		
 		calenderWindow.add(monthName);
 		calenderWindow.add(calendarYear);
 		calenderWindow.add(backBTN);
@@ -139,7 +161,7 @@ public class CalenderScreen {
 
 		// Create calendar
 		GregorianCalendar cal = new GregorianCalendar(); // Used to generate
-															// calendar
+		// calendar
 		day = cal.get(GregorianCalendar.DAY_OF_MONTH);
 		month = cal.get(GregorianCalendar.MONTH);
 		year = cal.get(GregorianCalendar.YEAR);
@@ -152,10 +174,10 @@ public class CalenderScreen {
 			calenderTable.addColumn(headers[i]);
 		}
 		calendarTable.getParent().setBackground(calendarTable.getBackground()); // Set
-																				// background
-																				// ^^DO
-																				// NOT
-																				// MOVE^^
+		// background
+		// ^^DO
+		// NOT
+		// MOVE^^
 		calenderTable.setColumnCount(7);
 		calenderTable.setRowCount(6);
 
@@ -163,9 +185,11 @@ public class CalenderScreen {
 			calendarYear.addItem(String.valueOf(i));
 		}
 
+
+		loginScreen.create();
+
 		updateCalendar(month, year); // Refresh calendar
-		
-		//new LogScreen();
+
 	}
 
 	public static void updateCalendar(int month, int year) {
@@ -184,9 +208,9 @@ public class CalenderScreen {
 		}
 		monthName.setText(monthNames[month]);
 		monthName.setBounds(750 - monthName.getPreferredSize().width / 2, 112, 180, 25); // Adjust
-																							// Month
-																							// Text
-																							// location
+		// Month
+		// Text
+		// location
 		calendarYear.setSelectedItem(String.valueOf(year));
 		// Clear table
 		for (int i = 0; i < 6; i++) {
@@ -200,7 +224,7 @@ public class CalenderScreen {
 		numDays = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		startMonth = cal.get(GregorianCalendar.DAY_OF_WEEK);
 
-		
+
 		// Draw calendar
 		for (int i = 1; i <= numDays; i++) {
 			int calendarRow = new Integer((i + startMonth - 2) / 7);
@@ -214,26 +238,26 @@ public class CalenderScreen {
 		roomPanel.removeAll();
 		roomPanel.revalidate();
 		roomPanel.repaint();   // This is required in some cases
-		
+
 		// request events
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
 		Date Start;
 		Date Stop;
 		String stringCurrentMonth= Integer.toString(month+1);
-		
+
 		try {
 			Start = df.parse(stringCurrentMonth + "/01/" + year);
 			Stop = df.parse(stringCurrentMonth + "/" + numDays + "/" + year);
-			
+
 			eventHandler.fireGetEvents(Start, Stop);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 
-		
+
+
+
 
 	}
 
@@ -251,9 +275,9 @@ public class CalenderScreen {
 			}
 			if (value != null) {
 				if (Integer.parseInt(value.toString()) == day && getMonth == month && getYear == year) { // use
-																											// to
-																											// schedule
-																											// events
+					// to
+					// schedule
+					// events
 					setBackground(new Color(220, 220, 255));
 				}
 			}
@@ -312,19 +336,51 @@ public class CalenderScreen {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ScheduleEvent o) {
-			// TEAM 7 TO DO
-			// EventObject data type
-			//
-			// write code to update UI calendar when event arrive
+		public void eventUpdate(DBScheduleTable s) {
+			System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
+
+			if (!isAuthenticated) {
+				System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
+				return;
+			}
 			boolean hasComponent = false;
-			String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
+			String eventDes = "<html>" + s.getName() + ": " + s.getDescription() + " "+ s.getStartDateTime() + " - " + s.getEndDateTime()+"</hmtl>";
 			for (Component jc : roomPanel.getComponents()) {
-			    if ( jc instanceof JLabel ) {
-			        if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
-			    }
+				if ( jc instanceof JLabel ) {
+					if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
+				}
 			}
 			if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
+		}
+
+		@Override
+		public void weatherInfoUpdate(DBWeatherTable w) {
+			System.out.println("CalendarScreen > Received weather data from DB for SiteID: " + w.getSiteId() + " Temperature: " + w.getTemperature());
+			weather = w; //write data from db to local variable
+			temperature.setText("Outside Temperature: " + w.getTemperature() + " F");
+			humidity.setText("Humdity: " + w.getHumidity() + " %");
+		}
+
+		@Override
+		public void authenticateUserUpdate(User u) {
+			System.out.println("CalendarScreen > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
+			isAuthenticated = false;
+			if (u.getUserName() == loginScreen.getUserName())
+			{
+				isAuthenticated = u.isAuthenticated();
+				if (isAuthenticated) {
+					//update the calendar screen
+					if (calendarYear.getSelectedItem() != null) {
+						String b = calendarYear.getSelectedItem().toString();
+						getYear = Integer.parseInt(b);
+						updateCalendar(getMonth, getYear);
+						loginStatus.setText("User: " + u.getUserName());
+					}
+				}
+				//new CalenderScreen();
+				//logWin.dispose();
+
+			} 
 		}
 	}
 }

@@ -25,12 +25,17 @@ public class LogScreen {
 	String userNameGet;
 	String passwordTextGet;
 
-	static String userName;
+	private static String userName;
 	String password;
 	// Event listeners
 	private final EventHandler eventHandler = EventHandler.getInstance();
 
 	public LogScreen() {
+		userName = "";
+		
+	}
+	
+	public void create () {
 
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
@@ -47,7 +52,16 @@ public class LogScreen {
 		panelLayout(logPane);
 		logWin.setVisible(true);
 	}
-
+	
+	public void dispose () {
+		//logWin.dispose();
+		logWin.setVisible(false); 
+	}
+	
+	public String getUserName () {
+		return userName;
+	}
+	
 	private final void panelLayout(JPanel logPanel) {
 
 		logPanel.setLayout(null);
@@ -61,6 +75,7 @@ public class LogScreen {
 		userNameText.setBounds(20, 50, 160, 25);
 		logPanel.add(userNameText);
 		//userNameText.getText();
+		userNameText.addKeyListener(new EnterButtonPress());
 		userNameText.addMouseListener(new UserMouseClicked());
 		
 		passWord = new JLabel("Password");
@@ -175,15 +190,17 @@ public class LogScreen {
 			if (u.getUserName() == userName && u.isAuthenticated())
 			{
 				
-				new CalenderScreen();
-				logWin.dispose();
+				//new CalenderScreen();
+				//logWin.dispose();
 				
 			} else
 			{
 				//DO SOMETHING : login fail
-				userNameText.setText(null);
+				//userNameText.setText(null);
+				JOptionPane.showMessageDialog(null, "Login Fail. Please Enter Correct UserName and Password");
 				passwordText.setText(null);
 				logWin.setVisible(true); 
+				passwordText.requestFocusInWindow();
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.npdu.ip.IpNetwork;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EngineeringUnits;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
@@ -87,52 +88,82 @@ public class BacnetServer {
 
 		}
 		
+		
 		@Override
-		public void eventUpdate(ScheduleEvent o) {
+		public void roomInfoUpdate(DBRoomTable r) {
+			System.out.println("BACnet Server > Received room informaiton update for room: " + r.getRoomNumber() + " " + r.getRoomName());
+			createBACnetObjectAV(r.getId() + 3, r.getOccState(), r.getRoomNumber(), r.getRoomName(), EngineeringUnits.noUnits);
+			
+		}
+		
+		@Override
+		public void weatherInfoUpdate(DBWeatherTable w) {
+			System.out.println("BACnet Server > Received weather data update DB confirmation for SiteID: " + w.getSiteId());
+			createBACnetObjectAV (1, (float)w.getTemperature(), "OAT", "Outside Air Temperature", EngineeringUnits.degreesFahrenheit);
+			createBACnetObjectAV (2, (float)w.getHumidity(), "OAH", "Outside Air Humidity", EngineeringUnits.percent);
+			createBACnetObjectAV (3, (float)w.getDewpoint(), "ODP", "Outside Dew Point Temperature", EngineeringUnits.degreesFahrenheit);
+		}
+		
+		
+		@Override
+		public void eventUpdate(DBScheduleTable s) {
 			// TEAM 7 TO DO
 			// EventObject data type
 			//
 
 			
 			//String eventDes = "<html>" + o.getEventName() + ": " + o.getEventDescription() + " "+ o.getEventStart() + " - " + o.getEventStop()+"</hmtl>";
-			
-	        
-	        try {
-	        	ObjectIdentifier objectId = new ObjectIdentifier(ObjectType.analogValue, o.getEventID());
 
-		        BACnetObject object = new BACnetObject(localBacnetDevice, objectId);
-				object.setProperty(PropertyIdentifier.presentValue, new Real(1.0f));
-				object.setProperty(PropertyIdentifier.description, new CharacterString(o.getEventName()));
-		        object.setProperty(PropertyIdentifier.units, EngineeringUnits.noUnits);
-		        object.setProperty(PropertyIdentifier.statusFlags, new StatusFlags(false, false, false, false));
-		        object.setProperty(PropertyIdentifier.eventState, EventState.normal);
-
-		        boolean hasComponent = false;
-				for (BACnetObject jc : localBacnetDevice.getLocalObjects()) {
-				    if ( jc instanceof BACnetObject ) {
-				    	if (jc.getObjectName().equals(object.getObjectName())) {
-				    		hasComponent = true;
-				    	}
-				    	
-				        
-				    }
-				}object.setProperty(PropertyIdentifier.outOfService, new edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean(false));
-		        
-		        if (!hasComponent) {
-		        	localBacnetDevice.addObject(object);
-		        	System.out.println("New object added to BACnet Server " + object.getObjectName() + " " + object.getDescription());
-		        }
-		       
-			} catch (BACnetServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
 		}
+		
+		
+		
 	}
 
+	public static void createBACnetObjectAV(int ID, float value, String name, String description, EngineeringUnits u) {
+		try {
+			//set BACnet ID = room ID
+        	ObjectIdentifier objectId = new ObjectIdentifier(ObjectType.analogValue, ID);
+
+	        BACnetObject object = new BACnetObject(localBacnetDevice, objectId);
+			object.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			object.setProperty(PropertyIdentifier.objectName, new CharacterString(cleanString(name)));
+			object.setProperty(PropertyIdentifier.description, new CharacterString(description));
+	        object.setProperty(PropertyIdentifier.units, u);
+	        object.setProperty(PropertyIdentifier.statusFlags, new StatusFlags(false, false, false, false));
+	        object.setProperty(PropertyIdentifier.eventState, EventState.normal);
+
+	        //check to see if object is already created
+	        boolean hasComponent = false;
+			for (BACnetObject jc : localBacnetDevice.getLocalObjects()) {
+			    if ( jc instanceof BACnetObject ) {
+			    	if (jc.getId().equals(object.getId())) {
+			    		Encodable d = jc.getProperty(PropertyIdentifier.presentValue);
+			    		
+			    		jc.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			    		System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Update Presenvalue: " + d);
+			    		hasComponent = true;
+			    	}
+			    }
+			}object.setProperty(PropertyIdentifier.outOfService, new edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean(false));
+	        
+	        if (!hasComponent) {
+	        	localBacnetDevice.addObject(object);
+	        	System.out.println("BACnet Server > New object created BACNet ID: " + object.getInstanceId() +" Name: " + object.getObjectName() + " Description: " + object.getDescription() + " Value: " + value);
+	        }
+	       
+		} catch (BACnetServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static boolean isNumeric(String s) {
 		return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+	}
+	
+	public static String cleanString(String s) {
+		s = s.replaceAll(" ", "_");
+		return s;
 	}
 
 }

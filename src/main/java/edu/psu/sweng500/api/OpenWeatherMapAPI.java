@@ -83,7 +83,7 @@ public class OpenWeatherMapAPI {
 	}
 	
 	public double getHumidity() {
-		return temperature;
+		return humidity;
 	}
 	
 	public double getDewpoint() {

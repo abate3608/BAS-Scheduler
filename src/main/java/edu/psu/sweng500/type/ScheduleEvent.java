@@ -3,7 +3,6 @@ package edu.psu.sweng500.type;
 import java.util.Date;
 
 public class ScheduleEvent {
-	private String roomName;
 	private int eventID;
 	private String eventName;
 	private String eventDescription;
@@ -12,7 +11,15 @@ public class ScheduleEvent {
 	private float temperatureSetpoint;
 	private float lightIntensity;
 
-
+	public ScheduleEvent() {
+		this.eventID = 0;
+		this.eventName = null;
+		this.eventDescription = null;
+		this.eventStart = null;
+		this.eventStop = null;
+		this.temperatureSetpoint = 0;
+		this.lightIntensity = 0;
+	}
 	public void EventOBject(int eventID, String eventName, String eventDescription, Date eventStart, Date eventStop,
 			float temperatureSetpoint, float lightIntensity) {
 		this.eventID = eventID;

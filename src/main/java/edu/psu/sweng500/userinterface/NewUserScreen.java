@@ -77,6 +77,7 @@ public class NewUserScreen implements ActionListener {
 		firstNameTXT = new JTextField(20);
 		firstNameTXT.setBounds(20, 50, 160, 25);
 		regPanel.add(firstNameTXT);
+		firstNameTXT.addKeyListener(new EnterButtonPress());
 		firstNameTXT.addMouseListener(new FirstMouseClicked());
 
 		lastName = new JLabel("Last Name");
@@ -86,6 +87,7 @@ public class NewUserScreen implements ActionListener {
 		lastNameTXT = new JTextField(20);
 		lastNameTXT.setBounds(20, 100, 160, 25);
 		regPanel.add(lastNameTXT);
+		lastNameTXT.addKeyListener(new EnterButtonPress());
 		lastNameTXT.addMouseListener(new LastMouseClicked());
 
 		email = new JLabel("Email");
@@ -95,6 +97,7 @@ public class NewUserScreen implements ActionListener {
 		emailTXT = new JTextField(20);
 		emailTXT.setBounds(20, 150, 160, 25);
 		regPanel.add(emailTXT);
+		emailTXT.addKeyListener(new EnterButtonPress());
 		emailTXT.addMouseListener(new EmailMouseClicked());
 
 		userName = new JLabel("UserName");
@@ -104,6 +107,7 @@ public class NewUserScreen implements ActionListener {
 		userNameTXT = new JTextField(20);
 		userNameTXT.setBounds(20, 200, 160, 25);
 		regPanel.add(userNameTXT);
+		userNameTXT.addKeyListener(new EnterButtonPress());
 		userNameTXT.addMouseListener(new UserMouseClicked());
 
 		passWord = new JLabel("Password");

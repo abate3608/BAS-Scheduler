@@ -23,84 +23,84 @@ public class DBSiteTable {
 		countryCode = "";
 	}
 	
-	public DBSiteTable (int pid, String pname, String pdescription, String paddress, String paddress2, String pcity, String pstate, String pzipCode, String pcountryCode) {
-		id = pid;
-		name = pname;
-		description = pdescription;
-		address = paddress;
-		address2 = paddress2;
-		city = pcity;
-		state = pstate;
-		zipCode = pzipCode;
-		countryCode = pcountryCode;
+	public DBSiteTable (int id, String name, String description, String address, String address2, String city, String state, String zipCode, String countryCode) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.address = address;
+		this.address2 = address2;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+		this.countryCode = countryCode;
 	}
 	
-	public void setId (int pid) {
-		id = pid;
+	public void setId (int id) {
+		this.id = id;
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public void setName (String pname) {
-		name = pname;
+	public void setName (String name) {
+		this.name = name;
 	}
 	
 	public String getName () {
 		return name;
 	}
 	
-	public void setDescription (String pdescription) {
-		description = pdescription;
+	public void setDescription (String description) {
+		this.description = description;
 	}
 	
 	public String getDescription () {
 		return description;
 	}
 	
-	public void setAddress (String paddress) {
-		address = paddress;
+	public void setAddress (String address) {
+		this.address = address;
 	}
 	
 	public String getAddress () {
 		return address;
 	}
 	
-	public void setAddress2 (String paddress2) {
-		address2 = paddress2;
+	public void setAddress2 (String address2) {
+		this.address2 = address2;
 	}
 	
 	public String getAddress2 () {
 		return address2;
 	}
 	
-	public void setCity (String pcity) {
-		city = pcity;
+	public void setCity (String city) {
+		this.city = city;
 	}
 	
 	public String getCity () {
 		return city;
 	}
 	
-	public void setState (String pstate) {
-		state = pstate;
+	public void setState (String state) {
+		this.state = state;
 	}
 	
 	public String getState () {
 		return state;
 	}
 	
-	public void setZipCode (String pzipCode) {
-		zipCode = pzipCode;
+	public void setZipCode (String zipCode) {
+		this.zipCode = zipCode;
 	}
 	
 	public String getZipCode () {
 		return zipCode;
 	}
 	
-	public void setCountryCode(String pcountryCode) {
-		countryCode = pcountryCode;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 	
 	public String getCountryCode() {
