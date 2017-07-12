@@ -272,7 +272,6 @@ public class Database {
 				// execute the preparedstatement
 				preparedStmt.execute();
 
-
 				err = 0; //good
 				eventHandler.fireCreteUserRespond(u, err);
 				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
@@ -281,6 +280,24 @@ public class Database {
 				System.out.println(e);
 				eventHandler.fireCreteUserRespond(u, err);
 
+			}
+	
+			//int err = 0;//need to be discussed
+			System.out.println("Database > Create User request received. User: " + u.getEmail());
+			try{
+				String emailquery = "Select * from psuteam7.User_Profile where Email = ?";
+				statement = connect.createStatement();
+				((PreparedStatement) statement).setString(1, email);
+				rt=statement.executeQuery(emailquery);
+				
+				if(rt.next()){
+				
+				err=1;//0 means there is already an existing email being used
+				eventHandler.fireCreteUserRespond(u, err);
+			} 
+				}catch (Exception e){
+				System.out.println(e);
+				eventHandler.fireCreteUserRespond(u, err);
 			}
 		}
 
