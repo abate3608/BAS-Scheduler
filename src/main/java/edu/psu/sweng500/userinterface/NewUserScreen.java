@@ -313,10 +313,10 @@ public class NewUserScreen implements ActionListener {
 				//DO SOMETHING: user user created
 				JOptionPane.showMessageDialog(null,"Username Authentication Error, Pleae provide a different User Name");
 				
-			}else if (err == 3){
-				
-				//DO SOMETHING: user user created
-				JOptionPane.showMessageDialog(null,"Password Authentication Error, Please provide a different Password");	
+//			}else if (err == 3){
+//				
+//				//DO SOMETHING: user user created
+//				JOptionPane.showMessageDialog(null,"Password Authentication Error, Please provide a different Password");	
 			}
 			{
 				//DO SOMETHING : cannot create user user. Use error code to determine fail reason.
