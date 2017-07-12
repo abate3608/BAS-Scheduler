@@ -81,7 +81,7 @@ public class Database {
 		public void getEvents(Date startDateTime, Date endDateTime) {
 			try {
 				System.out.println("Database > Get Events received for date range: " + startDateTime.toString() + " - " + endDateTime.toString());
-				
+
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
 
 				statement = connect.createStatement();
@@ -140,13 +140,13 @@ public class Database {
 					}
 
 					Date startDateTime = df.parse(datetime);
-					
+
 					timestamp = rt.getTimestamp("EndDateTime");
 					if (timestamp != null) {
 						datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
 					}
 					Date endDateTime = df.parse(datetime);
-					
+
 					if (startDateTime.compareTo(s.getStartDateTime()) <= 0 && endDateTime.compareTo(s.getStartDateTime()) > 0) {
 						err = 3; //conflict time
 						//System.out.println("Database > Event [" + s.getName() + "] cannot be added for room [" + s.getRoomName() + "]. Another event already rescheduled at this time - Name: " + rt.getString("Name"));
@@ -164,7 +164,7 @@ public class Database {
 					UUID uuid = UUID.randomUUID();
 					String rowGuid = s.getRowGuid();
 					//if (rowGuid == null || rowGuid.equalsIgnoreCase("")) {
-						ps.setString(1, uuid.toString()); //RowGuid
+					ps.setString(1, uuid.toString()); //RowGuid
 					//} else {
 					//	ps.setString(1, rowGuid); //RowGuid
 					//}
@@ -182,10 +182,10 @@ public class Database {
 					ps.setString(5, s.getName());//Notes
 
 					ps.setInt(6, s.getControlToState());//ControlToState
-					
+
 					java.sql.Timestamp sqlStartDateTime = new java.sql.Timestamp(s.getStartDateTime().getTime());
 					java.sql.Timestamp sqlEndDateTime = new java.sql.Timestamp(s.getEndDateTime().getTime());
-					
+
 					ps.setObject(7, sqlStartDateTime);//start time
 					ps.setObject(8, sqlEndDateTime);//end time
 					ps.setBoolean(9, s.getMarkedForDelete()); //MarkedForDelete
@@ -277,30 +277,26 @@ public class Database {
 				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
 
 			} catch(Exception e) {
-				System.out.println(e);
-				eventHandler.fireCreteUserRespond(u, err);
 
-			}
-	
-			//int err = 0;//need to be discussed
-			System.out.println("Database > Create User request received. User: " + u.getEmail());
-			try{
-				String emailquery = "Select * from psuteam7.User_Profile where Email = ?";
-				statement = connect.createStatement();
-				((PreparedStatement) statement).setString(1, email);
-				rt=statement.executeQuery(emailquery);
-				
-				if(rt.next()){
-				
-				err=1;//0 means there is already an existing email being used
-				eventHandler.fireCreteUserRespond(u, err);
-			} 
-				}catch (Exception e){
-				System.out.println(e);
-				eventHandler.fireCreteUserRespond(u, err);
+				//int err = 0;//need to be discussed
+				System.out.println("Database > Create User request received. User: " + u.getEmail());
+				try{
+					String emailquery = "Select * from psuteam7.User_Profile where Email = ?";
+					statement = connect.createStatement();
+					((PreparedStatement) statement).setString(1, email);
+					rt=statement.executeQuery(emailquery);
+
+					if(rt.next()){
+
+						err=1;//0 means there is already an existing email being used
+						eventHandler.fireCreteUserRespond(u, err);
+					} 
+				}catch (Exception ex){
+					System.out.println(ex);
+					eventHandler.fireCreteUserRespond(u, err);
+				}
 			}
 		}
-
 		@Override
 		public void siteInfoRequest() {
 			//display debug message
@@ -367,24 +363,24 @@ public class Database {
 			System.out.println("Database > Room infomation update DB request received. Room name: " + r.getRoomName());
 			int err = 0; //good
 			String query = null;
-			
-			
+
+
 			try {
-				
+
 				query = "select * from psuteam7.room where RoomNumber = '" + r.getRoomNumber() +"'";
 				statement = connect.createStatement();
 				rt=statement.executeQuery(query);
 				//check for existing schedule
 				if (rt.next()) { 
-					
+
 					//System.out.println("Database > Room exist. Update room info.");
 					err = 2;
 
 				}
-				
+
 				if (err == 2) {
 					query = " Update psuteam7.room set RoomName = ?, RoomType = ?"
-						+ " where RoomNumber = ?";
+							+ " where RoomNumber = ?";
 					// create the mysql insert preparedstatement
 					PreparedStatement preparedStmt = connect.prepareStatement(query);
 					preparedStmt.setString (1, r.getRoomName());
@@ -392,11 +388,11 @@ public class Database {
 					preparedStmt.setString (3, r.getRoomNumber());
 					// execute the preparedstatement
 					preparedStmt.execute();
-					
+
 				} else if (err == 0) {
 					query = " insert into psuteam7.room (RoomNumber, RoomName, RoomType)"
 							+ " values (?, ?, ?)";
-					
+
 					// create the mysql insert preparedstatement
 					PreparedStatement preparedStmt = connect.prepareStatement(query);
 					preparedStmt.setString (1, r.getRoomNumber());
@@ -405,7 +401,7 @@ public class Database {
 					// execute the preparedstatement
 					preparedStmt.execute();
 				}
-				
+
 
 
 				err = 0; //good
@@ -420,7 +416,7 @@ public class Database {
 			}
 
 		}
-		
+
 		@Override
 		public void siteInfoUpdateDB(DBSiteTable s) {
 			//display debug message
