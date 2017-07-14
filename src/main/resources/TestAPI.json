@@ -1,9 +1,10 @@
 {
-	"username":"hilton",
-	"password":"1234",
+	"username":"admin",
+	"password":"admin",
 	"id":1,
 	"action_id":1,
 	"num_of_obj":1,
+	"error":0,
 	"message":" ",
 	"start_date":"2017-07-01 12:00:00",
 	"stop_date":"2017-07-030 12:00:00",

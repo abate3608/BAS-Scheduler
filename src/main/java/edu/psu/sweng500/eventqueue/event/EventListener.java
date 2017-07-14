@@ -1,5 +1,6 @@
 package edu.psu.sweng500.eventqueue.event;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -28,8 +29,8 @@ public interface EventListener {
 	public void createEvent(DBScheduleTable s);
 	
 	public void getEvents(Date startDateTime, Date endDateTime);
-
-	public void eventUpdate(DBScheduleTable s);
+	
+	public void eventUpdate(ArrayList<DBScheduleTable> s);
 
 	public void createUser(User u);
 

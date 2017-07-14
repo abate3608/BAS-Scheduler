@@ -336,21 +336,23 @@ public class CalenderScreen {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(DBScheduleTable s) {
-			System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
-
-			if (!isAuthenticated) {
-				System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
-				return;
-			}
-			boolean hasComponent = false;
-			String eventDes = "<html>" + s.getName() + ": " + s.getDescription() + " "+ s.getStartDateTime() + " - " + s.getEndDateTime()+"</hmtl>";
-			for (Component jc : roomPanel.getComponents()) {
-				if ( jc instanceof JLabel ) {
-					if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
+		public void eventUpdate(ArrayList<DBScheduleTable> sList) {
+			for(DBScheduleTable s : sList) {
+				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
+	
+				if (!isAuthenticated) {
+					System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
+					return;
 				}
+				boolean hasComponent = false;
+				String eventDes = "<html>" + s.getName() + ": " + s.getDescription() + " "+ s.getStartDateTime() + " - " + s.getEndDateTime()+"</hmtl>";
+				for (Component jc : roomPanel.getComponents()) {
+					if ( jc instanceof JLabel ) {
+						if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
+					}
+				}
+				if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
 			}
-			if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
 		}
 
 		@Override

@@ -53,9 +53,7 @@ public class ClientServiceThread extends Thread {
           while(m_bRunThread) {
         	JsonReader reader = new JsonReader(new InputStreamReader(myClientSocket.getInputStream(), "UTF-8"));
           	API_Object apiObj = readJsonStream(reader);
-          	api.parseMsg(apiObj);
-          	
-
+          	api.handleApiObject(apiObj);
              
              if(!multiThreadedServer.getServiceStatus()) { 
                 System.out.print("Server has already stopped"); 

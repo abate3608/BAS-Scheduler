@@ -193,14 +193,17 @@ public class LogScreen {
 				//new CalenderScreen();
 				//logWin.dispose();
 				
-			} else
-			{
+			} else if (u.getUserName() == userName && !u.isAuthenticated()){
 				//DO SOMETHING : login fail
 				//userNameText.setText(null);
 				JOptionPane.showMessageDialog(null, "Login Fail. Please Enter Correct UserName and Password");
 				passwordText.setText(null);
 				logWin.setVisible(true); 
 				passwordText.requestFocusInWindow();
+			}
+			else
+			{
+				// Do Nothing - Was not the Log In Screens Request.
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package edu.psu.sweng500.bacnetserver.server;
 
+import java.util.ArrayList;
+
 import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.RemoteDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.event.DeviceEventAdapter;
@@ -106,7 +108,7 @@ public class BacnetServer {
 		
 		
 		@Override
-		public void eventUpdate(DBScheduleTable s) {
+		public void eventUpdate(ArrayList<DBScheduleTable> s) {
 			// TEAM 7 TO DO
 			// EventObject data type
 			//

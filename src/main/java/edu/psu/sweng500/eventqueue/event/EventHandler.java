@@ -111,8 +111,8 @@ public class EventHandler {
 		}
 
 	}
-
-	public void fireEventUpdate(DBScheduleTable s) {
+	
+	public void fireEventUpdate(ArrayList<DBScheduleTable> s) {
 		for (EventListener l : listeners) {
 			try {
 				l.eventUpdate(s);

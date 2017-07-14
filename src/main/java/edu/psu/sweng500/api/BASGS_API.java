@@ -39,6 +39,7 @@ public class BASGS_API {
 		int id;
 		int action_id;
 		int num_of_obj;
+		int error;
 		String message;
 		String start_date;
 		String stop_date;
@@ -85,7 +86,7 @@ public class BASGS_API {
 	 * This method allows external applications to create BASGS events.
 	 * @param [in] api - API_Object that is to be added to the database
 	 */
-	private void create(API_Object api) throws IOException {
+	private static void create(API_Object api) throws IOException {
 		try {
 			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
@@ -115,7 +116,7 @@ public class BASGS_API {
 	 * @param [in] api - API_Object that specifies what event should
 	 * be read from the database
 	 */
-	private void read(API_Object api) {
+	private static void read(API_Object api) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			Date startDate = df.parse(api.start_date);
@@ -130,7 +131,7 @@ public class BASGS_API {
 	 * This method allows external applications to update BASGS events.
 	 * @param [in] api - API_Object that is to be updated in the database
 	 */
-	private void update(API_Object api) {
+	private static void update(API_Object api) {
 		try {
 			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
@@ -158,25 +159,23 @@ public class BASGS_API {
 	 * This method allows external applications to delete BASGS events.
 	 * @param [in] api - API_Object that is to be deleted from the database
 	 */
-	private void delete(API_Object api) {
+	private static void delete(API_Object api) {
 
 	}
 
 	/*
 	 * This method is called when the Server receives data, parses the data, and
-	 * sends the converted api object to the appropriate message.
+	 * sends the converted api object to the appropriate operation.
 	 * 
 	 * @param [in] api_obj - API_Object that will be parsed to determine what
 	 * action will be taken.
 	 */
-	public void parseMsg(API_Object api) throws IOException {
-		this.apiObj = api;
-		
+	public static void parseMsg(API_Object api) throws IOException {
 		// Case 0 - Create
 		// Case 1 - Read events between dates
 		// Case 2 - Update Event
 		// Case 3 - Delete Event
-		switch (this.apiObj.action_id) {
+		switch (api.action_id) {
 			case 0:
 				create(api);
 				break;
@@ -195,6 +194,35 @@ public class BASGS_API {
 	}
 	
 	/*
+	 * This method is called when the Server receives data to set the global
+	 * API object and to authenticate the user.
+	 * 
+	 * @param [in] api_obj - API_Object that will be parsed to determine what
+	 * action will be taken.
+	 */
+	public void handleApiObject(API_Object api) {
+		this.apiObj = api;
+		authenticateUser(api);
+	}
+	
+	
+	/*
+	 * This method is verify the username and password of the client sending the 
+	 * event message.
+	 * 
+	 * @param [in] api_obj - API_Object that will be parsed to determine what
+	 * action will be taken.
+	 */
+	public void authenticateUser(API_Object api) {
+		//isAuthenticating = true;
+		String userName = api.username;
+		String password = api.password;
+
+		// fire request event with password
+		eventHandler.fireAuthenticateUserRequest(userName, password);
+	}
+	
+	/*
 	 * This method returns the BASGS_API eventHandler
 	 * @return the BASGS event handler
 	 */
@@ -207,34 +235,57 @@ public class BASGS_API {
 	 */
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
-
-		/*
-		 * This method is called when an event update takes place
-		 * 
-		 * @param [in] 0 - ScheduleEvent object that has been returned from the database
-		 */
+		
 		@Override
-		public void eventUpdate(DBScheduleTable s) {
+		public void eventUpdate(ArrayList<DBScheduleTable> s) {
+			System.out.println("BASGS_API: Event Updates");
 			// TEAM 7 TO DO
 			// EventObject data type
 			//
 			// write code to update API when event arrive
 			API_Object apiObjReturn = new API_Object();
-			apiObjReturn.num_of_obj = 1;
-			BacnetObj bacnetObj = new BacnetObj();
+			apiObjReturn.num_of_obj = s.size();
 			
 			apiObjReturn.message = "Action Complete";
-			bacnetObj.eventID = String.valueOf(s.getScheduleId());
-			bacnetObj.eventDescription = s.getDescription();
-			bacnetObj.eventName = s.getName();
-			bacnetObj.eventStart = s.getStartDateTime().toString();
-			bacnetObj.eventStop = s.getEndDateTime().toString();
-			apiObjReturn.bacnet.add(bacnetObj);
+			for(DBScheduleTable sEvent : s) {
+				BacnetObj bacnetObj = new BacnetObj();
+				bacnetObj.eventID = String.valueOf(sEvent.getScheduleId());
+				bacnetObj.eventDescription = sEvent.getDescription();
+				bacnetObj.eventName = sEvent.getName();
+				bacnetObj.eventStart = sEvent.getStartDateTime().toString();
+				bacnetObj.eventStop = sEvent.getEndDateTime().toString();
+				apiObjReturn.bacnet.add(bacnetObj);
+			}
 			
 			try {
 				client.writeJsonStream(apiObjReturn);
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void authenticateUserUpdate(User u) {
+			System.out.println("BASGS_API > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
+			if (u.getUserName() == apiObj.username && u.isAuthenticated())
+			{
+				try {
+					parseMsg(apiObj);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			} else
+			{
+				API_Object apiObjReturn = new API_Object();
+				apiObjReturn.num_of_obj = 0;
+				apiObjReturn.error = 1;
+				apiObjReturn.message = "Login Fail. Please Enter Correct UserName and Password";
+				try {
+					client.writeJsonStream(apiObjReturn);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

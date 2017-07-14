@@ -89,6 +89,8 @@ public class Database {
 				String query = "select * from psuteam7.schedule where StartDateTime >= '" + df.format(startDateTime) + "' and EndDateTime <= '" + df.format(endDateTime) + "'";
 
 				rt = statement.executeQuery(query); 
+				
+				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
 
 				while ((rt.next())) { 
 
@@ -99,10 +101,11 @@ public class Database {
 					s.setDescription(rt.getString("Description"));
 					s.setStartDateTime(rt.getDate("StartDateTime"));
 					s.setEndDateTime(rt.getDate("EndDateTime")); 
-
-					// Send each event to event queue
-					eventHandler.fireEventUpdate(s);
+					
+					sList.add(s);
 				}
+				// Send list of events to event queue
+				eventHandler.fireEventUpdate(sList);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
