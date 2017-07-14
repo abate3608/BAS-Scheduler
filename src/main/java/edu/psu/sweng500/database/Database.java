@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.lang.ClassCastException;
 
 import javax.swing.JOptionPane;
 
@@ -28,10 +29,10 @@ public class Database {
 
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
-	public static final String email = null;
-	public static final String userName = null;
-	public static final String passWord = null;
-	public static final String firstName= null; 
+//	public static final String email = null;
+//	public static final String userName = null;
+//	public static final String passWord = null;
+//	public static final String firstName= null; 
 	private static Statement statement = null;
 	private static ResultSet rt = null;
 	private static Connection connect = null;
@@ -249,15 +250,11 @@ public class Database {
 		@Override
 		public void createUser(User u) {
 			//display debug message
-			System.out.println("Database > Create user request received. User: " + u.getUserName());
-			int err = 1;
+			System.out.println("Database > Create user request received. UserInfo: " + u.getUserName());
+			int err = 0;
+
 			try {
 
-
-				//statement= connect.createStatement();
-
-				//statement.executeQuery("Insert into psuteam7.User_Profile VALUES (null," + u.getFirstName() + ", " + u.getLastName() + ", " + u.getEmail() + ", " + u.getUserName() + ", " + u.getPassword());
-				// the mysql insert statement
 				String query = " insert into psuteam7.User_Profile (firstName, lastName, email, userName, passWord)"
 						+ " values (?, ?, ?, ?, ?)";
 
@@ -271,31 +268,53 @@ public class Database {
 
 				// execute the preparedstatement
 				preparedStmt.execute();
-
 				err = 0; //good
 				eventHandler.fireCreteUserRespond(u, err);
 				//JOptionPane.showConfirmDialog(null, "Successful Registration", "Result",JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE);
 
 			} catch(Exception e) {
-
-				//int err = 0;//need to be discussed
-				System.out.println("Database > Create User request received. User: " + u.getEmail());
+				
+				//eventHandler.fireCreteUserRespond(u, err);
+				//}
+				System.out.println("Database > Create UserEmail request received. Email: " + u.getEmail());
 				try{
-					String emailquery = "Select * from psuteam7.User_Profile where Email = ?";
-					statement = connect.createStatement();
-					((PreparedStatement) statement).setString(1, email);
-					rt=statement.executeQuery(emailquery);
+
+					String emailquery = "Select * from psuteam7.User_Profile where Email = ? ";
+					PreparedStatement statement = connect.prepareStatement(emailquery);
+					statement.setString(1, u.getEmail());
+					rt=statement.executeQuery();
 
 					if(rt.next()){
-
-						err=1;//0 means there is already an existing email being used
-						eventHandler.fireCreteUserRespond(u, err);
+							
+						err=1;//already exists
+						eventHandler.fireCreteUserRespond(u, err);	
+						//System.out.println(1);
 					} 
-				}catch (Exception ex){
-					System.out.println(ex);
-					eventHandler.fireCreteUserRespond(u, err);
+				}
+				catch (Exception f){
+					f.printStackTrace();
+					//System.out.println(f);
+					//eventHandler.fireCreteUserRespond(u, err);
+				}
+				System.out.println("Database > Create UseruserName request Received. UserName: " + u.getUserName());
+				try {
+
+					String userquery = "Select * from psuteam7.User_Profile where userName = ?";
+					PreparedStatement statement = connect.prepareStatement(userquery);
+					statement.setString(1, u.getUserName());
+					rt=statement.executeQuery();
+
+					if(rt.next()) {
+						err=2;// already exists
+						eventHandler.fireCreteUserRespond(u, err);
+					}
+				}catch (Exception g){
+					g.printStackTrace();
+					//System.out.println(g);
+					//eventHandler.fireCreteUserRespond(u, err);
 				}
 			}
+			//}
 		}
 		@Override
 		public void siteInfoRequest() {
@@ -527,15 +546,15 @@ public class Database {
 		}
 
 
-	}
+		//}
 
-	private int calendarId;
+		private int calendarId;
 
-	public int getCalendarId() {
-		return calendarId;
-	}
+		public int getCalendarId() {
+			return calendarId;
+		}
 
-	public void setCalendarId(int calendarId) {
-		this.calendarId = calendarId;
-	}
-}
+		public void setCalendarId(int calendarId) {
+			this.calendarId = calendarId;
+		}
+	}}

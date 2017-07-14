@@ -296,34 +296,38 @@ public class NewUserScreen implements ActionListener {
 
 		@Override
 		public void createUserRespond(User u, int err) {
+			
 			System.out.println("NewUserScreen > Create User Respond. User: " + u.getUserName() + " Error Code:" + err);
-			if (err == 0){
+			if (err == 0)
+			{
 			
 				//DO SOMETHING: user user created
 				JOptionPane.showMessageDialog(null,"Registration Approved Please Log In");
-				regWin.dispose();
-				
-			}else if (err == 1){
+				regWin.dispose();	
+			}
+			 if (err == 1)
+			{
 				
 				//DO SOMETHING: user user created
 				JOptionPane.showMessageDialog(null,"Email Authentication Error, Please provide a different email address");
+			}	
+			 if (err == 2)
+			 {
 				
-			}else if (err == 2){
-				
-				//DO SOMETHING: user user created
+			//DO SOMETHING: user user created
 				JOptionPane.showMessageDialog(null,"Username Authentication Error, Pleae provide a different User Name");
-				
+				}
 //			}else if (err == 3){
 //				
 //				//DO SOMETHING: user user created
 //				JOptionPane.showMessageDialog(null,"Password Authentication Error, Please provide a different Password");	
 			}
-			{
+			//{
 				//DO SOMETHING : cannot create user user. Use error code to determine fail reason.
 				//for example, user name already create.
 				//invalid email.
 				//need to come up with error code.
 			}
 		}
-	}
-}
+	//}
+//}
