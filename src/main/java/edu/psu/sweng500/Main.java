@@ -10,7 +10,6 @@ import edu.psu.sweng500.database.Database;
 import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
-import edu.psu.sweng500.importer.XMLImporter;
 import edu.psu.sweng500.schedule.importer.XmlScheduleImporter;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
