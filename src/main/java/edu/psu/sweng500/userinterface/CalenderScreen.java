@@ -1,5 +1,6 @@
 package edu.psu.sweng500.userinterface;
 
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -61,6 +62,8 @@ public class CalenderScreen {
 
 	private final static LogScreen loginScreen = new LogScreen();
 
+	private BacnetConfig BacnetConfigScreen = new BacnetConfig();
+	
 	public CalenderScreen() {
 
 		// setup event
@@ -188,8 +191,15 @@ public class CalenderScreen {
 		// calenderWindow.setSize(1000,500);
 		calenderWindow.setBorder(BorderFactory.createTitledBorder("Global Schedular Hompage"));
 		// Add controls to calenderWindow
+		
+		
+		 
+		
+		 windowLayout.setLayout(new BorderLayout());
+		 windowLayout.add(createMenuBar(), BorderLayout.NORTH);
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
+		
 		
 		calenderWindow.add(temperature);
 		calenderWindow.add(humidity);
@@ -241,6 +251,49 @@ public class CalenderScreen {
 
 	}
 
+	public JMenuBar createMenuBar () {
+		
+		JMenuBar b = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		b.add(fileMenu);
+		JMenuItem fileMenuExitItem = new JMenuItem("Exit");
+		fileMenu.add(fileMenuExitItem);
+		
+		JMenu viewMenu = new JMenu("View");
+		b.add(viewMenu);
+		JMenuItem viewMenuCalendarItem = new JMenuItem("Calendar");
+		viewMenu.add(viewMenuCalendarItem);
+		JMenuItem viewMenuEventsItem = new JMenuItem("Events");
+		viewMenu.add(viewMenuEventsItem);
+		JMenuItem viewMenuRoomsItem = new JMenuItem("Rooms");
+		viewMenu.add(viewMenuRoomsItem);
+		
+		JMenu configMenu = new JMenu("Configuration");
+		b.add(configMenu);
+		JMenuItem configMenuSystemItem = new JMenuItem("System");
+		configMenu.add(configMenuSystemItem);
+		
+		JMenuItem configMenuBacnetItem = new JMenuItem("BACnet Server");
+		configMenuBacnetItem.addActionListener(new configMenuBacnetItemClick());
+		configMenu.add(configMenuBacnetItem);
+		
+		
+		JMenuItem configMenuXMLItem = new JMenuItem("XML Importer");
+		configMenu.add(configMenuXMLItem);
+		JMenuItem configMenuApiItem = new JMenuItem("API");
+		configMenu.add(configMenuApiItem);
+		
+		JMenu helpMenu = new JMenu("Help");
+		b.add(helpMenu);
+		JMenuItem helpMenuAboutItem = new JMenuItem("About");
+		helpMenu.add(helpMenuAboutItem);
+		
+		
+		return b;
+		
+	}
+	
+	
 	public static void updateCalendar(int month, int year) {
 
 		String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
@@ -391,6 +444,13 @@ public class CalenderScreen {
 		return eventHandler;
 	}
 
+	private final class configMenuBacnetItemClick implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			BacnetConfigScreen.create();
+
+		}
+	}
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 

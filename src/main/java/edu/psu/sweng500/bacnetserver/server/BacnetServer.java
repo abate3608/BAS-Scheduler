@@ -30,21 +30,20 @@ public class BacnetServer {
 	private final EventHandler eventHandler = EventHandler.getInstance();
 
 	public BacnetServer() {
-		String ObjectIdentifier = "12345";
 		eventHandler.addListener(new EventQueueListener());
-		eventHandler.fireGetBacnetDeviceRequest(ObjectIdentifier);
-		System.out.println("BACnet Server name: " + ObjectIdentifier);
+		eventHandler.fireGetBacnetDeviceRequest();
+		
 
 	}
 
-	public static void start(BacnetDevice d) throws Exception {
+	public static void start(DBBacnetDevicesTable d) throws Exception {
 		try {
-			IpNetwork network = new IpNetwork(d.getIpAddress(), d.getPort());
+			IpNetwork network = new IpNetwork(d.getDevice_Address_Binding(), d.getIntPort());
 			Transport transport = new Transport(network);
 			// transport.setTimeout(15000);
 			// transport.setSegTimeout(15000);
-			if (isNumeric(d.getObjectIdentifier())) {
-				localBacnetDevice = new LocalDevice(Integer.parseInt(d.getObjectIdentifier()), transport);
+			if (isNumeric(d.getObject_Identifier())) {
+				localBacnetDevice = new LocalDevice(Integer.parseInt(d.getObject_Identifier()), transport);
 				// create local device
 				localBacnetDevice.initialize();
 				// notify network of new device on network
@@ -53,11 +52,13 @@ public class BacnetServer {
 				// listen to bacnet events
 				localBacnetDevice.getEventHandler().addListener(new Bacnet4j2Listener());
 				initialized = localBacnetDevice.isInitialized();
+				System.out.println("BACnet Server > Started on with Object ID [" + d.getObject_Identifier() + "] interface [" + d.getDevice_Address_Binding() + ":" + d.getPort() + "]");
 			}
 
 		} catch (Exception e) {
 			localBacnetDevice.terminate();
 			initialized = false;
+			System.out.println("BACnet Server > Failed to start BACnet Server.");
 		}
 	}
 
@@ -76,7 +77,7 @@ public class BacnetServer {
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 		@Override
-		public void bacnetDeviceUpdate(BacnetDevice d) {
+		public void bacnetDeviceUpdate(DBBacnetDevicesTable d) {
 			try {
 				if (!initialized) {
 					start(d);

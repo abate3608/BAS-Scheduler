@@ -16,9 +16,11 @@ public interface EventListener {
 
 //	public void authenticateUserUpdate(User u);
 
-	public void getBacnetDevice(String ObjectIdentifier);
+	public void getBacnetDevice();
 
-	public void bacnetDeviceUpdate(BacnetDevice d);
+	public void setBacnetDevice(DBBacnetDevicesTable d);
+	
+	public void bacnetDeviceUpdate(DBBacnetDevicesTable d);
 
 	public void getBacnetObject(String ObjectIdentifier);
 
