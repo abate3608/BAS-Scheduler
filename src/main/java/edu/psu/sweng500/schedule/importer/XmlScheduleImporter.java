@@ -56,5 +56,16 @@ public class XmlScheduleImporter extends ScheduleImporter
 		map = new XmlDomMap();
 		map.readMapFromFile( path );
 	}
+	
+	/**
+	 * Sets the {@link XmlDomMap} configuration this
+	 * {@link XmlScheduleImporter} should use when importing XML
+	 * documents.
+	 * @param map the {@link XmlDomMap}
+	 */
+	public void setXmlDomMap( XmlDomMap map )
+	{
+		this.map = map;
+	}
 
 }
