@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,9 +70,12 @@ public class NewUserScreen implements ActionListener {
 
 		regPanel.setLayout(null);
 		regPanel.setBorder(BorderFactory.createTitledBorder("New User Registration"));
+		regPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
 
 		firstName = new JLabel("First Name");
 		firstName.setBounds(20, 25, 80, 25);
+		firstName.setForeground(Color.blue); //CHANGE Color
+		firstName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(firstName);
 
 		firstNameTXT = new JTextField(20);
@@ -83,7 +87,10 @@ public class NewUserScreen implements ActionListener {
 		lastName = new JLabel("Last Name");
 		lastName.setBounds(20, 75, 80, 25);
 		regPanel.add(lastName);
-
+		lastName.setForeground(Color.blue); //CHANGE Color
+		lastName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		
+		
 		lastNameTXT = new JTextField(20);
 		lastNameTXT.setBounds(20, 100, 160, 25);
 		regPanel.add(lastNameTXT);
@@ -92,6 +99,8 @@ public class NewUserScreen implements ActionListener {
 
 		email = new JLabel("Email");
 		email.setBounds(20, 125, 80, 25);
+		email.setForeground(Color.blue); //CHANGE Color
+		email.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(email);
 
 		emailTXT = new JTextField(20);
@@ -102,6 +111,8 @@ public class NewUserScreen implements ActionListener {
 
 		userName = new JLabel("UserName");
 		userName.setBounds(20, 175, 80, 25);
+		userName.setForeground(Color.blue); //CHANGE Color
+		userName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(userName);
 
 		userNameTXT = new JTextField(20);
@@ -112,6 +123,8 @@ public class NewUserScreen implements ActionListener {
 
 		passWord = new JLabel("Password");
 		passWord.setBounds(20, 225, 160, 25);
+		passWord.setForeground(Color.blue); //CHANGE Color
+		passWord.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(passWord);
 		
 		passwordText = new JPasswordField(20);
@@ -138,7 +151,7 @@ public class NewUserScreen implements ActionListener {
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-				firstNameTXT.setBackground(Color.LIGHT_GRAY );
+				firstNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 			}
 
 			public void mouseExited(MouseEvent arg0) {
@@ -161,7 +174,7 @@ public class NewUserScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			lastNameTXT.setBackground(Color.LIGHT_GRAY );
+			lastNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -185,7 +198,7 @@ public class NewUserScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			emailTXT.setBackground(Color.LIGHT_GRAY );
+			emailTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -209,7 +222,7 @@ public class NewUserScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			userNameTXT.setBackground(Color.LIGHT_GRAY );
+			userNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -232,7 +245,7 @@ public class NewUserScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			passwordText.setBackground(Color.LIGHT_GRAY );
+			passwordText.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {

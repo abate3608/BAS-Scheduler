@@ -99,7 +99,7 @@ public class CalenderScreen {
 		
 		loginStatus = new JLabel ("User: ");
 		loginStatus.setFont(new Font("Arial",Font.ITALIC,20)); // Font
-		loginStatus.setBounds(45, 30, 180, 30); // Location
+		loginStatus.setBounds(15, 30, 180, 30); // Location
 		loginStatus.setForeground(Color.blue);  // Color
 		
 		yearTxt = new JLabel ("Change Year:"); 
@@ -159,20 +159,20 @@ public class CalenderScreen {
 
 		// schedule event Button
 		newEventBTN = new JButton("New Event");
-		newEventBTN.setBounds(15, 140, 98, 25);
+		newEventBTN.setBounds(15, 105, 98, 25);
 		newEventBTN.setFont(new Font("Arial",Font.BOLD,12));
 		newEventBTN.addActionListener(new NewEventScreen());
 
 		// edit event Button
 		editEventBTN = new JButton("Edit Event");
-		editEventBTN.setBounds(150, 140, 98, 25); 
+		editEventBTN.setBounds(15, 140, 98, 25); 
 		editEventBTN.setFont(new Font("Arial",Font.BOLD,12)); 
 		editEventBTN.addActionListener(new EditEventScreen());
 		
 		
 		// LogOut event Button
 		logOut = new JButton("Sign Out");
-		logOut.setBounds(15, 100, 98, 25); 
+		logOut.setBounds(15, 70, 98, 25); 
 		logOut.setFont(new Font("Arial",Font.BOLD,12));
 		logOut.addActionListener(new logOutBTNPress());
 		
