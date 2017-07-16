@@ -51,25 +51,30 @@ public class Database {
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 		@Override
-		public void getBacnetDevice(String ObjectIdentifier) {
+		public void getBacnetDevice() {
 			try {
-				System.out.println("Database > Bacnet Device Request received for " + ObjectIdentifier);
+				System.out.println("Database > Bacnet Device Request");
 
-				// get information from data and send the data back to Bacnet
-				// server
+				statement = connect.createStatement();
 
-				// get information for the ObjectIdentifier
-				int port = 0xBAC0; // get information from database and replace
-				// static data
-				String ipAddress = "192.168.30.1"; // get information from
-				// database and replace
-				// static data
+				String query = "select * from psuteam7.bacnetdevices";
 
-				// create new bacnet device
-				BacnetDevice bacnetDevice = new BacnetDevice(ObjectIdentifier, port, ipAddress);
+				rt = statement.executeQuery(query); 
 
-				// Generate the event
-				eventHandler.fireBacnetDeviceUpdate(bacnetDevice);
+				
+				
+				while ((rt.next())) { 
+					DBBacnetDevicesTable d = new DBBacnetDevicesTable();
+					d.setObject_Identifier(rt.getString("Object_Identifier"));
+					d.setDevice_Address_Binding(rt.getString("Device_Address_Binding"));
+					d.setPort(rt.getString("Port"));
+					
+					eventHandler.fireBacnetDeviceUpdate(d);
+					break;
+				}
+				
+				
+
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
