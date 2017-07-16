@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
+import edu.psu.sweng500.userinterface.CalenderScreen.backBTNPress;
+import edu.psu.sweng500.userinterface.CalenderScreen.logOutBTNPress;
+import edu.psu.sweng500.userinterface.CalenderScreen.nextBTNPress;
 
 public class CalenderScreen {
 	static JLabel temperature;
@@ -24,12 +27,14 @@ public class CalenderScreen {
 	
 	static JLabel monthName;
 	static JLabel yearNumber;
+	static JLabel yearTxt; 
 	static JFrame panelLayout;
 	static Container windowLayout;
 	static JButton backBTN;
 	static JButton nextBTN;
 	static JButton newEventBTN;
 	static JButton editEventBTN; 
+	static JButton logOut;
 	static JPanel roomPanel;
 	static JPanel calenderWindow;
 	static JPanel navigationWindow;
@@ -43,6 +48,9 @@ public class CalenderScreen {
 	static int day;
 	static int getYear;
 	static int getMonth;
+	
+	static JPanel calendar; // Added
+	//static JPanel weatherPanel;  // Added
 
 	// Event listeners
 	private final static EventHandler eventHandler = EventHandler.getInstance();
@@ -71,21 +79,37 @@ public class CalenderScreen {
 		panelLayout.setVisible(true);
 
 		windowLayout = panelLayout.getContentPane();
+		windowLayout.setBackground(new Color(218, 247, 159)); // Added SET COLOR
 		windowLayout.setLayout(null); // "NULL" LAYOUT
 		
 		temperature = new JLabel ("Temperature");
-		temperature.setBounds(900, 50, 200, 30);
+		temperature.setBounds(300, 50, 400, 30); // Location
+		temperature.setFont(new Font("Arial",Font.ITALIC,20)); // FONT
+		temperature.setForeground(Color.blue);  // Color
+		
+		
 		humidity = new JLabel ("Humidity");
-		humidity.setBounds(1100, 50, 200, 30);
+		humidity.setBounds(1100, 50, 200, 30); // Location
+		humidity.setFont(new Font("Arial",Font.ITALIC,20)); // Font
+		humidity.setForeground(Color.blue);  // Color
+		
 		
 		loginStatus = new JLabel ("User: ");
-		loginStatus.setBounds(900, 70, 200, 30);
+		loginStatus.setFont(new Font("Arial",Font.ITALIC,20)); // Font
+		loginStatus.setBounds(45, 30, 180, 30); // Location
+		loginStatus.setForeground(Color.blue);  // Color
+		
+		yearTxt = new JLabel ("Change Year:"); 
+		yearTxt.setFont(new Font("Arial",Font.ITALIC,20)); // Font
+		yearTxt.setBounds(1045, 135, 180, 30); // Location
+		yearTxt.setForeground(Color.blue);  // Color
+
 		
 		monthName = new JLabel("January");
 
 		calendarYear = new JComboBox<String>();
 		calendarYear.addActionListener(new calendarYearPress());
-		calendarYear.setBounds(800, 115, 80, 20);
+		calendarYear.setBounds(1185, 140, 80, 25); //Location
 
 		calenderTable = new DefaultTableModel() {
 			private static final long serialVersionUID = 1L;
@@ -100,40 +124,60 @@ public class CalenderScreen {
 		calendarTable = new JTable(calenderTable);
 		calendarTable.setColumnSelectionAllowed(true); // Single cell selection
 		calendarTable.setRowSelectionAllowed(true);// Single cell selection
-		calendarTable.setRowHeight(calendarTable.getRowHeight() + 72);
+		calendarTable.setRowHeight(calendarTable.getRowHeight() + 64);
 		calendarTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		calendarTable.getTableHeader().setResizingAllowed(true);
 		calendarTable.getTableHeader().setReorderingAllowed(false);
 
 		// Calendar Scrolling
 		calenderScroll = new JScrollPane(calendarTable);
-		calenderScroll.setBounds(300, 140, 1035, 550); // Used to change
+		calenderScroll.setBounds(300, 185, 1029, 500); // Location
 		// calendar Pane size
 		// and Location
+		
+		
+		//Calendar Panel 
+		calendar = new JPanel(null);
+		calendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
+		calendar.setBounds(295, 170, 1040, 520);
+		calendar.setBackground(new Color(250, 247, 160));
+		calendar.setLayout(new BoxLayout(calendar,BoxLayout.PAGE_AXIS)); 
+		calendar.add(calenderScroll);
 
 		// Back and Next Buttons
-		backBTN = new JButton("<< BACK");
-		nextBTN = new JButton("NEXT >>");
-		backBTN.setBounds(300, 115, 148, 25);
-		nextBTN.setBounds(1170, 115, 148, 25);
+		backBTN = new JButton("<<");
+		nextBTN = new JButton(">>");
+		backBTN.setBounds(445, 140, 50, 25); //Location
+		nextBTN.setBounds(500, 140, 50, 25); //Location
+		nextBTN.setFont(new Font("Arial",Font.BOLD,14));//Font
+		backBTN.setFont(new Font("Arial",Font.BOLD,14));
 		backBTN.addActionListener(new backBTNPress());
 		nextBTN.addActionListener(new nextBTNPress());
 
 		// schedule event Button
 		newEventBTN = new JButton("New Event");
-		newEventBTN.setBounds(15, 140, 148, 25); // Button Sizing and Location
+		newEventBTN.setBounds(15, 140, 98, 25);
+		newEventBTN.setFont(new Font("Arial",Font.BOLD,12));
 		newEventBTN.addActionListener(new NewEventScreen());
 
 		// edit event Button
-		// -------------------------------------------------------------NEED
-		// ACTIONLISTNER
 		editEventBTN = new JButton("Edit Event");
-		editEventBTN.setBounds(150, 140, 148, 25); // Button Sizing and Location
+		editEventBTN.setBounds(150, 140, 98, 25); 
+		editEventBTN.setFont(new Font("Arial",Font.BOLD,12)); 
 		editEventBTN.addActionListener(new EditEventScreen());
+		
+		
+		// LogOut event Button
+		logOut = new JButton("Sign Out");
+		logOut.setBounds(15, 100, 98, 25); 
+		logOut.setFont(new Font("Arial",Font.BOLD,12));
+		logOut.addActionListener(new logOutBTNPress());
+		
 		
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
+		roomPanel.setBackground(new Color(250, 247, 160));
 		roomPanel.setBounds(16, 170, 280, 520);
 		roomPanel.setLayout(new BoxLayout(roomPanel,BoxLayout.PAGE_AXIS)); 
 
@@ -146,6 +190,7 @@ public class CalenderScreen {
 		// Add controls to calenderWindow
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
+		
 		calenderWindow.add(temperature);
 		calenderWindow.add(humidity);
 		calenderWindow.add(loginStatus);
@@ -157,6 +202,10 @@ public class CalenderScreen {
 		calenderWindow.add(newEventBTN);
 		calenderWindow.add(editEventBTN);
 		calenderWindow.add(calenderScroll);
+		
+		calenderWindow.add(calendar); 
+		calenderWindow.add(yearTxt); 
+		calenderWindow.add(logOut); 
 		calenderWindow.add(roomPanel);
 
 		// Create calendar
@@ -207,10 +256,10 @@ public class CalenderScreen {
 			nextBTN.setEnabled(false);
 		}
 		monthName.setText(monthNames[month]);
-		monthName.setBounds(750 - monthName.getPreferredSize().width / 2, 112, 180, 25); // Adjust
-		// Month
-		// Text
-		// location
+		monthName.setFont(new Font("Arial",Font.ITALIC,30)); 
+		monthName.setBounds(750, 135, 180, 30); 
+		monthName.setForeground(Color.blue);  
+		
 		calendarYear.setSelectedItem(String.valueOf(year));
 		// Clear table
 		for (int i = 0; i < 6; i++) {
@@ -314,6 +363,16 @@ public class CalenderScreen {
 		}
 	}
 
+	static class logOutBTNPress implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "User Signed Out");
+			System.exit(0);
+			
+		}
+	}
+	
+	
 	static class calendarYearPress implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -351,7 +410,21 @@ public class CalenderScreen {
 						if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
 					}
 				}
-				if (!hasComponent) { roomPanel.add(new JLabel(eventDes)); }
+				if (!hasComponent) {
+					
+					JPanel eventPNL = new JPanel(null);
+					eventPNL.setBorder(BorderFactory.createTitledBorder("Event"));
+					eventPNL.setBackground(new Color(244, 252, 196)); 
+					eventPNL.setBounds(16, 300, 280, 390);
+					eventPNL.setLayout(new BoxLayout(eventPNL,BoxLayout.PAGE_AXIS)); 
+					
+					JLabel events = new JLabel(eventDes);
+					//events.setBounds(20, 200, 100, 200);
+					events.setFont(new Font("Arial",Font.ITALIC,12)); 
+					events.setForeground(Color.blue);  
+					eventPNL.add(events);
+					roomPanel.add(eventPNL);
+					 }
 			}
 		}
 

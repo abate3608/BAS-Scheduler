@@ -369,11 +369,11 @@ public class NewEventScreen implements ActionListener {
 					Date startDateTime = null;
 					Date endDateTime = null;
 
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// REMOVE SECONDS
 
 
 					startDateTime = df.parse(eventDate + " " + startTime);
-					endDateTime = df.parse(eventDate + " " + endTime);
+					endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
 
 
 

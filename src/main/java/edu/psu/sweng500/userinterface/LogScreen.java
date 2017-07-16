@@ -66,9 +66,12 @@ public class LogScreen {
 
 		logPanel.setLayout(null);
 		logPanel.setBorder(BorderFactory.createTitledBorder("Login"));
-
+		logPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
+		
 		userLabel = new JLabel("Username");
 		userLabel.setBounds(20, 25, 80, 25);
+		userLabel.setForeground(Color.blue); //CHANGE Color
+		userLabel.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		logPanel.add(userLabel);
 
 		userNameText = new JTextField();
@@ -80,6 +83,8 @@ public class LogScreen {
 		
 		passWord = new JLabel("Password");
 		passWord.setBounds(20, 75, 80, 25);
+		passWord.setFont(new Font("Arial",Font.BOLD,14)); //CHANGE Color
+		passWord.setForeground(Color.blue); //CHANGE Color
 		logPanel.add(passWord);
 
 		passwordText = new JPasswordField();
@@ -138,7 +143,7 @@ public class LogScreen {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			userNameText.setBackground(Color.LIGHT_GRAY );
+			userNameText.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -161,7 +166,7 @@ public class LogScreen {
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-				passwordText.setBackground(Color.LIGHT_GRAY );
+				passwordText.setBackground(new Color(146, 157, 225)); //CHAMGE Color
 			}
 
 			public void mouseExited(MouseEvent arg0) {
