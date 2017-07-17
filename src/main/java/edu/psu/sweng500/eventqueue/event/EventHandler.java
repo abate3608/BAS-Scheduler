@@ -69,18 +69,28 @@ public class EventHandler {
 	//	}
 
 	// Bacnet Server calls this function to request for BACnet Device info
-	public void fireGetBacnetDeviceRequest(final String ObjectIdentifier) {
+	public void fireGetBacnetDeviceRequest() {
 		for (EventListener l : listeners) {
 			try {
-				l.getBacnetDevice(ObjectIdentifier);
+				l.getBacnetDevice();
 			} catch (Throwable e) {
 				handleException(l, e);
 			}
 		}
 	}
 
+	public void fireSetBacnetDeviceRequest(DBBacnetDevicesTable d) {
+		for (EventListener l : listeners) {
+			try {
+				l.setBacnetDevice(d);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
 	// Database calls this function to respond to Bacnet Server request
-	public void fireBacnetDeviceUpdate(final BacnetDevice d) {
+	public void fireBacnetDeviceUpdate(DBBacnetDevicesTable d) {
 		for (EventListener l : listeners) {
 			try {
 				l.bacnetDeviceUpdate(d);

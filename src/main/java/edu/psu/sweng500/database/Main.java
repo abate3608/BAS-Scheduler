@@ -20,36 +20,13 @@ public class Main {
 
 	static class EventQueueListener extends EventAdapter {
 		@Override
-		public void getBacnetDevice(String ObjectIdentifier) {
-			System.out.println("getBacnetDeviceReqeust received for " + ObjectIdentifier);
-
-			// get information from data and send the data back to Bacnet server
-
-			// get information for the ObjectIdentifier
-			int port = 0xBAC0; // get information from database and replace
-								// static data
-			String ipAddress = "192.168.30.1"; // get information from database
-												// and replace static data
-
-			// create new bacnet device
-			BacnetDevice bacnetDevice = new BacnetDevice(ObjectIdentifier, port, ipAddress);
-
-			// Generate the event
-			dao.getEventHandler().fireBacnetDeviceUpdate(bacnetDevice);
+		public void getBacnetDevice() {
+			
 		}
 
 		@Override
 		public void authenticateUserRequest(String userName, String passWord) {
-			// do something
-			User u;
-			if (userName == "test" && passWord == "test")
-			{
-				u = new User(userName, true);
-			} else
-			{
-				u = new User(userName, true);
-			}
-			dao.getEventHandler().fireAuthenticateUserUpdate(u);
+
 		}
 	}
 }

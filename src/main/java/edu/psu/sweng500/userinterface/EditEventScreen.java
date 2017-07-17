@@ -1,6 +1,7 @@
 package edu.psu.sweng500.userinterface;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,9 +66,12 @@ public class EditEventScreen implements ActionListener {
 
 		newEventPanel.setLayout(null);
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
+		newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
 
 		eventName = new JLabel("Event Name");
-		eventName.setBounds(20, 25, 80, 25);
+		eventName.setBounds(20, 25, 90, 25);
+		eventName.setForeground(Color.blue); //CHANGE Color
+		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventName);
 
 		eventNameTXT = new JTextField(20);
@@ -77,7 +81,9 @@ public class EditEventScreen implements ActionListener {
 		eventNameTXT.addMouseListener(new EventMouseClicked());
 
 		eventStartTime = new JLabel("Event Start Time");
-		eventStartTime.setBounds(20, 75, 100, 25);
+		eventStartTime.setBounds(20, 75, 120, 25);
+		eventStartTime.setForeground(Color.blue); //CHANGE Color
+		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 		
 
@@ -89,7 +95,9 @@ public class EditEventScreen implements ActionListener {
 		
 
 		eventEndTime = new JLabel("Event End Time");
-		eventEndTime.setBounds(20, 125, 100, 25);
+		eventEndTime.setBounds(20, 125, 120, 25);
+		eventEndTime.setForeground(Color.blue); //CHANGE Color
+		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
 		eventEndTimeTXT = new JTextField(20);
@@ -100,6 +108,8 @@ public class EditEventScreen implements ActionListener {
 
 		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(20, 175, 100, 25);
+		eventDate.setForeground(Color.blue); //CHANGE Color
+		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
@@ -111,6 +121,8 @@ public class EditEventScreen implements ActionListener {
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 225, 160, 25);
+		eventRoom.setForeground(Color.blue); //CHANGE Color
+		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
@@ -121,6 +133,8 @@ public class EditEventScreen implements ActionListener {
 
 		lightSetting = new JLabel("Light Setting");
 		lightSetting.setBounds(20, 275, 160, 25);
+		lightSetting.setForeground(Color.blue); //CHANGE Color
+		lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
@@ -131,6 +145,8 @@ public class EditEventScreen implements ActionListener {
 
 		temperatureSetting = new JLabel("Temperature Setting");
 		temperatureSetting.setBounds(20, 325, 160, 25);
+		temperatureSetting.setForeground(Color.blue); //CHANGE Color
+		temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
@@ -163,7 +179,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.LIGHT_GRAY );
+			eventNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -186,7 +202,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.LIGHT_GRAY );
+			eventStartTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -210,7 +226,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.LIGHT_GRAY );
+			eventEndTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -234,7 +250,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.LIGHT_GRAY );
+			eventDateTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -257,7 +273,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.LIGHT_GRAY );
+			eventRoomText.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -280,7 +296,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.LIGHT_GRAY );
+			lightSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {
@@ -303,7 +319,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.LIGHT_GRAY );
+			temperatureSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
 		}
 
 		public void mouseExited(MouseEvent arg0) {

@@ -14,12 +14,16 @@ public class EventAdapter implements EventListener {
 	}
 
 	// Database attaches to this and listen for BACnet server request
-		public void getBacnetDevice(String ObjectIdentifier) {
+		public void getBacnetDevice() {
 			//System.out.println("getBacnetDeviceRequest event fired!");
 		}
 
+		public void setBacnetDevice(DBBacnetDevicesTable d) {
+			
+		}
+		
 		// Bacnet server attaches to this and listen for Database respond
-		public void bacnetDeviceUpdate(BacnetDevice d) {
+		public void bacnetDeviceUpdate(DBBacnetDevicesTable d) {
 			//System.out.println("getBacnetDeviceRespond fired!");
 		}
 
