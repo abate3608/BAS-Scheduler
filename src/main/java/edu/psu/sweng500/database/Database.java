@@ -207,11 +207,8 @@ public class Database {
 
 					UUID uuid = UUID.randomUUID();
 					String rowGuid = s.getRowGuid();
-					//if (rowGuid == null || rowGuid.equalsIgnoreCase("")) {
+					s.setRowGuid(uuid.toString());
 					ps.setString(1, uuid.toString()); //RowGuid
-					//} else {
-					//	ps.setString(1, rowGuid); //RowGuid
-					//}
 
 					if (s.getScheduleSiteId() < 1) { //if no schedule id set
 						ps.setInt(2, 1); // ScheduleSiteId
@@ -223,7 +220,7 @@ public class Database {
 					//ps.setInt(1, event.getEventID());
 					ps.setString(3, s.getName()); //Name
 					ps.setString(4, s.getDescription());//Description
-					ps.setString(5, s.getName());//Notes
+					ps.setString(5, s.getNotes());//Notes
 
 					ps.setInt(6, s.getControlToState());//ControlToState
 
@@ -234,6 +231,7 @@ public class Database {
 					ps.setObject(8, sqlEndDateTime);//end time
 					ps.setBoolean(9, s.getMarkedForDelete()); //MarkedForDelete
 					ps.setString(10, s.getRoomName());
+					s.setTemperatureSetpoint(temperatureCheck(s.getTemperatureSetpoint()));
 					ps.setFloat(11, s.getTemperatureSetpoint());
 					ps.setInt(12, s.getLightIntensity());
 					ps.addBatch();
@@ -248,6 +246,117 @@ public class Database {
 				e.printStackTrace();
 				err = 1;
 				eventHandler.fireCreateEventRespond(s, err);
+			}
+
+		}
+		
+		@Override
+		public void updateEvent(DBScheduleTable s) {
+
+
+			System.out.println("Database > Update schedule event received: Name - " + s.getName());
+			int err = 0; //failed
+			try {
+
+				statement = connect.createStatement();
+				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
+
+				rt = statement.executeQuery(query);
+
+				if(rt.next()) {
+					if (err < 1) { //no error
+						String query2 = "UPDATE psuteam7.schedule SET ScheduleSiteId=?, Name=?, Description=?, Notes=?,"
+								+ "ControlToState=?, StartDateTime=?, EndDateTime=?, MarkedForDelete=?, RoomName=?,"
+								+ "TemperatureSetpoint=?, LightIntensity=? WHERE RowGuid=?";   
+						PreparedStatement ps = connect.prepareStatement(query2);
+
+						ps.setInt(1, s.getScheduleSiteId()); // ScheduleSiteId
+						ps.setString(2, s.getName()); //Name
+						ps.setString(3, s.getDescription());//Description
+						ps.setString(4, s.getNotes());//Notes
+						ps.setInt(5, s.getControlToState());//ControlToState
+	
+						java.sql.Timestamp sqlStartDateTime = new java.sql.Timestamp(s.getStartDateTime().getTime());
+						java.sql.Timestamp sqlEndDateTime = new java.sql.Timestamp(s.getEndDateTime().getTime());
+	
+						ps.setObject(6, sqlStartDateTime);//start time
+						ps.setObject(7, sqlEndDateTime);//end time
+						ps.setBoolean(8, s.getMarkedForDelete()); //MarkedForDelete
+						ps.setString(9, s.getRoomName());
+						s.setTemperatureSetpoint(temperatureCheck(s.getTemperatureSetpoint()));
+						ps.setFloat(10, s.getTemperatureSetpoint());
+						ps.setInt(11, s.getLightIntensity());
+						
+						ps.setString(12, s.getRowGuid()); //RowGuid
+						ps.addBatch();
+	
+						ps.executeBatch();
+						err = 0; //0 = good
+	
+					} 
+				} else {
+					err = 2;
+				}
+				eventHandler.fireUpdateEventRespond(s, err);
+			} catch (Exception e) {
+				e.printStackTrace();
+				err = 1;
+				eventHandler.fireUpdateEventRespond(s, err);
+			}
+
+		}
+		
+		@Override
+		public void deleteEvent(DBScheduleTable s) {
+
+
+			System.out.println("Database > Delete schedule event received: Name - " + s.getName());
+			int err = 0; 
+
+			try {
+				
+				statement = connect.createStatement();
+				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
+
+				rt = statement.executeQuery(query);
+				
+				if(rt.next()) {
+					Calendar calendar = Calendar.getInstance();
+					Date currentTime = calendar.getTime();
+					Date startTime = rt.getTimestamp("StartDateTime");	
+					Date endTime = rt.getTimestamp("EndDateTime");
+					if(currentTime.after(startTime) && currentTime.before(endTime)) {
+						String query2 = "UPDATE psuteam7.schedule SET MarkedForDelete=? WHERE RowGuid=?";   
+						PreparedStatement ps = connect.prepareStatement(query2);
+						
+						ps.setBoolean(1, s.getMarkedForDelete()); //MarkedForDelete
+						ps.setString(2, s.getRowGuid()); //RowGuid
+						ps.addBatch();
+	
+						ps.executeBatch();
+						err=3; // Delete event in progress
+					} else {
+						if (err < 1) { //no error
+							System.out.println("Database > Deleting Event");
+							String query3 = "DELETE FROM psuteam7.schedule WHERE RowGuid=?";   
+							PreparedStatement ps = connect.prepareStatement(query3);
+							
+							ps.setString(1, s.getRowGuid()); //RowGuid
+							ps.addBatch();
+							
+		
+							ps.executeBatch();
+							err = 0; //0 = good
+						} 
+					}
+				} else {
+					err = 2; //Row does not exist
+				}
+				eventHandler.fireDeleteEventRespond(s, err);
+			} catch (Exception e) {
+				e.printStackTrace();
+				err = 1; //Event failed
+				eventHandler.fireDeleteEventRespond(s, err);
 			}
 
 		}
@@ -599,5 +708,15 @@ public class Database {
 
 		public void setCalendarId(int calendarId) {
 			this.calendarId = calendarId;
+		}
+		
+		private float temperatureCheck(float temp) {
+			float newTemp;
+			if(temp < 60.0 || temp > 80.0) {
+				newTemp = 68.0f;
+			} else {
+				newTemp = temp;
+			}
+			return newTemp;
 		}
 	}}

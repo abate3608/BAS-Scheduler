@@ -2,8 +2,8 @@ package edu.psu.sweng500;
 
 import java.nio.file.Paths;
 
-import edu.psu.sweng500.api.MultiThreadedAPIServer;
-import edu.psu.sweng500.api.OpenWeatherMapAPI;
+import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
+import edu.psu.sweng500.api.weather.OpenWeatherMapAPI;
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
 import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
@@ -11,6 +11,7 @@ import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.schedule.importer.XmlScheduleImporter;
+import edu.psu.sweng500.schedule.objects.DefaultXmlDomMap;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
 
@@ -79,12 +80,12 @@ public class Main {
 			new CalenderScreen(); // UI StartScreen
 			//new StartScreen();
 			
-			//new MultiThreadedAPIServer();//Start the API Server
+			new MultiThreadedAPIServer();//Start the API Server
 
 			//create new xml importer
 			//
 			XmlScheduleImporter xmlImporter = new XmlScheduleImporter();
-			xmlImporter.setXmlDomMap( Paths.get("defaultXmlDomMap.properties") );
+			xmlImporter.setXmlDomMap( new DefaultXmlDomMap() );
 			
 			System.out.println("Main > System is running!");
 			while (status == 1) {

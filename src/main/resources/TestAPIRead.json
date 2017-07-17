@@ -1,0 +1,11 @@
+{
+	"username":"admin",
+	"password":"admin",
+	"action_id":1,
+	"num_of_obj":0,
+	"error":0,
+	"message":" ",
+	"start_date":"2017-06-01 12:00:00",
+	"stop_date":"2017-06-30 12:00:00",
+	"bacnet":[]
+}

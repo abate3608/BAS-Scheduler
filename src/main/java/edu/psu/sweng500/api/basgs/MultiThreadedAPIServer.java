@@ -1,9 +1,10 @@
-package edu.psu.sweng500.api;
+package edu.psu.sweng500.api.basgs;
 
 import java.io.IOException;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
  
@@ -12,7 +13,7 @@ import java.util.Calendar;
  * This class provides a multi threaded TCP server for client
  * applications to connect to
  */
-public class MultiThreadedAPIServer {
+public class MultiThreadedAPIServer implements Runnable {
    ServerSocket myServerSocket;
    private final int PORT = 8888;
    boolean ServerOn = true;
@@ -22,6 +23,21 @@ public class MultiThreadedAPIServer {
 	 */
    public MultiThreadedAPIServer() { 
       try {
+    	  
+	  Runtime.getRuntime().addShutdownHook(new Thread()
+	  {
+	      @Override
+	      public void run()
+	      {
+	     	 try {
+	     		 myServerSocket.close();
+	          } catch (IOException e)
+	          {
+	              e.printStackTrace(System.err);
+	          }
+	      }
+	  });
+    	  
          myServerSocket = new ServerSocket(PORT);
       } catch(IOException ioe) { 
          System.out.println("Could not create server socket on port " + String.valueOf(PORT) + ". Quitting.");
@@ -36,8 +52,10 @@ public class MultiThreadedAPIServer {
       while(ServerOn) { 
          try { 
             Socket clientSocket = myServerSocket.accept();
-            ClientServiceThread cliThread = new ClientServiceThread(this, clientSocket);
-            cliThread.start(); 
+            ClientServiceThread clientThread = new ClientServiceThread(this, clientSocket);
+            clientThread.start(); 
+         } catch(SocketException se) {
+        	 se.printStackTrace();
          } catch(IOException ioe) { 
             System.out.println("Exception found on accept. Ignoring. Stack Trace :"); 
             ioe.printStackTrace(); 
@@ -68,7 +86,13 @@ public class MultiThreadedAPIServer {
 	 */
    public static void main (String[] args) { 
       new MultiThreadedAPIServer();   
-   } 
+   }
+
+@Override
+public void run() {
+	// TODO Auto-generated method stub
+	
+} 
 	
    
    

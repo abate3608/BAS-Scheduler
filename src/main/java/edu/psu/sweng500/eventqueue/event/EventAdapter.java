@@ -2,7 +2,7 @@ package edu.psu.sweng500.eventqueue.event;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.UUID;
 
 import edu.psu.sweng500.type.*;
 
@@ -56,6 +56,11 @@ public class EventAdapter implements EventListener {
 
 		}
 		
+		public void eventDelete(ArrayList<DBScheduleTable> s) {
+			// TODO Auto-generated method stub
+
+		}
+		
 
 
 //		public void authenticateUserRequest(String userName, String password) {
@@ -76,6 +81,14 @@ public class EventAdapter implements EventListener {
 		public void createEvent(DBScheduleTable s) {
 			// TODO Auto-generated method stub
 			
+		}
+		
+		public void updateEvent(DBScheduleTable s) {
+			// TODO Auto-generated method stub
+		}
+		
+		public void deleteEvent(DBScheduleTable s) {
+			// TODO Auto-generated method stub
 		}
 
 		////////////////////////////////////////////////////////////////////////////////- USER INTERFACE
@@ -117,7 +130,15 @@ public class EventAdapter implements EventListener {
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void createEventRespond(DBScheduleTable s, int err) {
+		public void createEventRespond(DBScheduleTable s, int err) {
+			
+		}
+		
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			
+		}
+		
+		public void deleteEventRespond(DBScheduleTable s, int err) {
 			
 		}
 
