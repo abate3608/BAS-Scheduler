@@ -1,4 +1,4 @@
-package edu.psu.sweng500.api;
+package edu.psu.sweng500.api.basgs;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import edu.psu.sweng500.api.BASGS_API.API_Object;
+import edu.psu.sweng500.api.basgs.BASGS_API.API_Object;
 
 /*
  * Author: Brian Abate
@@ -50,10 +50,12 @@ public class ClientServiceThread extends Thread {
           "Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
        try { 
           
-          while(m_bRunThread) {
+          while(m_bRunThread && !myClientSocket.isClosed()) {
         	JsonReader reader = new JsonReader(new InputStreamReader(myClientSocket.getInputStream(), "UTF-8"));
           	API_Object apiObj = readJsonStream(reader);
-          	api.handleApiObject(apiObj);
+          	if(apiObj != null) {
+          		api.handleApiObject(apiObj);
+          	}
              
              if(!multiThreadedServer.getServiceStatus()) { 
                 System.out.print("Server has already stopped"); 

@@ -1,0 +1,23 @@
+{
+	"username":"admin",
+	"password":"admin",
+	"action_id":3,
+	"num_of_obj":1,
+	"error":0,
+	"message":" ",
+	"start_date":"",
+	"stop_date":"",
+	"bacnet":[
+		{
+			"uuid":"2e6d5074-a3e1-4f97-ad2f-fc0c420311de",
+			"eventID":"54321",
+			"eventName":"API Update Test",
+			"roomName":"Test Room Update",
+			"eventDescription":"Testing the update of an event.",
+			"eventStart":"2017-07-20 12:00:00",
+			"eventStop":"2017-07-20 12:00:00",
+			"temperatureSetpoint":"68",
+			"lightIntensity":"99"
+		}
+	]
+}

@@ -2,8 +2,8 @@ package edu.psu.sweng500;
 
 import java.nio.file.Paths;
 
-import edu.psu.sweng500.api.MultiThreadedAPIServer;
-import edu.psu.sweng500.api.OpenWeatherMapAPI;
+import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
+import edu.psu.sweng500.api.weather.OpenWeatherMapAPI;
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
 import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
@@ -80,7 +80,7 @@ public class Main {
 			new CalenderScreen(); // UI StartScreen
 			//new StartScreen();
 			
-			//new MultiThreadedAPIServer();//Start the API Server
+			new MultiThreadedAPIServer();//Start the API Server
 
 			//create new xml importer
 			//

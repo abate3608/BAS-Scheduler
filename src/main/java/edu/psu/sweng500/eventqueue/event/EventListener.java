@@ -28,6 +28,10 @@ public interface EventListener {
 	
 	public void createEvent(DBScheduleTable s);
 	
+	public void updateEvent(DBScheduleTable s);
+	
+	public void deleteEvent(DBScheduleTable s);
+	
 	public void getEvents(Date startDateTime, Date endDateTime);
 	
 	public void eventUpdate(ArrayList<DBScheduleTable> s);
@@ -62,6 +66,10 @@ public interface EventListener {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void createEventRespond(DBScheduleTable s, int err);
+	
+	public void updateEventRespond(DBScheduleTable s, int err);
+	
+	public void deleteEventRespond(DBScheduleTable s, int err);
 
 	public void siteInfoRequest();
 

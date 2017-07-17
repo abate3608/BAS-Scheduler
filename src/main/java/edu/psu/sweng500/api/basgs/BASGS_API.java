@@ -1,4 +1,4 @@
-package edu.psu.sweng500.api;
+package edu.psu.sweng500.api.basgs;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
@@ -33,53 +34,29 @@ public class BASGS_API {
 	}
 
 	// Class structure used to store API Object
-	static class API_Object {
-		String username;
-		String password;
-		int id;
-		int action_id;
-		int num_of_obj;
-		int error;
-		String message;
-		String start_date;
-		String stop_date;
-		ArrayList<BacnetObj> bacnet = new ArrayList<BacnetObj>();
+	public static class API_Object {
+		public String username;
+		public String password;
+		public int action_id;
+		public int num_of_obj;
+		public int error;
+		public String message;
+		public String start_date;
+		public String stop_date;
+		public ArrayList<BacnetObj> bacnet = new ArrayList<BacnetObj>();
 	}
 
 	// Class structure used to store bacnet object
-	static class BacnetObj {
-		String eventID;
-		String eventName;
-		String eventDescription;
-		String eventStart;
-		String eventStop;
-		String temperatureSetpoint;
-		String lightIntensity;
-//		String object_identifier;
-//		String object_name;
-//		String object_type;
-//		int present_value;
-//		String description;
-//		String decive_type;
-//		String status_flag;
-//		String event_state;
-//		String reliability;
-//		String out_of_service;
-//		String update_interval;
-//		String units;
-//		String min_pres_value;
-//		String max_pres_value;
-//		String resolution;
-//		String cov_increment;
-//		String time_delay;
-//		String notificaiton_class;
-//		String high_limit;
-//		String low_limit;
-//		String deadband;
-//		String limit_enabled;
-//		String event_enabled;
-//		String acked_transitions;
-//		String notify_types;
+	public static class BacnetObj {
+		public String uuid;
+		public String eventID;
+		public String eventName;
+		public String roomName;
+		public String eventDescription;
+		public String eventStart;
+		public String eventStop;
+		public String temperatureSetpoint;
+		public String lightIntensity;
 	}
 
 	/*
@@ -91,9 +68,9 @@ public class BASGS_API {
 			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
 				DBScheduleTable s = new DBScheduleTable();
-				System.out.println(api.bacnet.get(i).eventID);
 				s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
 				s.setName(api.bacnet.get(i).eventName);
+				s.setRoomName(api.bacnet.get(i).roomName);
 				s.setDescription(api.bacnet.get(i).eventDescription);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
@@ -136,9 +113,10 @@ public class BASGS_API {
 			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 			for(int i = 0; i < api.num_of_obj; i++) {
 				DBScheduleTable s = new DBScheduleTable();
-				System.out.println(api.bacnet.get(i).eventID);
+				s.setRowGuid(api.bacnet.get(i).uuid);
 				s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
 				s.setName(api.bacnet.get(i).eventName);
+				s.setRoomName(api.bacnet.get(i).roomName);
 				s.setDescription(api.bacnet.get(i).eventDescription);
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
@@ -148,7 +126,7 @@ public class BASGS_API {
 				schedules.add(s);
 			}
 			for (DBScheduleTable s : schedules) {
-				eventHandler.fireCreateEvent(s);
+				eventHandler.fireUpdateEvent(s);
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();
@@ -160,7 +138,29 @@ public class BASGS_API {
 	 * @param [in] api - API_Object that is to be deleted from the database
 	 */
 	private static void delete(API_Object api) {
-
+		try {
+			ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
+			for(int i = 0; i < api.num_of_obj; i++) {
+				DBScheduleTable s = new DBScheduleTable();
+				s.setRowGuid(api.bacnet.get(i).uuid);
+				s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
+				s.setName(api.bacnet.get(i).eventName);
+				s.setRoomName(api.bacnet.get(i).roomName);
+				s.setDescription(api.bacnet.get(i).eventDescription);
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
+				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
+				s.setMarkedForDelete(true);
+				s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
+				s.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
+				schedules.add(s);
+			}
+			for (DBScheduleTable s : schedules) {
+				eventHandler.fireDeleteEvent(s);
+			}
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -237,6 +237,84 @@ public class BASGS_API {
 		// listen to event queue
 		
 		@Override
+		public void createEventRespond(DBScheduleTable s, int err) {
+			System.out.println("BASGS_API: Create Event Respond");
+			API_Object apiObjReturn = new API_Object();
+			apiObjReturn.num_of_obj = 1;
+			apiObjReturn.error = err;
+			apiObjReturn.message = "Create Action Complete";
+			BacnetObj bacnetObj = new BacnetObj();
+			bacnetObj.uuid = String.valueOf(s.getRowGuid());
+			bacnetObj.eventID = String.valueOf(s.getScheduleId());
+			bacnetObj.eventDescription = s.getDescription();
+			bacnetObj.roomName = s.getRoomName();
+			bacnetObj.eventName = s.getName();
+			bacnetObj.eventStart = s.getStartDateTime().toString();
+			bacnetObj.eventStop = s.getEndDateTime().toString();
+			bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+			bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+			apiObjReturn.bacnet.add(bacnetObj);
+			
+			try {
+				client.writeJsonStream(apiObjReturn);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			System.out.println("BASGS_API: Update Event Respond");
+			API_Object apiObjReturn = new API_Object();
+			apiObjReturn.num_of_obj = 1;
+			apiObjReturn.error = err;
+			apiObjReturn.message = "Update Action Complete";
+			BacnetObj bacnetObj = new BacnetObj();
+			bacnetObj.uuid = String.valueOf(s.getRowGuid());
+			bacnetObj.eventID = String.valueOf(s.getScheduleId());
+			bacnetObj.eventDescription = s.getDescription();
+			bacnetObj.roomName = s.getRoomName();
+			bacnetObj.eventName = s.getName();
+			bacnetObj.eventStart = s.getStartDateTime().toString();
+			bacnetObj.eventStop = s.getEndDateTime().toString();
+			bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+			bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+			apiObjReturn.bacnet.add(bacnetObj);
+			
+			try {
+				client.writeJsonStream(apiObjReturn);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
+		public void deleteEventRespond(DBScheduleTable s, int err) {
+			System.out.println("BASGS_API: Delete Event Respond");
+			API_Object apiObjReturn = new API_Object();
+			apiObjReturn.num_of_obj = 1;
+			apiObjReturn.error = err;
+			apiObjReturn.message = "Delete Action Complete";
+			BacnetObj bacnetObj = new BacnetObj();
+			bacnetObj.uuid = String.valueOf(s.getRowGuid());
+			bacnetObj.eventID = String.valueOf(s.getScheduleId());
+			bacnetObj.eventDescription = s.getDescription();
+			bacnetObj.roomName = s.getRoomName();
+			bacnetObj.eventName = s.getName();
+			bacnetObj.eventStart = s.getStartDateTime().toString();
+			bacnetObj.eventStop = s.getEndDateTime().toString();
+			bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+			bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+			apiObjReturn.bacnet.add(bacnetObj);
+			
+			try {
+				client.writeJsonStream(apiObjReturn);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@Override
 		public void eventUpdate(ArrayList<DBScheduleTable> s) {
 			System.out.println("BASGS_API: Event Updates");
 			// TEAM 7 TO DO
@@ -245,15 +323,18 @@ public class BASGS_API {
 			// write code to update API when event arrive
 			API_Object apiObjReturn = new API_Object();
 			apiObjReturn.num_of_obj = s.size();
-			
-			apiObjReturn.message = "Action Complete";
+			apiObjReturn.error = 0;
+			apiObjReturn.message = "Read Action Complete";
 			for(DBScheduleTable sEvent : s) {
 				BacnetObj bacnetObj = new BacnetObj();
 				bacnetObj.eventID = String.valueOf(sEvent.getScheduleId());
 				bacnetObj.eventDescription = sEvent.getDescription();
+				bacnetObj.roomName = sEvent.getRoomName();
 				bacnetObj.eventName = sEvent.getName();
 				bacnetObj.eventStart = sEvent.getStartDateTime().toString();
 				bacnetObj.eventStop = sEvent.getEndDateTime().toString();
+				bacnetObj.temperatureSetpoint = Float.toString(sEvent.getTemperatureSetpoint());
+				bacnetObj.lightIntensity = Integer.toString(sEvent.getLightIntensity());
 				apiObjReturn.bacnet.add(bacnetObj);
 			}
 			

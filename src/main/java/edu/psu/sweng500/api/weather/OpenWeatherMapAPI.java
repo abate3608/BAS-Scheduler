@@ -1,4 +1,4 @@
-package edu.psu.sweng500.api;
+package edu.psu.sweng500.api.weather;
 
 import java.util.ArrayList;
 

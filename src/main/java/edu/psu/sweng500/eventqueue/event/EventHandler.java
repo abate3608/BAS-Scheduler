@@ -100,6 +100,28 @@ public class EventHandler {
 		}
 
 	}
+	
+	public void fireUpdateEvent(DBScheduleTable s) {
+		for (EventListener l : listeners) {
+			try {
+				l.updateEvent(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+	}
+	
+	public void fireDeleteEvent(DBScheduleTable s) {
+		for (EventListener l : listeners) {
+			try {
+				l.deleteEvent(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+	}
 
 	public void fireGetEvents(Date startDateTime, Date endDateTime) {
 		for (EventListener l : listeners) {
@@ -245,6 +267,26 @@ public class EventHandler {
 		for (EventListener l : listeners) {
 			try {
 				l.createEventRespond(s, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireUpdateEventRespond(DBScheduleTable s, int err) {
+		for (EventListener l : listeners) {
+			try {
+				l.updateEventRespond(s, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireDeleteEventRespond(DBScheduleTable s, int err) {
+		for (EventListener l : listeners) {
+			try {
+				l.deleteEventRespond(s, err);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}
