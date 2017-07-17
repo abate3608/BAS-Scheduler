@@ -80,7 +80,7 @@ public class Main {
 			new CalenderScreen(); // UI StartScreen
 			//new StartScreen();
 			
-			new MultiThreadedAPIServer();//Start the API Server
+			//*** Function doesn't return and hold program on this line. new MultiThreadedAPIServer();//Start the API Server
 
 			//create new xml importer
 			//
@@ -103,7 +103,7 @@ public class Main {
 				eventHandler.fireRoomInfoRequest();
 				eventHandler.fireWeatherInfoRequest(site.getId());
 				
-				Thread.sleep(50000);  //5 minutes
+				Thread.sleep(10000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
 				xmlImporter.take( Paths.get("MeetingSpaceOutput.xml") );
 			}

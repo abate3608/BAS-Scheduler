@@ -628,8 +628,6 @@ public class Database {
 
 		@Override
 		public void weatherInfoRequest(int siteId) {
-
-
 			//display debug message
 			System.out.println("Database > Weather information request received for site Id: " + siteId);
 			try {
