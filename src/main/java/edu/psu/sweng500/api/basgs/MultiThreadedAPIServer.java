@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
  
@@ -53,6 +54,9 @@ public class MultiThreadedAPIServer implements Runnable {
             Socket clientSocket = myServerSocket.accept();
             ClientServiceThread clientThread = new ClientServiceThread(this, clientSocket);
             clientThread.start(); 
+         } catch(SocketException se) {
+        	 //System.out.println("Socket Closed");
+        	 //se.printStackTrace();
          } catch(IOException ioe) { 
             System.out.println("Exception found on accept. Ignoring. Stack Trace :"); 
             ioe.printStackTrace(); 

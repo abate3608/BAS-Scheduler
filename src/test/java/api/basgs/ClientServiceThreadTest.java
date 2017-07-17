@@ -20,6 +20,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import edu.psu.sweng500.api.basgs.BASGS_API.API_Object;
+import edu.psu.sweng500.database.Database;
+import edu.psu.sweng500.database.MysqlConnection;
+import edu.psu.sweng500.type.DBSiteTable;
+import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
 import edu.psu.sweng500.api.basgs.TestClient;
 
 public class ClientServiceThreadTest {
@@ -32,9 +36,18 @@ public class ClientServiceThreadTest {
 	private Date currentTime;
 	private Date futureTime;
 	private DateFormat df;
+	private static DBSiteTable site = new DBSiteTable();
 	
 	public ClientServiceThreadTest() throws Exception{
 		System.out.println("Starting ClientServiceThreadTest");
+		
+		MysqlConnection dao = new MysqlConnection();
+		// test database
+		dao.readDB();
+		new Database(dao.getConnection()); // start the database
+
+		Thread t1=new Thread(new ThreadedServerStarter());
+		t1.start();
 		
 		classLoader = TestClient.class.getClassLoader();
 		clientSocket = new Socket("localhost", PORT);
@@ -47,6 +60,16 @@ public class ClientServiceThreadTest {
 		futureTime = calendar.getTime();
 	}
 	
+	public class ThreadedServerStarter implements Runnable {
+
+		@Override
+		public void run() {
+			new MultiThreadedAPIServer();//Start the API Server
+			
+		}
+		
+	}
+	
 	@Test
 	public void testOrder() throws IOException {
 		System.out.println("Test Order");
@@ -56,6 +79,7 @@ public class ClientServiceThreadTest {
 		testBasgsApiUpdateTemp();
 		testBasgsApiDeleteNotInProgress();
 		testBasgsApiDeleteInProgress();
+		testBasgsApiUpdateDelete();
 	}
 	
 	public void testBasgsApiCreateWithinTempRangeFutureTime() throws IOException{
@@ -224,6 +248,53 @@ public class ClientServiceThreadTest {
 	protected void tearDown() throws Exception {
 		System.out.println("Running: tearDown");
 		clientSocket.close();
+	}
+	
+	public void testBasgsApiUpdateDelete() throws IOException{
+		System.out.println("Starting Update/Delete Test");
+		String filename = "TestAPIUpdate.json";
+		API_Object apiObjSend = readJsonStream(classLoader.getResourceAsStream(filename));
+		if(apiObjSend.bacnet.size() > 0) {
+			apiObjSend.bacnet.get(0).uuid = uuidFutureTime;
+		}
+		writeJsonStream(clientSocket.getOutputStream(),apiObjSend);
+		
+		API_Object apiObjRecv = null;
+		boolean read = true;
+		while(read) {
+			apiObjRecv = readJsonStream(clientSocket.getInputStream());
+			if(apiObjRecv != null) {
+				Gson gson = new Gson();
+				String json = gson.toJson(apiObjRecv);
+				System.out.println(json);
+				read = false;
+			}
+		}
+		assertNotNull(apiObjRecv);
+		assertEquals(0,apiObjRecv.error);
+		
+		filename = "TestAPIDelete.json";
+		apiObjSend = readJsonStream(classLoader.getResourceAsStream(filename));
+		if(apiObjSend.bacnet.size() > 0) {
+			apiObjSend.bacnet.get(0).uuid = uuidFutureTime;
+		}
+		writeJsonStream(clientSocket.getOutputStream(),apiObjSend);
+		
+		apiObjRecv = null;
+		read = true;
+		while(read) {
+			apiObjRecv = readJsonStream(clientSocket.getInputStream());
+			if(apiObjRecv != null) {
+				Gson gson = new Gson();
+				String json = gson.toJson(apiObjRecv);
+				System.out.println(json);
+				read = false;
+			}
+		}
+		assertNotNull(apiObjRecv);
+		assertEquals(0,apiObjRecv.error);
+		
+		
 	}
 	
 	
