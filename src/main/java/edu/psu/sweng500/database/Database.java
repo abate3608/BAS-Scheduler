@@ -82,6 +82,41 @@ public class Database {
 			}
 
 		}
+		
+		@Override
+		public void setBacnetDevice(DBBacnetDevicesTable d) {
+			//try {
+				/*//display debug message
+				System.out.println("Database > Set BACnet Device request received. Device: " + u.);
+				int err = 0;
+
+				try {
+
+					String query = " insert into psuteam7.User_Profile (firstName, lastName, email, userName, passWord)"
+							+ " values (?, ?, ?, ?, ?)";
+
+					// create the mysql insert preparedstatement
+					PreparedStatement preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setString (1, u.getFirstName());
+					preparedStmt.setString (2, u.getLastName());
+					preparedStmt.setString (3, u.getEmail());
+					preparedStmt.setString (4, u.getUserName());
+					preparedStmt.setString (5, u.getPassword());
+
+					// execute the preparedstatement
+					preparedStmt.execute();
+					err = 0; //good
+					eventHandler.fireCreteUserRespond(u, err);
+				
+				
+
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/
+		}
 
 		@Override
 		public void getEvents(Date startDateTime, Date endDateTime) {
