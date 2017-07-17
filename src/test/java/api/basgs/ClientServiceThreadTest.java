@@ -71,7 +71,7 @@ public class ClientServiceThreadTest {
 	}
 	
 	@Test
-	public void testOrder() throws IOException {
+	public void testOrder() throws Exception {
 		System.out.println("Test Order");
 		testBasgsApiCreateWithinTempRangeFutureTime();
 		testBasgsApiCreateWithinBadTemp();
@@ -80,6 +80,7 @@ public class ClientServiceThreadTest {
 		testBasgsApiDeleteNotInProgress();
 		testBasgsApiDeleteInProgress();
 		testBasgsApiUpdateDelete();
+		tearDown();
 	}
 	
 	public void testBasgsApiCreateWithinTempRangeFutureTime() throws IOException{

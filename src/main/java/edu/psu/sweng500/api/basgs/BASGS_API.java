@@ -242,7 +242,20 @@ public class BASGS_API {
 			API_Object apiObjReturn = new API_Object();
 			apiObjReturn.num_of_obj = 1;
 			apiObjReturn.error = err;
-			apiObjReturn.message = "Create Action Complete";
+			switch(err) {
+			case 0:
+				apiObjReturn.message = "Success: Create Action Complete";
+				break;
+			case 1:
+				apiObjReturn.message = "Error: Database Connection Issue";
+				break;
+			case 2:
+				apiObjReturn.message = "Error: Event does not exist.";
+				break;
+			default:
+				apiObjReturn.message = "Error: Unknown";
+				break;
+			}
 			BacnetObj bacnetObj = new BacnetObj();
 			bacnetObj.uuid = String.valueOf(s.getRowGuid());
 			bacnetObj.eventID = String.valueOf(s.getScheduleId());
@@ -268,7 +281,20 @@ public class BASGS_API {
 			API_Object apiObjReturn = new API_Object();
 			apiObjReturn.num_of_obj = 1;
 			apiObjReturn.error = err;
-			apiObjReturn.message = "Update Action Complete";
+			switch(err) {
+			case 0:
+				apiObjReturn.message = "Success: Update Action Complete";
+				break;
+			case 1:
+				apiObjReturn.message = "Error: Database Connection Issue";
+				break;
+			case 2:
+				apiObjReturn.message = "Error: Event does not exist.";
+				break;
+			default:
+				apiObjReturn.message = "Error: Unknown";
+				break;
+			}
 			BacnetObj bacnetObj = new BacnetObj();
 			bacnetObj.uuid = String.valueOf(s.getRowGuid());
 			bacnetObj.eventID = String.valueOf(s.getScheduleId());
@@ -294,7 +320,23 @@ public class BASGS_API {
 			API_Object apiObjReturn = new API_Object();
 			apiObjReturn.num_of_obj = 1;
 			apiObjReturn.error = err;
-			apiObjReturn.message = "Delete Action Complete";
+			switch(err) {
+				case 0:
+					apiObjReturn.message = "Success: Delete Action Complete";
+					break;
+				case 1:
+					apiObjReturn.message = "Error: Database Connection Issue";
+					break;
+				case 2:
+					apiObjReturn.message = "Error: Event does not exist.";
+					break;
+				case 3:
+					apiObjReturn.message = "Error: Event in Progress. Marked for deletion.";
+					break;
+				default:
+					apiObjReturn.message = "Error: Unknown";
+					break;
+			}
 			BacnetObj bacnetObj = new BacnetObj();
 			bacnetObj.uuid = String.valueOf(s.getRowGuid());
 			bacnetObj.eventID = String.valueOf(s.getScheduleId());

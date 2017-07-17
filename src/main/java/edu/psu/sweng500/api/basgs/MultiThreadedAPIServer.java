@@ -55,8 +55,7 @@ public class MultiThreadedAPIServer implements Runnable {
             ClientServiceThread clientThread = new ClientServiceThread(this, clientSocket);
             clientThread.start(); 
          } catch(SocketException se) {
-        	 //System.out.println("Socket Closed");
-        	 //se.printStackTrace();
+        	 se.printStackTrace();
          } catch(IOException ioe) { 
             System.out.println("Exception found on accept. Ignoring. Stack Trace :"); 
             ioe.printStackTrace(); 
