@@ -80,7 +80,8 @@ public class Main {
 			new CalenderScreen(); // UI StartScreen
 			//new StartScreen();
 			
-			//*** Function doesn't return and hold program on this line. new MultiThreadedAPIServer();//Start the API Server
+			Thread t1=new Thread(new MultiThreadedAPIServer());
+			t1.start();
 
 			//create new xml importer
 			//

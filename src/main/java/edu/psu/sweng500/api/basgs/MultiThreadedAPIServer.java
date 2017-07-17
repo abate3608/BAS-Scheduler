@@ -22,28 +22,31 @@ public class MultiThreadedAPIServer implements Runnable {
 	 * Constructor that instanciates server
 	 */
    public MultiThreadedAPIServer() { 
-      try {
-    	  
-	  Runtime.getRuntime().addShutdownHook(new Thread()
-	  {
-	      @Override
-	      public void run()
-	      {
-	     	 try {
-	     		 myServerSocket.close();
-	          } catch (IOException e)
-	          {
-	              e.printStackTrace(System.err);
-	          }
-	      }
-	  });
-    	  
-         myServerSocket = new ServerSocket(PORT);
-      } catch(IOException ioe) { 
-         System.out.println("Could not create server socket on port " + String.valueOf(PORT) + ". Quitting.");
-         System.exit(-1);
-      } 
-		
+
+   }
+   
+   public void start() {
+	   try {
+		  Runtime.getRuntime().addShutdownHook(new Thread()
+		  {
+		      @Override
+		      public void run()
+		      {
+		     	 try {
+		     		 myServerSocket.close();
+		          } catch (IOException e)
+		          {
+		              e.printStackTrace(System.err);
+		          }
+		      }
+		  });
+	    	  
+		  myServerSocket = new ServerSocket(PORT);
+	  } catch(IOException ioe) { 
+	     System.out.println("Could not create server socket on port " + String.valueOf(PORT) + ". Quitting.");
+	     System.exit(-1);
+	  } 
+				
       Calendar now = Calendar.getInstance();
       SimpleDateFormat formatter = new SimpleDateFormat(
          "E yyyy.MM.dd 'at' hh:mm:ss a zzz");
@@ -55,7 +58,7 @@ public class MultiThreadedAPIServer implements Runnable {
             ClientServiceThread clientThread = new ClientServiceThread(this, clientSocket);
             clientThread.start(); 
          } catch(SocketException se) {
-        	 se.printStackTrace();
+        	 //se.printStackTrace();
          } catch(IOException ioe) { 
             System.out.println("Exception found on accept. Ignoring. Stack Trace :"); 
             ioe.printStackTrace(); 
@@ -88,11 +91,10 @@ public class MultiThreadedAPIServer implements Runnable {
       new MultiThreadedAPIServer();   
    }
 
-@Override
-public void run() {
-	// TODO Auto-generated method stub
-	
-} 
+   @Override
+	public void run() {
+		this.start();//Start the API Server	
+	}
 	
    
    

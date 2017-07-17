@@ -46,7 +46,7 @@ public class ClientServiceThreadTest {
 		dao.readDB();
 		new Database(dao.getConnection()); // start the database
 
-		Thread t1=new Thread(new ThreadedServerStarter());
+		Thread t1=new Thread(new MultiThreadedAPIServer());
 		t1.start();
 		
 		classLoader = TestClient.class.getClassLoader();
@@ -58,16 +58,6 @@ public class ClientServiceThreadTest {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY) + 1;
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		futureTime = calendar.getTime();
-	}
-	
-	public class ThreadedServerStarter implements Runnable {
-
-		@Override
-		public void run() {
-			new MultiThreadedAPIServer();//Start the API Server
-			
-		}
-		
 	}
 	
 	@Test

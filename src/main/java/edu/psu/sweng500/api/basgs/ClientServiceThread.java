@@ -47,7 +47,7 @@ public class ClientServiceThread extends Thread {
 	 */
     public void run() {  
        System.out.println(
-          "Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
+          "ClientServiceThread > Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
        try { 
           
           while(m_bRunThread && !myClientSocket.isClosed()) {
@@ -58,7 +58,7 @@ public class ClientServiceThread extends Thread {
           	}
              
              if(!multiThreadedServer.getServiceStatus()) { 
-                System.out.print("Server has already stopped"); 
+                System.out.print("ClientServiceThread > Server has already stopped"); 
                 m_bRunThread = false;
              }
           } 
@@ -68,7 +68,7 @@ public class ClientServiceThread extends Thread {
        finally { 
           try {  
              myClientSocket.close(); 
-             System.out.println("...Stopped"); 
+             System.out.println("ClientServiceThread > Thread Stopped"); 
           } catch(IOException ioe) { 
              ioe.printStackTrace(); 
           } 
