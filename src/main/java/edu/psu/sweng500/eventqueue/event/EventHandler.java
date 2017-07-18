@@ -111,6 +111,17 @@ public class EventHandler {
 
 	}
 	
+	public void fireReadEvent(DBScheduleTable s) {
+		for (EventListener l : listeners) {
+			try {
+				l.readEvent(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+	}
+	
 	public void fireUpdateEvent(DBScheduleTable s) {
 		for (EventListener l : listeners) {
 			try {
@@ -277,6 +288,17 @@ public class EventHandler {
 		for (EventListener l : listeners) {
 			try {
 				l.createEventRespond(s, err);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireReadEventRespond(DBScheduleTable s, int err) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.readEventRespond(s, err);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}

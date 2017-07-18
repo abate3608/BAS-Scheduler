@@ -30,6 +30,8 @@ public interface EventListener {
 	
 	public void createEvent(DBScheduleTable s);
 	
+	public void readEvent(DBScheduleTable s);
+	
 	public void updateEvent(DBScheduleTable s);
 	
 	public void deleteEvent(DBScheduleTable s);
@@ -68,6 +70,8 @@ public interface EventListener {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void createEventRespond(DBScheduleTable s, int err);
+	
+	public void readEventRespond(DBScheduleTable s, int err);
 	
 	public void updateEventRespond(DBScheduleTable s, int err);
 	

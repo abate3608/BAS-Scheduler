@@ -80,7 +80,10 @@ public class EventAdapter implements EventListener {
 
 		public void createEvent(DBScheduleTable s) {
 			// TODO Auto-generated method stub
-			
+		}
+		
+		public void readEvent(DBScheduleTable s) {
+			// TODO Auto-generated method stub
 		}
 		
 		public void updateEvent(DBScheduleTable s) {
@@ -131,6 +134,10 @@ public class EventAdapter implements EventListener {
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public void createEventRespond(DBScheduleTable s, int err) {
+			
+		}
+		
+		public void readEventRespond(DBScheduleTable s, int err) {
 			
 		}
 		

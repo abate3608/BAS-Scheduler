@@ -27,6 +27,7 @@ public class BASGS_API {
 	private static final int READ_REQUEST = 1;
 	private static final int UPDATE_REQUEST = 2;
 	private static final int DELETE_REQUEST = 3;
+	private static final int READ_ALL_REQUEST = 4;
 
 	/*
 	 * Constructor for BASGS_API
@@ -100,13 +101,38 @@ public class BASGS_API {
 	 */
 	private static void read(API_Object api) {
 		System.out.println("BASGS_API: Read Event(s).");
-		try {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date startDate = df.parse(api.start_date);
-			Date endDate = df.parse(api.stop_date);
-			eventHandler.fireGetEvents(startDate, endDate);
-		} catch(ParseException e) {
-			e.printStackTrace();
+		if(api.action_id == READ_REQUEST) {
+			try {
+				ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
+				for(int i = 0; i < api.num_of_obj; i++) {
+					DBScheduleTable s = new DBScheduleTable();
+					s.setRowGuid(api.bacnet.get(i).uuid);
+					s.setScheduleId(Integer.parseInt(api.bacnet.get(i).eventID));
+					s.setName(api.bacnet.get(i).eventName);
+					s.setRoomName(api.bacnet.get(i).roomName);
+					s.setDescription(api.bacnet.get(i).eventDescription);
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
+					s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
+					s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
+					s.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
+					schedules.add(s);
+				}
+				for (DBScheduleTable s : schedules) {
+					eventHandler.fireReadEvent(s);
+				}
+			} catch(ParseException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Date startDate = df.parse(api.start_date);
+				Date endDate = df.parse(api.stop_date);
+				eventHandler.fireGetEvents(startDate, endDate);
+			} catch(ParseException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -179,15 +205,12 @@ public class BASGS_API {
 	 * action will be taken.
 	 */
 	public static void parseMsg(API_Object api) throws IOException {
-		// Case 0 - Create
-		// Case 1 - Read events between dates
-		// Case 2 - Update Event
-		// Case 3 - Delete Event
 		switch (api.action_id) {
 			case CREATE_REQUEST:
 				create(api);
 				break;
 			case READ_REQUEST:
+			case READ_ALL_REQUEST:
 				read(api);
 				break;
 			case UPDATE_REQUEST:
@@ -270,6 +293,49 @@ public class BASGS_API {
 				switch(err) {
 				case 0:
 					apiObjReturn.message = "Success: Create Action Complete";
+					break;
+				case 1:
+					apiObjReturn.message = "Error: Database Connection Issue";
+					break;
+				case 2:
+					apiObjReturn.message = "Error: Event does not exist.";
+					break;
+				default:
+					apiObjReturn.message = "Error: Unknown";
+					break;
+				}
+				BacnetObj bacnetObj = new BacnetObj();
+				bacnetObj.uuid = String.valueOf(s.getRowGuid());
+				bacnetObj.eventID = String.valueOf(s.getScheduleId());
+				bacnetObj.eventDescription = s.getDescription();
+				bacnetObj.roomName = s.getRoomName();
+				bacnetObj.eventName = s.getName();
+				bacnetObj.eventStart = s.getStartDateTime().toString();
+				bacnetObj.eventStop = s.getEndDateTime().toString();
+				bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+				bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+				apiObjReturn.bacnet.add(bacnetObj);
+				
+				if(!compareEvents(apiObj, apiObjReturn)){
+					try {
+						client.writeJsonStream(apiObjReturn);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		@Override
+		public void readEventRespond(DBScheduleTable s, int err) {
+			if(apiObj.action_id == READ_REQUEST) {
+				System.out.println("BASGS_API: Read Event Respond");
+				API_Object apiObjReturn = new API_Object();
+				apiObjReturn.num_of_obj = 1;
+				apiObjReturn.error = err;
+				switch(err) {
+				case 0:
+					apiObjReturn.message = "Success: Read Action Complete";
 					break;
 				case 1:
 					apiObjReturn.message = "Error: Database Connection Issue";
@@ -394,7 +460,7 @@ public class BASGS_API {
 		
 		@Override
 		public void eventUpdate(ArrayList<DBScheduleTable> s) {
-			if(apiObj.action_id == READ_REQUEST) {
+			if(apiObj.action_id == READ_ALL_REQUEST) {
 				System.out.println("BASGS_API: Event Updates");
 				// TEAM 7 TO DO
 				// EventObject data type

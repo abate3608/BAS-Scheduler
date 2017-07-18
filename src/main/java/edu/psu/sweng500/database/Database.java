@@ -135,13 +135,19 @@ public class Database {
 
 				while ((rt.next())) { 
 
-
 					DBScheduleTable s = new DBScheduleTable();
+					s.setRowGuid(rt.getString("RowGuid"));
 					s.setScheduleId(rt.getInt("ScheduleId"));
 					s.setName(rt.getString("Name"));
 					s.setDescription(rt.getString("Description"));
+					s.setNotes(rt.getString("Notes"));
+					s.setControlToState(rt.getInt("ControlToState"));
 					s.setStartDateTime(rt.getDate("StartDateTime"));
 					s.setEndDateTime(rt.getDate("EndDateTime")); 
+					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
+					s.setRoomName(rt.getString("RoomName"));
+					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
+					s.setLightIntensity(rt.getInt("LightIntensity"));
 					
 					sList.add(s);
 				}
@@ -246,6 +252,45 @@ public class Database {
 				e.printStackTrace();
 				err = 1;
 				eventHandler.fireCreateEventRespond(s, err);
+			}
+
+		}
+		
+		@Override
+		public void readEvent(DBScheduleTable s) {
+			int err = 0; //success
+			try {
+				System.out.println("Database > Get Event with UUID: " + s.getRowGuid()); 
+
+				statement = connect.createStatement();
+
+				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
+
+				rt = statement.executeQuery(query); 
+
+				if((rt.next())) { 
+					s.setRowGuid(rt.getString("RowGuid"));
+					s.setScheduleId(rt.getInt("ScheduleId"));
+					s.setName(rt.getString("Name"));
+					s.setDescription(rt.getString("Description"));
+					s.setNotes(rt.getString("Notes"));
+					s.setControlToState(rt.getInt("ControlToState"));
+					s.setStartDateTime(rt.getDate("StartDateTime"));
+					s.setEndDateTime(rt.getDate("EndDateTime")); 
+					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
+					s.setRoomName(rt.getString("RoomName"));
+					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
+					s.setLightIntensity(rt.getInt("LightIntensity")); 
+
+				} else {
+					err = 2;
+				}
+				// Send list of events to event queue
+				eventHandler.fireReadEventRespond(s, err);
+			} catch (Exception e) {
+				e.printStackTrace();
+				err = 1;
+				eventHandler.fireReadEventRespond(s, err);
 			}
 
 		}

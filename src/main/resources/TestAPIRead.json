@@ -1,11 +1,23 @@
 {
 	"username":"admin",
 	"password":"admin",
-	"action_id":1,
-	"num_of_obj":0,
+	"action_id":4,
+	"num_of_obj":1,
 	"error":0,
 	"message":" ",
 	"start_date":"2017-06-01 12:00:00",
 	"stop_date":"2017-06-30 12:00:00",
-	"bacnet":[]
+	"bacnet":[
+		{
+			"uuid":"55d05c0f-510e-436f-a8a9-35375e5560c8",
+			"eventID":"54321",
+			"eventName":"API Create Test",
+			"roomName":"Test Room",
+			"eventDescription":"Testing the creation of an event.",
+			"eventStart":"2017-07-20 12:00:00",
+			"eventStop":"2017-07-20 12:00:00",
+			"temperatureSetpoint":"67",
+			"lightIntensity":"96"
+		}
+	]
 }
