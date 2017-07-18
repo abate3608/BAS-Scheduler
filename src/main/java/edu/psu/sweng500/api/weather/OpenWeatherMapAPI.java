@@ -20,7 +20,7 @@ public class OpenWeatherMapAPI {
 	private String g_zipcode;
 	
 	// Class structure used to store OpenWeatherMap requested data
-	static class ZipCode {
+	public static class ZipCode {
 		Coord coord;
 		Sys sys;
 		ArrayList<Weather> weather = new ArrayList<Weather>();
@@ -35,13 +35,13 @@ public class OpenWeatherMapAPI {
 	}
 
 	// Class structure used to store OpenWeatherMap coordinate data
-	static class Coord {
+	public static class Coord {
 		double lon;
 		double lat;
 	}
 
 	// Class structure used to store OpenWeatherMap sys data
-	static class Sys {
+	public static class Sys {
 		int type;
 		int id;
 		double message;
@@ -51,7 +51,7 @@ public class OpenWeatherMapAPI {
 	}
 
 	// Class structure used to store OpenWeatherMap weather data
-	static class Weather {
+	public static class Weather {
 		int id;
 		String main;
 		String description;
@@ -59,7 +59,7 @@ public class OpenWeatherMapAPI {
 	}
 
 	// Class structure used to store OpenWeatherMap main data
-	static class Main {
+	public static class Main {
 		double temp;
 		double humidity;
 		double pressure;
@@ -68,13 +68,13 @@ public class OpenWeatherMapAPI {
 	}
 
 	// Class structure used to store OpenWeatherMap wind data
-	static class Wind {
+	public static class Wind {
 		double speed;
 		double deg;
 	}
 
 	// Class structure used to store OpenWeatherMap clouds data
-	static class Clouds {
+	public static class Clouds {
 		double all;
 	}
 
