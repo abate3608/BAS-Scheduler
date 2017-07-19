@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -97,7 +99,15 @@ public class ScheduleImporterConfigMenu
 			public void actionPerformed(ActionEvent e) 
 			{
 				// TODO Auto-generated method stub
-				XmlDomMap xmlDomMap = mappanel.buildXmlDomMap();
+				try {
+					final Path path = Paths.get("xmlDomMap.properties");
+					XmlDomMap xmlDomMap = mappanel.buildXmlDomMap();
+					xmlDomMap.writeMapToFile( path );
+					System.setProperty( "xmlImport.domMap", path.toString() );
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
 			} 
 		});
 		buttons.add( save );

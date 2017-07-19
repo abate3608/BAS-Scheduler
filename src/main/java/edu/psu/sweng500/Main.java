@@ -1,5 +1,6 @@
 package edu.psu.sweng500;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
@@ -11,7 +12,6 @@ import edu.psu.sweng500.database.MysqlConnection;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.schedule.importer.XmlScheduleImporter;
-import edu.psu.sweng500.schedule.objects.DefaultXmlDomMap;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
 
@@ -38,7 +38,7 @@ public class Main {
 		System.out.println("Main > System starting ...");
 		status = 1; //running
 		try {
-			
+			loadConfiguration();
 			// setup event
 			System.out.println("Main > Add Main.java to event queue.");
 			eventHandler.addListener(new EventQueueListener());
@@ -86,7 +86,6 @@ public class Main {
 			//create new xml importer
 			//
 			XmlScheduleImporter xmlImporter = new XmlScheduleImporter();
-			xmlImporter.setXmlDomMap( new DefaultXmlDomMap() );
 			
 			System.out.println("Main > System is running!");
 			while (status == 1) {
@@ -106,7 +105,13 @@ public class Main {
 				
 				Thread.sleep(10000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
-				xmlImporter.take( Paths.get("MeetingSpaceOutput.xml") );
+				
+				xmlImporter.setXmlDomMap( Paths.get(
+						System.getProperty( "xmlImport.domMap" )
+						) );
+				xmlImporter.take( Paths.get( 
+						System.getProperty( "xmlImport.location" )
+						) );
 			}
 			
 		} catch (Exception e) {
@@ -115,6 +120,15 @@ public class Main {
 		}
 		
 
+	}
+	
+	private static void loadConfiguration() throws IOException
+	{
+		System.getProperties().load(
+				Main.class.getClassLoader().getResourceAsStream(
+						"bas-configuration.properties"
+						)
+				);
 	}
 	
 	public EventHandler getEventHandler() {
