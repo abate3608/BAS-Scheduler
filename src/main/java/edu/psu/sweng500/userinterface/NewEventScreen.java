@@ -433,8 +433,38 @@ public class NewEventScreen implements ActionListener {
 			if (err == 0) //good
 			{
 				//new CalenderScreen();
+				JOptionPane.showMessageDialog(null,"Event Scheduled");
 				newEventWin.dispose();
-			} else
+		
+			}	
+	/*		
+			 else if (err == 1){
+						
+			//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a differnet Start Time");
+			}	
+			
+			else if (err == 2) {
+						
+					//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a differnet End Time");
+					
+			} 
+				
+			else if (err == 3){
+						
+			//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"Room Conflict, The room that is selected is occupied during this time. Please select a different room");
+			}	
+			
+			else if (err == 4){
+				
+				//DO SOMETHING: user user created
+				JOptionPane.showMessageDialog(null,"Date Conflict, Please select a different date");
+				}	*/
+				
+			
+			else			
 			{
 				//need error code for create event
 				//DO SOMETHING : login fail
@@ -446,6 +476,6 @@ public class NewEventScreen implements ActionListener {
 	}
 
 
-
 }
+
 
