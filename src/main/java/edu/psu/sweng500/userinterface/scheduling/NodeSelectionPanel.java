@@ -1,11 +1,12 @@
 package edu.psu.sweng500.userinterface.scheduling;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -34,41 +35,52 @@ public class NodeSelectionPanel extends JPanel
 	/** default */
 	private static final long serialVersionUID = 1L;
 	
-	private Map<NodeLabel, MyComboBox> map;
+	private static Map<ScheduleFields, Node> selectionMap;
 	
 	/**
-	 * JLabel that stores a {@link Node} reference 
+	 * JLabel subclass for convenience.
 	 */
 	private static class NodeLabel extends JLabel
 	{
 		/** default */
 		private static final long serialVersionUID = 1L;
 		
-		private Node node;
-		
-		protected NodeLabel( Node node )
+		protected NodeLabel( Node node, int depth )
 		{
-			this.node = node;
-		}
-		
-		protected Node getNode()
-		{
-			return node;
+			this.setBorder( new EmptyBorder( 0, 20*depth, 0, 0 ) );
+			this.setText( node.getNodeName() );
 		}
 	}
 	
 	/**
 	 * JComboBox subclass for convenience.
 	 */
-	private static class MyComboBox extends JComboBox<ScheduleFields>
+	private static class NodeComboBox extends JComboBox<ScheduleFields>
 	{
 		/** default */
 		private static final long serialVersionUID = 1L;
 		
-		protected MyComboBox()
+		private Node node;
+		
+		protected NodeComboBox( Node node )
 		{
 			super( ScheduleFields.values() );
+			this.node = node;
 			this.setSelectedIndex( 0 );
+			this.addActionListener( new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) 
+				{
+					ScheduleFields field = (ScheduleFields)NodeComboBox.this.getSelectedItem();
+					if( !field.equals(ScheduleFields.NONE) )
+						selectionMap.put( field, NodeComboBox.this.getNode() );
+				}
+			} );
+		}
+		
+		protected Node getNode()
+		{
+			return this.node;
 		}
 	}
 	
@@ -78,8 +90,8 @@ public class NodeSelectionPanel extends JPanel
 	public NodeSelectionPanel()
 	{
 		super( new GridLayout( 0, 2 ) );
+		selectionMap = new HashMap<ScheduleFields, Node>();
 		this.setBorder( BorderFactory.createTitledBorder("Configure XML Map") );
-		this.map = new HashMap<NodeLabel, MyComboBox>();
 		this.setVisible( false );
 	}
 	
@@ -137,27 +149,42 @@ public class NodeSelectionPanel extends JPanel
 	}
 	
 	/**
-	 * Creates a {@link NodeLabel} and {@link MyComboBox} for the 
+	 * Creates a {@link NodeLabel} and {@link NodeComboBox} for the 
 	 *   given {@link Node} and adds them to this {@link NodeSelectionPanel} 
-	 * @param n the {@link Node} for which to add a 
-	 *   {@link NodeLabel} and {@link MyComboBox}
+	 * @param node for which to add a 
+	 *   {@link NodeLabel} and {@link NodeComboBox}
 	 * @param depth of n in the DOM tree
 	 */
-	private void putNode( Node n, int depth )
+	private void putNode( Node node, int depth )
 	{
-		NodeLabel label = new NodeLabel( n );
-		label.setBorder( new EmptyBorder( 0, 20*depth, 0, 0 ) );
-		label.setText( n.getNodeName() );
-		MyComboBox box = new MyComboBox();
-		map.put( label, box );
+		NodeLabel label = new NodeLabel( node, depth );
+		NodeComboBox box = new NodeComboBox( node );
 		
 		this.add( label );
 		this.add( box );
 	}
 	
-	public XmlDomMap buildXmlDomMap()
+	/**
+	 * Generates an {@link XmlDomMap} from the selection entered in
+	 *   the {@link NodeSelectionPanel}.
+	 * @return An {@link XmlDomMap} generated from selection map
+	 */
+	public XmlDomMap buildXmlDomMap() throws NullPointerException
 	{
-		//TODO
-		return null;
+		XmlDomMap dommap = new XmlDomMap();
+		Node root = selectionMap.remove( ScheduleFields.SCHEDULE_ROOT );
+		dommap.setProperty( ScheduleFields.SCHEDULE_ROOT, "//"+root.getNodeName() );
+
+		for( ScheduleFields field : selectionMap.keySet() )
+		{
+			dommap.setProperty( field, XmlDomExtractor.getXPath( 
+					root, selectionMap.get(field) 
+					) );
+		}
+		
+		selectionMap.put( ScheduleFields.SCHEDULE_ROOT, root );
+		
+		return dommap;
 	}
+
 }

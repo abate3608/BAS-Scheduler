@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import edu.psu.sweng500.schedule.objects.XmlDomMap;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.type.ScheduleFields;
 
 /**
  * XML schedule parsing class.
@@ -38,7 +39,7 @@ public class XmlScheduleParser
 	public ArrayList<DBScheduleTable> parse( Document document, XmlDomMap map ) throws XPathExpressionException
 	{
 		NodeList nodes = (NodeList) XPATH
-				.compile( map.getProperty("scheduleRoot") )
+				.compile( map.getProperty(ScheduleFields.SCHEDULE_ROOT.toString()) )
 				.evaluate( document, XPathConstants.NODESET );
 
 		ArrayList<DBScheduleTable> scheduleEvents = new ArrayList<DBScheduleTable>();
@@ -72,50 +73,53 @@ public class XmlScheduleParser
 		for( Object field : map.keySet() )
 		{
 			XPathExpression xpath = XPATH.compile( map.getProperty((String) field) );
-			switch( (String) field )
+			if( ScheduleFields.EVENT_ID.toString().equals((String) field) )
 			{
-			case "eventID":
 				event.setScheduleId(
 						((Double) xpath.evaluate(root, XPathConstants.NUMBER )).intValue()
 						);
-				break;
-			case "eventName":
+			}
+			else if( ScheduleFields.EVENT_NAME.toString().equals((String) field) )
+			{
 				event.setName(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						);
-				break;
-			case "roomName":
+			}
+			else if( ScheduleFields.ROOM_NAME.toString().equals((String) field) )
+			{
 				event.setRoomName(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						);
-				break;
-			case "eventDescription":
+			}
+			else if( ScheduleFields.EVENT_DESCRIPTION.toString().equals((String) field) )
+			{
 				event.setDescription(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						);
-				break;
-			case "eventStart":
+			}
+			else if( ScheduleFields.EVENT_START.toString().equals((String) field) )
+			{
 				event.setStartDateTime(	parseDate(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						) );
-				break;
-			case "eventStop":
+			}
+			else if( ScheduleFields.EVENT_STOP.toString().equals((String) field) )
+			{
 				event.setEndDateTime( parseDate(
 						(String) xpath.evaluate( root, XPathConstants.STRING )
 						) );
-				break;
-			case "temperatureSetpoint":
+			}
+			else if( ScheduleFields.TEMPERATURE_SETPOINT.toString().equals((String) field) )
+			{
 				event.setTemperatureSetpoint(
 						((Double) xpath.evaluate( root, XPathConstants.NUMBER )).floatValue() 
 						);
-				break;
-			case "lightIntensity":
+			}
+			else if( ScheduleFields.LIGHT_INTENSITY.toString().equals((String) field) )
+			{
 				event.setLightIntensity(
 						((Double) xpath.evaluate( root, XPathConstants.NUMBER )).intValue()
 						);
-				break;
-			default:
-				break;
 			}
 		}
 		return event;
