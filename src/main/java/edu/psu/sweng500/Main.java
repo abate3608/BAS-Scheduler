@@ -103,7 +103,7 @@ public class Main {
 				eventHandler.fireRoomInfoRequest();
 				eventHandler.fireWeatherInfoRequest(site.getId());
 				
-				Thread.sleep(10000);  //5 minutes
+				Thread.sleep(300000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
 				
 				xmlImporter.setXmlDomMap( Paths.get(
