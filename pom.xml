@@ -8,6 +8,8 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<camel.version>2.14.1</camel.version>
 	</properties>
 
@@ -58,7 +60,7 @@
 			<id>clojars.org</id>
 			<url>http://clojars.org/repo</url>
 		</repository>
-  	</repositories>
+	</repositories>
 
 	<dependencies>
 		<dependency>
