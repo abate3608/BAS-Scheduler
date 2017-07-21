@@ -50,6 +50,7 @@ public class NewEventScreen implements ActionListener {
 	private JTextField lightSettingTXT;
 	private JTextField temperatureSettingTXT;
 
+	private JButton startDateBtn;
 	private JButton newEventButton;
 	private JButton cancelButton;
 
@@ -100,13 +101,17 @@ public class NewEventScreen implements ActionListener {
 		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 
-		eventStartTimeTXT = new JTextField(20);
+		eventStartTimeTXT = new JTextField(); // CHANGED 
 		eventStartTimeTXT.setBounds(20, 100, 160, 25);
+		eventStartTimeTXT.setColumns(10);
 		newEventPanel.add(eventStartTimeTXT);
 		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
 		eventStartTimeTXT.addMouseListener(new StartMouseClicked());
 
-
+		startDateBtn = new JButton("New button");
+		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
+		newEventPanel.add(startDateBtn);
+		
 		eventEndTime = new JLabel("Event End Time");
 		eventEndTime.setBounds(20, 125, 120, 25);
 		eventEndTime.setForeground(Color.blue); //CHANGE Color
@@ -170,7 +175,7 @@ public class NewEventScreen implements ActionListener {
 		newEventButton = new JButton("Submit Request");
 		newEventButton.setBounds(30, 380, 140, 25);
 		newEventPanel.add(newEventButton);
-		newEventButton.addActionListener(new userRegistration());
+		newEventButton.addActionListener(new SubmitEvent());
 
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(30, 410, 140, 25);
@@ -359,13 +364,59 @@ public class NewEventScreen implements ActionListener {
 
 	///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
 
-	private final class userRegistration implements ActionListener {
+	private final class SubmitEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
+			try {
+
+				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
+				String eventName = eventNameTXT.getText(); 
+				String startTime = eventStartTimeTXT.getText(); 
+				String endTime= eventEndTimeTXT.getText(); 
+				String eventDate = eventDateTXT.getText(); 
+				String eventRoom = eventRoomText.getText(); 
+				String lightIntensity = lightSettingTXT.getText(); 
+				String temperatureSetpoint = temperatureSettingTXT.getText(); 
+
+				Date startDateTime = null;
+				Date endDateTime = null;
+
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
 
 
+				startDateTime = df.parse(eventDate + " " + startTime);
+				endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+
+
+
+				//if (tempSetting == null) {
+				//tempSetting = "72";
+				//''}
+
+				//if (lightSetting == null) {
+				//lightSetting = "100";
+				//}
+				DBScheduleTable s = new DBScheduleTable();
+				s.setName(eventName);
+				s.setDescription(" ");
+
+				//end to match Schedule Event Data type
+
+				s.setStartDateTime(startDateTime);
+				s.setEndDateTime(endDateTime);
+				s.setRoomName(eventRoom);
+				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
+				s.setLightIntensity(Integer.parseInt(lightIntensity));
+				eventHandler.fireCreateEvent(s);
+
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+
 	}
+
 
 	//Enter Button Press
 	private final class EnterButtonPress extends KeyAdapter {
