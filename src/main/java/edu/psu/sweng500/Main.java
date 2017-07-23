@@ -1,7 +1,13 @@
 package edu.psu.sweng500;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.nio.file.Paths;
+
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.ColorUIResource;
 
 import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
 import edu.psu.sweng500.api.weather.OpenWeatherMapAPI;
@@ -39,6 +45,7 @@ public class Main {
 		status = 1; //running
 		try {
 			loadConfiguration();
+			configureUItheme();
 			// setup event
 			System.out.println("Main > Add Main.java to event queue.");
 			eventHandler.addListener(new EventQueueListener());
@@ -122,6 +129,10 @@ public class Main {
 
 	}
 	
+	/**
+	 * Load system properties
+	 * @throws IOException
+	 */
 	private static void loadConfiguration() throws IOException
 	{
 		System.getProperties().load(
@@ -131,10 +142,32 @@ public class Main {
 				);
 	}
 	
-	public EventHandler getEventHandler() {
-		return eventHandler;
+	/**
+	 * Configure global UI colors and fonts
+	 */
+	private static void configureUItheme()
+	{
+		// colors and fonts
+		//ColorUIResource bgColorGreen = new ColorUIResource(218, 247, 159); // original green
+		ColorUIResource bgColorGreen = new ColorUIResource(237, 251, 208);
+		ColorUIResource fgColorDarkGreen = new ColorUIResource(0, 77, 0);
+		Font font = new Font( "Arial", Font.BOLD, 14 );
+		
+		// JPanel
+		UIManager.put( "Panel.background", bgColorGreen );
+		UIManager.put( "Panel.font", font );
+		UIManager.put( "TitledBorder.titleColor", fgColorDarkGreen );
+		UIManager.put( "TitledBorder.border", new LineBorder( Color.WHITE, 2 ) );
+		
+		// JOptionPane
+		UIManager.put( "OptionPane.background", bgColorGreen );
+		
+		// JLabel
+		UIManager.put( "Label.foreground", fgColorDarkGreen );
+		UIManager.put( "Labe.font", font );
 	}
 
+	
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 
