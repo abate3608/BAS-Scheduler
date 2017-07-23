@@ -285,143 +285,15 @@ public class BASGS_API {
 		
 		@Override
 		public void createEventRespond(DBScheduleTable s, int err) {
-			if(apiObj.action_id == CREATE_REQUEST) {
-				System.out.println("BASGS_API: Create Event Respond");
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = 1;
-				apiObjReturn.error = err;
-				switch(err) {
-				case 0:
-					apiObjReturn.message = "Success: Create Action Complete";
-					break;
-				case 1:
-					apiObjReturn.message = "Error: Database Connection Issue";
-					break;
-				case 2:
-					apiObjReturn.message = "Error: Event does not exist.";
-					break;
-				default:
-					apiObjReturn.message = "Error: Unknown";
-					break;
-				}
-				BacnetObj bacnetObj = new BacnetObj();
-				bacnetObj.uuid = String.valueOf(s.getRowGuid());
-				bacnetObj.eventID = String.valueOf(s.getScheduleId());
-				bacnetObj.eventDescription = s.getDescription();
-				bacnetObj.roomName = s.getRoomName();
-				bacnetObj.eventName = s.getName();
-				bacnetObj.eventStart = s.getStartDateTime().toString();
-				bacnetObj.eventStop = s.getEndDateTime().toString();
-				bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
-				bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
-				apiObjReturn.bacnet.add(bacnetObj);
-				
-				if(!compareEvents(apiObj, apiObjReturn)){
-					try {
-						client.writeJsonStream(apiObjReturn);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
-		@Override
-		public void readEventRespond(DBScheduleTable s, int err) {
-			if(apiObj.action_id == READ_REQUEST) {
-				System.out.println("BASGS_API: Read Event Respond");
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = 1;
-				apiObjReturn.error = err;
-				switch(err) {
-				case 0:
-					apiObjReturn.message = "Success: Read Action Complete";
-					break;
-				case 1:
-					apiObjReturn.message = "Error: Database Connection Issue";
-					break;
-				case 2:
-					apiObjReturn.message = "Error: Event does not exist.";
-					break;
-				default:
-					apiObjReturn.message = "Error: Unknown";
-					break;
-				}
-				BacnetObj bacnetObj = new BacnetObj();
-				bacnetObj.uuid = String.valueOf(s.getRowGuid());
-				bacnetObj.eventID = String.valueOf(s.getScheduleId());
-				bacnetObj.eventDescription = s.getDescription();
-				bacnetObj.roomName = s.getRoomName();
-				bacnetObj.eventName = s.getName();
-				bacnetObj.eventStart = s.getStartDateTime().toString();
-				bacnetObj.eventStop = s.getEndDateTime().toString();
-				bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
-				bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
-				apiObjReturn.bacnet.add(bacnetObj);
-				
-				if(!compareEvents(apiObj, apiObjReturn)){
-					try {
-						client.writeJsonStream(apiObjReturn);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
-		@Override
-		public void updateEventRespond(DBScheduleTable s, int err) {
-			if(apiObj.action_id == UPDATE_REQUEST) {
-				System.out.println("BASGS_API: Update Event Respond");
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = 1;
-				apiObjReturn.error = err;
-				switch(err) {
-				case 0:
-					apiObjReturn.message = "Success: Update Action Complete";
-					break;
-				case 1:
-					apiObjReturn.message = "Error: Database Connection Issue";
-					break;
-				case 2:
-					apiObjReturn.message = "Error: Event does not exist.";
-					break;
-				default:
-					apiObjReturn.message = "Error: Unknown";
-					break;
-				}
-				BacnetObj bacnetObj = new BacnetObj();
-				bacnetObj.uuid = String.valueOf(s.getRowGuid());
-				bacnetObj.eventID = String.valueOf(s.getScheduleId());
-				bacnetObj.eventDescription = s.getDescription();
-				bacnetObj.roomName = s.getRoomName();
-				bacnetObj.eventName = s.getName();
-				bacnetObj.eventStart = s.getStartDateTime().toString();
-				bacnetObj.eventStop = s.getEndDateTime().toString();
-				bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
-				bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
-				apiObjReturn.bacnet.add(bacnetObj);
-				
-				if(!compareEvents(apiObj, apiObjReturn)){
-					try {
-						client.writeJsonStream(apiObjReturn);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
-		@Override
-		public void deleteEventRespond(DBScheduleTable s, int err) {
-			if(apiObj.action_id == DELETE_REQUEST) {
-				System.out.println("BASGS_API: Delete Event Respond");
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = 1;
-				apiObjReturn.error = err;
-				switch(err) {
+			if(s != null) {
+				if(apiObj.action_id == CREATE_REQUEST) {
+					System.out.println("BASGS_API: Create Event Respond");
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = 1;
+					apiObjReturn.error = err;
+					switch(err) {
 					case 0:
-						apiObjReturn.message = "Success: Delete Action Complete";
+						apiObjReturn.message = "Success: Create Action Complete";
 						break;
 					case 1:
 						apiObjReturn.message = "Error: Database Connection Issue";
@@ -429,90 +301,242 @@ public class BASGS_API {
 					case 2:
 						apiObjReturn.message = "Error: Event does not exist.";
 						break;
-					case 3:
-						apiObjReturn.message = "Error: Event in Progress. Marked for deletion.";
+					default:
+						apiObjReturn.message = "Error: Unknown";
+						break;
+					}
+					BacnetObj bacnetObj = new BacnetObj();
+					bacnetObj.uuid = String.valueOf(s.getRowGuid());
+					bacnetObj.eventID = String.valueOf(s.getScheduleId());
+					bacnetObj.eventDescription = s.getDescription();
+					bacnetObj.roomName = s.getRoomName();
+					bacnetObj.eventName = s.getName();
+					bacnetObj.eventStart = s.getStartDateTime().toString();
+					bacnetObj.eventStop = s.getEndDateTime().toString();
+					bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+					bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+					apiObjReturn.bacnet.add(bacnetObj);
+					
+					if(!compareEvents(apiObj, apiObjReturn)){
+						try {
+							client.writeJsonStream(apiObjReturn);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				System.out.println("BASGS_API::createEventRespond >> Null returned object.");
+			}
+		}
+		
+		@Override
+		public void readEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(apiObj.action_id == READ_REQUEST) {
+					System.out.println("BASGS_API: Read Event Respond");
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = 1;
+					apiObjReturn.error = err;
+					switch(err) {
+					case 0:
+						apiObjReturn.message = "Success: Read Action Complete";
+						break;
+					case 1:
+						apiObjReturn.message = "Error: Database Connection Issue";
+						break;
+					case 2:
+						apiObjReturn.message = "Error: Event does not exist.";
 						break;
 					default:
 						apiObjReturn.message = "Error: Unknown";
 						break;
+					}
+					BacnetObj bacnetObj = new BacnetObj();
+					bacnetObj.uuid = String.valueOf(s.getRowGuid());
+					bacnetObj.eventID = String.valueOf(s.getScheduleId());
+					bacnetObj.eventDescription = s.getDescription();
+					bacnetObj.roomName = s.getRoomName();
+					bacnetObj.eventName = s.getName();
+					bacnetObj.eventStart = s.getStartDateTime().toString();
+					bacnetObj.eventStop = s.getEndDateTime().toString();
+					bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+					bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+					apiObjReturn.bacnet.add(bacnetObj);
+					
+					if(!compareEvents(apiObj, apiObjReturn)){
+						try {
+							client.writeJsonStream(apiObjReturn);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
-				BacnetObj bacnetObj = new BacnetObj();
-				bacnetObj.uuid = String.valueOf(s.getRowGuid());
-				bacnetObj.eventID = String.valueOf(s.getScheduleId());
-				bacnetObj.eventDescription = s.getDescription();
-				bacnetObj.roomName = s.getRoomName();
-				bacnetObj.eventName = s.getName();
-				bacnetObj.eventStart = s.getStartDateTime().toString();
-				bacnetObj.eventStop = s.getEndDateTime().toString();
-				bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
-				bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
-				apiObjReturn.bacnet.add(bacnetObj);
-				
-				if(!compareEvents(apiObj, apiObjReturn)){
+			} else {
+				System.out.println("BASGS_API::readEventRespond >> Null returned object.");
+			}
+		}
+		
+		@Override
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(apiObj.action_id == UPDATE_REQUEST) {
+					System.out.println("BASGS_API: Update Event Respond");
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = 1;
+					apiObjReturn.error = err;
+					switch(err) {
+					case 0:
+						apiObjReturn.message = "Success: Update Action Complete";
+						break;
+					case 1:
+						apiObjReturn.message = "Error: Database Connection Issue";
+						break;
+					case 2:
+						apiObjReturn.message = "Error: Event does not exist.";
+						break;
+					default:
+						apiObjReturn.message = "Error: Unknown";
+						break;
+					}
+					BacnetObj bacnetObj = new BacnetObj();
+					bacnetObj.uuid = String.valueOf(s.getRowGuid());
+					bacnetObj.eventID = String.valueOf(s.getScheduleId());
+					bacnetObj.eventDescription = s.getDescription();
+					bacnetObj.roomName = s.getRoomName();
+					bacnetObj.eventName = s.getName();
+					bacnetObj.eventStart = s.getStartDateTime().toString();
+					bacnetObj.eventStop = s.getEndDateTime().toString();
+					bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+					bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+					apiObjReturn.bacnet.add(bacnetObj);
+					
+					if(!compareEvents(apiObj, apiObjReturn)){
+						try {
+							client.writeJsonStream(apiObjReturn);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				System.out.println("BASGS_API::updateEventRespond >> Null returned object.");
+			}
+		}
+		
+		@Override
+		public void deleteEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(apiObj.action_id == DELETE_REQUEST) {
+					System.out.println("BASGS_API: Delete Event Respond");
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = 1;
+					apiObjReturn.error = err;
+					switch(err) {
+						case 0:
+							apiObjReturn.message = "Success: Delete Action Complete";
+							break;
+						case 1:
+							apiObjReturn.message = "Error: Database Connection Issue";
+							break;
+						case 2:
+							apiObjReturn.message = "Error: Event does not exist.";
+							break;
+						case 3:
+							apiObjReturn.message = "Error: Event in Progress. Marked for deletion.";
+							break;
+						default:
+							apiObjReturn.message = "Error: Unknown";
+							break;
+					}
+					BacnetObj bacnetObj = new BacnetObj();
+					bacnetObj.uuid = String.valueOf(s.getRowGuid());
+					bacnetObj.eventID = String.valueOf(s.getScheduleId());
+					bacnetObj.eventDescription = s.getDescription();
+					bacnetObj.roomName = s.getRoomName();
+					bacnetObj.eventName = s.getName();
+					bacnetObj.eventStart = s.getStartDateTime().toString();
+					bacnetObj.eventStop = s.getEndDateTime().toString();
+					bacnetObj.temperatureSetpoint = Float.toString(s.getTemperatureSetpoint());
+					bacnetObj.lightIntensity = Integer.toString(s.getLightIntensity());
+					apiObjReturn.bacnet.add(bacnetObj);
+					
+					if(!compareEvents(apiObj, apiObjReturn)){
+						try {
+							client.writeJsonStream(apiObjReturn);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				System.out.println("BASGS_API::deleteEventRespond >> Null returned object.");
+			}
+		}
+		
+		@Override
+		public void eventUpdate(ArrayList<DBScheduleTable> s) {
+			if(s != null) {
+				if(apiObj.action_id == READ_ALL_REQUEST) {
+					System.out.println("BASGS_API: Event Updates");
+					// TEAM 7 TO DO
+					// EventObject data type
+					//
+					// write code to update API when event arrive
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = s.size();
+					apiObjReturn.error = 0;
+					apiObjReturn.message = "Read Action Complete";
+					for(DBScheduleTable sEvent : s) {
+						BacnetObj bacnetObj = new BacnetObj();
+						bacnetObj.eventID = String.valueOf(sEvent.getScheduleId());
+						bacnetObj.eventDescription = sEvent.getDescription();
+						bacnetObj.roomName = sEvent.getRoomName();
+						bacnetObj.eventName = sEvent.getName();
+						bacnetObj.eventStart = sEvent.getStartDateTime().toString();
+						bacnetObj.eventStop = sEvent.getEndDateTime().toString();
+						bacnetObj.temperatureSetpoint = Float.toString(sEvent.getTemperatureSetpoint());
+						bacnetObj.lightIntensity = Integer.toString(sEvent.getLightIntensity());
+						apiObjReturn.bacnet.add(bacnetObj);
+					}
+					
 					try {
 						client.writeJsonStream(apiObjReturn);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-			}
-		}
-		
-		@Override
-		public void eventUpdate(ArrayList<DBScheduleTable> s) {
-			if(apiObj.action_id == READ_ALL_REQUEST) {
-				System.out.println("BASGS_API: Event Updates");
-				// TEAM 7 TO DO
-				// EventObject data type
-				//
-				// write code to update API when event arrive
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = s.size();
-				apiObjReturn.error = 0;
-				apiObjReturn.message = "Read Action Complete";
-				for(DBScheduleTable sEvent : s) {
-					BacnetObj bacnetObj = new BacnetObj();
-					bacnetObj.eventID = String.valueOf(sEvent.getScheduleId());
-					bacnetObj.eventDescription = sEvent.getDescription();
-					bacnetObj.roomName = sEvent.getRoomName();
-					bacnetObj.eventName = sEvent.getName();
-					bacnetObj.eventStart = sEvent.getStartDateTime().toString();
-					bacnetObj.eventStop = sEvent.getEndDateTime().toString();
-					bacnetObj.temperatureSetpoint = Float.toString(sEvent.getTemperatureSetpoint());
-					bacnetObj.lightIntensity = Integer.toString(sEvent.getLightIntensity());
-					apiObjReturn.bacnet.add(bacnetObj);
-				}
-				
-				try {
-					client.writeJsonStream(apiObjReturn);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			} else {
+				System.out.println("BASGS_API::eventUpdate >> Null returned object.");
 			}
 		}
 		
 		@Override
 		public void authenticateUserUpdate(User u) {
-			System.out.println("BASGS_API > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
-			if (u.getUserName() == apiObj.username && u.isAuthenticated())
-			{
-				try {
-					parseMsg(apiObj);
-				} catch (IOException e) {
-					e.printStackTrace();
+			if(u != null) {
+				System.out.println("BASGS_API > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
+				if (u.getUserName() == apiObj.username && u.isAuthenticated())
+				{
+					try {
+						parseMsg(apiObj);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				} else
+				{
+					API_Object apiObjReturn = new API_Object();
+					apiObjReturn.num_of_obj = 0;
+					apiObjReturn.error = 1;
+					apiObjReturn.message = "Login Fail. Please Enter Correct UserName and Password";
+					try {
+						client.writeJsonStream(apiObjReturn);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-				
-			} else
-			{
-				API_Object apiObjReturn = new API_Object();
-				apiObjReturn.num_of_obj = 0;
-				apiObjReturn.error = 1;
-				apiObjReturn.message = "Login Fail. Please Enter Correct UserName and Password";
-				try {
-					client.writeJsonStream(apiObjReturn);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			} else {
+				System.out.println("BASGS_API::authenticateUserUpdate >> Null returned object.");
 			}
 		}
 	}
