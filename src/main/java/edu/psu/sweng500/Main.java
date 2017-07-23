@@ -161,6 +161,7 @@ public class Main {
 		
 		// JOptionPane
 		UIManager.put( "OptionPane.background", bgColorGreen );
+		UIManager.put( "OptionPane.messageForeground", fgColorDarkGreen );
 		
 		// JLabel
 		UIManager.put( "Label.foreground", fgColorDarkGreen );

@@ -5,9 +5,6 @@ import javax.swing.*;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
-import edu.psu.sweng500.userinterface.LogScreen.PassMouseClicked;
-import edu.psu.sweng500.userinterface.LogScreen.UserMouseClicked;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -21,6 +18,8 @@ public class LogScreen {
 	private static JPasswordField passwordText;
 	private JButton loginButton;
 	private JButton newuserButton;
+	
+	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	String userNameGet;
 	String passwordTextGet;
@@ -77,7 +76,7 @@ public class LogScreen {
 		logPanel.add(userNameText);
 		//userNameText.getText();
 		userNameText.addKeyListener(new EnterButtonPress());
-		userNameText.addMouseListener(new UserMouseClicked());
+		userNameText.addFocusListener(HIGHLIGHTER);
 		
 		passWord = new JLabel("Password");
 		passWord.setBounds(20, 75, 80, 25);
@@ -87,7 +86,7 @@ public class LogScreen {
 		passwordText = new JPasswordField();
 		passwordText.setBounds(20, 100, 160, 25);
 		logPanel.add(passwordText);
-		passwordText.addMouseListener(new PassMouseClicked());
+		passwordText.addFocusListener(HIGHLIGHTER);
 		passwordText.addKeyListener(new EnterButtonPress());
 
 		loginButton = new JButton("Login");
@@ -133,51 +132,6 @@ public class LogScreen {
 		}
 	}
 	
-	//User Name Highlight
-	public final class UserMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			userNameText.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			userNameText.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			userNameText.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			userNameText.setBackground(Color.white );
-		}                                         
-	}               
-	
-	//Password Highlight
-		public final class PassMouseClicked implements MouseListener{
-
-			public void mouseClicked(MouseEvent arg0) {	
-			}
-
-			public void mouseEntered(MouseEvent arg0) {
-				passwordText.setBackground(new Color(146, 157, 225)); //CHAMGE Color
-			}
-
-			public void mouseExited(MouseEvent arg0) {
-				passwordText.setBackground(Color.white );
-			}
-
-			public void mousePressed(MouseEvent arg0) {
-				passwordText.setBackground(Color.white );
-			}
-
-			public void mouseReleased(MouseEvent arg0) {
-				passwordText.setBackground(Color.white );
-			}                                         
-		}     
 		
 	public EventHandler getEventHandler() {
 		return eventHandler;

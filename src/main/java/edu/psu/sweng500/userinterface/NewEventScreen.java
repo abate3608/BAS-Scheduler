@@ -1,18 +1,14 @@
 package edu.psu.sweng500.userinterface;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -21,16 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
-import edu.psu.sweng500.type.User;
-import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
-import edu.psu.sweng500.userinterface.NewEventScreen.DateButtonPress;
-import edu.psu.sweng500.userinterface.NewUserScreen.FirstMouseClicked;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 
 public class NewEventScreen implements ActionListener {
@@ -55,6 +45,8 @@ public class NewEventScreen implements ActionListener {
 	private JButton startDateBtn;
 	private JButton newEventButton;
 	private JButton cancelButton;
+
+	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	// Event listeners
 	private final EventHandler eventHandler = EventHandler.getInstance();
@@ -93,7 +85,7 @@ public class NewEventScreen implements ActionListener {
 		eventNameTXT.setBounds(20, 50, 300, 25);
 		newEventPanel.add(eventNameTXT);
 		eventNameTXT.addKeyListener(new EnterButtonPress());
-		eventNameTXT.addMouseListener(new EventMouseClicked());
+		eventNameTXT.addFocusListener(HIGHLIGHTER);
 
 		eventStartTime = new JLabel("Event Start Time");
 		eventStartTime.setBounds(20, 75, 120, 25);
@@ -105,7 +97,7 @@ public class NewEventScreen implements ActionListener {
 		eventStartTimeTXT.setColumns(10);
 		newEventPanel.add(eventStartTimeTXT);
 		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
-		eventStartTimeTXT.addMouseListener(new StartMouseClicked());
+		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
 
 		startDateBtn = new JButton("New button");
 		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
@@ -120,7 +112,7 @@ public class NewEventScreen implements ActionListener {
 		eventEndTimeTXT.setBounds(20, 150, 160, 25);
 		newEventPanel.add(eventEndTimeTXT);
 		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
-		eventEndTimeTXT.addMouseListener(new EndMouseClicked());
+		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);
 
 		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(20, 175, 100, 25);
@@ -131,16 +123,16 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT.setBounds(20, 200, 160, 25);
 		newEventPanel.add(eventDateTXT);
 		eventDateTXT.addKeyListener(new EnterButtonPress());
-		eventDateTXT.addMouseListener(new DateMouseClicked());
+		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
-		 //create button and there object
-	    JButton dateButton = new JButton("Get Date");
-	    dateButton.setBounds(215, 200, 100, 25);
-	    newEventPanel.add(dateButton);
-	    //perform action listener
-	    dateButton.addActionListener(new DateButtonPress()) ;
-		
-		
+		//create button and there object
+		JButton dateButton = new JButton("Get Date");
+		dateButton.setBounds(215, 200, 100, 25);
+		newEventPanel.add(dateButton);
+		//perform action listener
+		dateButton.addActionListener(new DateButtonPress()) ;
+
+
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 225, 160, 25);
 		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
@@ -150,7 +142,7 @@ public class NewEventScreen implements ActionListener {
 		eventRoomText.setBounds(20, 250, 160, 25);
 		newEventPanel.add(eventRoomText);
 		eventRoomText.addKeyListener(new EnterButtonPress());
-		eventRoomText.addMouseListener(new RoomMouseClicked());
+		eventRoomText.addFocusListener(HIGHLIGHTER);
 
 		lightSetting = new JLabel("Light Setting");
 		lightSetting.setBounds(20, 275, 160, 25);
@@ -161,7 +153,7 @@ public class NewEventScreen implements ActionListener {
 		lightSettingTXT.setBounds(20, 300, 160, 25);
 		newEventPanel.add(lightSettingTXT);
 		lightSettingTXT.addKeyListener(new EnterButtonPress());
-		lightSettingTXT.addMouseListener(new LightMouseClicked());
+		lightSettingTXT.addFocusListener(HIGHLIGHTER);
 
 		temperatureSetting = new JLabel("Temperature Setting");
 		temperatureSetting.setBounds(20, 325, 160, 25);
@@ -172,7 +164,7 @@ public class NewEventScreen implements ActionListener {
 		temperatureSettingTXT.setBounds(20, 350, 160, 25);
 		newEventPanel.add(temperatureSettingTXT);
 		temperatureSettingTXT.addKeyListener(new EnterButtonPress());
-		temperatureSettingTXT.addMouseListener(new TempMouseClicked());
+		temperatureSettingTXT.addFocusListener(HIGHLIGHTER);
 
 		newEventButton = new JButton("Submit Request");
 		newEventButton.setBounds(30, 380, 140, 25);
@@ -186,181 +178,17 @@ public class NewEventScreen implements ActionListener {
 
 	}
 
-	//Event Name Highlight
-	public final class EventMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );
-		}                                         
-	}    
-
-	//Event Start Time Highlight
-	public final class StartMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-
-	//Event End Time Highlight
-	public final class EndMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-
-	//Event Date Highlight
-	public final class DateMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventDateTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-	//Room Highlight
-	public final class RoomMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventRoomText.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}                                         
-	} 
-
-	// Light Highlighted
-	public final class LightMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			lightSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}                                         
-	}     	
-
-	//Temp Highlighted
-	public final class TempMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}                                         
-	}     	
-
 	//Date Picker
-		public final class DateButtonPress implements ActionListener{
-			
-			public void actionPerformed(ActionEvent arg0) {
-				
-				final JFrame f = new JFrame();
-				//set text which is collected by date picker i.e. set date 
-				eventDateTXT.setText(new DatePicker().setPickedDate());
-				}
-				
-			}
-	
+	public final class DateButtonPress implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+
+			//set text which is collected by date picker i.e. set date 
+			eventDateTXT.setText(new DatePicker().setPickedDate());
+		}
+
+	}
+
 	// Cancel Button
 	private final class cancelButtonPress implements ActionListener {
 
@@ -388,7 +216,7 @@ public class NewEventScreen implements ActionListener {
 
 		}else{
 
-			
+
 			String eventName = eventNameTXT.getText(); 
 			String startTime = eventStartTimeTXT.getText(); 
 			String endTime= eventEndTimeTXT.getText(); 
