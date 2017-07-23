@@ -362,31 +362,34 @@ public class EditEventScreen implements ActionListener {
 		}
 	}
 
-	//Submit Button
-	private final class editEvent implements ActionListener {
+	
+	
+	public void editedEvent(){
 
-		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Submitting Editited Event Request");
+		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getText().isEmpty() || eventEndTimeTXT.getText().isEmpty() ||
+				eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
+				|| temperatureSettingTXT.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
+
+			newEventWin.setVisible(true); 
+
+		}else{
+
 			
-			try {
-
-				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-				String eventName = eventNameTXT.getText(); 
-				String startTime = eventStartTimeTXT.getText(); 
-				String endTime= eventEndTimeTXT.getText(); 
-				String eventDate = eventDateTXT.getText(); 
-				String eventRoom = eventRoomText.getText(); 
-				String lightIntensity = lightSettingTXT.getText(); 
-				String temperatureSetpoint = temperatureSettingTXT.getText(); 
-
-				Date startDateTime = null;
-				Date endDateTime = null;
-
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+			String eventName = eventNameTXT.getText(); 
+			String startTime = eventStartTimeTXT.getText(); 
+			String endTime= eventEndTimeTXT.getText(); 
+			String eventDate = eventDateTXT.getText(); 
+			String eventRoom = eventRoomText.getText(); 
+			String lightIntensity = lightSettingTXT.getText(); 
+			String temperatureSetpoint = temperatureSettingTXT.getText(); 
 
 
-				startDateTime = df.parse(eventDate + " " + startTime);
-				endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+
+			try{
+				Date startDateTime = df.parse(eventDate + " " + startTime);
+				Date endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
 
 
 
@@ -409,15 +412,25 @@ public class EditEventScreen implements ActionListener {
 				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
 				s.setLightIntensity(Integer.parseInt(lightIntensity));
 				eventHandler.fireCreateEvent(s);
+				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
 
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
+			catch(ParseException e){
+
+				JOptionPane.showMessageDialog(null,"Date entered is not the correct format"); 
+			}
+
 		}
+	
+	}
+	
+	//Submit Button
+	private final class editEvent implements ActionListener {
 
-		
-
+		public void actionPerformed(ActionEvent e) {
+			
+			editedEvent();
+		}
 	}
 
 	//Enter Button Press
@@ -427,65 +440,12 @@ public class EditEventScreen implements ActionListener {
 
 			
 			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-				String eventName = eventNameTXT.getText(); 
-				String startTime = eventStartTimeTXT.getText(); 
-				String endTime= eventEndTimeTXT.getText(); 
-				String eventDate = eventDateTXT.getText(); 
-				String eventRoom = eventRoomText.getText(); 
-				String lightSetting = lightSettingTXT.getText(); 
-				String tempSetting = temperatureSettingTXT.getText(); 
-
-				Date startDateTime = null;
-				Date endDateTime = null;
-
-				/*Calendar cal = Calendar.getInstance();
-						if (startTime == "") {
-							startTime = cal.getTime().toString();
-						}
-						if (endTime == "")
-						{
-							endTime = cal.getTime().toString();
-						}
-
-						// request events
-						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
-						Date startDateTime = null;
-						Date endDateTime = null;
-						try {
-							startDateTime = df.parse(eventDate + " " + startTime);
-							endDateTime= df.parse(eventDate + " " + endTime);
-						} catch (ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}*/
-
-				//if (tempSetting == null) {
-				tempSetting = "72";
-				//''}
-
-				//if (lightSetting == null) {
-				lightSetting = "100";
-				//}
-				ScheduleEvent se = new ScheduleEvent();
-				se.setEventName(eventName);
-				se.setEventDescription("Description");
-
-				//end to match Schedule Event Data type
-
-				se.setEventStart(startDateTime);
-				se.setEventStop(endDateTime);
-				se.setTemperatureSetpoint(Float.parseFloat(tempSetting));
-				se.setLightIntensity(Float.parseFloat(lightSetting));
-
-				// fire request event with password
-				//eventHandler.fireAuthenticateNewEventRequest(eventName, startTime, endTime, eventDate, eventRoom, lightSetting, tempSetting);
-
-				//eventHandler.fireCreateEvent(se);
-			}
+				
+				editedEvent();
 		}
 	}
 	
+	}		
 	private final class getEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -494,4 +454,5 @@ public class EditEventScreen implements ActionListener {
 
 	}
 
-}
+	}
+	

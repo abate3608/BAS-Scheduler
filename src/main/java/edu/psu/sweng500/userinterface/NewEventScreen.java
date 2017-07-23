@@ -29,7 +29,9 @@ import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.type.User;
 import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
+import edu.psu.sweng500.userinterface.NewEventScreen.DateButtonPress;
 import edu.psu.sweng500.userinterface.NewUserScreen.FirstMouseClicked;
+import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 
 public class NewEventScreen implements ActionListener {
 
@@ -136,6 +138,14 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT.addKeyListener(new EnterButtonPress());
 		eventDateTXT.addMouseListener(new DateMouseClicked());
 
+		 //create button and there object
+	    JButton dateButton = new JButton("Get Date");
+	    dateButton.setBounds(215, 200, 100, 25);
+	    newEventPanel.add(dateButton);
+	    //perform action listener
+	    dateButton.addActionListener(new DateButtonPress()) ;
+		
+		
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 225, 160, 25);
 		eventRoom.setForeground(Color.blue); //CHANGE Color
@@ -347,6 +357,18 @@ public class NewEventScreen implements ActionListener {
 		}                                         
 	}     	
 
+	//Date Picker
+		public final class DateButtonPress implements ActionListener{
+			
+			public void actionPerformed(ActionEvent arg0) {
+				
+				final JFrame f = new JFrame();
+				//set text which is collected by date picker i.e. set date 
+				eventDateTXT.setText(new DatePicker().setPickedDate());
+				}
+				
+			}
+	
 	// Cancel Button
 	private final class cancelButtonPress implements ActionListener {
 
