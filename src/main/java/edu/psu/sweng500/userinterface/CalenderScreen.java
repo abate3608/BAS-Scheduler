@@ -64,6 +64,9 @@ public class CalenderScreen {
 
 	private BacnetConfig BacnetConfigScreen = new BacnetConfig();
 	
+	
+	private static EditEventScreen editeventscreen = null;
+	
 	public CalenderScreen() {
 
 		// setup event
@@ -167,7 +170,7 @@ public class CalenderScreen {
 		editEventBTN = new JButton("Edit Event");
 		editEventBTN.setBounds(15, 140, 98, 25); 
 		editEventBTN.setFont(new Font("Arial",Font.BOLD,12)); 
-		editEventBTN.addActionListener(new EditEventScreen());
+		editEventBTN.addActionListener(editeventscreen = new EditEventScreen());
 		
 		
 		// LogOut event Button
@@ -183,6 +186,7 @@ public class CalenderScreen {
 		roomPanel.setBackground(new Color(250, 247, 160));
 		roomPanel.setBounds(16, 170, 280, 520);
 		roomPanel.setLayout(new BoxLayout(roomPanel,BoxLayout.PAGE_AXIS)); 
+		
 
 		// Calendar Window -DONT MOVE POSITION
 		calenderWindow = new JPanel(null);
@@ -456,6 +460,8 @@ public class CalenderScreen {
 
 		@Override
 		public void eventUpdate(ArrayList<DBScheduleTable> sList) {
+			editeventscreen.setSchedules(sList);
+			
 			for(DBScheduleTable s : sList) {
 				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
 	
