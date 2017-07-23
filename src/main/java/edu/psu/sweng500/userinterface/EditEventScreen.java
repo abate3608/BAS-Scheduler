@@ -6,6 +6,7 @@ import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -53,18 +54,19 @@ public class EditEventScreen implements ActionListener {
 	private JButton getButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
-	
+	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
+
 	// Event listeners
 	private final EventHandler eventHandler = EventHandler.getInstance(); /// ADDED 7/22
 
 	static ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
 	List lb = new List();
-	
+
 	public void setSchedules(ArrayList<DBScheduleTable> schedules) {
 		this.schedules = schedules;
 	}
 	public void actionPerformed(ActionEvent e) {
-		
+
 		// setup event
 		eventHandler.addListener(new EventQueueListener()); ///// ADDED 7/22
 
@@ -91,16 +93,16 @@ public class EditEventScreen implements ActionListener {
 
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Edit An Existing Event"));
 		newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
-	    
-	    
-	    for(DBScheduleTable s : schedules) {
-	    	lb.add(s.getName());
-	    }
-	    
-	    lb.setBounds(20, 25, 300, 400);
-	    lb.addMouseListener(new lbMouseClicked());
-	    newEventPanel.add(lb);
-	    
+
+
+		for(DBScheduleTable s : schedules) {
+			lb.add(s.getName());
+		}
+
+		lb.setBounds(20, 25, 300, 400);
+		lb.addMouseListener(new lbMouseClicked());
+		newEventPanel.add(lb);
+
 		/*eventName = new JLabel("Event Name");
 		eventName.setBounds(250, 25, 90, 25);
 		eventName.setForeground(Color.blue); //CHANGE Color
@@ -118,20 +120,20 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.add(eventNameTXT);
 		eventNameTXT.addKeyListener(new EnterButtonPress());
 		eventNameTXT.addMouseListener(new EventMouseClicked());
-*/
+		 */
 		eventStartTime = new JLabel("Event Start Time");
 		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
 		eventStartTime.setForeground(Color.blue); //CHANGE Color
 		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
-		
+
 
 		eventStartTimeTXT = new JTextField(20);
 		eventStartTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
 		newEventPanel.add(eventStartTimeTXT);
 		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
-		eventStartTimeTXT.addMouseListener(new StartMouseClicked());
-		
+		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
+
 
 		eventEndTime = new JLabel("Event End Time");
 		eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTimeTXT.getY() + 25, width, 25);
@@ -143,7 +145,7 @@ public class EditEventScreen implements ActionListener {
 		eventEndTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
 		newEventPanel.add(eventEndTimeTXT);
 		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
-		eventEndTimeTXT.addMouseListener(new EndMouseClicked());
+		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);
 
 		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
@@ -155,14 +157,14 @@ public class EditEventScreen implements ActionListener {
 		eventDateTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventDate.getY() + 25, width, 25);
 		newEventPanel.add(eventDateTXT);
 		eventDateTXT.addKeyListener(new EnterButtonPress());
-		eventDateTXT.addMouseListener(new DateMouseClicked());
+		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-	    JButton dateButton = new JButton("+");
-	    dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
-	    newEventPanel.add(dateButton);
-	    //perform action listener
-	    dateButton.addActionListener(new EditDateButtonPress()) ;
+		JButton dateButton = new JButton("+");
+		dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
+		newEventPanel.add(dateButton);
+		//perform action listener
+		dateButton.addActionListener(new EditDateButtonPress()) ;
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(lb.getWidth() + lb.getX() + 10, eventDateTXT.getY() + 25, width, 25);
@@ -174,7 +176,7 @@ public class EditEventScreen implements ActionListener {
 		eventRoomText.setBounds(lb.getWidth() + lb.getX() + 10, eventRoom.getY() + 25, width, 25);
 		newEventPanel.add(eventRoomText);
 		eventRoomText.addKeyListener(new EnterButtonPress());
-		eventRoomText.addMouseListener(new RoomMouseClicked());
+		eventRoomText.addFocusListener(HIGHLIGHTER);
 
 		lightSetting = new JLabel("Light Setting");
 		lightSetting.setBounds(lb.getWidth() + lb.getX() + 10, eventRoomText.getY() + 25, width, 25);
@@ -186,7 +188,7 @@ public class EditEventScreen implements ActionListener {
 		lightSettingTXT.setBounds(lb.getWidth() + lb.getX() + 10, lightSetting.getY() + 25, width, 25);
 		newEventPanel.add(lightSettingTXT);
 		lightSettingTXT.addKeyListener(new EnterButtonPress());
-		lightSettingTXT.addMouseListener(new LightMouseClicked());
+		lightSettingTXT.addFocusListener(HIGHLIGHTER);
 
 		temperatureSetting = new JLabel("Temperature Setting");
 		temperatureSetting.setBounds(lb.getWidth() + lb.getX() + 10, lightSettingTXT.getY() + 25, width, 25);
@@ -198,7 +200,7 @@ public class EditEventScreen implements ActionListener {
 		temperatureSettingTXT.setBounds(lb.getWidth() + lb.getX() + 10, temperatureSetting.getY() + 25, width, 25);
 		newEventPanel.add(temperatureSettingTXT);
 		temperatureSettingTXT.addKeyListener(new EnterButtonPress());
-		temperatureSettingTXT.addMouseListener(new TempMouseClicked());
+		temperatureSettingTXT.addFocusListener(HIGHLIGHTER);
 
 
 		/*getButton = new JButton("Get Event Details");
@@ -217,30 +219,6 @@ public class EditEventScreen implements ActionListener {
 		cancelButton.addActionListener(new cancelButtonPress());
 	}
 
-	//Event Name Highlight
-	public final class EventMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventNameTXT.setBackground(Color.white );
-		}                                         
-	}    
-
-	
 	//list box clicked
 	public final class lbMouseClicked implements MouseListener{
 
@@ -248,205 +226,58 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			
+
 		}
 
 		public void mouseExited(MouseEvent arg0) {
-					
+
 		}
 
 		public void mousePressed(MouseEvent arg0) {
-					
+
 		}
 
 		public void mouseReleased(MouseEvent arg0) {
 			String name = lb.getSelectedItem();
-			
+
 			for(DBScheduleTable s : schedules) {
-		    	if (name.equalsIgnoreCase(s.getName())) {
-		    		eventStartTimeTXT.setText(s.getStartDateTime().toString());
-		    		eventEndTimeTXT.setText(s.getEndDateTime().toString());
-		    		eventDateTXT.setText(s.getStartDateTime().toString());
-		    		eventRoomText.setText(s.getRoomName());
-		    		lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
-		    		temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
-		    		
-		    	}
-		    }
-			
-		}                                         
-	} 
-	
-	//Event Start Time Highlight
-	public final class StartMouseClicked implements MouseListener{
+				if (name.equalsIgnoreCase(s.getName())) {
+					eventStartTimeTXT.setText(s.getStartDateTime().toString());
+					eventEndTimeTXT.setText(s.getEndDateTime().toString());
+					eventDateTXT.setText(s.getStartDateTime().toString());
+					eventRoomText.setText(s.getRoomName());
+					lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
+					temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
 
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventStartTimeTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-
-	//Event End Time Highlight
-	public final class EndMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventEndTimeTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-
-	//Event Date Highlight
-	public final class DateMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventDateTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventDateTXT.setBackground(Color.white );
-		}                                         
-	}               
-
-	//Room Highlight
-	public final class RoomMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			eventRoomText.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			eventRoomText.setBackground(Color.white );
-		}                                         
-	} 
-
-	// Light Highlighted
-	public final class LightMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			lightSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			lightSettingTXT.setBackground(Color.white );
-		}                                         
-	}     	
-
-	//Temp Highlighted
-	public final class TempMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			temperatureSettingTXT.setBackground(Color.white );
-		}                                         
-	}     	
-	
-	//Date Picker
-			public final class EditDateButtonPress implements ActionListener{
-				
-				public void actionPerformed(ActionEvent arg0) {
-					
-					final JFrame f = new JFrame();
-					//set text which is collected by date picker i.e. set date 
-					eventDateTXT.setText(new DatePicker().setPickedDate());
-					}
-					
 				}
-	
-	
+			}
+
+		}                                         
+	} 
+
+	//Date Picker
+	public final class EditDateButtonPress implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+
+			final JFrame f = new JFrame();
+			//set text which is collected by date picker i.e. set date 
+			eventDateTXT.setText(new DatePicker().setPickedDate());
+		}
+
+	}
+
+
 	// Cnacel Button
 	private final class cancelButtonPress implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			eventNameTXT.setText(null);
-			eventStartTimeTXT.setText(null);
-			eventEndTimeTXT.setText(null);
-			eventDateTXT.setText(null);
-			eventRoomText.setText(null);
-			lightSettingTXT.setText(null);
-			temperatureSettingTXT.setText(null);
 			newEventWin.dispose();
 		}
 	}
 
-	
-	
+
+
 	public void editedEvent(){
 
 		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getText().isEmpty() || eventEndTimeTXT.getText().isEmpty() ||
@@ -458,7 +289,7 @@ public class EditEventScreen implements ActionListener {
 
 		}else{
 
-			
+
 			String eventName = eventNameTXT.getText(); 
 			String startTime = eventStartTimeTXT.getText(); 
 			String endTime= eventEndTimeTXT.getText(); 
@@ -504,14 +335,14 @@ public class EditEventScreen implements ActionListener {
 			}
 
 		}
-	
+
 	}
-	
+
 	//Submit Button
 	private final class editEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			
+
 			editedEvent();
 		}
 	}
@@ -521,24 +352,24 @@ public class EditEventScreen implements ActionListener {
 
 		public void keyPressed(KeyEvent e) {
 
-			
+
 			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-				
+
 				editedEvent();
+			}
 		}
-	}
-	
+
 	}		
 	private final class getEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			//JOptionPane.showMessageDialog(null, "Retrieving Event Information");
-			
-			
-			
+
+
+
 		}
 
 	}
 
-	}
-	
+}
+
