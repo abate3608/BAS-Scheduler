@@ -2,6 +2,8 @@ package edu.psu.sweng500.userinterface;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.*;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
@@ -52,6 +54,7 @@ public class CalenderScreen {
 	
 	private static Color bgTan = new Color(248, 242, 236);
 	private static Color calendarBlue = new Color(230, 230, 255);
+	private static Color calendarDarkBlue = new Color(0, 0, 77);
 	static JPanel calendar; // Added
 	//static JPanel weatherPanel;  // Added
 
@@ -118,7 +121,6 @@ public class CalenderScreen {
 				return true;
 			}
 		};
-
 		
 		// Calendar Table
 		calendarTable = new JTable(calenderTable);
@@ -134,7 +136,6 @@ public class CalenderScreen {
 		calenderScroll.setBounds(300, 185, 1029, 500); // Location
 		// calendar Pane size
 		// and Location
-		
 		
 		//Calendar Panel 
 		calendar = new JPanel(null);
@@ -166,13 +167,11 @@ public class CalenderScreen {
 		editEventBTN.setFont(new Font("Arial",Font.BOLD,12)); 
 		editEventBTN.addActionListener(new EditEventScreen());
 		
-		
 		// LogOut event Button
 		logOut = new JButton("Sign Out");
 		logOut.setBounds(15, 70, 98, 25); 
 		logOut.setFont(new Font("Arial",Font.BOLD,12));
 		logOut.addActionListener(new logOutBTNPress());
-		
 		
 		// roomPanel
 		roomPanel = new JPanel(null);
@@ -189,11 +188,8 @@ public class CalenderScreen {
 		calenderWindow.setBorder(BorderFactory.createTitledBorder("Global Schedular Hompage"));
 		// Add controls to calenderWindow
 		
-		
-		 
-		
-		 windowLayout.setLayout(new BorderLayout());
-		 windowLayout.add(createMenuBar(), BorderLayout.NORTH);
+		windowLayout.setLayout(new BorderLayout());
+		windowLayout.add(createMenuBar(), BorderLayout.NORTH);
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
 		
@@ -240,7 +236,6 @@ public class CalenderScreen {
 		for (int i = year; i <= year + 100; i++) {
 			calendarYear.addItem(String.valueOf(i));
 		}
-
 
 		loginScreen.create();
 
@@ -352,11 +347,6 @@ public class CalenderScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
-
-
 	}
 
 	// use to show scheduled events
@@ -451,8 +441,13 @@ public class CalenderScreen {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ArrayList<DBScheduleTable> sList) {
-			for(DBScheduleTable s : sList) {
+		public void eventUpdate(ArrayList<DBScheduleTable> sList) 
+		{
+			TitledBorder border = BorderFactory.createTitledBorder("Event");
+			border.setTitleColor( calendarDarkBlue );
+			
+			for(DBScheduleTable s : sList)
+			{
 				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
 	
 				if (!isAuthenticated) {
@@ -466,20 +461,21 @@ public class CalenderScreen {
 						if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
 					}
 				}
-				if (!hasComponent) {
-					
+				if (!hasComponent) 
+				{
 					JPanel eventPNL = new JPanel(null);
-					eventPNL.setBorder(BorderFactory.createTitledBorder("Event"));
-					eventPNL.setBackground( calendarBlue ); 
+					eventPNL.setBorder(border);
+					eventPNL.setBackground( calendarBlue );
 					eventPNL.setBounds(16, 300, 280, 390);
 					eventPNL.setLayout(new BoxLayout(eventPNL,BoxLayout.PAGE_AXIS)); 
 					
 					JLabel events = new JLabel(eventDes);
+					events.setForeground( calendarDarkBlue );
 					//events.setBounds(20, 200, 100, 200);
 					events.setFont(new Font("Arial",Font.ITALIC,12)); 
 					eventPNL.add(events);
 					roomPanel.add(eventPNL);
-					 }
+				}
 			}
 		}
 
