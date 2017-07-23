@@ -153,5 +153,4 @@ public class XmlDomExtractor
 		}
 		return getXPath( root, node.getParentNode() ) + "/" + node.getNodeName();
 	}
-
 }

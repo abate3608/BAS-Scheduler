@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
+import edu.psu.sweng500.type.ScheduleFields;
+
 /**
  * 
  * @author awb
@@ -41,55 +43,24 @@ public class XmlDomMap extends Properties
 	public void writeMapToFile( Path path ) throws IOException
 	{
 		try ( OutputStream out = new BufferedOutputStream(
-				Files.newOutputStream( path, StandardOpenOption.CREATE, StandardOpenOption.WRITE ) ) )
+				Files.newOutputStream( path, 
+						StandardOpenOption.CREATE, 
+						StandardOpenOption.WRITE, 
+						StandardOpenOption.TRUNCATE_EXISTING 
+						) 
+				) )
 		{
 			this.store( out, null );
 		}
 	}
-
-	public String setScheduleRoot( String xpath )
+	
+	public String getProperty( ScheduleFields field )
 	{
-		return (String) this.setProperty( "scheduleRoot", xpath);
-	}
-
-	public String setEventIDElement( String xpath )
-	{
-		return (String) this.setProperty( "eventID", xpath );
+		return this.getProperty( field.toString() );
 	}
 	
-	public String setEventRoomNameElement( String xpath )
+	public String setProperty( ScheduleFields field, String value )
 	{
-		return (String) this.setProperty( "roomName", xpath );
+		return (String)this.setProperty( field.toString(), value );
 	}
-
-	public String setEventNameElement( String xpath )
-	{
-		return (String) this.setProperty( "eventName", xpath );
-	}
-
-	public String setEventDescriptionElement( String xpath )
-	{
-		return (String) this.setProperty( "eventDescription", xpath);
-	}
-
-	public String setEventStartElement( String xpath )
-	{
-		return (String) this.setProperty( "eventStart", xpath );
-	}
-
-	public String setEventStopElement( String xpath )
-	{
-		return (String) this.setProperty( "eventStop", xpath );
-	}
-
-	public String setTemperatureElement( String xpath )
-	{
-		return (String) this.setProperty( "temperatureSetpoint", xpath );
-	}
-
-	public String setLighingElement( String xpath )
-	{
-		return (String) this.setProperty( "lightIntensity", xpath );
-	}
-
 }

@@ -21,15 +21,20 @@ import javax.swing.filechooser.FileSystemView;
 
 import edu.psu.sweng500.schedule.objects.XmlDomMap;
 
+/**
+ * 
+ * @author awb
+ */
 public class ScheduleImporterConfigMenu 
 {
 	private static JFrame frame;
 	private NodeSelectionPanel mappanel;
+	private Path path;
 
 	public ScheduleImporterConfigMenu()
 	{
 		frame = new JFrame( "Schedule Importer Configuration" );
-		frame.setSize( 420, 300 );
+		frame.setSize( 450, 700 );
 		frame.setLocationRelativeTo( null );
 		frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		frame.getContentPane().add( getFileSelectionPanel(), BorderLayout.PAGE_START );
@@ -69,7 +74,7 @@ public class ScheduleImporterConfigMenu
 				if( returnValue == JFileChooser.APPROVE_OPTION )
 				{
 					try {
-						Path path = chooser.getSelectedFile().toPath();
+						path = chooser.getSelectedFile().toPath();
 						mappanel.setPanel( path );
 						selected.setText( path.toString() );
 					} catch ( Exception e ) {
@@ -98,16 +103,25 @@ public class ScheduleImporterConfigMenu
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				// TODO Auto-generated method stub
 				try {
-					final Path path = Paths.get("xmlDomMap.properties");
-					XmlDomMap xmlDomMap = mappanel.buildXmlDomMap();
-					xmlDomMap.writeMapToFile( path );
-					System.setProperty( "xmlImport.domMap", path.toString() );
+					int confirm = JOptionPane.showConfirmDialog( null, 
+							"Do you want to save this schedule import configuration?",
+							"Save?", 
+							JOptionPane.OK_CANCEL_OPTION);
+					if( confirm == 0 )
+					{
+						final Path xdmPath = Paths.get("xmlDomMap.properties");
+						XmlDomMap xmlDomMap = mappanel.buildXmlDomMap();
+						xmlDomMap.writeMapToFile( xdmPath );
+						System.setProperty( "xmlImport.domMap", xdmPath.toString() );
+						System.setProperty( "xmlImport.location", path.toString() );
+						frame.dispose();
+					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
+				} catch (NullPointerException npe) {
+					npe.printStackTrace();
 				}
-				
 			} 
 		});
 		buttons.add( save );
@@ -126,6 +140,10 @@ public class ScheduleImporterConfigMenu
 		return buttons;
 	}
 
+	/**
+	 * Main method for testing GUI independently of system. 
+	 * @param args
+	 */
 	public static void main( String[] args )
 	{
 		new ScheduleImporterConfigMenu();

@@ -111,7 +111,7 @@ public class StartScreen {
 		// ACTIONLISTNER
 		editEventBTN = new JButton("Edit Event");
 		editEventBTN.setBounds(150, 140, 148, 25); // Button Sizing and Location
-		editEventBTN.addActionListener(new EditEventScreen());
+		//editEventBTN.addActionListener(new EditEventScreen());
 
 		// roomPanel
 		roomPanel = new JPanel(null);

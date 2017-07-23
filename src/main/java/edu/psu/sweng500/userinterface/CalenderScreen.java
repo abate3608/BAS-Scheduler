@@ -2,6 +2,8 @@ package edu.psu.sweng500.userinterface;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.*;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
+import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
 import edu.psu.sweng500.userinterface.CalenderScreen.backBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.logOutBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.nextBTNPress;
@@ -50,6 +53,9 @@ public class CalenderScreen {
 	static int getYear;
 	static int getMonth;
 	
+	private static Color bgTan = new Color(248, 242, 236);
+	private static Color calendarBlue = new Color(230, 230, 255);
+	private static Color calendarDarkBlue = new Color(0, 0, 77);
 	static JPanel calendar; // Added
 	//static JPanel weatherPanel;  // Added
 
@@ -63,6 +69,9 @@ public class CalenderScreen {
 	private final static LogScreen loginScreen = new LogScreen();
 
 	private BacnetConfig BacnetConfigScreen = new BacnetConfig();
+	
+	
+	private static EditEventScreen editeventscreen = null;
 	
 	public CalenderScreen() {
 
@@ -82,30 +91,25 @@ public class CalenderScreen {
 		panelLayout.setVisible(true);
 
 		windowLayout = panelLayout.getContentPane();
-		windowLayout.setBackground(new Color(218, 247, 159)); // Added SET COLOR
 		windowLayout.setLayout(null); // "NULL" LAYOUT
 		
 		temperature = new JLabel ("Temperature");
 		temperature.setBounds(300, 50, 400, 30); // Location
 		temperature.setFont(new Font("Arial",Font.ITALIC,20)); // FONT
-		temperature.setForeground(Color.blue);  // Color
 		
 		
 		humidity = new JLabel ("Humidity");
 		humidity.setBounds(1100, 50, 200, 30); // Location
 		humidity.setFont(new Font("Arial",Font.ITALIC,20)); // Font
-		humidity.setForeground(Color.blue);  // Color
 		
 		
 		loginStatus = new JLabel ("User: ");
 		loginStatus.setFont(new Font("Arial",Font.ITALIC,20)); // Font
 		loginStatus.setBounds(15, 30, 180, 30); // Location
-		loginStatus.setForeground(Color.blue);  // Color
 		
 		yearTxt = new JLabel ("Change Year:"); 
 		yearTxt.setFont(new Font("Arial",Font.ITALIC,20)); // Font
 		yearTxt.setBounds(1045, 135, 180, 30); // Location
-		yearTxt.setForeground(Color.blue);  // Color
 
 		
 		monthName = new JLabel("January");
@@ -121,7 +125,6 @@ public class CalenderScreen {
 				return true;
 			}
 		};
-
 		
 		// Calendar Table
 		calendarTable = new JTable(calenderTable);
@@ -138,12 +141,11 @@ public class CalenderScreen {
 		// calendar Pane size
 		// and Location
 		
-		
 		//Calendar Panel 
 		calendar = new JPanel(null);
 		calendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
 		calendar.setBounds(295, 170, 1040, 520);
-		calendar.setBackground(new Color(250, 247, 160));
+		calendar.setBackground( bgTan );
 		calendar.setLayout(new BoxLayout(calendar,BoxLayout.PAGE_AXIS)); 
 		calendar.add(calenderScroll);
 
@@ -167,8 +169,7 @@ public class CalenderScreen {
 		editEventBTN = new JButton("Edit Event");
 		editEventBTN.setBounds(15, 140, 98, 25); 
 		editEventBTN.setFont(new Font("Arial",Font.BOLD,12)); 
-		editEventBTN.addActionListener(new EditEventScreen());
-		
+		editEventBTN.addActionListener(editeventscreen = new EditEventScreen());
 		
 		// LogOut event Button
 		logOut = new JButton("Sign Out");
@@ -176,13 +177,13 @@ public class CalenderScreen {
 		logOut.setFont(new Font("Arial",Font.BOLD,12));
 		logOut.addActionListener(new logOutBTNPress());
 		
-		
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
-		roomPanel.setBackground(new Color(250, 247, 160));
+		roomPanel.setBackground( bgTan );
 		roomPanel.setBounds(16, 170, 280, 520);
 		roomPanel.setLayout(new BoxLayout(roomPanel,BoxLayout.PAGE_AXIS)); 
+		
 
 		// Calendar Window -DONT MOVE POSITION
 		calenderWindow = new JPanel(null);
@@ -192,11 +193,8 @@ public class CalenderScreen {
 		calenderWindow.setBorder(BorderFactory.createTitledBorder("Global Schedular Hompage"));
 		// Add controls to calenderWindow
 		
-		
-		 
-		
-		 windowLayout.setLayout(new BorderLayout());
-		 windowLayout.add(createMenuBar(), BorderLayout.NORTH);
+		windowLayout.setLayout(new BorderLayout());
+		windowLayout.add(createMenuBar(), BorderLayout.NORTH);
 		windowLayout.add(calenderWindow);
 		calenderWindow.setBackground(null);
 		
@@ -244,7 +242,6 @@ public class CalenderScreen {
 			calendarYear.addItem(String.valueOf(i));
 		}
 
-
 		loginScreen.create();
 
 		updateCalendar(month, year); // Refresh calendar
@@ -279,6 +276,14 @@ public class CalenderScreen {
 		
 		
 		JMenuItem configMenuXMLItem = new JMenuItem("XML Importer");
+		configMenuXMLItem.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new ScheduleImporterConfigMenu();
+			}
+		});
 		configMenu.add(configMenuXMLItem);
 		JMenuItem configMenuApiItem = new JMenuItem("API");
 		configMenu.add(configMenuApiItem);
@@ -311,7 +316,6 @@ public class CalenderScreen {
 		monthName.setText(monthNames[month]);
 		monthName.setFont(new Font("Arial",Font.ITALIC,30)); 
 		monthName.setBounds(750, 135, 180, 30); 
-		monthName.setForeground(Color.blue);  
 		
 		calendarYear.setSelectedItem(String.valueOf(year));
 		// Clear table
@@ -356,11 +360,6 @@ public class CalenderScreen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
-
-
 	}
 
 	// use to show scheduled events
@@ -380,7 +379,7 @@ public class CalenderScreen {
 					// to
 					// schedule
 					// events
-					setBackground(new Color(220, 220, 255));
+					setBackground(calendarBlue);
 				}
 			}
 			setBorder(null);
@@ -455,8 +454,13 @@ public class CalenderScreen {
 		// listen to event queue
 
 		@Override
-		public void eventUpdate(ArrayList<DBScheduleTable> sList) {
-			for(DBScheduleTable s : sList) {
+		public void eventUpdate(ArrayList<DBScheduleTable> sList) 
+		{
+			TitledBorder border = BorderFactory.createTitledBorder("Event");
+			border.setTitleColor( calendarDarkBlue );
+			editeventscreen.setSchedules(sList);
+			for(DBScheduleTable s : sList)
+			{
 				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
 	
 				if (!isAuthenticated) {
@@ -470,21 +474,21 @@ public class CalenderScreen {
 						if (((JLabel) jc).getText().equals(eventDes)) { hasComponent = true; }
 					}
 				}
-				if (!hasComponent) {
-					
+				if (!hasComponent) 
+				{
 					JPanel eventPNL = new JPanel(null);
-					eventPNL.setBorder(BorderFactory.createTitledBorder("Event"));
-					eventPNL.setBackground(new Color(244, 252, 196)); 
+					eventPNL.setBorder(border);
+					eventPNL.setBackground( calendarBlue );
 					eventPNL.setBounds(16, 300, 280, 390);
 					eventPNL.setLayout(new BoxLayout(eventPNL,BoxLayout.PAGE_AXIS)); 
 					
 					JLabel events = new JLabel(eventDes);
+					events.setForeground( calendarDarkBlue );
 					//events.setBounds(20, 200, 100, 200);
 					events.setFont(new Font("Arial",Font.ITALIC,12)); 
-					events.setForeground(Color.blue);  
 					eventPNL.add(events);
 					roomPanel.add(eventPNL);
-					 }
+				}
 			}
 		}
 

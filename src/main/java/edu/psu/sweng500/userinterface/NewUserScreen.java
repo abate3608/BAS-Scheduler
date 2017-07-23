@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -23,8 +24,6 @@ import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen.EventQueueListener;
-import edu.psu.sweng500.userinterface.LogScreen.PassMouseClicked;
-import edu.psu.sweng500.userinterface.LogScreen.UserMouseClicked;
 
 
 public class NewUserScreen implements ActionListener {
@@ -43,6 +42,7 @@ public class NewUserScreen implements ActionListener {
 	private JPasswordField passwordText;
 	private JButton newuserButton;
 	private JButton cancelButton;
+	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	// Event listeners
 	private final EventHandler eventHandler = EventHandler.getInstance();
@@ -70,11 +70,9 @@ public class NewUserScreen implements ActionListener {
 
 		regPanel.setLayout(null);
 		regPanel.setBorder(BorderFactory.createTitledBorder("New User Registration"));
-		regPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
 
 		firstName = new JLabel("First Name");
 		firstName.setBounds(20, 25, 80, 25);
-		firstName.setForeground(Color.blue); //CHANGE Color
 		firstName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(firstName);
 
@@ -82,12 +80,11 @@ public class NewUserScreen implements ActionListener {
 		firstNameTXT.setBounds(20, 50, 160, 25);
 		regPanel.add(firstNameTXT);
 		firstNameTXT.addKeyListener(new EnterButtonPress());
-		firstNameTXT.addMouseListener(new FirstMouseClicked());
+		firstNameTXT.addFocusListener(HIGHLIGHTER);
 
 		lastName = new JLabel("Last Name");
 		lastName.setBounds(20, 75, 80, 25);
 		regPanel.add(lastName);
-		lastName.setForeground(Color.blue); //CHANGE Color
 		lastName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		
 		
@@ -95,11 +92,10 @@ public class NewUserScreen implements ActionListener {
 		lastNameTXT.setBounds(20, 100, 160, 25);
 		regPanel.add(lastNameTXT);
 		lastNameTXT.addKeyListener(new EnterButtonPress());
-		lastNameTXT.addMouseListener(new LastMouseClicked());
+		lastNameTXT.addFocusListener(HIGHLIGHTER);
 
 		email = new JLabel("Email");
 		email.setBounds(20, 125, 80, 25);
-		email.setForeground(Color.blue); //CHANGE Color
 		email.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(email);
 
@@ -107,11 +103,10 @@ public class NewUserScreen implements ActionListener {
 		emailTXT.setBounds(20, 150, 160, 25);
 		regPanel.add(emailTXT);
 		emailTXT.addKeyListener(new EnterButtonPress());
-		emailTXT.addMouseListener(new EmailMouseClicked());
+		emailTXT.addFocusListener(HIGHLIGHTER);
 
 		userName = new JLabel("UserName");
 		userName.setBounds(20, 175, 80, 25);
-		userName.setForeground(Color.blue); //CHANGE Color
 		userName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(userName);
 
@@ -119,11 +114,10 @@ public class NewUserScreen implements ActionListener {
 		userNameTXT.setBounds(20, 200, 160, 25);
 		regPanel.add(userNameTXT);
 		userNameTXT.addKeyListener(new EnterButtonPress());
-		userNameTXT.addMouseListener(new UserMouseClicked());
+		userNameTXT.addFocusListener(HIGHLIGHTER);
 
 		passWord = new JLabel("Password");
 		passWord.setBounds(20, 225, 160, 25);
-		passWord.setForeground(Color.blue); //CHANGE Color
 		passWord.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		regPanel.add(passWord);
 		
@@ -131,7 +125,7 @@ public class NewUserScreen implements ActionListener {
 		passwordText.setBounds(20, 250, 160, 25);
 		regPanel.add(passwordText);
 		passwordText.addKeyListener(new EnterButtonPress());
-		passwordText.addMouseListener(new PassMouseClicked());
+		passwordText.addFocusListener(HIGHLIGHTER);
 		
 		newuserButton = new JButton("Request Access");
 		newuserButton.setBounds(30, 285, 140, 25);
@@ -143,123 +137,6 @@ public class NewUserScreen implements ActionListener {
 		regPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 	}
-	
-	//First Name Highlight
-		public final class FirstMouseClicked implements MouseListener{
-
-			public void mouseClicked(MouseEvent arg0) {		
-			}
-
-			public void mouseEntered(MouseEvent arg0) {
-				firstNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-			}
-
-			public void mouseExited(MouseEvent arg0) {
-				firstNameTXT.setBackground(Color.white );			
-			}
-
-			public void mousePressed(MouseEvent arg0) {
-				firstNameTXT.setBackground(Color.white );		
-			}
-
-			public void mouseReleased(MouseEvent arg0) {
-				firstNameTXT.setBackground(Color.white );
-			}                                         
-		}    
-	
-	//Last Name Highlight
-	public final class LastMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			lastNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			lastNameTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			lastNameTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			lastNameTXT.setBackground(Color.white );
-		}                                         
-	}               
-	
-	
-	//Email Highlight
-	public final class EmailMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			emailTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			emailTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			emailTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			emailTXT.setBackground(Color.white );
-		}                                         
-	}               
-	
-
-	//User Name Highlight
-	public final class UserMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {		
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			userNameTXT.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			userNameTXT.setBackground(Color.white );			
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			userNameTXT.setBackground(Color.white );		
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			userNameTXT.setBackground(Color.white );
-		}                                         
-	}               
-	
-	//Password Highlight
-	public final class PassMouseClicked implements MouseListener{
-
-		public void mouseClicked(MouseEvent arg0) {	
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-			passwordText.setBackground(new Color(146, 157, 225)); //CHANGE Color
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-			passwordText.setBackground(Color.white );
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-			passwordText.setBackground(Color.white );
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-			passwordText.setBackground(Color.white );
-		}                                         
-	}     	
 	
 	private final class cancelButtonPress implements ActionListener {
 
@@ -284,8 +161,17 @@ public class NewUserScreen implements ActionListener {
 	//}
 
 	public void createUser() {
-		User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
+		
+		 if(firstNameTXT.getText().isEmpty() || lastNameTXT.getText().isEmpty() || emailTXT.getText().isEmpty() ||
+				 userNameTXT.getText().isEmpty() || passwordText.getText().isEmpty()){
+		     JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
+		 
+		     regWin.setVisible(true); 
+		 
+		 } else{ User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
 		eventHandler.fireCreteUser(u);
+	}
+		
 	}
 	
 	//Enter Button Press
@@ -294,8 +180,8 @@ public class NewUserScreen implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 
 			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-				User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
-				eventHandler.fireCreteUser(u);
+				
+				createUser();
 			}
 		}
 	}
