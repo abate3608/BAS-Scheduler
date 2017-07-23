@@ -284,8 +284,17 @@ public class NewUserScreen implements ActionListener {
 	//}
 
 	public void createUser() {
-		User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
+		
+		 if(firstNameTXT.getText().isEmpty() || lastNameTXT.getText().isEmpty() || emailTXT.getText().isEmpty() ||
+				 userNameTXT.getText().isEmpty() || passwordText.getText().isEmpty()){
+		     JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
+		 
+		     regWin.setVisible(true); 
+		 
+		 } else{ User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
 		eventHandler.fireCreteUser(u);
+	}
+		
 	}
 	
 	//Enter Button Press
@@ -294,8 +303,8 @@ public class NewUserScreen implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 
 			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-				User u = new User(firstNameTXT.getText(), lastNameTXT.getText(), emailTXT.getText(), userNameTXT.getText(), passwordText.getText());
-				eventHandler.fireCreteUser(u);
+				
+				createUser();
 			}
 		}
 	}

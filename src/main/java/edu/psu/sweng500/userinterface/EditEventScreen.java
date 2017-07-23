@@ -9,6 +9,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -19,7 +22,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.userinterface.NewEventScreen.EventQueueListener;
 
 
 public class EditEventScreen implements ActionListener {
@@ -43,8 +49,14 @@ public class EditEventScreen implements ActionListener {
 	private JButton getButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
+	
+	// Event listeners
+		private final EventHandler eventHandler = EventHandler.getInstance(); /// ADDED 7/22
 
 	public void actionPerformed(ActionEvent e) {
+		
+		// setup event
+		eventHandler.addListener(new EventQueueListener()); ///// ADDED 7/22
 
 		newEventWin = new JFrame("Global Schedular System New Event");
 		newEventWin.setSize(525, 505);
@@ -355,7 +367,56 @@ public class EditEventScreen implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(null, "Submitting Editited Event Request");
+			
+			try {
+
+				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
+				String eventName = eventNameTXT.getText(); 
+				String startTime = eventStartTimeTXT.getText(); 
+				String endTime= eventEndTimeTXT.getText(); 
+				String eventDate = eventDateTXT.getText(); 
+				String eventRoom = eventRoomText.getText(); 
+				String lightIntensity = lightSettingTXT.getText(); 
+				String temperatureSetpoint = temperatureSettingTXT.getText(); 
+
+				Date startDateTime = null;
+				Date endDateTime = null;
+
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+
+
+				startDateTime = df.parse(eventDate + " " + startTime);
+				endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+
+
+
+				//if (tempSetting == null) {
+				//tempSetting = "72";
+				//''}
+
+				//if (lightSetting == null) {
+				//lightSetting = "100";
+				//}
+				DBScheduleTable s = new DBScheduleTable();
+				s.setName(eventName);
+				s.setDescription(" ");
+
+				//end to match Schedule Event Data type
+
+				s.setStartDateTime(startDateTime);
+				s.setEndDateTime(endDateTime);
+				s.setRoomName(eventRoom);
+				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
+				s.setLightIntensity(Integer.parseInt(lightIntensity));
+				eventHandler.fireCreateEvent(s);
+
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
+
+		
 
 	}
 
@@ -364,6 +425,7 @@ public class EditEventScreen implements ActionListener {
 
 		public void keyPressed(KeyEvent e) {
 
+			
 			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
 				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
 				String eventName = eventNameTXT.getText(); 

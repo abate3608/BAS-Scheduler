@@ -111,7 +111,7 @@ public class NewEventScreen implements ActionListener {
 		startDateBtn = new JButton("New button");
 		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
 		newEventPanel.add(startDateBtn);
-		
+
 		eventEndTime = new JLabel("Event End Time");
 		eventEndTime.setBounds(20, 125, 120, 25);
 		eventEndTime.setForeground(Color.blue); //CHANGE Color
@@ -181,7 +181,7 @@ public class NewEventScreen implements ActionListener {
 		cancelButton.setBounds(30, 410, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
-		
+
 	}
 
 	//Event Name Highlight
@@ -362,30 +362,33 @@ public class NewEventScreen implements ActionListener {
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
 
-	private final class SubmitEvent implements ActionListener {
+	public void createEvent(){
 
-		public void actionPerformed(ActionEvent e) {
-			try {
+		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getText().isEmpty() || eventEndTimeTXT.getText().isEmpty() ||
+				eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
+				|| temperatureSettingTXT.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
 
-				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-				String eventName = eventNameTXT.getText(); 
-				String startTime = eventStartTimeTXT.getText(); 
-				String endTime= eventEndTimeTXT.getText(); 
-				String eventDate = eventDateTXT.getText(); 
-				String eventRoom = eventRoomText.getText(); 
-				String lightIntensity = lightSettingTXT.getText(); 
-				String temperatureSetpoint = temperatureSettingTXT.getText(); 
+			newEventWin.setVisible(true); 
 
-				Date startDateTime = null;
-				Date endDateTime = null;
+		}else{
 
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+			
+			String eventName = eventNameTXT.getText(); 
+			String startTime = eventStartTimeTXT.getText(); 
+			String endTime= eventEndTimeTXT.getText(); 
+			String eventDate = eventDateTXT.getText(); 
+			String eventRoom = eventRoomText.getText(); 
+			String lightIntensity = lightSettingTXT.getText(); 
+			String temperatureSetpoint = temperatureSettingTXT.getText(); 
 
 
-				startDateTime = df.parse(eventDate + " " + startTime);
-				endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+
+			try{
+				Date startDateTime = df.parse(eventDate + " " + startTime);
+				Date endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
 
 
 
@@ -408,68 +411,38 @@ public class NewEventScreen implements ActionListener {
 				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
 				s.setLightIntensity(Integer.parseInt(lightIntensity));
 				eventHandler.fireCreateEvent(s);
+				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
 
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
+			catch(ParseException e){
+
+				JOptionPane.showMessageDialog(null,"Date entered is not the correct format"); 
+			}
+
+		}
+	}
+	///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
+
+	private final class SubmitEvent implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			createEvent();
 		}
 
 	}
-
-
 	//Enter Button Press
 	private final class EnterButtonPress extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
-			try {
-				if (e.getKeyCode()== KeyEvent.VK_ENTER) {
-					JOptionPane.showMessageDialog(null, "Submitting New Event Request");
-					String eventName = eventNameTXT.getText(); 
-					String startTime = eventStartTimeTXT.getText(); 
-					String endTime= eventEndTimeTXT.getText(); 
-					String eventDate = eventDateTXT.getText(); 
-					String eventRoom = eventRoomText.getText(); 
-					String lightIntensity = lightSettingTXT.getText(); 
-					String temperatureSetpoint = temperatureSettingTXT.getText(); 
 
-					Date startDateTime = null;
-					Date endDateTime = null;
+			if (e.getKeyCode()== KeyEvent.VK_ENTER) {
 
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// REMOVE SECONDS
-
-
-					startDateTime = df.parse(eventDate + " " + startTime);
-					endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
-
-
-
-					//if (tempSetting == null) {
-					//tempSetting = "72";
-					//''}
-
-					//if (lightSetting == null) {
-					//lightSetting = "100";
-					//}
-					DBScheduleTable s = new DBScheduleTable();
-					s.setName(eventName);
-					s.setDescription(" ");
-
-					//end to match Schedule Event Data type
-
-					s.setStartDateTime(startDateTime);
-					s.setEndDateTime(endDateTime);
-					s.setRoomName(eventRoom);
-					s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
-					s.setLightIntensity(Integer.parseInt(lightIntensity));
-					eventHandler.fireCreateEvent(s);
-				}
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				createEvent();
 			}
 		}
 	}
+
 
 	public EventHandler getEventHandler() {
 		return eventHandler;
@@ -486,35 +459,35 @@ public class NewEventScreen implements ActionListener {
 				//new CalenderScreen();
 				JOptionPane.showMessageDialog(null,"Event Scheduled");
 				newEventWin.dispose();
-		
+
 			}	
-	/*		
+			/*		
 			 else if (err == 1){
-						
+
 			//DO SOMETHING: user user created
 			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a differnet Start Time");
 			}	
-			
+
 			else if (err == 2) {
-						
+
 					//DO SOMETHING: user user created
 			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a differnet End Time");
-					
+
 			} 
-				
+
 			else if (err == 3){
-						
+
 			//DO SOMETHING: user user created
 			JOptionPane.showMessageDialog(null,"Room Conflict, The room that is selected is occupied during this time. Please select a different room");
 			}	
-			
+
 			else if (err == 4){
-				
+
 				//DO SOMETHING: user user created
 				JOptionPane.showMessageDialog(null,"Date Conflict, Please select a different date");
 				}	*/
-				
-			
+
+
 			else			
 			{
 				//need error code for create event
