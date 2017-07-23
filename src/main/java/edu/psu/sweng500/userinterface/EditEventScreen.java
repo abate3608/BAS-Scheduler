@@ -25,7 +25,9 @@ import javax.swing.JTextField;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
+import edu.psu.sweng500.userinterface.NewEventScreen.DateButtonPress;
 import edu.psu.sweng500.userinterface.NewEventScreen.EventQueueListener;
+import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 
 
 public class EditEventScreen implements ActionListener {
@@ -130,6 +132,12 @@ public class EditEventScreen implements ActionListener {
 		eventDateTXT.addKeyListener(new EnterButtonPress());
 		eventDateTXT.addMouseListener(new DateMouseClicked());
 
+		//create button and there object
+	    JButton dateButton = new JButton("Get Date");
+	    dateButton.setBounds(215, 200, 100, 25);
+	    newEventPanel.add(dateButton);
+	    //perform action listener
+	    dateButton.addActionListener(new EditDateButtonPress()) ;
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 225, 160, 25);
@@ -346,6 +354,19 @@ public class EditEventScreen implements ActionListener {
 			temperatureSettingTXT.setBackground(Color.white );
 		}                                         
 	}     	
+	
+	//Date Picker
+			public final class EditDateButtonPress implements ActionListener{
+				
+				public void actionPerformed(ActionEvent arg0) {
+					
+					final JFrame f = new JFrame();
+					//set text which is collected by date picker i.e. set date 
+					eventDateTXT.setText(new DatePicker().setPickedDate());
+					}
+					
+				}
+	
 	
 	// Cnacel Button
 	private final class cancelButtonPress implements ActionListener {
