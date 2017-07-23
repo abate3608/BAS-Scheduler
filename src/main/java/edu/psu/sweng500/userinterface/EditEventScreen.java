@@ -2,6 +2,7 @@ package edu.psu.sweng500.userinterface;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -53,14 +55,20 @@ public class EditEventScreen implements ActionListener {
 	private JButton cancelButton;
 	
 	// Event listeners
-		private final EventHandler eventHandler = EventHandler.getInstance(); /// ADDED 7/22
+	private final EventHandler eventHandler = EventHandler.getInstance(); /// ADDED 7/22
 
+	static ArrayList<DBScheduleTable> schedules = new ArrayList<DBScheduleTable>();
+	List lb = new List();
+	
+	public void setSchedules(ArrayList<DBScheduleTable> schedules) {
+		this.schedules = schedules;
+	}
 	public void actionPerformed(ActionEvent e) {
 		
 		// setup event
 		eventHandler.addListener(new EventQueueListener()); ///// ADDED 7/22
 
-		newEventWin = new JFrame("Global Schedular System New Event");
+		newEventWin = new JFrame("Global Schedular System Edit Event");
 		newEventWin.setSize(525, 505);
 		newEventWin.setLocationRelativeTo(null);
 		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -78,11 +86,30 @@ public class EditEventScreen implements ActionListener {
 
 	private final void newuserLayout(JPanel newEventPanel) {
 
+		int width = 140;
 		newEventPanel.setLayout(null);
+
+		newEventPanel.setBorder(BorderFactory.createTitledBorder("Edit An Existing Event"));
+		newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
+	    
+	    
+	    for(DBScheduleTable s : schedules) {
+	    	lb.add(s.getName());
+	    }
+	    
+	    lb.setBounds(20, 25, 300, 400);
+	    lb.addMouseListener(new lbMouseClicked());
+	    newEventPanel.add(lb);
+	    
+		/*eventName = new JLabel("Event Name");
+		eventName.setBounds(250, 25, 90, 25);
+		eventName.setForeground(Color.blue); //CHANGE Color
+=======
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
 
 		eventName = new JLabel("Event Name");
 		eventName.setBounds(20, 25, 90, 25);
+>>>>>>> branch 'master' of https://github.com/abate3608/BAS-Scheduler.git
 		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventName);
 
@@ -91,95 +118,101 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.add(eventNameTXT);
 		eventNameTXT.addKeyListener(new EnterButtonPress());
 		eventNameTXT.addMouseListener(new EventMouseClicked());
-
+*/
 		eventStartTime = new JLabel("Event Start Time");
-		eventStartTime.setBounds(20, 75, 120, 25);
+		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
+		eventStartTime.setForeground(Color.blue); //CHANGE Color
 		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 		
 
 		eventStartTimeTXT = new JTextField(20);
-		eventStartTimeTXT.setBounds(20, 100, 160, 25);
+		eventStartTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
 		newEventPanel.add(eventStartTimeTXT);
 		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
 		eventStartTimeTXT.addMouseListener(new StartMouseClicked());
 		
 
 		eventEndTime = new JLabel("Event End Time");
-		eventEndTime.setBounds(20, 125, 120, 25);
+		eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTimeTXT.getY() + 25, width, 25);
+		eventEndTime.setForeground(Color.blue); //CHANGE Color
 		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
 		eventEndTimeTXT = new JTextField(20);
-		eventEndTimeTXT.setBounds(20, 150, 160, 25);
+		eventEndTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
 		newEventPanel.add(eventEndTimeTXT);
 		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
 		eventEndTimeTXT.addMouseListener(new EndMouseClicked());
 
 		eventDate = new JLabel("Date of Event");
-		eventDate.setBounds(20, 175, 100, 25);
+		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
+		eventDate.setForeground(Color.blue); //CHANGE Color
 		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
-		eventDateTXT.setBounds(20, 200, 160, 25);
+		eventDateTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventDate.getY() + 25, width, 25);
 		newEventPanel.add(eventDateTXT);
 		eventDateTXT.addKeyListener(new EnterButtonPress());
 		eventDateTXT.addMouseListener(new DateMouseClicked());
 
 		//create button and there object
-	    JButton dateButton = new JButton("Get Date");
-	    dateButton.setBounds(215, 200, 100, 25);
+	    JButton dateButton = new JButton("+");
+	    dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
 	    newEventPanel.add(dateButton);
 	    //perform action listener
 	    dateButton.addActionListener(new EditDateButtonPress()) ;
 
 		eventRoom = new JLabel("Event Room");
-		eventRoom.setBounds(20, 225, 160, 25);
+		eventRoom.setBounds(lb.getWidth() + lb.getX() + 10, eventDateTXT.getY() + 25, width, 25);
+		eventRoom.setForeground(Color.blue); //CHANGE Color
 		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
-		eventRoomText.setBounds(20, 250, 160, 25);
+		eventRoomText.setBounds(lb.getWidth() + lb.getX() + 10, eventRoom.getY() + 25, width, 25);
 		newEventPanel.add(eventRoomText);
 		eventRoomText.addKeyListener(new EnterButtonPress());
 		eventRoomText.addMouseListener(new RoomMouseClicked());
 
 		lightSetting = new JLabel("Light Setting");
-		lightSetting.setBounds(20, 275, 160, 25);
+		lightSetting.setBounds(lb.getWidth() + lb.getX() + 10, eventRoomText.getY() + 25, width, 25);
+		lightSetting.setForeground(Color.blue); //CHANGE Color
 		lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
-		lightSettingTXT.setBounds(20, 300, 160, 25);
+		lightSettingTXT.setBounds(lb.getWidth() + lb.getX() + 10, lightSetting.getY() + 25, width, 25);
 		newEventPanel.add(lightSettingTXT);
 		lightSettingTXT.addKeyListener(new EnterButtonPress());
 		lightSettingTXT.addMouseListener(new LightMouseClicked());
 
 		temperatureSetting = new JLabel("Temperature Setting");
-		temperatureSetting.setBounds(20, 325, 160, 25);
+		temperatureSetting.setBounds(lb.getWidth() + lb.getX() + 10, lightSettingTXT.getY() + 25, width, 25);
+		temperatureSetting.setForeground(Color.blue); //CHANGE Color
 		temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
-		temperatureSettingTXT.setBounds(20, 350, 160, 25);
+		temperatureSettingTXT.setBounds(lb.getWidth() + lb.getX() + 10, temperatureSetting.getY() + 25, width, 25);
 		newEventPanel.add(temperatureSettingTXT);
 		temperatureSettingTXT.addKeyListener(new EnterButtonPress());
 		temperatureSettingTXT.addMouseListener(new TempMouseClicked());
 
 
-		getButton = new JButton("Get Event Details");
+		/*getButton = new JButton("Get Event Details");
 		getButton.setBounds(340, 50, 140, 25);
 		newEventPanel.add(getButton);
-		getButton.addActionListener(new getEvent());
+		getButton.addActionListener(new getEvent());*/
 
 		editEventButton = new JButton("Edit Event");
-		editEventButton.setBounds(30, 380, 140, 25);
+		editEventButton.setBounds(lb.getWidth() + lb.getX() + 10, temperatureSettingTXT.getY() + 50, 140, 25);
 		newEventPanel.add(editEventButton);
 		editEventButton.addActionListener(new editEvent());
 
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(30, 410, 140, 25);
+		cancelButton.setBounds(lb.getWidth() + lb.getX() + 10, editEventButton.getY() + 30, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 	}
@@ -207,6 +240,43 @@ public class EditEventScreen implements ActionListener {
 		}                                         
 	}    
 
+	
+	//list box clicked
+	public final class lbMouseClicked implements MouseListener{
+
+		public void mouseClicked(MouseEvent arg0) {		
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+			
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+					
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+					
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
+			String name = lb.getSelectedItem();
+			
+			for(DBScheduleTable s : schedules) {
+		    	if (name.equalsIgnoreCase(s.getName())) {
+		    		eventStartTimeTXT.setText(s.getStartDateTime().toString());
+		    		eventEndTimeTXT.setText(s.getEndDateTime().toString());
+		    		eventDateTXT.setText(s.getStartDateTime().toString());
+		    		eventRoomText.setText(s.getRoomName());
+		    		lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
+		    		temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
+		    		
+		    	}
+		    }
+			
+		}                                         
+	} 
+	
 	//Event Start Time Highlight
 	public final class StartMouseClicked implements MouseListener{
 
@@ -462,7 +532,10 @@ public class EditEventScreen implements ActionListener {
 	private final class getEvent implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null, "Retrieving Event Information");
+			//JOptionPane.showMessageDialog(null, "Retrieving Event Information");
+			
+			
+			
 		}
 
 	}
