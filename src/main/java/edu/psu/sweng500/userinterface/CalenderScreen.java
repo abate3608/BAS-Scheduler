@@ -50,6 +50,8 @@ public class CalenderScreen {
 	static int getYear;
 	static int getMonth;
 	
+	private static Color bgTan = new Color(248, 242, 236);
+	private static Color calendarBlue = new Color(230, 230, 255);
 	static JPanel calendar; // Added
 	//static JPanel weatherPanel;  // Added
 
@@ -82,30 +84,25 @@ public class CalenderScreen {
 		panelLayout.setVisible(true);
 
 		windowLayout = panelLayout.getContentPane();
-		windowLayout.setBackground(new Color(218, 247, 159)); // Added SET COLOR
 		windowLayout.setLayout(null); // "NULL" LAYOUT
 		
 		temperature = new JLabel ("Temperature");
 		temperature.setBounds(300, 50, 400, 30); // Location
 		temperature.setFont(new Font("Arial",Font.ITALIC,20)); // FONT
-		temperature.setForeground(Color.blue);  // Color
 		
 		
 		humidity = new JLabel ("Humidity");
 		humidity.setBounds(1100, 50, 200, 30); // Location
 		humidity.setFont(new Font("Arial",Font.ITALIC,20)); // Font
-		humidity.setForeground(Color.blue);  // Color
 		
 		
 		loginStatus = new JLabel ("User: ");
 		loginStatus.setFont(new Font("Arial",Font.ITALIC,20)); // Font
 		loginStatus.setBounds(15, 30, 180, 30); // Location
-		loginStatus.setForeground(Color.blue);  // Color
 		
 		yearTxt = new JLabel ("Change Year:"); 
 		yearTxt.setFont(new Font("Arial",Font.ITALIC,20)); // Font
 		yearTxt.setBounds(1045, 135, 180, 30); // Location
-		yearTxt.setForeground(Color.blue);  // Color
 
 		
 		monthName = new JLabel("January");
@@ -143,7 +140,7 @@ public class CalenderScreen {
 		calendar = new JPanel(null);
 		calendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
 		calendar.setBounds(295, 170, 1040, 520);
-		calendar.setBackground(new Color(250, 247, 160));
+		calendar.setBackground( bgTan );
 		calendar.setLayout(new BoxLayout(calendar,BoxLayout.PAGE_AXIS)); 
 		calendar.add(calenderScroll);
 
@@ -180,7 +177,7 @@ public class CalenderScreen {
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
-		roomPanel.setBackground(new Color(250, 247, 160));
+		roomPanel.setBackground( bgTan );
 		roomPanel.setBounds(16, 170, 280, 520);
 		roomPanel.setLayout(new BoxLayout(roomPanel,BoxLayout.PAGE_AXIS)); 
 
@@ -311,7 +308,6 @@ public class CalenderScreen {
 		monthName.setText(monthNames[month]);
 		monthName.setFont(new Font("Arial",Font.ITALIC,30)); 
 		monthName.setBounds(750, 135, 180, 30); 
-		monthName.setForeground(Color.blue);  
 		
 		calendarYear.setSelectedItem(String.valueOf(year));
 		// Clear table
@@ -380,7 +376,7 @@ public class CalenderScreen {
 					// to
 					// schedule
 					// events
-					setBackground(new Color(220, 220, 255));
+					setBackground(calendarBlue);
 				}
 			}
 			setBorder(null);
@@ -474,14 +470,13 @@ public class CalenderScreen {
 					
 					JPanel eventPNL = new JPanel(null);
 					eventPNL.setBorder(BorderFactory.createTitledBorder("Event"));
-					eventPNL.setBackground(new Color(244, 252, 196)); 
+					eventPNL.setBackground( calendarBlue ); 
 					eventPNL.setBounds(16, 300, 280, 390);
 					eventPNL.setLayout(new BoxLayout(eventPNL,BoxLayout.PAGE_AXIS)); 
 					
 					JLabel events = new JLabel(eventDes);
 					//events.setBounds(20, 200, 100, 200);
 					events.setFont(new Font("Arial",Font.ITALIC,12)); 
-					events.setForeground(Color.blue);  
 					eventPNL.add(events);
 					roomPanel.add(eventPNL);
 					 }
