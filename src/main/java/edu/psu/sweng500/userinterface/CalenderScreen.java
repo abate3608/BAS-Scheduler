@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
+import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
 import edu.psu.sweng500.userinterface.CalenderScreen.backBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.logOutBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.nextBTNPress;
@@ -271,6 +272,14 @@ public class CalenderScreen {
 		
 		
 		JMenuItem configMenuXMLItem = new JMenuItem("XML Importer");
+		configMenuXMLItem.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new ScheduleImporterConfigMenu();
+			}
+		});
 		configMenu.add(configMenuXMLItem);
 		JMenuItem configMenuApiItem = new JMenuItem("API");
 		configMenu.add(configMenuApiItem);
