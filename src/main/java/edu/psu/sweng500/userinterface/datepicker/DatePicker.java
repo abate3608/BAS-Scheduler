@@ -28,6 +28,7 @@ public class DatePicker {
 	                d.setModal(true);
 	                //define string
 	                String[] header = { "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat" };
+	            
 	                //create JPanel object and set layout
 	                JPanel p1 = new JPanel(new GridLayout(7, 7));
 	                //set size
@@ -42,7 +43,7 @@ public class DatePicker {
 	                        //set focus painted false
 	                        button[x].setFocusPainted(false);
 	                        //set background colour
-	                        button[x].setBackground(Color.white);
+	                        button[x].setBackground(Color.white); // CHANGE BACKGROUND COLOR
 	                        //if loop condition
 	                        if (x > 6)
 	                        //add action listener
@@ -59,7 +60,8 @@ public class DatePicker {
 	                        {
 	                                button[x].setText(header[x]);
 	                                //set fore ground colour
-	                                button[x].setForeground(Color.red);
+	                                button[x].setForeground(Color.blue);
+	                                button[x].setFont(new Font("Arial",Font.BOLD,12));//CHANGE Color
 	                        }
 	                        p1.add(button[x]);//add button
 	                }
@@ -124,7 +126,7 @@ public class DatePicker {
 	        	button[x].setText("" + day);
 	        	l.setText(sdf.format(cal.getTime()));
 	        	//set title
-	        	d.setTitle("Date Picker");
+	        	d.setTitle("Select Date"); // Changed
 	        }
 	 
 	        public String setPickedDate() 

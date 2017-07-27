@@ -22,6 +22,7 @@ import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
+import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 
 public class NewEventScreen implements ActionListener {
 
@@ -42,10 +43,13 @@ public class NewEventScreen implements ActionListener {
 	private JTextField lightSettingTXT;
 	private JTextField temperatureSettingTXT;
 
-	private JButton startDateBtn;
+	//private JButton startDateBtn;
 	private JButton newEventButton;
 	private JButton cancelButton;
-
+	private TimePicker timeStart;
+	private TimePicker timeEnd;
+	
+	
 	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	// Event listeners
@@ -92,28 +96,36 @@ public class NewEventScreen implements ActionListener {
 		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 
-		eventStartTimeTXT = new JTextField(); // CHANGED 
-		eventStartTimeTXT.setBounds(20, 100, 160, 25);
-		eventStartTimeTXT.setColumns(10);
-		newEventPanel.add(eventStartTimeTXT);
-		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
-		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
-
-		startDateBtn = new JButton("New button");
-		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
-		newEventPanel.add(startDateBtn);
+//		eventStartTimeTXT = new JTextField(); // CHANGED 
+//		eventStartTimeTXT.setBounds(20, 100, 160, 25);
+//		eventStartTimeTXT.setColumns(10);
+//		newEventPanel.add(eventStartTimeTXT);
+//		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
+//		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
+		
+		timeStart = new TimePicker();
+		timeStart.setBounds(20, 100, 160, 25); //Location
+		 newEventPanel.add(timeStart);
+		
+//		startDateBtn = new JButton("New button");
+//		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
+//		newEventPanel.add(startDateBtn);
 
 		eventEndTime = new JLabel("Event End Time");
 		eventEndTime.setBounds(20, 125, 120, 25);
 		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
-		eventEndTimeTXT = new JTextField(20);
-		eventEndTimeTXT.setBounds(20, 150, 160, 25);
-		newEventPanel.add(eventEndTimeTXT);
-		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
-		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);
+//		eventEndTimeTXT = new JTextField(20);
+//		eventEndTimeTXT.setBounds(20, 150, 160, 25);
+//		newEventPanel.add(eventEndTimeTXT);
+//		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
+//		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);
 
+		timeEnd = new TimePicker();
+		timeEnd.setBounds(20, 150, 160, 25); //Location
+		 newEventPanel.add(timeEnd);
+		
 		eventDate = new JLabel("Date of Event");
 		eventDate.setBounds(20, 175, 100, 25);
 		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
@@ -194,8 +206,8 @@ public class NewEventScreen implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			eventNameTXT.setText(null);
-			eventStartTimeTXT.setText(null);
-			eventEndTimeTXT.setText(null);
+			//eventStartTimeTXT.setText(null);
+		//	eventEndTimeTXT.setText(null);
 			eventDateTXT.setText(null);
 			eventRoomText.setText(null);
 			lightSettingTXT.setText(null);
@@ -207,8 +219,7 @@ public class NewEventScreen implements ActionListener {
 
 	public void createEvent(){
 
-		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getText().isEmpty() || eventEndTimeTXT.getText().isEmpty() ||
-				eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
+		if(eventNameTXT.getText().isEmpty() || eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
 				|| temperatureSettingTXT.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
 
@@ -216,10 +227,12 @@ public class NewEventScreen implements ActionListener {
 
 		}else{
 
-
+			DateFormat clockStart = new SimpleDateFormat("HH:mm:ss");
+			DateFormat clockEnd = new SimpleDateFormat("HH:mm:ss");
+			
 			String eventName = eventNameTXT.getText(); 
-			String startTime = eventStartTimeTXT.getText(); 
-			String endTime= eventEndTimeTXT.getText(); 
+			String startTime = clockStart.format((Date)timeStart.getSelectedItem());
+			String endTime= clockEnd.format((Date)timeEnd.getSelectedItem());
 			String eventDate = eventDateTXT.getText(); 
 			String eventRoom = eventRoomText.getText(); 
 			String lightIntensity = lightSettingTXT.getText(); 
