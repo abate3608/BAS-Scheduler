@@ -266,7 +266,7 @@ public class NewEventScreen implements ActionListener {
 				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
 				s.setLightIntensity(Integer.parseInt(lightIntensity));
 				eventHandler.fireCreateEvent(s);
-				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
+			//	JOptionPane.showMessageDialog(null, "Submitting New Event Request");
 
 			}
 			catch(ParseException e){
