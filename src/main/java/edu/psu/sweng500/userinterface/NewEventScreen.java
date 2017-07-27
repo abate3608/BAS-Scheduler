@@ -320,13 +320,13 @@ public class NewEventScreen implements ActionListener {
 			 else if (err == 1){
 
 			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a differnet Start Time");
+			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a different Start Time");
 			}	
 
 			else if (err == 2) {
 
 					//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a differnet End Time");
+			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a different End Time");
 
 			} 
 
