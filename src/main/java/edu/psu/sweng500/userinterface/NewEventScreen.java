@@ -33,6 +33,7 @@ public class NewEventScreen implements ActionListener {
 	private JLabel eventEndTime;
 	private JLabel eventDate;
 	private JLabel eventRoom;
+	private JLabel endDate;
 	private JLabel lightSetting;
 	private JLabel temperatureSetting;
 	private JTextField eventNameTXT;
@@ -42,7 +43,7 @@ public class NewEventScreen implements ActionListener {
 	private JTextField eventRoomText;
 	private JTextField lightSettingTXT;
 	private JTextField temperatureSettingTXT;
-
+	private JTextField endEventDateTXT;
 	//private JButton startDateBtn;
 	private JButton newEventButton;
 	private JButton cancelButton;
@@ -62,7 +63,7 @@ public class NewEventScreen implements ActionListener {
 
 
 		newEventWin = new JFrame("Global Schedular System New Event");
-		newEventWin.setSize(360, 505);
+		newEventWin.setSize(360, 555);
 		newEventWin.setLocationRelativeTo(null);
 		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -126,8 +127,8 @@ public class NewEventScreen implements ActionListener {
 		timeEnd.setBounds(20, 150, 160, 25); //Location
 		 newEventPanel.add(timeEnd);
 		
-		eventDate = new JLabel("Date of Event");
-		eventDate.setBounds(20, 175, 100, 25);
+		eventDate = new JLabel("Start Date of Event");
+		eventDate.setBounds(20, 175, 160, 25);
 		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
 
@@ -138,65 +139,96 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-		JButton dateButton = new JButton("Get Date");
+		JButton dateButton = new JButton("Start Date");
 		dateButton.setBounds(215, 200, 100, 25);
 		newEventPanel.add(dateButton);
 		//perform action listener
-		dateButton.addActionListener(new DateButtonPress()) ;
+		dateButton.addActionListener(new StartDateButtonPress()) ;
 
+		
+		endDate = new JLabel("End Date of Event");
+		endDate.setBounds(20, 225, 160, 25);
+		endDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		newEventPanel.add(endDate);
+		
+		endEventDateTXT = new JTextField(20);
+		endEventDateTXT.setBounds(20, 250, 160, 25);
+		newEventPanel.add(endEventDateTXT);
+		endEventDateTXT.addKeyListener(new EnterButtonPress());
+		endEventDateTXT.addFocusListener(HIGHLIGHTER);
+		
+		//create button and there object
+		JButton enddateButton = new JButton("End Date");
+		enddateButton.setBounds(215, 250, 100, 25);
+		newEventPanel.add(enddateButton);
+		//perform action listener
+		enddateButton.addActionListener(new EndDateButtonPress()) ;
+		
 
 		eventRoom = new JLabel("Event Room");
-		eventRoom.setBounds(20, 225, 160, 25);
+		eventRoom.setBounds(20, 275, 160, 25);
 		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
-		eventRoomText.setBounds(20, 250, 160, 25);
+		eventRoomText.setBounds(20, 300, 160, 25);
 		newEventPanel.add(eventRoomText);
 		eventRoomText.addKeyListener(new EnterButtonPress());
 		eventRoomText.addFocusListener(HIGHLIGHTER);
 
 		lightSetting = new JLabel("Light Setting");
-		lightSetting.setBounds(20, 275, 160, 25);
+		lightSetting.setBounds(20, 325, 160, 25);
 		lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
-		lightSettingTXT.setBounds(20, 300, 160, 25);
+		lightSettingTXT.setBounds(20, 350, 160, 25);
 		newEventPanel.add(lightSettingTXT);
 		lightSettingTXT.addKeyListener(new EnterButtonPress());
 		lightSettingTXT.addFocusListener(HIGHLIGHTER);
 
 		temperatureSetting = new JLabel("Temperature Setting");
-		temperatureSetting.setBounds(20, 325, 160, 25);
+		temperatureSetting.setBounds(20, 375, 160, 25);
 		temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
-		temperatureSettingTXT.setBounds(20, 350, 160, 25);
+		temperatureSettingTXT.setBounds(20, 400, 160, 25);
 		newEventPanel.add(temperatureSettingTXT);
 		temperatureSettingTXT.addKeyListener(new EnterButtonPress());
 		temperatureSettingTXT.addFocusListener(HIGHLIGHTER);
 
 		newEventButton = new JButton("Submit Request");
-		newEventButton.setBounds(30, 380, 140, 25);
+		newEventButton.setBounds(30, 430, 140, 25);
 		newEventPanel.add(newEventButton);
 		newEventButton.addActionListener(new SubmitEvent());
 
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(30, 410, 140, 25);
+		cancelButton.setBounds(30, 460, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 
 	}
 
 	//Date Picker
-	public final class DateButtonPress implements ActionListener{
+	public final class StartDateButtonPress implements ActionListener{
 
 		public void actionPerformed(ActionEvent arg0) {
 
 			//set text which is collected by date picker i.e. set date 
 			eventDateTXT.setText(new DatePicker().setPickedDate());
+			
+		}
+
+	}
+	
+	public final class EndDateButtonPress implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+
+			//set text which is collected by date picker i.e. set date 
+			endEventDateTXT.setText(new DatePicker().setPickedDate());
+			
 		}
 
 	}
@@ -209,6 +241,7 @@ public class NewEventScreen implements ActionListener {
 			//eventStartTimeTXT.setText(null);
 		//	eventEndTimeTXT.setText(null);
 			eventDateTXT.setText(null);
+			endEventDateTXT.setText(null);
 			eventRoomText.setText(null);
 			lightSettingTXT.setText(null);
 			temperatureSettingTXT.setText(null);
@@ -234,6 +267,7 @@ public class NewEventScreen implements ActionListener {
 			String startTime = clockStart.format((Date)timeStart.getSelectedItem());
 			String endTime= clockEnd.format((Date)timeEnd.getSelectedItem());
 			String eventDate = eventDateTXT.getText(); 
+			String endeventDate = endEventDateTXT.getText();
 			String eventRoom = eventRoomText.getText(); 
 			String lightIntensity = lightSettingTXT.getText(); 
 			String temperatureSetpoint = temperatureSettingTXT.getText(); 
@@ -243,7 +277,7 @@ public class NewEventScreen implements ActionListener {
 
 			try{
 				Date startDateTime = df.parse(eventDate + " " + startTime);
-				Date endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+				Date endDateTime = df.parse(endeventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
 
 
 
