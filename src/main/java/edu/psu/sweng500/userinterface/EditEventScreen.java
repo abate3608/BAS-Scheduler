@@ -15,10 +15,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,8 +47,8 @@ public class EditEventScreen implements ActionListener {
 	private JLabel lightSetting;
 	private JLabel temperatureSetting;
 	private JTextField eventNameTXT;
-	private JTextField eventStartTimeTXT;
-	private JTextField eventEndTimeTXT;
+	private JComboBox eventStartTimeTXT;
+	private JComboBox eventEndTimeTXT;
 	private JTextField eventDateTXT;
 	private JTextField eventRoomText; 
 	private JTextField lightSettingTXT;
@@ -83,7 +85,7 @@ public class EditEventScreen implements ActionListener {
 
 		newEventWin.setVisible(true);
 
-		JOptionPane.showMessageDialog(null, "Enter Event Name and Press 'Get Event Details Button'");
+		//JOptionPane.showMessageDialog(null, "Enter Event Name and Press 'Get Event Details Button'");
 	}
 
 	private final void newuserLayout(JPanel newEventPanel) {
@@ -94,33 +96,70 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Edit An Existing Event"));
 		newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
 
-
+		lb.clear();
 		for(DBScheduleTable s : schedules) {
 			lb.add(s.getName());
 		}
+		
 
+		String[] timeList = {
+				 "0:30",
+		         "1:00",
+		         "1:30",
+		         "2:00",
+		         "2:30",
+		         "3:00",
+		         "3:30",
+		         "4:00",
+		         "4:30",
+		         "5:00",
+		         "5:30",
+		         "6:00",
+		         "6:30",
+		         "7:00",
+		         "7:30",
+		         "8:00",
+		         "8:30",
+		         "9:00",
+		         "9:30",
+		         "10:00",
+		         "10:30",
+		         "11:00",
+		         "11:30",
+		         "12:00",
+		         "12:30",
+		         "13:00",
+		         "13:30",
+		         "14:00",
+		         "14:30",
+		         "15:00",
+		         "15:30",
+		         "16:00",
+		         "16:30",
+		         "17:00",
+		         "17:30",
+		         "18:00",
+		         "18:30",
+		         "19:00",
+		         "19:30",
+		         "20:00",
+		         "20:30",
+		         "21:00",
+		         "21:30",
+		         "22:00",
+		         "22:30",
+		         "23:00",
+		         "23:30",
+		         "24:00"
+		     
+		};
+
+		
+		
 		lb.setBounds(20, 25, 300, 400);
 		lb.addMouseListener(new lbMouseClicked());
 		newEventPanel.add(lb);
 
-		/*eventName = new JLabel("Event Name");
-		eventName.setBounds(250, 25, 90, 25);
-		eventName.setForeground(Color.blue); //CHANGE Color
-=======
-		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
-
-		eventName = new JLabel("Event Name");
-		eventName.setBounds(20, 25, 90, 25);
->>>>>>> branch 'master' of https://github.com/abate3608/BAS-Scheduler.git
-		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
-		newEventPanel.add(eventName);
-
-		eventNameTXT = new JTextField(20);
-		eventNameTXT.setBounds(20, 50, 300, 25);
-		newEventPanel.add(eventNameTXT);
-		eventNameTXT.addKeyListener(new EnterButtonPress());
-		eventNameTXT.addMouseListener(new EventMouseClicked());
-		 */
 		eventStartTime = new JLabel("Event Start Time");
 		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
 		eventStartTime.setForeground(Color.blue); //CHANGE Color
@@ -128,7 +167,9 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.add(eventStartTime);
 
 
-		eventStartTimeTXT = new JTextField(20);
+		//eventStartTimeTXT = new JTextField(20);
+		eventStartTimeTXT = new JComboBox(timeList);
+		eventStartTimeTXT.setEditable(true);
 		eventStartTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
 		newEventPanel.add(eventStartTimeTXT);
 		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
@@ -141,7 +182,9 @@ public class EditEventScreen implements ActionListener {
 		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
-		eventEndTimeTXT = new JTextField(20);
+		//eventEndTimeTXT = new JTextField(20);
+		eventEndTimeTXT = new JComboBox(timeList);
+		eventEndTimeTXT.setEditable(true);
 		eventEndTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
 		newEventPanel.add(eventEndTimeTXT);
 		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
@@ -217,8 +260,29 @@ public class EditEventScreen implements ActionListener {
 		cancelButton.setBounds(lb.getWidth() + lb.getX() + 10, editEventButton.getY() + 30, 140, 25);
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
+		
+		lb.select(0);
+		populateEditFields();
+		
 	}
 
+	private void populateEditFields() {
+		String name = lb.getSelectedItem();
+
+		for(DBScheduleTable s : schedules) {
+			if (name.equalsIgnoreCase(s.getName())) {
+				DateFormat dateFormat = new SimpleDateFormat("H:mm");
+				
+				eventStartTimeTXT.getEditor().setItem(dateFormat.format(s.getStartDateTime()));
+				eventEndTimeTXT.getEditor().setItem(dateFormat.format(s.getEndDateTime()));
+				eventDateTXT.setText(s.getStartDateTime().toString());
+				eventRoomText.setText(s.getRoomName());
+				lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
+				temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
+
+			}
+		}
+	}
 	//list box clicked
 	public final class lbMouseClicked implements MouseListener{
 
@@ -238,19 +302,7 @@ public class EditEventScreen implements ActionListener {
 		}
 
 		public void mouseReleased(MouseEvent arg0) {
-			String name = lb.getSelectedItem();
-
-			for(DBScheduleTable s : schedules) {
-				if (name.equalsIgnoreCase(s.getName())) {
-					eventStartTimeTXT.setText(s.getStartDateTime().toString());
-					eventEndTimeTXT.setText(s.getEndDateTime().toString());
-					eventDateTXT.setText(s.getStartDateTime().toString());
-					eventRoomText.setText(s.getRoomName());
-					lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
-					temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
-
-				}
-			}
+			populateEditFields();
 
 		}                                         
 	} 
@@ -280,7 +332,7 @@ public class EditEventScreen implements ActionListener {
 
 	public void editedEvent(){
 
-		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getText().isEmpty() || eventEndTimeTXT.getText().isEmpty() ||
+		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getSelectedItem().toString().isEmpty() || eventEndTimeTXT.getSelectedItem().toString().isEmpty() ||
 				eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
 				|| temperatureSettingTXT.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
@@ -291,8 +343,8 @@ public class EditEventScreen implements ActionListener {
 
 
 			String eventName = eventNameTXT.getText(); 
-			String startTime = eventStartTimeTXT.getText(); 
-			String endTime= eventEndTimeTXT.getText(); 
+			String startTime = eventStartTimeTXT.getSelectedItem().toString(); 
+			String endTime= eventEndTimeTXT.getSelectedItem().toString(); 
 			String eventDate = eventDateTXT.getText(); 
 			String eventRoom = eventRoomText.getText(); 
 			String lightIntensity = lightSettingTXT.getText(); 
