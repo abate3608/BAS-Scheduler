@@ -100,13 +100,12 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.setLayout(null);
 
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Edit An Existing Event"));
-		newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
+		//newEventPanel.setBackground(new Color(218, 247, 159)); //CHANGE Color
 
 		lb.clear();
 		for(DBScheduleTable s : schedules) {
 			lb.add(s.getName());
-			lb.setForeground(Color.blue); //CHANGE Color ///////////////////////////////////////////////////Changed 7/29
-			lb.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color /////////////////////////////////////Changed 7/29
+			
 		}
 		
 
@@ -164,7 +163,6 @@ public class EditEventScreen implements ActionListener {
 
 		
 		lb.setBounds(20, 25, 150, 300); ///////////////////////////////////////////////////////////////////CHANGED 7/29
-		//lb.setBounds(20, 25, 300, 400);
 		lb.addMouseListener(new lbMouseClicked());
 		newEventPanel.add(lb);
 
@@ -172,7 +170,6 @@ public class EditEventScreen implements ActionListener {
 
 		eventName = new JLabel("Event Name");
 		eventName.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
-		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventName);
 
 		eventNameTXT = new JTextField(20);
@@ -185,8 +182,6 @@ public class EditEventScreen implements ActionListener {
 		
 		eventStartTime = new JLabel("Event Start Time");
 		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, eventNameTXT.getY() + 25, width, 25);
-		eventStartTime.setForeground(Color.blue); //CHANGE Color
-		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 
 
@@ -208,8 +203,6 @@ public class EditEventScreen implements ActionListener {
 		eventEndTime = new JLabel("Event End Time");
 		//eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTimeTXT.getY() + 25, width, 25);
 		eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, timeStart.getY() + 25, width, 25); /////////////////////////CHANGED 7/29
-		eventEndTime.setForeground(Color.blue); //CHANGE Color
-		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
 		/*//eventEndTimeTXT = new JTextField(20);
@@ -228,8 +221,6 @@ public class EditEventScreen implements ActionListener {
 		eventDate = new JLabel("Date of Event");
 		//eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
 		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, timeEnd.getY() + 25, 100, 25); ////////////////////CHANGED 7/29
-		eventDate.setForeground(Color.blue); //CHANGE Color
-		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
@@ -249,8 +240,6 @@ public class EditEventScreen implements ActionListener {
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(lb.getWidth() + lb.getX() + 10, eventDateTXT.getY() + 25, width, 25);
-		eventRoom.setForeground(Color.blue); //CHANGE Color
-		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
@@ -261,8 +250,6 @@ public class EditEventScreen implements ActionListener {
 
 		lightSetting = new JLabel("Light Setting");
 		lightSetting.setBounds(lb.getWidth() + lb.getX() + 10, eventRoomText.getY() + 25, width, 25);
-		lightSetting.setForeground(Color.blue); //CHANGE Color
-		lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
@@ -273,8 +260,6 @@ public class EditEventScreen implements ActionListener {
 
 		temperatureSetting = new JLabel("Temperature Setting");
 		temperatureSetting.setBounds(lb.getWidth() + lb.getX() + 10, lightSettingTXT.getY() + 25, width, 25);
-		temperatureSetting.setForeground(Color.blue); //CHANGE Color
-		temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
