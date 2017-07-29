@@ -44,7 +44,11 @@ public class EditEventScreen implements ActionListener {
 	private JLabel eventRoom;
 	private JLabel lightSetting;
 	private JLabel temperatureSetting;
+	
+	private JLabel eventName;
 	private JTextField eventNameTXT;
+	
+	
 	private JComboBox eventStartTimeTXT;
 	private JComboBox eventEndTimeTXT;
 	private JTextField eventDateTXT;
@@ -79,7 +83,7 @@ public class EditEventScreen implements ActionListener {
 		newEventWin.setLocationRelativeTo(null);
 		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		newEventWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		newEventWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		newEventPane = new JPanel();
 		newEventWin.add(newEventPane);
@@ -164,8 +168,23 @@ public class EditEventScreen implements ActionListener {
 		lb.addMouseListener(new lbMouseClicked());
 		newEventPanel.add(lb);
 
+		
+
+		eventName = new JLabel("Event Name");
+		eventName.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
+		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		newEventPanel.add(eventName);
+
+		eventNameTXT = new JTextField(20);
+		eventNameTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventName.getY() + 25, width, 25);
+		newEventPanel.add(eventNameTXT);
+		eventNameTXT.addKeyListener(new EnterButtonPress());
+		//eventNameTXT.addMouseListener(new EventMouseClicked());
+		 
+		
+		
 		eventStartTime = new JLabel("Event Start Time");
-		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, lb.getY(), 120, 25);
+		eventStartTime.setBounds(lb.getWidth() + lb.getX() + 10, eventNameTXT.getY() + 25, width, 25);
 		eventStartTime.setForeground(Color.blue); //CHANGE Color
 		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
@@ -295,6 +314,10 @@ public class EditEventScreen implements ActionListener {
 				//eventStartTimeTXT.getEditor().setItem(dateFormat.format(s.getStartDateTime()));
 				//eventEndTimeTXT.getEditor().setItem(dateFormat.format(s.getEndDateTime()));
 				
+				
+				eventNameTXT.setText(s.getName());
+				
+				
 				timeStart.setSelectedItem(s.getStartDateTime()); ///////////////////////////////CHANGED 7/29
 				timeEnd.setSelectedItem(s.getStartDateTime()); /////////////////////////////////CHANGED 7/29
 				
@@ -370,7 +393,8 @@ public class EditEventScreen implements ActionListener {
 			DateFormat clockStart = new SimpleDateFormat("HH:mm:ss"); ///////////////////////////////////////CHANGED 7/29
 			DateFormat clockEnd = new SimpleDateFormat("HH:mm:ss"); /////////////////////////////////////////Changed 7/29
 
-			//String eventName = eventNameTXT.getText(); ////////////////////////////////////////////////CHANGED 7/29
+			String eventName = eventNameTXT.getText(); ////////////////////////////////////////////////CHANGED 7/29
+			
 			//String startTime = eventStartTimeTXT.getSelectedItem().toString(); 
 			//String endTime= eventEndTimeTXT.getSelectedItem().toString(); 
 			
@@ -398,7 +422,8 @@ public class EditEventScreen implements ActionListener {
 				//lightSetting = "100";
 				//}
 				DBScheduleTable s = new DBScheduleTable();
-				//s.setName(eventName);
+				
+				s.setName(eventName);
 				s.setDescription(" ");
 
 				//end to match Schedule Event Data type

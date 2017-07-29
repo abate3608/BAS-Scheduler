@@ -65,7 +65,7 @@ public class NewEventScreen implements ActionListener {
 		newEventWin.setLocationRelativeTo(null);
 		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		newEventWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		newEventWin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		newEventPane = new JPanel();
 		newEventWin.add(newEventPane);
