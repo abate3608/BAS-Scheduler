@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
-import edu.psu.sweng500.userinterface.NewEventScreen.DateButtonPress;
+//import edu.psu.sweng500.userinterface.NewEventScreen.StartDateButtonPress; //////////////////////////////Modified
 import edu.psu.sweng500.userinterface.NewEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 
