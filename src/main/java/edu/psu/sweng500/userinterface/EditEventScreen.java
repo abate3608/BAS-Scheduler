@@ -3,7 +3,6 @@ package edu.psu.sweng500.userinterface;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.List;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
@@ -15,7 +14,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -29,8 +27,6 @@ import javax.swing.JTextField;
 
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
-import edu.psu.sweng500.type.ScheduleEvent;
-//import edu.psu.sweng500.userinterface.NewEventScreen.StartDateButtonPress; //////////////////////////////Modified
 import edu.psu.sweng500.userinterface.NewEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 
@@ -39,7 +35,6 @@ public class EditEventScreen implements ActionListener {
 
 	private JFrame newEventWin;
 	private JPanel newEventPane;
-	private JLabel eventName;
 	private JLabel eventStartTime;
 	private JLabel eventEndTime;
 	private JLabel eventDate;
@@ -53,7 +48,6 @@ public class EditEventScreen implements ActionListener {
 	private JTextField eventRoomText; 
 	private JTextField lightSettingTXT;
 	private JTextField temperatureSettingTXT;
-	private JButton getButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
 	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
@@ -314,7 +308,7 @@ public class EditEventScreen implements ActionListener {
 
 			final JFrame f = new JFrame();
 			//set text which is collected by date picker i.e. set date 
-			eventDateTXT.setText(new DatePicker().setPickedDate());
+			eventDateTXT.setText( DatePicker.showDatePickerDialog() );
 		}
 
 	}
