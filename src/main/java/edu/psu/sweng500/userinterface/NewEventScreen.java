@@ -37,8 +37,6 @@ public class NewEventScreen implements ActionListener {
 	private JLabel lightSetting;
 	private JLabel temperatureSetting;
 	private JTextField eventNameTXT;
-	private JTextField eventStartTimeTXT;
-	private JTextField eventEndTimeTXT;
 	private JTextField eventDateTXT;
 	private JTextField eventRoomText;
 	private JTextField lightSettingTXT;
@@ -216,7 +214,7 @@ public class NewEventScreen implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			//set text which is collected by date picker i.e. set date 
-			eventDateTXT.setText(new DatePicker().setPickedDate());
+			eventDateTXT.setText( DatePicker.showDatePickerDialog() );
 			
 		}
 
@@ -227,7 +225,7 @@ public class NewEventScreen implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 
 			//set text which is collected by date picker i.e. set date 
-			endEventDateTXT.setText(new DatePicker().setPickedDate());
+			endEventDateTXT.setText( DatePicker.showDatePickerDialog() );
 			
 		}
 

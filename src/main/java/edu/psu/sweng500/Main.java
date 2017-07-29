@@ -20,6 +20,7 @@ import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.schedule.importer.XmlScheduleImporter;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.CalenderScreen;
+import edu.psu.sweng500.util.UIThemeColors;
 
 //import edu.psu.sweng500.userinterface.LogScreen;
 
@@ -148,23 +149,20 @@ public class Main {
 	private static void configureUItheme()
 	{
 		// colors and fonts
-		//ColorUIResource bgColorGreen = new ColorUIResource(218, 247, 159); // original green
-		ColorUIResource bgColorGreen = new ColorUIResource(237, 251, 208);
-		ColorUIResource fgColorDarkGreen = new ColorUIResource(0, 77, 0);
 		Font font = new Font( "Arial", Font.BOLD, 14 );
 		
 		// JPanel
-		UIManager.put( "Panel.background", bgColorGreen );
+		UIManager.put( "Panel.background", UIThemeColors.BG_GREEN );
 		UIManager.put( "Panel.font", font );
-		UIManager.put( "TitledBorder.titleColor", fgColorDarkGreen );
+		UIManager.put( "TitledBorder.titleColor", UIThemeColors.FG_DARK_GREEN );
 		UIManager.put( "TitledBorder.border", new LineBorder( Color.WHITE, 2 ) );
 		
 		// JOptionPane
-		UIManager.put( "OptionPane.background", bgColorGreen );
-		UIManager.put( "OptionPane.messageForeground", fgColorDarkGreen );
+		UIManager.put( "OptionPane.background", UIThemeColors.BG_GREEN );
+		UIManager.put( "OptionPane.messageForeground", UIThemeColors.FG_DARK_GREEN );
 		
 		// JLabel
-		UIManager.put( "Label.foreground", fgColorDarkGreen );
+		UIManager.put( "Label.foreground", UIThemeColors.FG_DARK_GREEN );
 		UIManager.put( "Labe.font", font );
 	}
 
