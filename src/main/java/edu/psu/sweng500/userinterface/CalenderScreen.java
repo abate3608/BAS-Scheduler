@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import edu.psu.sweng500.type.*;
 import edu.psu.sweng500.userinterface.LogScreen;
 import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
+import edu.psu.sweng500.util.UIThemeColors;
 import edu.psu.sweng500.userinterface.CalenderScreen.backBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.logOutBTNPress;
 import edu.psu.sweng500.userinterface.CalenderScreen.nextBTNPress;
@@ -53,9 +54,6 @@ public class CalenderScreen {
 	static int getYear;
 	static int getMonth;
 	
-	private static Color bgTan = new Color(248, 242, 236);
-	private static Color calendarBlue = new Color(230, 230, 255);
-	private static Color calendarDarkBlue = new Color(0, 0, 77);
 	static JPanel calendar; // Added
 	//static JPanel weatherPanel;  // Added
 
@@ -145,7 +143,7 @@ public class CalenderScreen {
 		calendar = new JPanel(null);
 		calendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
 		calendar.setBounds(295, 170, 1040, 520);
-		calendar.setBackground( bgTan );
+		calendar.setBackground( UIThemeColors.BG_TAN );
 		calendar.setLayout(new BoxLayout(calendar,BoxLayout.PAGE_AXIS)); 
 		calendar.add(calenderScroll);
 
@@ -180,7 +178,7 @@ public class CalenderScreen {
 		// roomPanel
 		roomPanel = new JPanel(null);
 		roomPanel.setBorder(BorderFactory.createTitledBorder("Monthly Events"));
-		roomPanel.setBackground( bgTan );
+		roomPanel.setBackground( UIThemeColors.BG_TAN );
 		roomPanel.setBounds(16, 170, 280, 520);
 		roomPanel.setLayout(new BoxLayout(roomPanel,BoxLayout.PAGE_AXIS)); 
 		
@@ -379,7 +377,7 @@ public class CalenderScreen {
 					// to
 					// schedule
 					// events
-					setBackground(calendarBlue);
+					setBackground(UIThemeColors.CALENDAR_BLUE);
 				}
 			}
 			setBorder(null);
@@ -457,7 +455,7 @@ public class CalenderScreen {
 		public void eventUpdate(ArrayList<DBScheduleTable> sList) 
 		{
 			TitledBorder border = BorderFactory.createTitledBorder("Event");
-			border.setTitleColor( calendarDarkBlue );
+			border.setTitleColor( UIThemeColors.CALENDAR_DARK_BLUE );
 			editeventscreen.setSchedules(sList);
 			for(DBScheduleTable s : sList)
 			{
@@ -478,12 +476,12 @@ public class CalenderScreen {
 				{
 					JPanel eventPNL = new JPanel(null);
 					eventPNL.setBorder(border);
-					eventPNL.setBackground( calendarBlue );
+					eventPNL.setBackground( UIThemeColors.CALENDAR_BLUE );
 					eventPNL.setBounds(16, 300, 280, 390);
 					eventPNL.setLayout(new BoxLayout(eventPNL,BoxLayout.PAGE_AXIS)); 
 					
 					JLabel events = new JLabel(eventDes);
-					events.setForeground( calendarDarkBlue );
+					events.setForeground( UIThemeColors.CALENDAR_DARK_BLUE );
 					//events.setBounds(20, 200, 100, 200);
 					events.setFont(new Font("Arial",Font.ITALIC,12)); 
 					eventPNL.add(events);
