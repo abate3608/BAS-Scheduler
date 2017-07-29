@@ -169,7 +169,7 @@ public class DatePicker extends JPanel {
 			}
 		});
 
-		//dialog.setUndecorated(true);
+		dialog.setTitle("Select Date");
 		dialog.setPreferredSize( new Dimension(450, 200) );
 		dialog.setLocationRelativeTo( null );
 		dialog.setModal(true);
