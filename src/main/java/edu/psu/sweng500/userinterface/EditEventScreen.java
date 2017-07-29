@@ -27,17 +27,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.type.ScheduleEvent;
-//import edu.psu.sweng500.userinterface.NewEventScreen.StartDateButtonPress; //////////////////////////////Modified
+import edu.psu.sweng500.userinterface.NewEventScreen.StartDateButtonPress; //////////////////////////////Modified
 import edu.psu.sweng500.userinterface.NewEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
+import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 
 
 public class EditEventScreen implements ActionListener {
 
-	private JFrame newEventWin;
+	private static JFrame newEventWin;
 	private JPanel newEventPane;
 	private JLabel eventName;
 	private JLabel eventStartTime;
@@ -56,6 +58,11 @@ public class EditEventScreen implements ActionListener {
 	private JButton getButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
+	
+	private TimePicker timeStart;////////////////////////////////////////////////////////////////////CHANGED 7/29
+	private TimePicker timeEnd;////////////////////////////////////////////////////////////////////////CHANGEd 7/29
+	
+	
 	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	// Event listeners
@@ -99,64 +106,66 @@ public class EditEventScreen implements ActionListener {
 		lb.clear();
 		for(DBScheduleTable s : schedules) {
 			lb.add(s.getName());
+			lb.setForeground(Color.blue); //CHANGE Color ///////////////////////////////////////////////////Changed 7/29
+			lb.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color /////////////////////////////////////Changed 7/29
 		}
 		
 
-		String[] timeList = {
-				 "0:30",
-		         "1:00",
-		         "1:30",
-		         "2:00",
-		         "2:30",
-		         "3:00",
-		         "3:30",
-		         "4:00",
-		         "4:30",
-		         "5:00",
-		         "5:30",
-		         "6:00",
-		         "6:30",
-		         "7:00",
-		         "7:30",
-		         "8:00",
-		         "8:30",
-		         "9:00",
-		         "9:30",
-		         "10:00",
-		         "10:30",
-		         "11:00",
-		         "11:30",
-		         "12:00",
-		         "12:30",
-		         "13:00",
-		         "13:30",
-		         "14:00",
-		         "14:30",
-		         "15:00",
-		         "15:30",
-		         "16:00",
-		         "16:30",
-		         "17:00",
-		         "17:30",
-		         "18:00",
-		         "18:30",
-		         "19:00",
-		         "19:30",
-		         "20:00",
-		         "20:30",
-		         "21:00",
-		         "21:30",
-		         "22:00",
-		         "22:30",
-		         "23:00",
-		         "23:30",
-		         "24:00"
-		     
-		};
+//		String[] timeList = {
+//				 "0:30",
+//		         "1:00",
+//		         "1:30",
+//		         "2:00",
+//		         "2:30",
+//		         "3:00",
+//		         "3:30",
+//		         "4:00",
+//		         "4:30",
+//		         "5:00",
+//		         "5:30",
+//		         "6:00",
+//		         "6:30",
+//		         "7:00",
+//		         "7:30",
+//		         "8:00",
+//		         "8:30",
+//		         "9:00",
+//		         "9:30",
+//		         "10:00",
+//		         "10:30",
+//		         "11:00",
+//		         "11:30",
+//		         "12:00",
+//		         "12:30",
+//		         "13:00",
+//		         "13:30",
+//		         "14:00",
+//		         "14:30",
+//		         "15:00",
+//		         "15:30",
+//		         "16:00",
+//		         "16:30",
+//		         "17:00",
+//		         "17:30",
+//		         "18:00",
+//		         "18:30",
+//		         "19:00",
+//		         "19:30",
+//		         "20:00",
+//		         "20:30",
+//		         "21:00",
+//		         "21:30",
+//		         "22:00",
+//		         "22:30",
+//		         "23:00",
+//		         "23:30",
+//		         "24:00"
+//		     
+//		};
 
 		
-		
-		lb.setBounds(20, 25, 300, 400);
+		lb.setBounds(20, 25, 150, 300); ///////////////////////////////////////////////////////////////////CHANGED 7/29
+		//lb.setBounds(20, 25, 300, 400);
 		lb.addMouseListener(new lbMouseClicked());
 		newEventPanel.add(lb);
 
@@ -167,31 +176,44 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.add(eventStartTime);
 
 
-		//eventStartTimeTXT = new JTextField(20);
-		eventStartTimeTXT = new JComboBox(timeList);
-		eventStartTimeTXT.setEditable(true);
-		eventStartTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
-		newEventPanel.add(eventStartTimeTXT);
-		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
-		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
+//		//eventStartTimeTXT = new JTextField(20);
+//		eventStartTimeTXT = new JComboBox(timeList);
+//		eventStartTimeTXT.setEditable(true);
+//		eventStartTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
+//		newEventPanel.add(eventStartTimeTXT);
+//		eventStartTimeTXT.addKeyListener(new EnterButtonPress());
+//		eventStartTimeTXT.addFocusListener(HIGHLIGHTER);
+		
+		
+		timeStart = new TimePicker();///////////////////////////////////////////////////////////////////////////////////CHANGED 7/29
+		//timeStart.setBounds(20, 100, 160, 25); //Location
+		timeStart.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTime.getY() + 25, width, 25);
+		 newEventPanel.add(timeStart);
 
 
 		eventEndTime = new JLabel("Event End Time");
-		eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTimeTXT.getY() + 25, width, 25);
+		//eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, eventStartTimeTXT.getY() + 25, width, 25);
+		eventEndTime.setBounds(lb.getWidth() + lb.getX() + 10, timeStart.getY() + 25, width, 25); /////////////////////////CHANGED 7/29
 		eventEndTime.setForeground(Color.blue); //CHANGE Color
 		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
-		//eventEndTimeTXT = new JTextField(20);
+		/*//eventEndTimeTXT = new JTextField(20);
 		eventEndTimeTXT = new JComboBox(timeList);
 		eventEndTimeTXT.setEditable(true);
 		eventEndTimeTXT.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
 		newEventPanel.add(eventEndTimeTXT);
 		eventEndTimeTXT.addKeyListener(new EnterButtonPress());
-		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);
+		eventEndTimeTXT.addFocusListener(HIGHLIGHTER);*/
+		
+		timeEnd = new TimePicker(); //////////////////////////////////////////////////////////////////////////////////CHANGED 7/29
+		//timeEnd.setBounds(20, 150, 160, 25); //Location
+		timeEnd.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
+		 newEventPanel.add(timeEnd);
 
 		eventDate = new JLabel("Date of Event");
-		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
+		//eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
+		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, timeEnd.getY() + 25, 100, 25); ////////////////////CHANGED 7/29
 		eventDate.setForeground(Color.blue); //CHANGE Color
 		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
@@ -203,8 +225,10 @@ public class EditEventScreen implements ActionListener {
 		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-		JButton dateButton = new JButton("+");
-		dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
+		JButton dateButton = new JButton("Get Date");/////////////////////////////////////////////////////////////////////////////////CHANGED 7/29
+		dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 100, 25); /////////////////////CHANGED 7/29
+		//JButton dateButton = new JButton("+");
+		//dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
 		newEventPanel.add(dateButton);
 		//perform action listener
 		dateButton.addActionListener(new EditDateButtonPress()) ;
@@ -261,8 +285,8 @@ public class EditEventScreen implements ActionListener {
 		newEventPanel.add(cancelButton);
 		cancelButton.addActionListener(new cancelButtonPress());
 		
-		lb.select(0);
-		populateEditFields();
+		//lb.select(0);
+		//populateEditFields();
 		
 	}
 
@@ -273,8 +297,13 @@ public class EditEventScreen implements ActionListener {
 			if (name.equalsIgnoreCase(s.getName())) {
 				DateFormat dateFormat = new SimpleDateFormat("H:mm");
 				
-				eventStartTimeTXT.getEditor().setItem(dateFormat.format(s.getStartDateTime()));
-				eventEndTimeTXT.getEditor().setItem(dateFormat.format(s.getEndDateTime()));
+				//eventStartTimeTXT.getEditor().setItem(dateFormat.format(s.getStartDateTime()));
+				//eventEndTimeTXT.getEditor().setItem(dateFormat.format(s.getEndDateTime()));
+				
+				timeStart.setSelectedItem(s.getStartDateTime()); ///////////////////////////////CHANGED 7/29
+				timeEnd.setSelectedItem(s.getStartDateTime()); /////////////////////////////////CHANGED 7/29
+				
+				
 				eventDateTXT.setText(s.getStartDateTime().toString());
 				eventRoomText.setText(s.getRoomName());
 				lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
@@ -332,7 +361,9 @@ public class EditEventScreen implements ActionListener {
 
 	public void editedEvent(){
 
-		if(eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getSelectedItem().toString().isEmpty() || eventEndTimeTXT.getSelectedItem().toString().isEmpty() ||
+		/////////////////////////////CHANGED 7/29
+		
+		if(/*eventNameTXT.getText().isEmpty() || eventStartTimeTXT.getSelectedItem().toString().isEmpty() || eventEndTimeTXT.getSelectedItem().toString().isEmpty() ||*/
 				eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
 				|| temperatureSettingTXT.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
@@ -341,17 +372,22 @@ public class EditEventScreen implements ActionListener {
 
 		}else{
 
+			DateFormat clockStart = new SimpleDateFormat("HH:mm:ss"); ///////////////////////////////////////CHANGED 7/29
+			DateFormat clockEnd = new SimpleDateFormat("HH:mm:ss"); /////////////////////////////////////////Changed 7/29
 
-			String eventName = eventNameTXT.getText(); 
-			String startTime = eventStartTimeTXT.getSelectedItem().toString(); 
-			String endTime= eventEndTimeTXT.getSelectedItem().toString(); 
+			//String eventName = eventNameTXT.getText(); ////////////////////////////////////////////////CHANGED 7/29
+			//String startTime = eventStartTimeTXT.getSelectedItem().toString(); 
+			//String endTime= eventEndTimeTXT.getSelectedItem().toString(); 
+			
+			String startTime = clockStart.format((Date)timeStart.getSelectedItem());///////////////////////////////////////CHANGED 7/29
+			String endTime= clockEnd.format((Date)timeEnd.getSelectedItem());///////////////////////////////////////CHANGED 7/29
 			String eventDate = eventDateTXT.getText(); 
 			String eventRoom = eventRoomText.getText(); 
 			String lightIntensity = lightSettingTXT.getText(); 
 			String temperatureSetpoint = temperatureSettingTXT.getText(); 
 
 
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); /// TODO REMOVE SECONDS
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			try{
 				Date startDateTime = df.parse(eventDate + " " + startTime);
@@ -367,7 +403,7 @@ public class EditEventScreen implements ActionListener {
 				//lightSetting = "100";
 				//}
 				DBScheduleTable s = new DBScheduleTable();
-				s.setName(eventName);
+				//s.setName(eventName);
 				s.setDescription(" ");
 
 				//end to match Schedule Event Data type
@@ -375,9 +411,13 @@ public class EditEventScreen implements ActionListener {
 				s.setStartDateTime(startDateTime);
 				s.setEndDateTime(endDateTime);
 				s.setRoomName(eventRoom);
-				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint));
+				s.setTemperatureSetpoint(Integer.parseInt(temperatureSetpoint)); 
 				s.setLightIntensity(Integer.parseInt(lightIntensity));
-				eventHandler.fireCreateEvent(s);
+				
+				
+				eventHandler.fireUpdateEvent(s); ///////////////////////////////////////////////////////CHANGED 7/29
+				
+				
 				JOptionPane.showMessageDialog(null, "Submitting New Event Request");
 
 			}
@@ -423,5 +463,59 @@ public class EditEventScreen implements ActionListener {
 
 	}
 
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
+
+		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////CHANGED BELOW		
+		
+		@Override
+		public void createEventRespond(DBScheduleTable s, int err) {
+			System.out.println("NewEventScreen > Create event respond received. Name: " + s.getName() + " Error Code:" + err);
+			if (err == 0) //good
+			{
+				//new CalenderScreen();
+				JOptionPane.showMessageDialog(null,"Event Scheduled");
+				newEventWin.dispose();
+
+			}	
+			/*		
+			 else if (err == 1){
+
+			//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a different Start Time");
+			}	
+
+			else if (err == 2) {
+
+					//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a different End Time");
+
+			} 
+
+			else if (err == 3){
+
+			//DO SOMETHING: user user created
+			JOptionPane.showMessageDialog(null,"Room Conflict, The room that is selected is occupied during this time. Please select a different room");
+			}	
+
+			else if (err == 4){
+
+				//DO SOMETHING: user user created
+				JOptionPane.showMessageDialog(null,"Date Conflict, Please select a different date");
+				}	*/
+
+
+			else			
+			{
+				//need error code for create event
+				//DO SOMETHING : login fail
+				//JOptionPane.showMessageDialog(null, "Error - Please Re-enter Data");
+				//new NewEventScreen();
+				newEventWin.setVisible(true);
+			}
+		}
+	}
 }
 
