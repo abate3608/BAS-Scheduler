@@ -28,8 +28,8 @@ import javax.swing.JTextField;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
-
-
+import edu.psu.sweng500.userinterface.NewEventScreen.EndDateButtonPress;
+//import edu.psu.sweng500.userinterface.NewEventScreen.EnterButtonPress;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 
@@ -47,7 +47,8 @@ public class EditEventScreen implements ActionListener {
 	
 	private JLabel eventName;
 	private JTextField eventNameTXT;
-	
+	private JLabel endDate;
+	private JTextField endEventDateTXT;
 	
 	private JComboBox eventStartTimeTXT;
 	private JComboBox eventEndTimeTXT;
@@ -79,7 +80,7 @@ public class EditEventScreen implements ActionListener {
 		eventHandler.addListener(new EventQueueListener()); ///// ADDED 7/22
 
 		newEventWin = new JFrame("Global Schedular System Edit Event");
-		newEventWin.setSize(525, 505);
+		newEventWin.setSize(525, 575);
 		newEventWin.setLocationRelativeTo(null);
 		//newEventWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//newEventWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -218,7 +219,7 @@ public class EditEventScreen implements ActionListener {
 		timeEnd.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTime.getY() + 25, width, 25);
 		 newEventPanel.add(timeEnd);
 
-		eventDate = new JLabel("Date of Event");
+		eventDate = new JLabel("Start Date of Event");
 		//eventDate.setBounds(lb.getWidth() + lb.getX() + 10, eventEndTimeTXT.getY() + 25, 100, 25);
 		eventDate.setBounds(lb.getWidth() + lb.getX() + 10, timeEnd.getY() + 25, 100, 25); ////////////////////CHANGED 7/29
 		newEventPanel.add(eventDate);
@@ -230,18 +231,38 @@ public class EditEventScreen implements ActionListener {
 		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-		JButton dateButton = new JButton("Get Date");/////////////////////////////////////////////////////////////////////////////////CHANGED 7/29
+		JButton dateButton = new JButton("Start Date");/////////////////////////////////////////////////////////////////////////////////CHANGED 7/29
 		dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 100, 25); /////////////////////CHANGED 7/29
 		//JButton dateButton = new JButton("+");
 		//dateButton.setBounds(eventDateTXT.getWidth() + eventDateTXT.getX() + 5, eventDate.getY() + 25, 20, 25);
 		newEventPanel.add(dateButton);
 		//perform action listener
-		dateButton.addActionListener(new EditDateButtonPress()) ;
+		dateButton.addActionListener(new StartDateButtonPress()) ;
+		
+		endDate = new JLabel("End Date of Event"); ////////////////////////////////////////////////////////////////////////////////CHANged 7/29
+		endDate.setBounds(lb.getWidth() + lb.getX() + 10, eventDateTXT.getY() + 25, width, 25);
+		//endDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		newEventPanel.add(endDate);
 
+		
+		endEventDateTXT = new JTextField(20);
+		endEventDateTXT.setBounds(lb.getWidth() + lb.getX() + 10, endDate.getY() + 25, width, 25);
+		newEventPanel.add(endEventDateTXT);
+		endEventDateTXT.addKeyListener(new EnterButtonPress());
+		endEventDateTXT.addFocusListener(HIGHLIGHTER);
+		
+		//create button and there object
+		JButton enddateButton = new JButton("End Date");
+		enddateButton.setBounds(endEventDateTXT.getWidth() + endEventDateTXT.getX() + 5, endDate.getY() + 25, 100, 25);
+		newEventPanel.add(enddateButton);
+		//perform action listener
+		enddateButton.addActionListener(new EndDateButtonPress()) ;
+		
+		
 		eventRoom = new JLabel("Event Room");
-		eventRoom.setBounds(lb.getWidth() + lb.getX() + 10, eventDateTXT.getY() + 25, width, 25);
+		eventRoom.setBounds(lb.getWidth() + lb.getX() + 10, endEventDateTXT.getY() + 25, width, 25); /////////***********************
 		newEventPanel.add(eventRoom);
-
+		
 		eventRoomText = new JTextField(20);
 		eventRoomText.setBounds(lb.getWidth() + lb.getX() + 10, eventRoom.getY() + 25, width, 25);
 		newEventPanel.add(eventRoomText);
@@ -339,8 +360,8 @@ public class EditEventScreen implements ActionListener {
 		}                                         
 	} 
 
-	//Date Picker
-	public final class EditDateButtonPress implements ActionListener{
+	//Start Date Picker
+	public final class StartDateButtonPress implements ActionListener{
 
 		public void actionPerformed(ActionEvent arg0) {
 
@@ -351,6 +372,17 @@ public class EditEventScreen implements ActionListener {
 
 	}
 
+	// EndDate Picker
+	public final class EndDateButtonPress implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+
+			//set text which is collected by date picker i.e. set date 
+			endEventDateTXT.setText( DatePicker.showDatePickerDialog() );
+			
+		}
+
+	}
 
 	// Cnacel Button
 	private final class cancelButtonPress implements ActionListener {
@@ -386,6 +418,9 @@ public class EditEventScreen implements ActionListener {
 			String startTime = clockStart.format((Date)timeStart.getSelectedItem());///////////////////////////////////////CHANGED 7/29
 			String endTime= clockEnd.format((Date)timeEnd.getSelectedItem());///////////////////////////////////////CHANGED 7/29
 			String eventDate = eventDateTXT.getText(); 
+			
+			String endeventDate = endEventDateTXT.getText();
+			
 			String eventRoom = eventRoomText.getText(); 
 			String lightIntensity = lightSettingTXT.getText(); 
 			String temperatureSetpoint = temperatureSettingTXT.getText(); 
@@ -395,7 +430,7 @@ public class EditEventScreen implements ActionListener {
 
 			try{
 				Date startDateTime = df.parse(eventDate + " " + startTime);
-				Date endDateTime = df.parse(eventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
+				Date endDateTime = df.parse(endeventDate + " " + endTime); /// ADD END DATE NOT IMPLEMENTD
 
 
 
