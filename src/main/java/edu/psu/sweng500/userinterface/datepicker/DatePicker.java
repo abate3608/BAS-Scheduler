@@ -10,7 +10,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,8 +26,8 @@ public class DatePicker extends JPanel {
 	public static final String DATE_SELECTION_EVENT = "date.selection";
 
 	private int month = Calendar.getInstance().get( Calendar.MONTH );
-	private int year = java.util.Calendar.getInstance().get( Calendar.YEAR );
-	private String day = "";
+	private int year = Calendar.getInstance().get( Calendar.YEAR );
+	private String day = "" + Calendar.getInstance().get( Calendar.DATE );
 	
 	private JLabel datelabel = new JLabel("", JLabel.CENTER);
 	private JButton[] button = new JButton[42];
@@ -36,41 +35,16 @@ public class DatePicker extends JPanel {
 	public DatePicker()
 	{
 		JPanel calendar = new JPanel( new GridLayout(7, 7) );
-		calendar.setPreferredSize( new Dimension(430, 120) );
+		calendar.setPreferredSize( new Dimension(430, 180) );
 		createCalendar( calendar );
 
 		JPanel nav = new JPanel(new GridLayout(1, 3));
-		JButton previous = new JButton("<< Previous");
-		previous.addActionListener(new ActionListener() 
-		{
-			@Override
-			public void actionPerformed(ActionEvent ae) 
-			{
-				month--;
-				populateCalendar();
-			}
-		});
-
-		JButton next = new JButton("Next >>");
-		next.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent ae) 
-			{
-				month++;
-				populateCalendar();
-			}
-		});
-
-		nav.add( previous );
-		nav.add( datelabel );
-		nav.add( next );
-
+		createNav( nav );
+		
 		populateCalendar();
 		this.setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS) );
 		this.add( calendar, BorderLayout.CENTER );
 		this.add( nav, BorderLayout.SOUTH );
-		this.setVisible( true );
 	}
 	
 	private void createCalendar( JPanel calendar )
@@ -105,12 +79,41 @@ public class DatePicker extends JPanel {
 			calendar.add(button[x]);
 		}
 	}
+	
+	private void createNav( JPanel nav )
+	{
+		JButton previous = new JButton("<< Previous");
+		previous.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				month--;
+				populateCalendar();
+			}
+		});
+
+		JButton next = new JButton("Next >>");
+		next.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent ae) 
+			{
+				month++;
+				populateCalendar();
+			}
+		});
+		
+		nav.add( previous );
+		nav.add( datelabel );
+		nav.add( next );
+	}
 
 	private void populateCalendar() 
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy");
-		Calendar cal = Calendar.getInstance();			
-		cal.set(year, month, 1);
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, 1 );
 
 		int dayOfWeek = cal.get( Calendar.DAY_OF_WEEK );
 		int daysInMonth = cal.getActualMaximum( Calendar.DAY_OF_MONTH );
@@ -122,6 +125,7 @@ public class DatePicker extends JPanel {
 				button[i].setText( "" + date );
 				button[i].setEnabled( true );
 				button[i].setBackground( Color.WHITE );
+				preselectCurrentDate( button[i], date );
 				date += 1;
 			}
 			else
@@ -134,21 +138,29 @@ public class DatePicker extends JPanel {
 		datelabel.setText( sdf.format(cal.getTime()) );
 	}
 
-	private String setPickedDate() 
+	private void preselectCurrentDate( JButton button, int date )
 	{
-		if ( !day.equals("") )
+		Calendar cal = Calendar.getInstance();
+		if( year == cal.get( Calendar.YEAR ) 
+				&& month == cal.get( Calendar.MONTH ) 
+				&& date == cal.get( Calendar.DATE ) )
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); ////////CHANGED 7/23
-			Calendar cal = Calendar.getInstance();
-			cal.set( year, month, Integer.parseInt(day) );
-			return sdf.format( cal.getTime() );
+			button.setBackground( UIThemeColors.CALENDAR_BLUE );
 		}
-		return "";
+	}
+	
+	public String setPickedDate() 
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); ////////CHANGED 7/23
+		Calendar cal = Calendar.getInstance();
+		cal.set( year, month, Integer.parseInt(day) );
+		return sdf.format( cal.getTime() );
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Displays a {@link JDialog} with an embedded {@link DatePicker}.
+	 * The dialog is disposed upon date selection.
+	 * @return the selected date in the {@link String} format "yyyy-MM-dd"
 	 */
 	public static String showDatePickerDialog()
 	{
@@ -158,7 +170,7 @@ public class DatePicker extends JPanel {
 		date.setEnabled( false );
 		date.setVisible( false );
 		
-		DatePicker picker = new DatePicker();		
+		DatePicker picker = new DatePicker();
 		picker.addPropertyChangeListener(DATE_SELECTION_EVENT, new PropertyChangeListener()
 		{
 			@Override
@@ -170,7 +182,7 @@ public class DatePicker extends JPanel {
 		});
 
 		dialog.setTitle("Select Date");
-		dialog.setPreferredSize( new Dimension(450, 200) );
+		dialog.setPreferredSize( new Dimension(450, 240) );
 		dialog.setLocationRelativeTo( null );
 		dialog.setModal(true);
 		dialog.add( picker, BorderLayout.CENTER );
