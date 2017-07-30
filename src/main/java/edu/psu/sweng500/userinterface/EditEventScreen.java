@@ -329,6 +329,9 @@ public class EditEventScreen implements ActionListener {
 				
 				
 				eventDateTXT.setText(s.getStartDateTime().toString());
+				
+				endEventDateTXT.setText(s.getEndDateTime().toString());
+				
 				eventRoomText.setText(s.getRoomName());
 				lightSettingTXT.setText(String.valueOf(s.getLightIntensity()));
 				temperatureSettingTXT.setText(String.valueOf(s.getTemperatureSetpoint()));
