@@ -250,7 +250,7 @@ public class NewEventScreen implements ActionListener {
 
 	public void createEvent(){
 
-		if(eventNameTXT.getText().isEmpty() || eventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
+		if(eventNameTXT.getText().isEmpty() || eventDateTXT.getText().isEmpty() ||endEventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
 				|| temperatureSettingTXT.getText().isEmpty()){
 			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
 
