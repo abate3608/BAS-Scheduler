@@ -2,9 +2,6 @@ package edu.psu.sweng500.userinterface;
 
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.*;
-
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import java.awt.*;
@@ -34,15 +31,11 @@ public class CalenderScreen
 	private static String currentDate;
 
 	private static JFrame frame;
-//	private static JButton editEventBTN; 
 	private static JPanel eventPanel;
 
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	private final static LogScreen loginScreen = new LogScreen();
-
 	private static boolean isAuthenticated;
-
-	private static EditEventScreen editeventscreen = null;
 
 	public CalenderScreen() 
 	{
@@ -67,7 +60,6 @@ public class CalenderScreen
 
 		loginScreen.create();
 
-		updateEvents( currentDate );
 		frame.revalidate();
 		frame.pack();
 	}
@@ -200,11 +192,6 @@ public class CalenderScreen
 		}
 	}
 
-	public EventHandler getEventHandler() 
-	{
-		return eventHandler;
-	}
-
 	/**
 	 * EventQueueListener for CalendarScreen
 	 * * Updates event panel
@@ -216,7 +203,6 @@ public class CalenderScreen
 		@Override
 		public void eventUpdate( ArrayList<DBScheduleTable> sList ) 
 		{
-//			editeventscreen.setSchedules(sList);
 			for(DBScheduleTable s : sList)
 			{
 				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
@@ -248,6 +234,7 @@ public class CalenderScreen
 				isAuthenticated = u.isAuthenticated();
 				if (isAuthenticated) 
 				{
+					updateEvents( currentDate );
 					loginStatus.setText("User: " + u.getUserName());
 				}
 			} 
