@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -11,15 +14,19 @@ import com.google.gson.stream.JsonWriter;
 import edu.psu.sweng500.api.basgs.BASGS_API.API_Object;
 
 public class TestClient {
-
+	
 	public static void main(String argv[]) throws Exception {
-
+		SSLSocketFactory f = (SSLSocketFactory) SSLSocketFactory.getDefault();
 		// How to read file into String before Java 7
 		String filename = "";
 		// Getting ClassLoader obj
 		ClassLoader classLoader = TestClient.class.getClassLoader();
 		System.out.println(classLoader.getResource(filename).getFile().toString());
-		Socket clientSocket = new Socket("localhost", 8888);
+		SSLSocket clientSocket = (SSLSocket) f.createSocket("localhost", 8888);
+		clientSocket.setEnabledCipherSuites(clientSocket.getSupportedCipherSuites());
+
+		clientSocket.startHandshake();
+		//Socket clientSocket = new Socket("localhost", 8888);
 		
 		 Scanner scanner = new Scanner(System. in); 
 		boolean run = true;

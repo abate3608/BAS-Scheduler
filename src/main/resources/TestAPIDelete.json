@@ -9,13 +9,13 @@
 	"stop_date":"",
 	"bacnet":[
 		{
-			"uuid":"2612f0af-ba00-409e-91c5-a5fdf35bac02",
+			"uuid":"bffb9b51-4719-4eac-94b5-8d5b7e594f44",
 			"eventID":"54321",
 			"eventName":"API Update Test",
 			"roomName":"Test Room Update",
 			"eventDescription":"Testing the update of an event.",
-			"eventStart":"2017-07-20 12:00:00",
-			"eventStop":"2017-07-20 12:00:00",
+			"eventStart":"2017-08-14 12:00:00",
+			"eventStop":"2017-08-14 12:00:00",
 			"temperatureSetpoint":"68",
 			"lightIntensity":"99"
 		}
