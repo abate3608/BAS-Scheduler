@@ -27,7 +27,7 @@ public class DatePicker extends JPanel {
 
 	private int month = Calendar.getInstance().get( Calendar.MONTH );
 	private int year = Calendar.getInstance().get( Calendar.YEAR );
-	private String day = "" + Calendar.getInstance().get( Calendar.DATE );
+	private int day = Calendar.getInstance().get( Calendar.DATE );
 	
 	private JLabel datelabel = new JLabel("", JLabel.CENTER);
 	private JButton[] button = new JButton[42];
@@ -52,7 +52,7 @@ public class DatePicker extends JPanel {
 		String[] header = { "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat" };
 		for( String d : header )
 		{
-			calendar.add( new JLabel( d ) );
+			calendar.add( new JLabel( d, JLabel.CENTER ) );
 		}
 		for( int x = 0; x < button.length; x++ ) 
 		{		
@@ -64,7 +64,7 @@ public class DatePicker extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
-					day = button[selection].getActionCommand();
+					day = Integer.parseInt( button[selection].getActionCommand() );
 					for( int i = 0; i < button.length; i++ )
 					{
 						if( !button[i].getText().equals("") )
@@ -73,7 +73,7 @@ public class DatePicker extends JPanel {
 						}
 					}
 					button[selection].setBackground( UIThemeColors.CALENDAR_BLUE );
-					firePropertyChange( DATE_SELECTION_EVENT, null, setPickedDate() );
+					firePropertyChange( DATE_SELECTION_EVENT, null, getDateSelection() );
 				}
 			});
 			calendar.add(button[x]);
@@ -149,11 +149,11 @@ public class DatePicker extends JPanel {
 		}
 	}
 	
-	public String setPickedDate() 
+	public String getDateSelection() 
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); ////////CHANGED 7/23
 		Calendar cal = Calendar.getInstance();
-		cal.set( year, month, Integer.parseInt(day) );
+		cal.set( year, month, day );
 		return sdf.format( cal.getTime() );
 	}
 	
