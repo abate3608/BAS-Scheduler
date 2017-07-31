@@ -523,31 +523,25 @@ public class EditEventScreen implements ActionListener {
 				newEventWin.dispose();
 
 			}	
-			/*		
-			 else if (err == 1){
+				
+			else if (err == 4){
 
-			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"Start Time Conflict, Please Provide a different Start Time");
-			}	
-
-			else if (err == 2) {
-
-					//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"End Time Conflict, Please Provide a different End Time");
-
-			} 
+				//DO SOMETHING: user user created
+				JOptionPane.showMessageDialog(null,"Start Date Conflict, Please Provide an Earlier Start Date");
+				}	
 
 			else if (err == 3){
 
 			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"Room Conflict, The room that is selected is occupied during this time. Please select a different room");
-			}	
+			JOptionPane.showMessageDialog(null,"Time Conflict, The Time selected is already scheduled for another event. Please select a differet time.");
+			}
 
-			else if (err == 4){
+			else if (err == 5){
 
 				//DO SOMETHING: user user created
-				JOptionPane.showMessageDialog(null,"Date Conflict, Please select a different date");
-				}	*/
+				JOptionPane.showMessageDialog(null,"End date Conflict, Event cannot end before the event starts. Please pick a later End Date. ");
+				}	
+	
 
 
 			else			
