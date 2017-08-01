@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import edu.psu.sweng500.userinterface.BacnetConfig;
 import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
@@ -25,16 +26,25 @@ public class BasgsMenuBar extends JMenuBar
 		JMenu fileMenu = new JMenu("File");
 		this.add(fileMenu);
 		JMenuItem fileMenuExitItem = new JMenuItem("Exit");
+		fileMenuExitItem.addActionListener(new ActionListener() 
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				JOptionPane.showMessageDialog(null, "User Signed Out");
+				System.exit(0);
+			}
+		});
 		fileMenu.add(fileMenuExitItem);
 
-		JMenu viewMenu = new JMenu("View");
-		this.add(viewMenu);
-		JMenuItem viewMenuCalendarItem = new JMenuItem("Calendar");
-		viewMenu.add(viewMenuCalendarItem);
-		JMenuItem viewMenuEventsItem = new JMenuItem("Events");
-		viewMenu.add(viewMenuEventsItem);
-		JMenuItem viewMenuRoomsItem = new JMenuItem("Rooms");
-		viewMenu.add(viewMenuRoomsItem);
+//		JMenu viewMenu = new JMenu("View");
+//		this.add(viewMenu);
+//		JMenuItem viewMenuCalendarItem = new JMenuItem("Calendar");
+//		viewMenu.add(viewMenuCalendarItem);
+//		JMenuItem viewMenuEventsItem = new JMenuItem("Events");
+//		viewMenu.add(viewMenuEventsItem);
+//		JMenuItem viewMenuRoomsItem = new JMenuItem("Rooms");
+//		viewMenu.add(viewMenuRoomsItem);
 
 		JMenu configMenu = new JMenu("Configuration");
 		this.add(configMenu);
@@ -65,10 +75,10 @@ public class BasgsMenuBar extends JMenuBar
 		JMenuItem configMenuApiItem = new JMenuItem("API");
 		configMenu.add(configMenuApiItem);
 
-		JMenu helpMenu = new JMenu("Help");
-		this.add(helpMenu);
-		JMenuItem helpMenuAboutItem = new JMenuItem("About");
-		helpMenu.add(helpMenuAboutItem);
+//		JMenu helpMenu = new JMenu("Help");
+//		this.add(helpMenu);
+//		JMenuItem helpMenuAboutItem = new JMenuItem("About");
+//		helpMenu.add(helpMenuAboutItem);
 	}
 
 }
