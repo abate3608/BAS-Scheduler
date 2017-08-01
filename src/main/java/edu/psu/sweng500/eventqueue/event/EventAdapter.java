@@ -201,5 +201,19 @@ public class EventAdapter implements EventListener {
 			// TODO Auto-generated method stub
 			
 		}
+
+		public void updateBaseline(String roomNumber) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void updateOccupancy(String roomNumber) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void updateOccStatus() {
+			
+		}
 		
 }
