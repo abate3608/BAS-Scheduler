@@ -41,7 +41,7 @@ public class ApiConfig {
 	public void create () {
 
 		apiWin = new JFrame("API Server Configuration");
-		apiWin.setSize(290, 250);
+		apiWin.setSize(290, 150);
 		apiWin.setLocationRelativeTo(null);  
 		apiWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,6 +67,7 @@ public class ApiConfig {
 
 		txtIpAddr = new JTextField(IP_ADDR);
 		txtIpAddr.setBounds(90, 25, 160, 25);
+		txtIpAddr.setEditable(false);
 		logPanel.add(txtIpAddr);
 
 		lblPort = new JLabel("Port");
@@ -75,10 +76,11 @@ public class ApiConfig {
 
 		txtPort = new JTextField(PORT);
 		txtPort.setBounds(90, 55, 160, 25);
+		txtPort.setEditable(false);
 		logPanel.add(txtPort);
 
 		btnOk = new JButton("OK");
-		btnOk.setBounds(55, 135, 80, 25);
+		btnOk.setBounds(55, 85, 80, 25);
 		logPanel.add(btnOk);
 		btnOk.addActionListener(new OkButtonPress());
 	}

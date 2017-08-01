@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
+import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 import edu.psu.sweng500.util.FocusHighlightedTextField;
@@ -44,6 +45,9 @@ public class EditEventScreenNew
 	
 	public EditEventScreenNew( DBScheduleTable s )
 	{
+		// setup event
+		eventHandler.addListener(new EventQueueListener());
+		
 		this.event = s;
 		frame = new JFrame();
 		frame.setTitle( "Global Schedular System Edit Event" );
@@ -136,7 +140,19 @@ public class EditEventScreenNew
 	private JPanel getButtonPanel()
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout( new GridLayout( 2, 1 ) );
+		panel.setLayout( new GridLayout( 3, 1 ) );
+		
+		JButton delete = new JButton( "Delete Event" );
+		delete.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				delete();
+				frame.dispose();
+			}
+		});
+		panel.add( delete );
 		
 		JButton update = new JButton( "Update Event" );
 		update.addActionListener( new ActionListener()
@@ -200,6 +216,10 @@ public class EditEventScreenNew
 		event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
 		
 		//TODO send event
+	}
+	
+	private void delete() {
+		eventHandler.fireDeleteEvent(event);
 	}
 	
 	/**

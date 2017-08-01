@@ -39,6 +39,7 @@ public class CalenderScreen
 
 	public CalenderScreen() 
 	{
+		isAuthenticated = false;
 		eventHandler.addListener(new EventQueueListener());
 
 		frame = new JFrame("Global Schedular System");
@@ -228,7 +229,6 @@ public class CalenderScreen
 		{
 			System.out.println("CalendarScreen > Authentication user update received. User: " 
 					+ u.getUserName() + " isAuthenicated: " + u.isAuthenticated());
-			isAuthenticated = false;
 			if (u.getUserName() == loginScreen.getUserName())
 			{
 				isAuthenticated = u.isAuthenticated();

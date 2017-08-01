@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import edu.psu.sweng500.userinterface.ApiConfig;
 import edu.psu.sweng500.userinterface.BacnetConfig;
 import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
 
@@ -72,7 +73,16 @@ public class BasgsMenuBar extends JMenuBar
 			}
 		});
 		configMenu.add(configMenuXMLItem);
+		
 		JMenuItem configMenuApiItem = new JMenuItem("API");
+		configMenuApiItem.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				new ApiConfig().create();
+			}
+		});
 		configMenu.add(configMenuApiItem);
 
 //		JMenu helpMenu = new JMenu("Help");
