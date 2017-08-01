@@ -201,6 +201,13 @@ public class Database {
 						// "]. Another event already rescheduled at this time -
 						// Name: " + rt.getString("Name"));
 					}
+					
+					Date currentDate = new Date();
+					// check to validate if User selected start/end date are not before current date
+					if (s.getStartDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
+						err = 4;
+						eventHandler.fireCreateEventRespond(s, err);
+					}
 				}
 
 				if (err < 1) { // no error
@@ -251,32 +258,6 @@ public class Database {
 				 err = 1;
 				 eventHandler.fireCreateEventRespond(s, err);
 			}
-
-			System.out.println(
-					"Database > Checking if Start Date (" + s.getStartDateTime() + ") selected has passed...");
-
-			try {
-
-				Date currentDate = new Date();
-				// check to validate if User selected date  is not today's date or future date
-				if (s.getStartDateTime().before(currentDate)) {
-					err = 1;
-					eventHandler.fireCreateEventRespond(s, err);
-				}
-			} catch (Exception b) {
-				b.printStackTrace();
-			}
-						
-			try {
-				// check to make sure end date cannot be before start date
-				if(s.getEndDateTime().before(s.getStartDateTime())) {
-					err=5;
-					eventHandler.fireCreateEventRespond(s, err);
-				}
-			} catch(Exception z) {
-				z.printStackTrace();
-			}
-
 		}
 
 		@Override
@@ -331,6 +312,14 @@ public class Database {
 				rt = statement.executeQuery(query);
 
 				if (rt.next()) {
+					
+					Date currentDate = new Date();
+					// check to validate if User selected end date is not before current date
+					System.out.println("Current: " +currentDate + " Start: " + s.getStartDateTime() + " End: " + s.getEndDateTime());
+					if (s.getEndDateTime().before(currentDate)) {
+						err = 4;
+					}
+
 					if (err < 1) { // no error
 						String query2 = "UPDATE psuteam7.schedule SET ScheduleSiteId=?, Name=?, Description=?, Notes=?,"
 								+ "ControlToState=?, StartDateTime=?, EndDateTime=?, MarkedForDelete=?, RoomName=?,"
@@ -367,30 +356,9 @@ public class Database {
 				eventHandler.fireUpdateEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
-				//err = 1;
-				//eventHandler.fireUpdateEventRespond(s, err);
+				err = 1;
+				eventHandler.fireUpdateEventRespond(s, err);
 			}
-			try {
-
-				Date currentDate = new Date();
-				// check to validate if User selected date  is not today's date or future date
-				if (s.getStartDateTime().before(currentDate)) {
-					err = 4;
-					eventHandler.fireCreateEventRespond(s, err);
-				}
-			} catch (Exception b) {
-				b.printStackTrace();
-			}
-			try {
-				// check to make sure end date cannot be before start date
-				if(s.getEndDateTime().before(s.getStartDateTime())) {
-					err=5;
-					eventHandler.fireCreateEventRespond(s, err);
-				}
-			} catch(Exception z) {
-				z.printStackTrace();
-			}
-
 		}
 
 		@Override

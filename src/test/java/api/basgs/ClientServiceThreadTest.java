@@ -63,6 +63,8 @@ public class ClientServiceThreadTest {
 		
 		df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		Calendar calendar = Calendar.getInstance();
+		int seconds = calendar.get(Calendar.SECOND) + 1;
+		calendar.set(Calendar.SECOND, seconds);
 		currentTime = calendar.getTime();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY) + 1;
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
