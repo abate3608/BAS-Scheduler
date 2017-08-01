@@ -99,5 +99,10 @@ public interface EventListener {
 
 	public void roomInfoUpdateDB(DBRoomTable r);
 
+	public void updateBaseline(String roomNumber);
+
+	public void updateOccupancy(String roomNumber);
+
+	public void updateOccStatus();
 
 }

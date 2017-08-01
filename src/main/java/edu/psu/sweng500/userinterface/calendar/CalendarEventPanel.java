@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import edu.psu.sweng500.type.DBScheduleTable;
+import edu.psu.sweng500.userinterface.EditEventScreenNew;
 import edu.psu.sweng500.util.UIThemeColors;
 
 /**
@@ -76,7 +77,7 @@ public class CalendarEventPanel extends JPanel
 			@Override
 			public void actionPerformed( ActionEvent e ) 
 			{
-				// TODO Auto-generated method stub
+				new EditEventScreenNew( schedule );
 			}
 		});
 		return edit;

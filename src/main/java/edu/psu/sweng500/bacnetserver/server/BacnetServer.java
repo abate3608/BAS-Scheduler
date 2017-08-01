@@ -12,6 +12,7 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.service.unconfirmed.WhoIsRequest;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.transport.Transport;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.Encodable;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.constructed.StatusFlags;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.BinaryPV;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EngineeringUnits;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.EventState;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.ObjectType;
@@ -19,6 +20,7 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifie
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.CharacterString;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Real;
+import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Unsigned16;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
@@ -95,16 +97,28 @@ public class BacnetServer {
 		@Override
 		public void roomInfoUpdate(DBRoomTable r) {
 			System.out.println("BACnet Server > Received room informaiton update for room: " + r.getRoomNumber() + " " + r.getRoomName());
-			createBACnetObjectAV(r.getId() + 3, r.getOccState(), r.getRoomNumber(), r.getRoomName(), EngineeringUnits.noUnits);
+			
+			int id = ((r.getId()*(5*r.getId()-3)+(2*r.getId()))/r.getId()) + (r.getId()-1);
+			
+			if (id > 100) return;
+			
+			createBACnetObject(ObjectType.binaryValue, id, r.getOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccSched", "Occupancy Schedule", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.binaryValue, id + 1, r.getOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccOptimized", "Optimized Occupancy Schedule", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.binaryValue, id + 2, r.getOccState(), "Heat", "Cool", r.getRoomNumber() + "_CoolMode", "0=Heat mode; 1=Cool Mode", EngineeringUnits.noUnits);
+
+			createBACnetObject(ObjectType.analogValue, id, r.getOccState(), "0", "1", r.getRoomNumber() + "_SpaceTemp", "Space Temperature", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.analogValue, id + 1, r.getOccState(), "0", "1", r.getRoomNumber() + "_OccSp", "Occupied Setpoint", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.analogValue, id + 2, r.getOccState(), "0", "1", r.getRoomNumber() + "_UnoccSp", "Unoccupied Setpoint", EngineeringUnits.noUnits);
+			
 			
 		}
 		
 		@Override
 		public void weatherInfoUpdate(DBWeatherTable w) {
 			System.out.println("BACnet Server > Received weather data update DB confirmation for SiteID: " + w.getSiteId());
-			createBACnetObjectAV (1, (float)w.getTemperature(), "OAT", "Outside Air Temperature", EngineeringUnits.degreesFahrenheit);
-			createBACnetObjectAV (2, (float)w.getHumidity(), "OAH", "Outside Air Humidity", EngineeringUnits.percent);
-			createBACnetObjectAV (3, (float)w.getDewpoint(), "ODP", "Outside Dew Point Temperature", EngineeringUnits.degreesFahrenheit);
+			createBACnetObject (ObjectType.analogValue, 1, (float)w.getTemperature(), "0" ,"1", "OAT", "Outside Air Temperature", EngineeringUnits.degreesFahrenheit);
+			createBACnetObject (ObjectType.analogValue, 2, (float)w.getHumidity(), "0" ,"1", "OAH", "Outside Air Humidity", EngineeringUnits.percent);
+			createBACnetObject (ObjectType.analogValue, 3, (float)w.getDewpoint(), "0" ,"1", "ODP", "Outside Dew Point Temperature", EngineeringUnits.degreesFahrenheit);
 		}
 		
 		
@@ -123,16 +137,32 @@ public class BacnetServer {
 		
 	}
 
-	public static void createBACnetObjectAV(int ID, float value, String name, String description, EngineeringUnits u) {
+	public static void createBACnetObject(ObjectType objType, int ID, float value, String activeTxt, String inactiveTxt, String name, String description, EngineeringUnits u) {
 		try {
 			//set BACnet ID = room ID
-        	ObjectIdentifier objectId = new ObjectIdentifier(ObjectType.analogValue, ID);
-
+        	
+			ObjectIdentifier objectId = new ObjectIdentifier(objType, ID);
+			
 	        BACnetObject object = new BACnetObject(localBacnetDevice, objectId);
-			object.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			
+	        if (objType == ObjectType.analogValue) {
+		        object.setProperty(PropertyIdentifier.presentValue, new Real(value));
+		        object.setProperty(PropertyIdentifier.units, u);
+	        } else if (objType == ObjectType.binaryValue){
+	        	boolean b = false;
+	        	if (value > 0) {
+	        		b = true;
+	        	} 
+	        	object.setProperty(PropertyIdentifier.inactiveText, new CharacterString(activeTxt));
+	        	object.setProperty(PropertyIdentifier.activeText, new CharacterString(inactiveTxt));
+	        	object.setProperty(PropertyIdentifier.presentValue, b ? BinaryPV.active : BinaryPV.inactive);
+	        	
+	        } else {
+	        	return;
+	        }
 			object.setProperty(PropertyIdentifier.objectName, new CharacterString(cleanString(name)));
 			object.setProperty(PropertyIdentifier.description, new CharacterString(description));
-	        object.setProperty(PropertyIdentifier.units, u);
+			
 	        object.setProperty(PropertyIdentifier.statusFlags, new StatusFlags(false, false, false, false));
 	        object.setProperty(PropertyIdentifier.eventState, EventState.normal);
 

@@ -98,6 +98,7 @@ public class Main {
 			System.out.println("Main > System is running!");
 			while (status == 1) {
 				
+				
 				//get weather
 				owm.setZipcode(site.getZipCode());
 				System.out.println("Main > Get current weather for Zipcode: " + owm.getZipcode());
@@ -107,9 +108,11 @@ public class Main {
 				//update database
 				DBWeatherTable w = new DBWeatherTable(0, site.getId(), owm.getTemperature(), owm.getHumidity(), owm.getDewpoint(), 0, null);
 				eventHandler.fireWeatherInfoUpdateDB(w);
-				
+				eventHandler.fireUpdateOccStatus();
 				eventHandler.fireRoomInfoRequest();
 				eventHandler.fireWeatherInfoRequest(site.getId());
+				
+				
 				
 				Thread.sleep(300000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());

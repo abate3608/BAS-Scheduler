@@ -782,8 +782,84 @@ public class Database {
 			}
 		}
 
-		// }
+		@Override
+		public void updateBaseline(String roomNumber) {
+			//display debug message
+			System.out.println("Database > Update baseline request received. Room: " + roomNumber);
+			
+			try {
+				
 
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		}
+
+		@Override
+		public void updateOccStatus() {
+			//display debug message
+			System.out.println("Database > Update Occupancy status request received.");
+			
+			try {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+
+				statement = connect.createStatement();
+				Date dateTime = new Date();
+				
+				java.sql.Timestamp ts = new java.sql.Timestamp(dateTime.getTime());
+				
+				
+				String query = "select * from psuteam7.schedule where StartDateTime <= '" + df.format(dateTime) + "' and EndDateTime >= '" + df.format(dateTime) + "'";
+
+				rt = statement.executeQuery(query); 
+				
+				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
+
+				while ((rt.next())) { 
+
+					DBScheduleTable s = new DBScheduleTable();
+					s.setRowGuid(rt.getString("RowGuid"));
+					s.setScheduleId(rt.getInt("ScheduleId"));
+					s.setName(rt.getString("Name"));
+					s.setDescription(rt.getString("Description"));
+					s.setNotes(rt.getString("Notes"));
+					s.setControlToState(rt.getInt("ControlToState"));
+					s.setStartDateTime(rt.getDate("StartDateTime"));
+					s.setEndDateTime(rt.getDate("EndDateTime")); 
+					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
+					s.setRoomName(rt.getString("RoomName"));
+					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
+					s.setLightIntensity(rt.getInt("LightIntensity"));
+					
+					sList.add(s);
+					
+					
+					query = "Update psuteam7.room set OccState = ? where RoomNumber = '" + s.getRoomName() + "'";
+
+					// create the mysql insert preparedstatement
+					PreparedStatement preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setInt(1, 1);
+					// execute the preparedstatement
+					preparedStmt.execute();
+
+					
+					
+				}
+				
+				query = "Update psuteam7.room set OccState = ? where LastUpdate < '" + ts + "'";
+
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt = connect.prepareStatement(query);
+				preparedStmt.setInt(1, 0);
+				// execute the preparedstatement
+				preparedStmt.execute();
+
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		}
 		private int calendarId;
 
 		public int getCalendarId() {
