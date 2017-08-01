@@ -10,9 +10,12 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.userinterface.EditEventScreenNew;
 import edu.psu.sweng500.util.UIThemeColors;
@@ -27,9 +30,14 @@ public class CalendarEventPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	
 	private DBScheduleTable schedule;
+	// Event listeners
+    private final EventHandler eventHandler = EventHandler.getInstance();
 	
 	public CalendarEventPanel( DBScheduleTable s )
 	{
+		// setup event
+		eventHandler.addListener(new EventQueueListener());
+		
 		TitledBorder border = BorderFactory.createTitledBorder( s.getName() );
 		border.setTitleColor( UIThemeColors.CALENDAR_DARK_BLUE );
 		this.setBorder( border );
@@ -95,10 +103,14 @@ public class CalendarEventPanel extends JPanel
 			@Override
 			public void actionPerformed( ActionEvent e ) 
 			{
-				// TODO Auto-generated method stub
+				eventHandler.fireDeleteEvent(schedule);
 			}
 		});
 		return delete;
+	}
+	
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
 	}
 	
 }
