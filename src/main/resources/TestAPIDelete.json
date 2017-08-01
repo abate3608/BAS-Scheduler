@@ -1,6 +1,6 @@
 {
-	"username":"admin",
-	"password":"admin",
+	"username":"api",
+	"password":"api",
 	"action_id":3,
 	"num_of_obj":1,
 	"error":0,
@@ -9,7 +9,7 @@
 	"stop_date":"",
 	"bacnet":[
 		{
-			"uuid":"bffb9b51-4719-4eac-94b5-8d5b7e594f44",
+			"uuid":"440e5927-77f2-4543-8eff-7152b8b91788",
 			"eventID":"54321",
 			"eventName":"API Update Test",
 			"roomName":"Test Room Update",

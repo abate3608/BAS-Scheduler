@@ -68,6 +68,8 @@ public class CalenderScreen {
 
 	private BacnetConfig BacnetConfigScreen = new BacnetConfig();
 	
+	private ApiConfig ApiConfigScreen = new ApiConfig();
+	
 	
 	private static EditEventScreen editeventscreen = null;
 	
@@ -75,6 +77,8 @@ public class CalenderScreen {
 
 		// setup event
 		eventHandler.addListener(new EventQueueListener());
+		
+		isAuthenticated = false;
 
 		// JAVA FRAME SETUP
 		panelLayout = new JFrame("Global Schedular System");
@@ -284,6 +288,7 @@ public class CalenderScreen {
 		});
 		configMenu.add(configMenuXMLItem);
 		JMenuItem configMenuApiItem = new JMenuItem("API");
+		configMenuApiItem.addActionListener(new configMenuApiItemClick());
 		configMenu.add(configMenuApiItem);
 		
 		JMenu helpMenu = new JMenu("Help");
@@ -448,6 +453,15 @@ public class CalenderScreen {
 
 		}
 	}
+	
+	private final class configMenuApiItemClick implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			ApiConfigScreen.create();
+
+		}
+	}
+	
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
 
@@ -501,7 +515,6 @@ public class CalenderScreen {
 		@Override
 		public void authenticateUserUpdate(User u) {
 			System.out.println("CalendarScreen > Authentication user update received. User: " + u.getUserName() + " isAuthenicated:" + u.isAuthenticated());
-			isAuthenticated = false;
 			if (u.getUserName() == loginScreen.getUserName())
 			{
 				isAuthenticated = u.isAuthenticated();

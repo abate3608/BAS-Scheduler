@@ -1,6 +1,6 @@
 {
-	"username":"admin",
-	"password":"admin",
+	"username":"api",
+	"password":"api",
 	"action_id":4,
 	"num_of_obj":1,
 	"error":0,

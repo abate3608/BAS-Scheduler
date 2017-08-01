@@ -56,6 +56,7 @@ public class EditEventScreen implements ActionListener {
 	private JTextField eventRoomText; 
 	private JTextField lightSettingTXT;
 	private JTextField temperatureSettingTXT;
+	private JButton deleteEventButton;
 	private JButton editEventButton;
 	private JButton cancelButton;
 	
@@ -294,9 +295,14 @@ public class EditEventScreen implements ActionListener {
 		getButton.setBounds(340, 50, 140, 25);
 		newEventPanel.add(getButton);
 		getButton.addActionListener(new getEvent());*/
+		
+		deleteEventButton = new JButton("Delete Event");
+		deleteEventButton.setBounds(lb.getWidth() + lb.getX() + 10, temperatureSettingTXT.getY() + 50, 140, 25);
+		newEventPanel.add(deleteEventButton);
+		deleteEventButton.addActionListener(new deleteEvent());
 
 		editEventButton = new JButton("Edit Event");
-		editEventButton.setBounds(lb.getWidth() + lb.getX() + 10, temperatureSettingTXT.getY() + 50, 140, 25);
+		editEventButton.setBounds(lb.getWidth() + lb.getX() + 10, deleteEventButton.getY() + 30, 140, 25);
 		newEventPanel.add(editEventButton);
 		editEventButton.addActionListener(new editEvent());
 
@@ -472,6 +478,23 @@ public class EditEventScreen implements ActionListener {
 		}
 
 	}
+	
+	public void deleteEvent(){
+		if(lb.getSelectedIndex() == -1){
+			JOptionPane.showMessageDialog(null,"Please select an event to be deleted."); 
+
+			newEventWin.setVisible(true); 
+
+		}else{
+			for(DBScheduleTable s : schedules) {
+				if(s.getName() == lb.getSelectedItem()) {
+					eventHandler.fireDeleteEvent(s);
+					JOptionPane.showMessageDialog(null, "Submitting Delete Event Request");
+				}
+			}	
+			newEventWin.dispose();
+		}
+	}
 
 	//Submit Button
 	private final class editEvent implements ActionListener {
@@ -481,6 +504,15 @@ public class EditEventScreen implements ActionListener {
 			editedEvent();
 		}
 	}
+	
+	//Submit Button
+		private final class deleteEvent implements ActionListener {
+
+			public void actionPerformed(ActionEvent e) {
+
+				deleteEvent();
+			}
+		}
 
 	//Enter Button Press
 	private final class EnterButtonPress extends KeyAdapter {

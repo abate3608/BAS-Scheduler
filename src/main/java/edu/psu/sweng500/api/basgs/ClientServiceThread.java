@@ -52,10 +52,18 @@ public class ClientServiceThread extends Thread {
           
           while(m_bRunThread && !myClientSocket.isClosed()) {
         	JsonReader reader = new JsonReader(new InputStreamReader(myClientSocket.getInputStream(), "UTF-8"));
-          	API_Object apiObj = readJsonStream(reader);
-          	if(apiObj != null) {
-          		api.handleApiObject(apiObj);
-          	}
+        	try {
+	          	API_Object apiObj = readJsonStream(reader);
+	          	if(apiObj != null) {
+	          		api.handleApiObject(apiObj);
+	          	}
+        	} catch(Exception e) {
+        		System.out.println("ClientServerThread >> Invalid JSON message received.");
+        		API_Object apiObjError = new API_Object();
+        		apiObjError.error = 1;
+        		apiObjError.message = "Invalid JSON message format.";
+        		writeJsonStream(apiObjError);
+        	}
              
              if(!multiThreadedServer.getServiceStatus()) { 
                 System.out.print("ClientServiceThread > Server has already stopped"); 
