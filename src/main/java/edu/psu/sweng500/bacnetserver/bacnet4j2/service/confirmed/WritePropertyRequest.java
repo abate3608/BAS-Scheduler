@@ -40,6 +40,8 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.enumerated.PropertyIdentifie
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+
 import com.serotonin.util.queue.ByteQueue;
 
 public class WritePropertyRequest extends ConfirmedRequestService {
@@ -53,6 +55,9 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 	private final Encodable propertyValue;
 	private final UnsignedInteger priority;
 
+	private final EventHandler eventHandler = EventHandler.getInstance();
+	
+	
 	public WritePropertyRequest(ObjectIdentifier objectIdentifier, PropertyIdentifier propertyIdentifier,
 			UnsignedInteger propertyArrayIndex, Encodable propertyValue, UnsignedInteger priority) {
 		this.objectIdentifier = objectIdentifier;
@@ -96,7 +101,10 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 		try {
 			if (localDevice.getEventHandler().checkAllowPropertyWrite(obj, pv)) {
 				obj.setProperty(pv);
-				localDevice.getEventHandler().propertyWritten(obj, pv);
+				obj.getObjectName();
+				
+				//eventHandler.fireup
+				//localDevice.getEventHandler().propertyWritten(obj, pv);
 			} else
 				throw new BACnetServiceException(ErrorClass.property, ErrorCode.writeAccessDenied);
 		} catch (BACnetServiceException e) {

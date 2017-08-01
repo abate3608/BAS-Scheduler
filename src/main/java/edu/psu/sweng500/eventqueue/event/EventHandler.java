@@ -453,4 +453,36 @@ public class EventHandler {
 		}
 	}
 	
+	public void fireUpdateBaseline(String roomNumber) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.updateBaseline(roomNumber);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireUpdateOccupancy(String roomNumber) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.updateOccupancy(roomNumber);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireUpdateOccStatus() {
+		for (EventListener l : listeners) {
+			try {
+				l.updateOccStatus();
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
 }
