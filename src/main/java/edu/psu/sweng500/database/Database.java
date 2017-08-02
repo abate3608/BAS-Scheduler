@@ -137,13 +137,13 @@ public class Database {
 					s.setDescription(rt.getString("Description"));
 					s.setNotes(rt.getString("Notes"));
 					s.setControlToState(rt.getInt("ControlToState"));
-					s.setStartDateTime(rt.getDate("StartDateTime"));
-					s.setEndDateTime(rt.getDate("EndDateTime"));
+					s.setStartDateTime(rt.getTimestamp("StartDateTime"));
+					s.setEndDateTime(rt.getTimestamp("EndDateTime"));
 					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
 					s.setRoomName(rt.getString("RoomName"));
 					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
 					s.setLightIntensity(rt.getInt("LightIntensity"));
-
+					
 					sList.add(s);
 				}
 				// Send list of events to event queue
@@ -279,8 +279,8 @@ public class Database {
 					s.setDescription(rt.getString("Description"));
 					s.setNotes(rt.getString("Notes"));
 					s.setControlToState(rt.getInt("ControlToState"));
-					s.setStartDateTime(rt.getDate("StartDateTime"));
-					s.setEndDateTime(rt.getDate("EndDateTime"));
+					s.setStartDateTime(rt.getTimestamp("StartDateTime"));
+					s.setEndDateTime(rt.getTimestamp("EndDateTime"));
 					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
 					s.setRoomName(rt.getString("RoomName"));
 					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
@@ -379,6 +379,7 @@ public class Database {
 					Date currentTime = calendar.getTime();
 					Date startTime = rt.getTimestamp("StartDateTime");
 					Date endTime = rt.getTimestamp("EndDateTime");
+					System.out.println("CurrentTime: " + currentTime + " StartTime: " + startTime + " EndTime: " + endTime);
 					if (currentTime.after(startTime) && currentTime.before(endTime)) {
 						String query2 = "UPDATE psuteam7.schedule SET MarkedForDelete=? WHERE RowGuid=?";
 						PreparedStatement ps = connect.prepareStatement(query2);

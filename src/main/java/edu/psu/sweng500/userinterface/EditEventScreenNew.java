@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
@@ -41,7 +43,7 @@ public class EditEventScreenNew
 	private JTextField temperatureField;
 	
 	private final EventHandler eventHandler = EventHandler.getInstance();
-	private DBScheduleTable event;
+	public static DBScheduleTable event;
 	
 	public EditEventScreenNew( DBScheduleTable s )
 	{
@@ -63,7 +65,7 @@ public class EditEventScreenNew
 	}
 	
 	private JPanel getMainPanel()
-	{
+	{	
 		JPanel panel = new JPanel();
 		panel.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
@@ -80,6 +82,14 @@ public class EditEventScreenNew
 		panel.add( nameField, c );
 		
 		startTimeBox = new TimePicker();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(event.getStartDateTime());
+		int unroundedMinutes = calendar.get(Calendar.MINUTE);
+		int mod = unroundedMinutes % 15;
+		calendar.set(Calendar.MINUTE, unroundedMinutes + mod);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		startTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(startTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
 		panel.add( new JLabel( "Start Time:" ), c );
@@ -97,6 +107,14 @@ public class EditEventScreenNew
 		c.gridx = 0;
 		
 		endTimeBox = new TimePicker();
+		calendar.setTime(event.getEndDateTime());
+		unroundedMinutes = calendar.get(Calendar.MINUTE);
+		mod = unroundedMinutes % 15;
+		calendar.set(Calendar.MINUTE, unroundedMinutes + mod);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		System.out.println("EndTime Index: " + TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
+		endTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
 		panel.add( new JLabel( "End Time:" ), c );
@@ -188,12 +206,6 @@ public class EditEventScreenNew
 		return df.format( datetime );
 	}
 	
-	private String getHourString( Date datetime )
-	{
-		DateFormat hf = new SimpleDateFormat( "HH:mm:ss" );
-		return hf.format( datetime );
-	}
-	
 	private JButton getDatePickerButton( JTextField field )
 	{
 		JButton button = new JButton("Choose date");
@@ -254,6 +266,54 @@ public class EditEventScreenNew
 		s.setTemperatureSetpoint( 72.0F );
 		
 		new EditEventScreenNew( s );
+	}
+	
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
+		
+		@Override
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(s.getRowGuid() == event.getRowGuid()){
+					switch(err){
+						case 1:
+							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
+							break;
+						case 2:
+							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
+							break;
+						case 4:
+							JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+							break;
+						default:
+							System.out.println("No Error!");
+							break;
+					}
+				}
+			}
+		}
+		
+		@Override
+		public void deleteEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(s.getRowGuid() == event.getRowGuid()){
+					switch(err){
+						case 1:
+							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
+							break;
+						case 2:
+							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
+							break;
+						case 3:
+							JOptionPane.showMessageDialog(null,"Error: Event is currently in progress!");
+							break;
+						default:
+							System.out.println("No Error!");
+							break;
+					}
+				}
+			}
+		}
 	}
 
 }
