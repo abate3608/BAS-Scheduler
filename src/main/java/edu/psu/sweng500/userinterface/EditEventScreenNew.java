@@ -188,6 +188,12 @@ public class EditEventScreenNew
 		return df.format( datetime );
 	}
 	
+	private String getHourString( Date datetime )
+	{
+		DateFormat hf = new SimpleDateFormat( "HH:mm:ss" );
+		return hf.format( datetime );
+	}
+	
 	private JButton getDatePickerButton( JTextField field )
 	{
 		JButton button = new JButton("Choose date");
@@ -206,13 +212,18 @@ public class EditEventScreenNew
 	{
 		DateFormat hr = new SimpleDateFormat( "HH:mm:ss" );
 		DateFormat df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+		Date startDateTime = df.parse(startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()));
+		Date endDateTime = df.parse(endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()));
 		
 		event.setName( nameField.getText() );
-		event.setStartDateTime( df.parse( startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()) ) );
-		event.setEndDateTime( df.parse( endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()) ) );
+		event.setStartDateTime( startDateTime );
+		event.setEndDateTime( endDateTime );
 		event.setRoomName( roomField.getText() );
 		event.setLightIntensity( Integer.parseInt( lightField.getText() ) );
 		event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
+		
+		eventHandler.fireUpdateEvent(event);
+		frame.dispose();
 		
 		//TODO send event
 	}
