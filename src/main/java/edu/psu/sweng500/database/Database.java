@@ -178,35 +178,11 @@ public class Database {
 						// System.out.println("Database > Schedule event existed
 						// in DB: Name - " + s.getName());
 					}
-					String datetime = null;
-					Timestamp timestamp = rt.getTimestamp("StartDateTime");
-					if (timestamp != null) {
-						datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
-					}
-
-					Date startDateTime = df.parse(datetime);
-
-					timestamp = rt.getTimestamp("EndDateTime");
-					if (timestamp != null) {
-						datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
-					}
-					Date endDateTime = df.parse(datetime);
-
-					if (startDateTime.compareTo(s.getStartDateTime()) <= 0
-							&& endDateTime.compareTo(s.getStartDateTime()) > 0) {
-						err = 3; // conflict time. if Null Time entered
-						eventHandler.fireCreateEventRespond(s, err);
-						// System.out.println("Database > Event [" + s.getName()
-						// + "] cannot be added for room [" + s.getRoomName() +
-						// "]. Another event already rescheduled at this time -
-						// Name: " + rt.getString("Name"));
-					}
 					
 					Date currentDate = new Date();
 					// check to validate if User selected start/end date are not before current date
 					if (s.getStartDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
-						err = 4;
-						eventHandler.fireCreateEventRespond(s, err);
+						err = 3;
 					}
 				}
 
