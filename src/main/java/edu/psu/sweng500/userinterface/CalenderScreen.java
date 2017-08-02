@@ -29,6 +29,7 @@ public class CalenderScreen
 	private static JLabel humidity;
 	private static JLabel loginStatus;
 	private static String currentDate;
+	private static String selectedDate;
 
 	private static JFrame frame;
 	private static JPanel eventPanel;
@@ -36,10 +37,12 @@ public class CalenderScreen
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	private final static LogScreen loginScreen = new LogScreen();
 	private static boolean isAuthenticated;
+	private static DatePicker picker;
 
 	public CalenderScreen() 
 	{
 		isAuthenticated = false;
+		picker = new DatePicker();
 		eventHandler.addListener(new EventQueueListener());
 
 		frame = new JFrame("Global Schedular System");
@@ -156,10 +159,12 @@ public class CalenderScreen
 			@Override
 			public void propertyChange(PropertyChangeEvent dateChange) 
 			{
-				updateEvents( (String)dateChange.getNewValue() );
+				selectedDate = (String)dateChange.getNewValue();
+				updateEvents( selectedDate );
 			}
 		});
 		currentDate = picker.getDateSelection();
+		selectedDate = currentDate;
 		panel.add( picker, c );
 	}
 	
@@ -209,10 +214,12 @@ public class CalenderScreen
 				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
 
 				if (!isAuthenticated) {
-					System.out.println("CalendarScreen > User is not authenticated. Exist update calendar screen.");
+					System.out.println("CalendarScreen > User is not authenticated. Exit update calendar screen.");
 					return;
 				}
 				eventPanel.add( new CalendarEventPanel(s) );
+				eventPanel.revalidate();
+				eventPanel.repaint();
 			}
 		}
 
@@ -238,6 +245,22 @@ public class CalenderScreen
 					loginStatus.setText("User: " + u.getUserName());
 				}
 			} 
+		}
+		
+		@Override
+		public void createEventRespond(DBScheduleTable s, int err) {
+			updateEvents( selectedDate );
+		}
+		
+		
+		@Override
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			updateEvents( selectedDate );
+		}
+		
+		@Override
+		public void deleteEventRespond(DBScheduleTable s, int err) {
+			updateEvents( selectedDate );
 		}
 	}
 	

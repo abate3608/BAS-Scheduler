@@ -40,7 +40,6 @@ public class TestClient {
 			System.out.println("3: Update Event(s)");
 			System.out.println("4: Delete Event(s)");
 			System.out.println("5: Incorrect json format");
-			System.out.println("6: Exit");
 			String input = scanner. nextLine();
 			switch(Integer.parseInt(input)){
 				case 1:
@@ -56,9 +55,6 @@ public class TestClient {
 					filename = "TestAPIDelete.json";
 					break;
 				case 5:
-					filename = "MeetingSpaceOutput.xml";
-					break;
-				case 6:
 					run = false;
 					break;
 				default:

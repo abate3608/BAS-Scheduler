@@ -149,7 +149,6 @@ public class EditEventScreenNew
 			public void actionPerformed(ActionEvent e) 
 			{
 				delete();
-				frame.dispose();
 			}
 		});
 		panel.add( delete );
@@ -219,7 +218,12 @@ public class EditEventScreenNew
 	}
 	
 	private void delete() {
-		eventHandler.fireDeleteEvent(event);
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+		int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you would like to delete this event!","Warning",dialogButton);
+		if(dialogResult == JOptionPane.YES_OPTION){
+			eventHandler.fireDeleteEvent(event);
+			frame.dispose();
+		}
 	}
 	
 	/**

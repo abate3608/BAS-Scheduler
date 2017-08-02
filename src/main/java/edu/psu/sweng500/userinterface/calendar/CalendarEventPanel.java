@@ -103,7 +103,11 @@ public class CalendarEventPanel extends JPanel
 			@Override
 			public void actionPerformed( ActionEvent e ) 
 			{
-				eventHandler.fireDeleteEvent(schedule);
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you would like to delete this event!","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					eventHandler.fireDeleteEvent(schedule);
+				}
 			}
 		});
 		return delete;
