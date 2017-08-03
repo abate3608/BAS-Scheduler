@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -21,8 +22,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
+import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 import edu.psu.sweng500.util.FocusHighlightedTextField;
@@ -40,10 +43,13 @@ public class EditEventScreenNew
 	private JTextField temperatureField;
 	
 	private final EventHandler eventHandler = EventHandler.getInstance();
-	private DBScheduleTable event;
+	public static DBScheduleTable event;
 	
 	public EditEventScreenNew( DBScheduleTable s )
 	{
+		// setup event
+		eventHandler.addListener(new EventQueueListener());
+		
 		this.event = s;
 		frame = new JFrame();
 		frame.setTitle( "Global Schedular System Edit Event" );
@@ -59,7 +65,7 @@ public class EditEventScreenNew
 	}
 	
 	private JPanel getMainPanel()
-	{
+	{	
 		JPanel panel = new JPanel();
 		panel.setLayout( new GridBagLayout() );
 		GridBagConstraints c = new GridBagConstraints();
@@ -76,6 +82,14 @@ public class EditEventScreenNew
 		panel.add( nameField, c );
 		
 		startTimeBox = new TimePicker();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(event.getStartDateTime());
+		int unroundedMinutes = calendar.get(Calendar.MINUTE);
+		int mod = unroundedMinutes % 15;
+		calendar.set(Calendar.MINUTE, unroundedMinutes + mod);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		startTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(startTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
 		panel.add( new JLabel( "Start Time:" ), c );
@@ -93,6 +107,14 @@ public class EditEventScreenNew
 		c.gridx = 0;
 		
 		endTimeBox = new TimePicker();
+		calendar.setTime(event.getEndDateTime());
+		unroundedMinutes = calendar.get(Calendar.MINUTE);
+		mod = unroundedMinutes % 15;
+		calendar.set(Calendar.MINUTE, unroundedMinutes + mod);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		System.out.println("EndTime Index: " + TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
+		endTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
 		panel.add( new JLabel( "End Time:" ), c );
@@ -136,7 +158,18 @@ public class EditEventScreenNew
 	private JPanel getButtonPanel()
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout( new GridLayout( 2, 1 ) );
+		panel.setLayout( new GridLayout( 3, 1 ) );
+		
+		JButton delete = new JButton( "Delete Event" );
+		delete.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				delete();
+			}
+		});
+		panel.add( delete );
 		
 		JButton update = new JButton( "Update Event" );
 		update.addActionListener( new ActionListener()
@@ -191,15 +224,29 @@ public class EditEventScreenNew
 	{
 		DateFormat hr = new SimpleDateFormat( "HH:mm:ss" );
 		DateFormat df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+		Date startDateTime = df.parse(startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()));
+		Date endDateTime = df.parse(endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()));
 		
 		event.setName( nameField.getText() );
-		event.setStartDateTime( df.parse( startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()) ) );
-		event.setEndDateTime( df.parse( endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()) ) );
+		event.setStartDateTime( startDateTime );
+		event.setEndDateTime( endDateTime );
 		event.setRoomName( roomField.getText() );
 		event.setLightIntensity( Integer.parseInt( lightField.getText() ) );
 		event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
 		
+		eventHandler.fireUpdateEvent(event);
+		frame.dispose();
+		
 		//TODO send event
+	}
+	
+	private void delete() {
+		int dialogButton = JOptionPane.YES_NO_OPTION;
+		int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you would like to delete this event!","Warning",dialogButton);
+		if(dialogResult == JOptionPane.YES_OPTION){
+			eventHandler.fireDeleteEvent(event);
+			frame.dispose();
+		}
 	}
 	
 	/**
@@ -219,6 +266,54 @@ public class EditEventScreenNew
 		s.setTemperatureSetpoint( 72.0F );
 		
 		new EditEventScreenNew( s );
+	}
+	
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
+		
+		@Override
+		public void updateEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(s.getRowGuid() == event.getRowGuid()){
+					switch(err){
+						case 1:
+							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
+							break;
+						case 2:
+							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
+							break;
+						case 4:
+							JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+							break;
+						default:
+							System.out.println("No Error!");
+							break;
+					}
+				}
+			}
+		}
+		
+		@Override
+		public void deleteEventRespond(DBScheduleTable s, int err) {
+			if(s != null) {
+				if(s.getRowGuid() == event.getRowGuid()){
+					switch(err){
+						case 1:
+							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
+							break;
+						case 2:
+							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
+							break;
+						case 3:
+							JOptionPane.showMessageDialog(null,"Error: Event is currently in progress!");
+							break;
+						default:
+							System.out.println("No Error!");
+							break;
+					}
+				}
+			}
+		}
 	}
 
 }

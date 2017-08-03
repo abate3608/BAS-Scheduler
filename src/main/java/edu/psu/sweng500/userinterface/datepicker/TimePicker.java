@@ -49,12 +49,12 @@ public class TimePicker extends JComboBox<Date>{
 	private static  DefaultComboBoxModel<Date> getTimePickerModel(){
 		
 		Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
        
         Calendar end = Calendar.getInstance();
-        end.set(Calendar.HOUR_OF_DAY, 12);
+        end.set(Calendar.HOUR_OF_DAY, 23);
         end.set(Calendar.MINUTE, 59);
         end.set(Calendar.SECOND, 59);
         DefaultComboBoxModel<Date> model = new DefaultComboBoxModel<>();
@@ -66,6 +66,20 @@ public class TimePicker extends JComboBox<Date>{
 
         return model;
 		
+	}
+	
+	public static int getTimePickerIndex(JComboBox<Date> jbox, Date date) {
+		int size = jbox.getItemCount();
+		for (int i = 0; i < size; i++) {
+		  Date item = jbox.getItemAt(i);
+		  DateFormat hf = new SimpleDateFormat("HH:mm:ss");
+		  int result = hf.format(item).compareTo(hf.format(date));
+		  if(result == 0) {
+			  System.out.println(item);
+			  return i;
+		  }
+		}
+		return -1;
 	}
 }
 

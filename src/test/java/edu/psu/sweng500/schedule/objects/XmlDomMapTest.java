@@ -14,8 +14,8 @@ public class XmlDomMapTest
 		//map.readMapFromFile( Paths.get("src/test/resources/defaultXmlDomMap.properties") );
 		
 		boolean pass = true;
-		pass &= ("//MeetingSpace").equals( map.getProperty("scheduleRoot") );
-		pass &= (".//@roomName").equals( map.getProperty( "roomName" ) );
+		pass &= ("//MeetingSpace").equals( map.getProperty("SCHEDULE_ROOT") );
+		pass &= (".//@roomName").equals( map.getProperty( "ROOM_NAME" ) );
 		
 		assertTrue( pass );
 	}

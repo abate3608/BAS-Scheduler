@@ -301,6 +301,12 @@ public class BASGS_API {
 					case 2:
 						apiObjReturn.message = "Error: Event does not exist.";
 						break;
+					case 3:
+						apiObjReturn.message = "Error: No Time Entered.";
+						break;
+					case 4:
+						apiObjReturn.message = "Error: Scheduled event time has already passed.";
+						break;
 					default:
 						apiObjReturn.message = "Error: Unknown";
 						break;
@@ -379,7 +385,7 @@ public class BASGS_API {
 		
 		@Override
 		public void updateEventRespond(DBScheduleTable s, int err) {
-			if(s != null) {
+			if(s != null && apiObj != null) {
 				if(apiObj.action_id == UPDATE_REQUEST) {
 					System.out.println("BASGS_API: Update Event Respond");
 					API_Object apiObjReturn = new API_Object();
@@ -394,6 +400,10 @@ public class BASGS_API {
 						break;
 					case 2:
 						apiObjReturn.message = "Error: Event does not exist.";
+						break;
+					case 3:
+					case 4:
+						apiObjReturn.message = "Error: Scheduled event time has already passed.";
 						break;
 					default:
 						apiObjReturn.message = "Error: Unknown";
@@ -426,7 +436,7 @@ public class BASGS_API {
 		
 		@Override
 		public void deleteEventRespond(DBScheduleTable s, int err) {
-			if(s != null) {
+			if(s != null && apiObj != null) {
 				if(apiObj.action_id == DELETE_REQUEST) {
 					System.out.println("BASGS_API: Delete Event Respond");
 					API_Object apiObjReturn = new API_Object();
@@ -476,7 +486,7 @@ public class BASGS_API {
 		
 		@Override
 		public void eventUpdate(ArrayList<DBScheduleTable> s) {
-			if(s != null) {
+			if(s != null && apiObj != null) {
 				if(apiObj.action_id == READ_ALL_REQUEST) {
 					System.out.println("BASGS_API: Event Updates");
 					// TEAM 7 TO DO

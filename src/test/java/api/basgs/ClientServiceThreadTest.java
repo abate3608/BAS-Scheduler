@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -30,7 +33,8 @@ public class ClientServiceThreadTest {
 	
 	private static final int PORT = 8888;
 	private ClassLoader classLoader;
-	private Socket clientSocket;
+	private SSLSocketFactory f;
+	private SSLSocket clientSocket;
 	private String uuidFutureTime = "";
 	private String uuidAnyTime = "";
 	private Date currentTime;
@@ -41,6 +45,8 @@ public class ClientServiceThreadTest {
 	public ClientServiceThreadTest() throws Exception{
 		System.out.println("Starting ClientServiceThreadTest");
 		
+		f = (SSLSocketFactory) SSLSocketFactory.getDefault();
+		
 		MysqlConnection dao = new MysqlConnection();
 		// test database
 		dao.readDB();
@@ -50,10 +56,15 @@ public class ClientServiceThreadTest {
 		t1.start();
 		
 		classLoader = TestClient.class.getClassLoader();
-		clientSocket = new Socket("localhost", PORT);
+		clientSocket = (SSLSocket) f.createSocket("localhost", PORT);
+		clientSocket.setEnabledCipherSuites(clientSocket.getSupportedCipherSuites());
+		clientSocket.startHandshake();
+
 		
 		df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		Calendar calendar = Calendar.getInstance();
+		int seconds = calendar.get(Calendar.SECOND) + 1;
+		calendar.set(Calendar.SECOND, seconds);
 		currentTime = calendar.getTime();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY) + 1;
 		calendar.set(Calendar.HOUR_OF_DAY, hour);

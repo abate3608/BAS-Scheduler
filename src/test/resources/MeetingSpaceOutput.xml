@@ -1,11 +1,29 @@
 <?xml version="1.0"?>
-<MeetingSpaceResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://htng.org/PWSWG/2007/01/DigitalSignage/MeetingSpaceResponse/Types">
-  <Property propertyKey="10055" propertyName="Deloitte University">
-    <Event eventKey="65733.10054" eventName="Group" eventPostAs="Audit Year 3@Deloitte: Go the Distance">
-      <Group name="Audit" key="36700.10054" />
-      <MeetingSpace startDateTime="2017-07-18T10:00:00" endDateTime="2017-07-18T14:11:00" roomKey="03FDDEF4-7A04-4294-B1F1-89B5FF47B23C" roomName="Classroom 1065" meetingKey="18069C2E-666C-E511-9446-005056BAB105" meetingName="Group7" meetingPostAs="Group 7 bi-weekly" isPostable="true" isExhibit="false" agr_attend="30" exp_attend="30" gtd_attend="30" set_attend="34" />
-      <MeetingSpace startDateTime="2017-07-19T08:00:00" endDateTime="2017-07-19T14:15:00" roomKey="16D6F82F-16BD-4980-B7E0-0A6B486A94AB" roomName="Classroom 1067" meetingKey="E3059C2E-666C-E511-9446-005056BAB105" meetingName="Breakout" meetingPostAs="Inventory Breakout" isPostable="true" isExhibit="false" agr_attend="30" exp_attend="30" gtd_attend="30" set_attend="34" />
-      <MeetingSpace startDateTime="2017-07-23T08:00:00" endDateTime="2017-07-23T14:15:00" roomKey="53adbefc-e862-4dae-a71f-f40462f6a6b4" roomName="Classroom 1043" meetingKey="43069C2E-666C-E511-9446-005056BAB105" meetingName="DemoMeeting" meetingPostAs="FSI Breakout" isPostable="true" isExhibit="false" agr_attend="30" exp_attend="30" gtd_attend="30" set_attend="34" />
-    </Event>
-  </Property>
+<MeetingSpaceResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://htng.org/PWSWG/2007/01/DigitalSignage/MeetingSpaceResponse/Types">
+	<Property propertyKey="10055" propertyName="Deloitte University">
+		<Event eventKey="65733.10054" eventName="Group"
+			eventPostAs="Audit Year 3@Deloitte: Go the Distance">
+			<Group name="Audit" key="36700.10054" />
+			<MeetingSpace startDateTime="2017-07-18T10:00:00"
+				endDateTime="2017-07-18T14:11:00" roomKey="03FDDEF4-7A04-4294-B1F1-89B5FF47B23C"
+				roomName="Classroom 1065" meetingKey="18069C2E-666C-E511-9446-005056BAB105"
+				meetingName="Group7" meetingPostAs="Group 7 bi-weekly" isPostable="true"
+				isExhibit="false" agr_attend="30" exp_attend="30" gtd_attend="30"
+				set_attend="34" />
+			<MeetingSpace startDateTime="2017-07-19T08:00:00"
+				endDateTime="2017-07-19T14:15:00" roomKey="16D6F82F-16BD-4980-B7E0-0A6B486A94AB"
+				roomName="Classroom 1067" meetingKey="E3059C2E-666C-E511-9446-005056BAB105"
+				meetingName="Breakout" meetingPostAs="Inventory Breakout"
+				isPostable="true" isExhibit="false" agr_attend="30" exp_attend="30"
+				gtd_attend="30" set_attend="34" />
+			<MeetingSpace startDateTime="2017-07-23T08:00:00"
+				endDateTime="2017-07-23T14:15:00" roomKey="53adbefc-e862-4dae-a71f-f40462f6a6b4"
+				roomName="Classroom 1043" meetingKey="43069C2E-666C-E511-9446-005056BAB105"
+				meetingName="DemoMeeting" meetingPostAs="FSI Breakout" isPostable="true"
+				isExhibit="false" agr_attend="30" exp_attend="30" gtd_attend="30"
+				set_attend="34" />
+		</Event>
+	</Property>
 </MeetingSpaceResponse>

@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
  
 /*
  * Author: Brian Abate
@@ -14,7 +18,8 @@ import java.util.Calendar;
  * applications to connect to
  */
 public class MultiThreadedAPIServer implements Runnable {
-   ServerSocket myServerSocket;
+   ServerSocketFactory ssf = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+   SSLServerSocket myServerSocket;
    private final int PORT = 8888;
    boolean ServerOn = true;
    
@@ -22,7 +27,6 @@ public class MultiThreadedAPIServer implements Runnable {
 	 * Constructor that instanciates server
 	 */
    public MultiThreadedAPIServer() { 
-
    }
    
    public void start() {
@@ -40,8 +44,8 @@ public class MultiThreadedAPIServer implements Runnable {
 		          }
 		      }
 		  });
-	    	  
-		  myServerSocket = new ServerSocket(PORT);
+		  myServerSocket = (SSLServerSocket) ssf.createServerSocket(PORT);  
+		  myServerSocket.setEnabledCipherSuites(myServerSocket.getSupportedCipherSuites());
 	  } catch(IOException ioe) { 
 	     System.out.println("Could not create server socket on port " + String.valueOf(PORT) + ". Quitting.");
 	     System.exit(-1);
