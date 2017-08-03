@@ -104,5 +104,7 @@ public interface EventListener {
 	public void updateOccupancy(String roomNumber);
 
 	public void updateOccStatus();
+	
+	public void saveRoomHistoryData(DBSiteRmTempTable r);
 
 }

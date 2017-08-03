@@ -755,6 +755,39 @@ public class Database {
 		}
 
 		@Override
+		public void saveRoomHistoryData (DBSiteRmTempTable r) {
+			//display debug message
+			System.out.println("Database > Update room history data request received. Room: " + r.getRoomNumber());
+			
+			try {
+				
+				// the mysql insert statement
+				//String query = " Insert into psuteam7.site_room_temp set SiteID = ?, Temperature = ?, OccSetpoint = ?, UnOccSetpoint = ?, CoolMode = ?, OAT = ?, OccStatus = ?";
+					//	+ " where ID = " + s.getId();
+				String query = " insert into psuteam7.weather (SiteID, RoomNumber, Temperature, OccSetpoint, UnoccSetpoint, CoolMode, OAT, OccStatus)"
+						+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt = connect.prepareStatement(query);
+				preparedStmt.setInt (1, r.getSiteID());
+				preparedStmt.setString (2, r.getRoomNumber());
+				preparedStmt.setFloat (3, r.getTemperature());
+				preparedStmt.setFloat (4, r.getOccSetpoint());
+				preparedStmt.setFloat (5, r.getUnOccSetpoint());
+				preparedStmt.setInt (6, r.getCoolMode());
+				preparedStmt.setFloat (7, r.getOAT());
+				preparedStmt.setInt (8, r.getOccStatus());
+				// execute the preparedstatement
+				preparedStmt.execute();
+
+				
+
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		}
+		
+		@Override
 		public void updateOccStatus() {
 			//display debug message
 			System.out.println("Database > Update Occupancy status request received.");

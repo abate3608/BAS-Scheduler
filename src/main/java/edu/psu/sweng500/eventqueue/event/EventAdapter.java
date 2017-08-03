@@ -2,8 +2,6 @@ package edu.psu.sweng500.eventqueue.event;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
-
 import edu.psu.sweng500.type.*;
 
 public class EventAdapter implements EventListener {
@@ -213,6 +211,11 @@ public class EventAdapter implements EventListener {
 		}
 		
 		public void updateOccStatus() {
+			
+		}
+
+		public void saveRoomHistoryData(DBSiteRmTempTable r) {
+			// TODO Auto-generated method stub
 			
 		}
 		

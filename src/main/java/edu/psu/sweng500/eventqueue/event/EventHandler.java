@@ -485,4 +485,15 @@ public class EventHandler {
 		}
 	}
 	
+	public void fireSaveRoomHistoryData(DBSiteRmTempTable r) {
+		for (EventListener l : listeners) {
+			try {
+				l.saveRoomHistoryData(r);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	
 }
