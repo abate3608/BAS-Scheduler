@@ -29,14 +29,13 @@ public class CalendarEventPanel extends JPanel
 	/** default */
 	private static final long serialVersionUID = 1L;
 	
-	private DBScheduleTable schedule;
+	public DBScheduleTable schedule;
+	public static DBScheduleTable event;
 	// Event listeners
-    private final EventHandler eventHandler = EventHandler.getInstance();
+    private static final EventHandler eventHandler = EventHandler.getInstance();
 	
 	public CalendarEventPanel( DBScheduleTable s )
 	{
-		// setup event
-		eventHandler.addListener(new EventQueueListener());
 		
 		TitledBorder border = BorderFactory.createTitledBorder( s.getName() );
 		border.setTitleColor( UIThemeColors.CALENDAR_DARK_BLUE );
@@ -44,6 +43,7 @@ public class CalendarEventPanel extends JPanel
 		this.setBackground( UIThemeColors.CALENDAR_BLUE );
 		this.setLayout( new BoxLayout(this, BoxLayout.LINE_AXIS) );
 		this.schedule = s;
+		this.event = s;
 		
 		this.add( getEventDetails() );
 		this.add( getEditButton() );
@@ -113,8 +113,9 @@ public class CalendarEventPanel extends JPanel
 		return delete;
 	}
 	
-	static class EventQueueListener extends EventAdapter {
-		// listen to event queue
+	public EventHandler getEventHandler() {
+		return eventHandler;
 	}
+	
 	
 }

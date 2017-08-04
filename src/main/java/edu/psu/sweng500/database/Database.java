@@ -121,8 +121,11 @@ public class Database {
 
 				statement = connect.createStatement();
 
-				String query = "select * from psuteam7.schedule where StartDateTime >= '" + df.format(startDateTime)
-						+ "' and EndDateTime <= '" + df.format(endDateTime) + "'";
+				String query = "SELECT * FROM psuteam7.schedule WHERE ('" + df.format(startDateTime) + 
+						"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+						"OR ('" + endDateTime + "' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+						"OR (StartDateTime BETWEEN '" + df.format(startDateTime) + "' AND '" + df.format(endDateTime) + "') " +
+						"OR (EndDateTime BETWEEN '" + df.format(startDateTime) + "' AND '" + df.format(endDateTime) + "')";
 
 				rt = statement.executeQuery(query);
 
@@ -154,6 +157,49 @@ public class Database {
 			}
 
 		}
+		
+		@Override
+		public void getDailyEvents(Date dailyDate) {
+			try {
+				System.out.println("Database >> Get Daily Events received for: " + dailyDate.toString());
+
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+				statement = connect.createStatement();
+
+				String query = "SELECT * FROM psuteam7.schedule WHERE '" + df.format(dailyDate) + "'"
+						+ " BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE);";
+
+				rt = statement.executeQuery(query);
+
+				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
+
+				while ((rt.next())) {
+
+					DBScheduleTable s = new DBScheduleTable();
+					s.setRowGuid(rt.getString("RowGuid"));
+					s.setScheduleId(rt.getInt("ScheduleId"));
+					s.setName(rt.getString("Name"));
+					s.setDescription(rt.getString("Description"));
+					s.setNotes(rt.getString("Notes"));
+					s.setControlToState(rt.getInt("ControlToState"));
+					s.setStartDateTime(rt.getTimestamp("StartDateTime"));
+					s.setEndDateTime(rt.getTimestamp("EndDateTime"));
+					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
+					s.setRoomName(rt.getString("RoomName"));
+					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
+					s.setLightIntensity(rt.getInt("LightIntensity"));
+					
+					sList.add(s);
+				}
+				// Send list of events to event queue
+				eventHandler.fireEventDailyUpdate(sList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 		@Override
 		public void createEvent(DBScheduleTable s) {
@@ -178,12 +224,12 @@ public class Database {
 						// System.out.println("Database > Schedule event existed
 						// in DB: Name - " + s.getName());
 					}
-					
-					Date currentDate = new Date();
-					// check to validate if User selected start/end date are not before current date
-					if (s.getStartDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
-						err = 3;
-					}
+				}
+				
+				Date currentDate = new Date();
+				// check to validate if User selected start/end date are not before current date
+				if (s.getStartDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
+					err = 3;
 				}
 
 				if (err < 1) { // no error
@@ -227,7 +273,7 @@ public class Database {
 					err = 0; // 0 = good
 
 				}
-
+				System.out.println("Database >> createEvent Error code: " + err);
 				eventHandler.fireCreateEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -290,9 +336,8 @@ public class Database {
 				if (rt.next()) {
 					
 					Date currentDate = new Date();
-					// check to validate if User selected end date is not before current date
-					System.out.println("Current: " +currentDate + " Start: " + s.getStartDateTime() + " End: " + s.getEndDateTime());
-					if (s.getEndDateTime().before(currentDate)) {
+					// check to validate if User selected dates are not before current date
+					if (s.getEndDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
 						err = 4;
 					}
 
@@ -329,6 +374,7 @@ public class Database {
 				} else {
 					err = 2;
 				}
+				System.out.println("Database >> updateEvent Error code: " + err);
 				eventHandler.fireUpdateEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -380,10 +426,10 @@ public class Database {
 						}
 					}
 				} else {
-					err = 2;
 					// Row does not exist
-					eventHandler.fireDeleteEventRespond(s, err);
+					err = 2;
 				}
+				System.out.println("Database >> deleteEvent Error code: " + err);
 				eventHandler.fireDeleteEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -747,7 +793,7 @@ public class Database {
 			System.out.println("Database > Update Occupancy status request received.");
 			
 			try {
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); 
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 
 				statement = connect.createStatement();
 				Date dateTime = new Date();

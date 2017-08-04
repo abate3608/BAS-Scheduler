@@ -28,13 +28,15 @@ public class BASGS_API {
 	private static final int UPDATE_REQUEST = 2;
 	private static final int DELETE_REQUEST = 3;
 	private static final int READ_ALL_REQUEST = 4;
+	
+	private static EventQueueListener eql = new EventQueueListener();
 
 	/*
 	 * Constructor for BASGS_API
 	 */
 	public BASGS_API(ClientServiceThread client) {
 		// setup event
-		eventHandler.addListener(new EventQueueListener());
+		eventHandler.addListener(eql);
 		this.client = client;
 	}
 
@@ -78,9 +80,10 @@ public class BASGS_API {
 				s.setName(api.bacnet.get(i).eventName);
 				s.setRoomName(api.bacnet.get(i).roomName);
 				s.setDescription(api.bacnet.get(i).eventDescription);
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
 				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
+				System.out.println(df.parse(api.bacnet.get(i).eventStart) + " " + df.parse(api.bacnet.get(i).eventStop));
 				s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
 				s.setTemperatureSetpoint(Float.parseFloat(api.bacnet.get(i).temperatureSetpoint));
 				schedules.add(s);
@@ -111,7 +114,7 @@ public class BASGS_API {
 					s.setName(api.bacnet.get(i).eventName);
 					s.setRoomName(api.bacnet.get(i).roomName);
 					s.setDescription(api.bacnet.get(i).eventDescription);
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
 					s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
 					s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
@@ -126,7 +129,7 @@ public class BASGS_API {
 			}
 		} else {
 			try {
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date startDate = df.parse(api.start_date);
 				Date endDate = df.parse(api.stop_date);
 				eventHandler.fireGetEvents(startDate, endDate);
@@ -151,7 +154,7 @@ public class BASGS_API {
 				s.setName(api.bacnet.get(i).eventName);
 				s.setRoomName(api.bacnet.get(i).roomName);
 				s.setDescription(api.bacnet.get(i).eventDescription);
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
 				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
 				s.setLightIntensity(Integer.parseInt(api.bacnet.get(i).lightIntensity));
@@ -181,7 +184,7 @@ public class BASGS_API {
 				s.setName(api.bacnet.get(i).eventName);
 				s.setRoomName(api.bacnet.get(i).roomName);
 				s.setDescription(api.bacnet.get(i).eventDescription);
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				s.setStartDateTime(df.parse(api.bacnet.get(i).eventStart));
 				s.setEndDateTime(df.parse(api.bacnet.get(i).eventStop));
 				s.setMarkedForDelete(true);
@@ -277,6 +280,10 @@ public class BASGS_API {
 		return eventHandler;
 	}
 	
+	public void close() {
+		eventHandler.removeListener(eql);
+	}
+	
 	/*
 	 * This class allows the BASGS to listen for event updates from the event queue
 	 */
@@ -299,13 +306,10 @@ public class BASGS_API {
 						apiObjReturn.message = "Error: Database Connection Issue";
 						break;
 					case 2:
-						apiObjReturn.message = "Error: Event does not exist.";
+						apiObjReturn.message = "Error: Event already exists.";
 						break;
 					case 3:
-						apiObjReturn.message = "Error: No Time Entered.";
-						break;
-					case 4:
-						apiObjReturn.message = "Error: Scheduled event time has already passed.";
+						apiObjReturn.message = "Error: Invalid date/time selected.";
 						break;
 					default:
 						apiObjReturn.message = "Error: Unknown";

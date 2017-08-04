@@ -49,9 +49,8 @@ public class ClientServiceThread extends Thread {
        System.out.println(
           "ClientServiceThread > Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
        try { 
-          
+    	  JsonReader reader = new JsonReader(new InputStreamReader(myClientSocket.getInputStream(), "UTF-8"));
           while(m_bRunThread && !myClientSocket.isClosed()) {
-        	JsonReader reader = new JsonReader(new InputStreamReader(myClientSocket.getInputStream(), "UTF-8"));
         	try {
 	          	API_Object apiObj = readJsonStream(reader);
 	          	if(apiObj != null) {
@@ -70,9 +69,10 @@ public class ClientServiceThread extends Thread {
                 m_bRunThread = false;
              }
           } 
-       } catch(Exception e) { 
-          e.printStackTrace(); 
-       } 
+       } catch(IOException ioe) {
+    	   System.out.println("ClientServiceThread >> Exception caught - Connection reset by peer.");
+    	   api.close();
+       }
        finally { 
           try {  
              myClientSocket.close(); 

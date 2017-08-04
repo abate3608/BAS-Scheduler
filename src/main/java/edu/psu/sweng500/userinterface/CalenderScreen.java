@@ -30,6 +30,7 @@ public class CalenderScreen
 	private static JLabel loginStatus;
 	private static String currentDate;
 	private static String selectedDate;
+	private static boolean isBeingUpdated = false;
 
 	private static JFrame frame;
 	private static JPanel eventPanel;
@@ -38,6 +39,7 @@ public class CalenderScreen
 	private final static LogScreen loginScreen = new LogScreen();
 	private static boolean isAuthenticated;
 	private static DatePicker picker;
+	private static ArrayList<CalendarEventPanel> cepList = new ArrayList<CalendarEventPanel>();
 
 	public CalenderScreen() 
 	{
@@ -180,19 +182,17 @@ public class CalenderScreen
 
 	private static void updateEvents( String date ) 
 	{
+		isBeingUpdated = true;
 		// clear previous selection's events
 		eventPanel.removeAll();
 		eventPanel.revalidate();
 		eventPanel.repaint();   // This is required in some cases
 
 		try {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date start = df.parse( date + " 00:00:00" );
-			Date stop = df.parse( date + " 23:59:59" );
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date dailyDate = df.parse( date );
 			
-			System.out.println( "Start: " + start.toString() + "\t Stop: " + stop.toString() );
-			
-			eventHandler.fireGetEvents(start, stop);
+			eventHandler.fireGetDailyEvents(dailyDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -207,19 +207,24 @@ public class CalenderScreen
 	private static class EventQueueListener extends EventAdapter 
 	{
 		@Override
-		public void eventUpdate( ArrayList<DBScheduleTable> sList ) 
+		public void eventDailyUpdate( ArrayList<DBScheduleTable> sList ) 
 		{
-			for(DBScheduleTable s : sList)
-			{
-				System.out.println("CalendarScreen > Schedule event update received. Schedule Name: " + s.getName());
-
-				if (!isAuthenticated) {
-					System.out.println("CalendarScreen > User is not authenticated. Exit update calendar screen.");
-					return;
+			if(isBeingUpdated) {
+				for(DBScheduleTable s : sList)
+				{
+	
+					if (!isAuthenticated) {
+						System.out.println("CalendarScreen > User is not authenticated. Exit update calendar screen.");
+						return;
+					} else {
+						CalendarEventPanel cep = new CalendarEventPanel(s);
+						cepList.add(cep);
+						eventPanel.add( cep );
+					}
 				}
-				eventPanel.add( new CalendarEventPanel(s) );
 				eventPanel.revalidate();
 				eventPanel.repaint();
+				isBeingUpdated = false;
 			}
 		}
 
@@ -260,7 +265,25 @@ public class CalenderScreen
 		
 		@Override
 		public void deleteEventRespond(DBScheduleTable s, int err) {
-			updateEvents( selectedDate );
+			if(s != null) {
+					switch(err){
+						case 0:
+							updateEvents( selectedDate );
+							break;
+						case 1:
+							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
+							break;
+						case 2:
+							JOptionPane.showMessageDialog(null,"Error: Event to delete not found!");
+							break;
+						case 3:
+							JOptionPane.showMessageDialog(null,"Error: Event is currently in progress!");
+							break;
+						default:
+							System.out.println("Unknown Error!");
+							break;
+					}
+			}
 		}
 	}
 	

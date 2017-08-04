@@ -9,7 +9,7 @@
 	"stop_date":"",
 	"bacnet":[
 		{
-			"uuid":"e45abe58-4e5f-4354-bc55-7bf270849ea0",
+			"uuid":"65f686f7-fee2-458d-980e-a2bd08d40f03",
 			"eventID":"54321",
 			"eventName":"API Update Test",
 			"roomName":"Test Room Update",

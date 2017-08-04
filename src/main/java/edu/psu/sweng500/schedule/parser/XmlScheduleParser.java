@@ -133,7 +133,7 @@ public class XmlScheduleParser
 	 */
 	private static Date parseDate( String datestring ) throws ParseException
 	{
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		return df.parse( datestring );
 	}
 }
