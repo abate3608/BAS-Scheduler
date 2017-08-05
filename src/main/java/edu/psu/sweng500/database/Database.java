@@ -213,8 +213,13 @@ public class Database {
 
 				statement = connect.createStatement();
 				Date d = DateUtils.addHours(s.getStartDateTime(), -2);
-				String query = "select * from psuteam7.schedule where (StartDateTime <= '" + df.format(d) + "'"
-						+ " and EndDateTime > '" + df.format(d) + "') and RoomName = '" + s.getRoomName() + "'";
+				
+				String query = "SELECT * FROM psuteam7.schedule WHERE ('" + df.format(s.getStartDateTime()) + 
+						"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+						"OR ('" + s.getEndDateTime() + "' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+						"OR (StartDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
+						"OR (EndDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
+						"AND RoomName = '" + s.getRoomName() + "'";
 
 				rt = statement.executeQuery(query);
 				// check for existing schedule
@@ -224,6 +229,9 @@ public class Database {
 						err = 2; // guid exist. schedule exist.
 						// System.out.println("Database > Schedule event existed
 						// in DB: Name - " + s.getName());
+					} else {
+						//Time conflict with room
+						err = 5;
 					}
 				}
 				
@@ -340,6 +348,27 @@ public class Database {
 					// check to validate if User selected dates are not before current date
 					if (s.getEndDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
 						err = 4;
+					}
+					
+					if(err < 1) {
+						DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+						statement = connect.createStatement();
+						
+						String queryDup = "SELECT * FROM psuteam7.schedule WHERE ('" + df.format(s.getStartDateTime()) + 
+								"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+								"OR ('" + s.getEndDateTime() + "' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
+								"OR (StartDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
+								"OR (EndDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
+								"AND RoomName = '" + s.getRoomName() + "'";
+						
+	
+						rt = statement.executeQuery(queryDup);
+						// check for existing schedule
+						while (rt.next()) {
+							//Time conflict with room
+							err = 5;
+						}
 					}
 
 					if (err < 1) { // no error

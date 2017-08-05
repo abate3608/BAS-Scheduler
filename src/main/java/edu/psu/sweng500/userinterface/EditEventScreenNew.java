@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
@@ -46,6 +48,8 @@ public class EditEventScreenNew
 	private JTextField endDateField;
 	private JTextField lightField;
 	private JTextField temperatureField;
+	
+	private JButton update;
 	
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	public static DBScheduleTable event;
@@ -71,7 +75,7 @@ public class EditEventScreenNew
 		
 		frame.addWindowListener(getWindowAdapter());
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
-		frame.setAlwaysOnTop(true);
+		//frame.setAlwaysOnTop(true);
 		frame.setResizable(false);
 		frame.setVisible( true );
 	}
@@ -122,7 +126,7 @@ public class EditEventScreenNew
 		startTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(startTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "Start Time:" ), c );
+		panel.add( new JLabel( "Start Time: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( startTimeBox, c );
 		
@@ -147,7 +151,7 @@ public class EditEventScreenNew
 		endTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "End Time:" ), c );
+		panel.add( new JLabel( "End Time: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( endTimeBox, c );
 		
@@ -201,7 +205,7 @@ public class EditEventScreenNew
 		});
 		panel.add( delete );
 		
-		JButton update = new JButton( "Update Event" );
+		update = new JButton( "Update Event" );
 		update.addActionListener( new ActionListener()
 		{
 			@Override
@@ -210,7 +214,7 @@ public class EditEventScreenNew
 				try {
 					update();
 				} catch (ParseException e1) {
-					JOptionPane.showMessageDialog(frame, "Error: Invalid datetime format. Could not parse datetime format.");
+					JOptionPane.showMessageDialog(frame, "Error: Invalid datetime format.");
 				}
 			}
 		});
@@ -228,6 +232,83 @@ public class EditEventScreenNew
 		panel.add( cancel );
 		
 		return panel;
+	}
+	
+	private boolean verifyFields() {
+		if(verifyTextField(nameField) && verifyDateField(startDateField) &&
+				verifyDateField(endDateField) && verifyTextField(roomField) &&
+				verifyIntegerField(lightField) && verifyFloatField(temperatureField)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean verifyTextField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
+	       return false;
+	     }
+	     else {
+	       return true;
+	     }
+	}
+		
+	private boolean verifyFloatField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	        try {
+		        Float.parseFloat(field.getText());
+		        return true;
+		     } catch (NumberFormatException e) {
+		    	 JOptionPane.showMessageDialog(null,"Error: Must enter a number!");
+		    	 return false;
+			 }
+	       
+	    }
+	}
+	
+	private boolean verifyIntegerField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	        try {
+		        Integer.parseInt(field.getText());
+		        return true;
+		     } catch (NumberFormatException e) {
+		    	 JOptionPane.showMessageDialog(null,"Error: Must enter a number!");
+		    	 return false;
+			 }
+	       
+	    }
+	}
+		
+	private boolean verifyDateField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	    	 String test = "2017-08-14";
+	    	 String format = "yyyy-MM-dd";
+	    	 SimpleDateFormat sdf = new SimpleDateFormat(format);
+	    	 sdf.setLenient(false);
+	    	 try {
+	    	     Date date = sdf.parse(test);
+	    	     if (!sdf.format(date).equals(test)) {
+	    	    	 System.out.println(test + " is not a valid format for " + format);
+	    	         throw new ParseException(test + " is not a valid format for " + format, 0);
+	    	     } else {
+	    	    	 return true;
+	    	     }
+	    	 } catch (ParseException ex) {
+	    		 JOptionPane.showMessageDialog(null,"Error: Must enter proper date format (yyyy-mm-dd)!");
+	    		 return false;
+	    	 }
+	       
+	    }
 	}
 	
 	private String getDateString( Date datetime )
@@ -253,25 +334,26 @@ public class EditEventScreenNew
 	public static void close() {
 		eventHandler.removeListener(eql);
 		frame.dispose();
+		frame.setVisible(false);
 	}
 	
 	private void update() throws ParseException
 	{
-		DateFormat hr = new SimpleDateFormat( "HH:mm:ss" );
-		DateFormat df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-		Date startDateTime = df.parse(startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()));
-		Date endDateTime = df.parse(endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()));
-		
-		event.setName( nameField.getText() );
-		event.setStartDateTime( startDateTime );
-		event.setEndDateTime( endDateTime );
-		event.setRoomName( roomField.getText() );
-		event.setLightIntensity( Integer.parseInt( lightField.getText() ) );
-		event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
-		
-		eventHandler.fireUpdateEvent(event);
-		
-		//TODO send event
+		if(verifyFields()) {
+			DateFormat hr = new SimpleDateFormat( "HH:mm:ss" );
+			DateFormat df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+			Date startDateTime = df.parse(startDateField.getText() + " " + hr.format(startTimeBox.getSelectedItem()));
+			Date endDateTime = df.parse(endDateField.getText() + " " + hr.format(endTimeBox.getSelectedItem()));
+			
+			event.setName( nameField.getText() );
+			event.setStartDateTime( startDateTime );
+			event.setEndDateTime( endDateTime );
+			event.setRoomName( roomField.getText() );
+			event.setLightIntensity( Integer.parseInt( lightField.getText() ) );
+			event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
+			
+			eventHandler.fireUpdateEvent(event);
+		}
 	}
 	
 	private void delete() {
@@ -320,6 +402,9 @@ public class EditEventScreenNew
 							break;
 						case 4:
 							JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+							break;
+						case 5:
+							JOptionPane.showMessageDialog(null,"Error: Time Conflict with Room.");
 							break;
 						default:
 							System.out.println("Unknown Error!");

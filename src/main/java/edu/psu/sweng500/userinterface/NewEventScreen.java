@@ -76,7 +76,7 @@ public class NewEventScreen implements ActionListener {
 
 		newEventWin.addWindowListener(getWindowAdapter());
 		newEventWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
-		newEventWin.setAlwaysOnTop(true);
+		//newEventWin.setAlwaysOnTop(true);
 		newEventWin.setResizable(false);
 		newEventWin.setVisible(true);
 	}
@@ -104,9 +104,9 @@ public class NewEventScreen implements ActionListener {
 		newEventPanel.setLayout(null);
 		newEventPanel.setBorder(BorderFactory.createTitledBorder("Schedule a New Event"));
 
-		eventName = new JLabel("Event Name");
+		eventName = new JLabel("Event Name:");
 		eventName.setBounds(20, 25, 90, 25);
-		eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//eventName.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventName);
 
 		eventNameTXT = new JTextField(20);
@@ -115,9 +115,9 @@ public class NewEventScreen implements ActionListener {
 		eventNameTXT.addKeyListener(new EnterButtonPress());
 		eventNameTXT.addFocusListener(HIGHLIGHTER);
 
-		eventStartTime = new JLabel("Event Start Time");
+		eventStartTime = new JLabel("Start Time:");
 		eventStartTime.setBounds(20, 75, 120, 25);
-		eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//eventStartTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventStartTime);
 
 //		eventStartTimeTXT = new JTextField(); // CHANGED 
@@ -135,9 +135,9 @@ public class NewEventScreen implements ActionListener {
 //		startDateBtn.setBounds(20, 100, 50, 25); // NEDDS CHANGEDE
 //		newEventPanel.add(startDateBtn);
 
-		eventEndTime = new JLabel("Event End Time");
+		eventEndTime = new JLabel("End Time:");
 		eventEndTime.setBounds(20, 125, 120, 25);
-		eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//eventEndTime.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventEndTime);
 
 //		eventEndTimeTXT = new JTextField(20);
@@ -150,9 +150,9 @@ public class NewEventScreen implements ActionListener {
 		timeEnd.setBounds(20, 150, 160, 25); //Location
 		 newEventPanel.add(timeEnd);
 		
-		eventDate = new JLabel("Start Date of Event");
+		eventDate = new JLabel("Start Date: (yyyy-mm-dd)");
 		eventDate.setBounds(20, 175, 160, 25);
-		eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//eventDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventDate);
 
 		eventDateTXT = new JTextField(20);
@@ -169,9 +169,9 @@ public class NewEventScreen implements ActionListener {
 		dateButton.addActionListener(new StartDateButtonPress()) ;
 
 		
-		endDate = new JLabel("End Date of Event");
+		endDate = new JLabel("End Date: (yyyy-mm-dd)");
 		endDate.setBounds(20, 225, 160, 25);
-		endDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//endDate.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(endDate);
 		
 		endEventDateTXT = new JTextField(20);
@@ -190,7 +190,7 @@ public class NewEventScreen implements ActionListener {
 
 		eventRoom = new JLabel("Event Room");
 		eventRoom.setBounds(20, 275, 160, 25);
-		eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//eventRoom.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(eventRoom);
 
 		eventRoomText = new JTextField(20);
@@ -199,9 +199,9 @@ public class NewEventScreen implements ActionListener {
 		eventRoomText.addKeyListener(new EnterButtonPress());
 		eventRoomText.addFocusListener(HIGHLIGHTER);
 
-		lightSetting = new JLabel("Light Setting");
+		lightSetting = new JLabel("Lighting Intensity:");
 		lightSetting.setBounds(20, 325, 160, 25);
-		lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//lightSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(lightSetting);
 
 		lightSettingTXT = new JTextField(20);
@@ -210,9 +210,9 @@ public class NewEventScreen implements ActionListener {
 		lightSettingTXT.addKeyListener(new EnterButtonPress());
 		lightSettingTXT.addFocusListener(HIGHLIGHTER);
 
-		temperatureSetting = new JLabel("Temperature Setting");
+		temperatureSetting = new JLabel("Temperature Setpoint:");
 		temperatureSetting.setBounds(20, 375, 160, 25);
-		temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
+		//temperatureSetting.setFont(new Font("Arial",Font.BOLD,14));//CHANGE Color
 		newEventPanel.add(temperatureSetting);
 
 		temperatureSettingTXT = new JTextField(20);
@@ -275,14 +275,7 @@ public class NewEventScreen implements ActionListener {
 
 	public void createEvent(){
 
-		if(eventNameTXT.getText().isEmpty() || eventDateTXT.getText().isEmpty() ||endEventDateTXT.getText().isEmpty() || eventRoomText.getText().isEmpty() || lightSettingTXT.getText().isEmpty() 
-				|| temperatureSettingTXT.getText().isEmpty()){
-			JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
-
-			newEventWin.setVisible(true); 
-
-		}else{
-
+		if(verifyFields()) {
 			DateFormat clockStart = new SimpleDateFormat("HH:mm:ss");
 			DateFormat clockEnd = new SimpleDateFormat("HH:mm:ss");
 			
@@ -333,6 +326,83 @@ public class NewEventScreen implements ActionListener {
 
 		}
 	}
+	
+	private boolean verifyFields() {
+		if(verifyTextField(eventNameTXT) && verifyDateField(eventDateTXT) &&
+				verifyDateField(endEventDateTXT) && verifyTextField(eventRoomText) &&
+				verifyIntegerField(lightSettingTXT) && verifyFloatField(temperatureSettingTXT)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean verifyTextField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
+	       return false;
+	     }
+	     else {
+	       return true;
+	     }
+	}
+		
+	private boolean verifyFloatField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	        try {
+		        Float.parseFloat(field.getText());
+		        return true;
+		     } catch (NumberFormatException e) {
+		    	 JOptionPane.showMessageDialog(null,"Error: Must enter a number!");
+		    	 return false;
+			 }
+	       
+	    }
+	}
+	
+	private boolean verifyIntegerField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	        try {
+		        Integer.parseInt(field.getText());
+		        return true;
+		     } catch (NumberFormatException e) {
+		    	 JOptionPane.showMessageDialog(null,"Error: Must enter a number!");
+		    	 return false;
+			 }
+	       
+	    }
+	}
+		
+	private boolean verifyDateField(JTextField field) {
+		if (field.getText().equals("")){
+		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+	       return false;
+	     } else {
+	    	 String test = "2017-08-14";
+	    	 String format = "yyyy-MM-dd";
+	    	 SimpleDateFormat sdf = new SimpleDateFormat(format);
+	    	 sdf.setLenient(false);
+	    	 try {
+	    	     Date date = sdf.parse(test);
+	    	     if (!sdf.format(date).equals(test)) {
+	    	         throw new ParseException(test + " is not a valid format for " + format, 0);
+	    	     } else {
+	    	    	 return true;
+	    	     }
+	    	 } catch (ParseException ex) {
+	    		 JOptionPane.showMessageDialog(null,"Error: Must enter proper date format (yyyy-mm-dd)!");
+	    		 return false;
+	    	 }
+	       
+	    }
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////// ADDED 6/23/2017
 
 	private final class SubmitEvent implements ActionListener {
@@ -362,7 +432,7 @@ public class NewEventScreen implements ActionListener {
 	
 	public static void close() {
 		eventHandler.removeListener(eql);
-		newEventWin.dispose();
+		newEventWin.setVisible(false);
 	}
 
 	static class EventQueueListener extends EventAdapter {
@@ -384,6 +454,9 @@ public class NewEventScreen implements ActionListener {
 					break;
 				case 3:
 					JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+					break;
+				case 5:
+					JOptionPane.showMessageDialog(null,"Error: Time Conflict with Room.");
 					break;
 				default:
 					newEventWin.setVisible(true);
