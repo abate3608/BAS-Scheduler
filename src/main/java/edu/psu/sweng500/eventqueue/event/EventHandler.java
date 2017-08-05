@@ -156,10 +156,31 @@ public class EventHandler {
 
 	}
 	
+	public void fireGetDailyEvents(Date dailyDate) {
+		for (EventListener l : listeners) {
+			try {
+				l.getDailyEvents(dailyDate);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+
+	}
+	
 	public void fireEventUpdate(ArrayList<DBScheduleTable> s) {
 		for (EventListener l : listeners) {
 			try {
 				l.eventUpdate(s);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireEventDailyUpdate(ArrayList<DBScheduleTable> s) {
+		for (EventListener l : listeners) {
+			try {
+				l.eventDailyUpdate(s);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}

@@ -54,12 +54,13 @@ public class NewEventScreen implements ActionListener {
 	private static final FocusListener HIGHLIGHTER = new FocusHighlighter();
 
 	// Event listeners
-	private final EventHandler eventHandler = EventHandler.getInstance();
+	private final static EventHandler eventHandler = EventHandler.getInstance();
+	private static EventQueueListener eql = new EventQueueListener();
 
 	public void actionPerformed(ActionEvent e) {
 
 		// setup event
-		eventHandler.addListener(new EventQueueListener());
+		eventHandler.addListener(eql);
 
 
 		newEventWin = new JFrame("Global Schedular System New Event");
@@ -267,7 +268,7 @@ public class NewEventScreen implements ActionListener {
 			eventRoomText.setText(null);
 			lightSettingTXT.setText(null);
 			temperatureSettingTXT.setText(null);
-			newEventWin.dispose();
+			close();
 		}
 	}
 
@@ -358,6 +359,11 @@ public class NewEventScreen implements ActionListener {
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
+	
+	public static void close() {
+		eventHandler.removeListener(eql);
+		newEventWin.dispose();
+	}
 
 	static class EventQueueListener extends EventAdapter {
 		// listen to event queue
@@ -365,40 +371,26 @@ public class NewEventScreen implements ActionListener {
 		@Override
 		public void createEventRespond(DBScheduleTable s, int err) {
 			System.out.println("NewEventScreen > Create event respond received. Name: " + s.getName() + " Error Code:" + err);
-			if (err == 0) //good
-			{
-				//new CalenderScreen();
-				JOptionPane.showMessageDialog(null,"Event is Scheduled");
-				newEventWin.dispose();
-
-			}	
-					
-			 else if (err == 1){
-
-			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"Start Date Conflict, Please Provide an Earlier Start Date");
-			}	
-	
-			else if (err == 3){
-
-			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"Time Conflict, The Time selected is already scheduled for another event. Please select a differet time.");
-			}	
-			
-			else if (err == 5){
-
-			//DO SOMETHING: user user created
-			JOptionPane.showMessageDialog(null,"End date Conflict, Event cannot end before the event starts. Please pick a later End Date. ");
-			}	
-
-			else			
-			{
-				//need error code for create event
-				//DO SOMETHING : login fail
-				//JOptionPane.showMessageDialog(null, "Error - Please Re-enter Data");
-				//new NewEventScreen();
-				newEventWin.setVisible(true);
+			switch( err ) {
+				case 0:
+					JOptionPane.showMessageDialog(null,"Event is Scheduled");
+					close();
+					break;
+				case 1:
+					JOptionPane.showMessageDialog(null,"Error: Database Connection Issue!");
+					break;
+				case 2:
+					JOptionPane.showMessageDialog(null,"Error: Event already exists!");
+					break;
+				case 3:
+					JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+					break;
+				default:
+					newEventWin.setVisible(true);
+						break;			
 			}
+			
+		
 		}
 	}
 

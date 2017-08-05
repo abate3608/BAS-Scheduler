@@ -14,8 +14,8 @@
 			"eventName":"API Create Test",
 			"roomName":"Test Room",
 			"eventDescription":"Testing the creation of an event.",
-			"eventStart":"2017-08-14 12:00:00",
-			"eventStop":"2017-08-14 12:00:00",
+			"eventStart":"2017-08-14 12:15:00",
+			"eventStop":"2017-08-14 12:30:00",
 			"temperatureSetpoint":"67",
 			"lightIntensity":"96"
 		}

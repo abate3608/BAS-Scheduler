@@ -19,6 +19,7 @@ public class TestClient {
 		SSLSocketFactory f = (SSLSocketFactory) SSLSocketFactory.getDefault();
 		// How to read file into String before Java 7
 		String filename = "";
+		String uuid = "";
 		// Getting ClassLoader obj
 		ClassLoader classLoader = TestClient.class.getClassLoader();
 		System.out.println(classLoader.getResource(filename).getFile().toString());
@@ -27,6 +28,12 @@ public class TestClient {
 
 		clientSocket.startHandshake();
 		//Socket clientSocket = new Socket("localhost", 8888);
+		
+		final int CREATE = 1;
+		final int READ = 2;
+		final int UPDATE = 3;
+		final int DELETE = 4;
+		final int EXIT = 5;
 		
 		 Scanner scanner = new Scanner(System. in); 
 		boolean run = true;
@@ -39,22 +46,22 @@ public class TestClient {
 			System.out.println("2: Read Events");
 			System.out.println("3: Update Event(s)");
 			System.out.println("4: Delete Event(s)");
-			System.out.println("5: Incorrect json format");
+			System.out.println("5: Exit");
 			String input = scanner. nextLine();
 			switch(Integer.parseInt(input)){
-				case 1:
+				case CREATE:
 					filename = "TestAPICreate.json";
 					break;
-				case 2:
+				case READ:
 					filename = "TestAPIRead.json";
 					break;
-				case 3:
+				case UPDATE:
 					filename = "TestAPIUpdate.json";
 					break;
-				case 4:
+				case DELETE:
 					filename = "TestAPIDelete.json";
 					break;
-				case 5:
+				case EXIT:
 					run = false;
 					break;
 				default:
@@ -63,11 +70,22 @@ public class TestClient {
 			
 			if(run) {
 				API_Object apiObj = readJsonStream(classLoader.getResourceAsStream(filename));
+				if((Integer.parseInt(input) == UPDATE ||
+						Integer.parseInt(input) == DELETE) &&
+						apiObj.bacnet.size() > 0) {
+					System.out.println("Setting UUID: " + uuid);
+					apiObj.bacnet.get(0).uuid = uuid;
+				}
 				writeJsonStream(clientSocket.getOutputStream(),apiObj);
 				
 				while(read) {
 					apiObj2 = readJsonStream(clientSocket.getInputStream());
 					if(apiObj2 != null) {
+						if(Integer.parseInt(input) == CREATE &&
+								apiObj2.bacnet.size() > 0) {
+							uuid = apiObj2.bacnet.get(0).uuid;
+							System.out.println("Getting UUID: " + uuid);
+						} 
 						Gson gson = new Gson();
 						String json = gson.toJson(apiObj2);
 						System.out.println(json);

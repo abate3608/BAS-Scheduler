@@ -27,14 +27,17 @@ import javax.swing.JTextField;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
+//<<<<<<< HEAD
 //import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
+//=======
+//>>>>>>> branch 'master' of https://github.com/abate3608/BAS-Scheduler.git
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 import edu.psu.sweng500.util.FocusHighlightedTextField;
 
 public class EditEventScreenNew 
 {
-	private JFrame frame;
+	private static JFrame frame;
 	private JTextField nameField;
 	private JTextField roomField;
 	private JComboBox<Date> startTimeBox;
@@ -44,13 +47,15 @@ public class EditEventScreenNew
 	private JTextField lightField;
 	private JTextField temperatureField;
 	
-	private final EventHandler eventHandler = EventHandler.getInstance();
+	private final static EventHandler eventHandler = EventHandler.getInstance();
 	public static DBScheduleTable event;
+    private static EventQueueListener eql = new EventQueueListener();
+	
 	
 	public EditEventScreenNew( DBScheduleTable s )
 	{
 		// setup event
-		eventHandler.addListener(new EventQueueListener());
+		eventHandler.addListener(eql);
 		
 		this.event = s;
 		frame = new JFrame();
@@ -217,7 +222,7 @@ public class EditEventScreenNew
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				frame.dispose();
+				close();
 			}
 		});
 		panel.add( cancel );
@@ -245,6 +250,11 @@ public class EditEventScreenNew
 		return button;
 	}
 	
+	public static void close() {
+		eventHandler.removeListener(eql);
+		frame.dispose();
+	}
+	
 	private void update() throws ParseException
 	{
 		DateFormat hr = new SimpleDateFormat( "HH:mm:ss" );
@@ -260,7 +270,6 @@ public class EditEventScreenNew
 		event.setTemperatureSetpoint( Float.parseFloat( temperatureField.getText() ) );
 		
 		eventHandler.fireUpdateEvent(event);
-		frame.dispose();
 		
 		//TODO send event
 	}
@@ -270,7 +279,6 @@ public class EditEventScreenNew
 		int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you would like to delete this event!","Warning",dialogButton);
 		if(dialogResult == JOptionPane.YES_OPTION){
 			eventHandler.fireDeleteEvent(event);
-			frame.dispose();
 		}
 	}
 	
@@ -299,8 +307,11 @@ public class EditEventScreenNew
 		@Override
 		public void updateEventRespond(DBScheduleTable s, int err) {
 			if(s != null) {
-				if(s.getRowGuid() == event.getRowGuid()){
+				if(s.getRowGuid().equals(event.getRowGuid())){
 					switch(err){
+						case 0:
+							close();
+							break;
 						case 1:
 							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
 							break;
@@ -311,7 +322,7 @@ public class EditEventScreenNew
 							JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
 							break;
 						default:
-							System.out.println("No Error!");
+							System.out.println("Unknown Error!");
 							break;
 					}
 				}
@@ -321,19 +332,12 @@ public class EditEventScreenNew
 		@Override
 		public void deleteEventRespond(DBScheduleTable s, int err) {
 			if(s != null) {
-				if(s.getRowGuid() == event.getRowGuid()){
+				if(s.getRowGuid().equals(event.getRowGuid())){
 					switch(err){
-						case 1:
-							JOptionPane.showMessageDialog(null,"Error: Database Issue!");
-							break;
-						case 2:
-							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
-							break;
-						case 3:
-							JOptionPane.showMessageDialog(null,"Error: Event is currently in progress!");
+						case 0:
+							close();
 							break;
 						default:
-							System.out.println("No Error!");
 							break;
 					}
 				}

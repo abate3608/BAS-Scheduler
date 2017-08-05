@@ -38,7 +38,11 @@ public interface EventListener {
 	
 	public void getEvents(Date startDateTime, Date endDateTime);
 	
+	public void getDailyEvents(Date dailyDate);
+	
 	public void eventUpdate(ArrayList<DBScheduleTable> s);
+	
+	public void eventDailyUpdate(ArrayList<DBScheduleTable> s);
 
 	public void createUser(User u);
 

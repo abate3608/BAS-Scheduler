@@ -51,7 +51,16 @@ public class EventAdapter implements EventListener {
 			// TODO Auto-generated method stub
 		}
 		
+		public void getDailyEvents(Date dailyDate) {
+			// TODO Auto-generated method stub
+		}
+		
 		public void eventUpdate(ArrayList<DBScheduleTable> s) {
+			// TODO Auto-generated method stub
+
+		}
+		
+		public void eventDailyUpdate(ArrayList<DBScheduleTable> s) {
 			// TODO Auto-generated method stub
 
 		}
