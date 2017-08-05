@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.util.Calendar;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -182,16 +185,23 @@ public class DatePicker extends JPanel {
 		});
 
 		dialog.setTitle("Select Date");
-		dialog.setPreferredSize( new Dimension(450, 240) );
+		dialog.setPreferredSize( new Dimension(450, 260) );
 		dialog.setLocationRelativeTo( null );
 		dialog.setModal(true);
 		dialog.add( picker, BorderLayout.CENTER );
 		dialog.pack();
+		
+
+		dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		dialog.setAlwaysOnTop(true);
+		dialog.setResizable(false);
+		
 		dialog.setVisible( true );
 
 		return date.getText();
 	}
 	
+
 	public static void main( String[] args )
 	{
 		System.out.println( DatePicker.showDatePickerDialog() );

@@ -30,15 +30,16 @@ import edu.psu.sweng500.type.*;
 public class BacnetServer {
 	static LocalDevice localBacnetDevice;
 	private static boolean initialized = false;
+	static boolean ServerOn = true;
 	// Event listeners
-	private final EventHandler eventHandler = EventHandler.getInstance();
+	public final EventHandler eventHandler = EventHandler.getInstance();
 
-	static ArrayList<DBSiteRmTempTable> siteRmTempTable = new ArrayList<DBSiteRmTempTable>();
+	static ArrayList<DBSiteRmTempTable> histories = new ArrayList<DBSiteRmTempTable>();
 	static DBWeatherTable weather;
 	public BacnetServer() {
 		eventHandler.addListener(new EventQueueListener());
 		eventHandler.fireGetBacnetDeviceRequest();
-		
+		ServerOn = true;
 
 	}
 
@@ -62,13 +63,21 @@ public class BacnetServer {
 			}
 
 		} catch (Exception e) {
-			localBacnetDevice.terminate();
-			initialized = false;
-			System.out.println("BACnet Server > Failed to start BACnet Server.");
+			stop();
 		}
 	}
-
 	
+	public static void stop() {
+		localBacnetDevice.terminate();
+		initialized = false;
+		ServerOn = false;
+		
+		System.out.println("BACnet Server > BACnet Server terminated.");
+	}
+
+	public boolean status() {
+		return BacnetServer.ServerOn;
+	}
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
@@ -105,17 +114,23 @@ public class BacnetServer {
 			
 			int id = ((r.getId()*(5*r.getId()-3)+(2*r.getId()))/r.getId()) + (r.getId()-1);
 			
+			String occSched = r.getRoomNumber() + "_OccSched";
+			
 			if (id > 100) return;
-			for (BACnetObject obj: localBacnetDevice.getLocalObjects()) {
-				if (obj.getInstanceId() == id) {
-					System.out.println("BACnet Server > Room found in DB. Room: " + r.getRoomNumber() + " " + r.getRoomName());
-					return;
+			for (BACnetObject obj : localBacnetDevice.getLocalObjects()) {
+			    if ( obj instanceof BACnetObject ) {
+			    	if (obj.getInstanceId() == id) {
+						System.out.println("BACnet Server > Room found in DB. Room: " + r.getRoomNumber() + " ID " + obj.getInstanceId());
+						break;
+			    	}
 				}
 			}
-			createBACnetObject(ObjectType.binaryValue, id, r.getOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccSched", "Occupancy Schedule", EngineeringUnits.noUnits);
-			createBACnetObject(ObjectType.binaryValue, id + 1, r.getOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccOptimized", "Optimized Occupancy Schedule", EngineeringUnits.noUnits);
-			createBACnetObject(ObjectType.binaryValue, id + 2, r.getOccState(), "Heat", "Cool", r.getRoomNumber() + "_CoolMode", "0=Heat mode; 1=Cool Mode", EngineeringUnits.noUnits);
-
+						
+			createBACnetObject(ObjectType.binaryValue, id, r.getOccState(), "Unoccupied", "Occupied", occSched, "Occupancy Schedule", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.binaryValue, id + 1, r.getOptOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccOptimized", "Optimized Occupancy Schedule", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.binaryValue, id + 2, 1, "Heat", "Cool", r.getRoomNumber() + "_CoolMode", "0=Heat mode; 1=Cool Mode", EngineeringUnits.noUnits);
+			createBACnetObject(ObjectType.binaryValue, id + 3, r.getStatus(), "Unoccupied", "Occupied", r.getRoomNumber() + "_Status", "Occupancy Status", EngineeringUnits.noUnits);
+			
 			createBACnetObject(ObjectType.analogValue, id, 0, "0", "1", r.getRoomNumber() + "_SpaceTemp", "Space Temperature", EngineeringUnits.degreesFahrenheit);
 			createBACnetObject(ObjectType.analogValue, id + 1, r.getTempSetpoint(), "0", "1", r.getRoomNumber() + "_OccSp", "Occupied Setpoint", EngineeringUnits.degreesFahrenheit);
 			createBACnetObject(ObjectType.analogValue, id + 2, 80, "0", "1", r.getRoomNumber() + "_UnoccSp", "Unoccupied Setpoint", EngineeringUnits.degreesFahrenheit);
@@ -131,7 +146,7 @@ public class BacnetServer {
 			s.setCoolMode(1);
 			s.setOccStatus(r.getOccState());
 			
-			siteRmTempTable.add(s);
+			histories.add(s);
 			
 			
 		}
@@ -186,20 +201,28 @@ public class BacnetServer {
 			
 	        object.setProperty(PropertyIdentifier.statusFlags, new StatusFlags(false, false, false, false));
 	        object.setProperty(PropertyIdentifier.eventState, EventState.normal);
-
+	        object.setProperty(PropertyIdentifier.outOfService, new edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean(false));
 	        //check to see if object is already created
 	        boolean hasComponent = false;
 			for (BACnetObject jc : localBacnetDevice.getLocalObjects()) {
 			    if ( jc instanceof BACnetObject ) {
 			    	if (jc.getId().equals(object.getId())) {
-			    		Encodable d = jc.getProperty(PropertyIdentifier.presentValue);
-			    		
-			    		jc.setProperty(PropertyIdentifier.presentValue, new Real(value));
-			    		System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Update Presenvalue: " + d);
+			    		Encodable oldvalue = jc.getProperty(PropertyIdentifier.presentValue);
+			    		Encodable newvalue = object.getProperty(PropertyIdentifier.presentValue);
+			    		if (!oldvalue.equals(newvalue)) {
+			    			jc = object;
+			    			//jc.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			    			System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Update Presenvalue: " + newvalue);
+			    		} else {
+			    			//System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Presenvalue has not changed.");
+			    		}
 			    		hasComponent = true;
 			    	}
 			    }
-			}object.setProperty(PropertyIdentifier.outOfService, new edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.Boolean(false));
+			    if (hasComponent) break;
+			}
+			
+			
 	        
 	        if (!hasComponent) {
 	        	localBacnetDevice.addObject(object);
