@@ -41,7 +41,10 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.BacnetObject;
 import edu.psu.sweng500.type.DBSiteRmTempTable;
+
+import java.util.concurrent.Executors;
 
 import com.serotonin.util.queue.ByteQueue;
 
@@ -57,7 +60,7 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 	private final UnsignedInteger priority;
 
 	private final EventHandler eventHandler = EventHandler.getInstance();
-	
+	String RoomNumber;
 	
 	public WritePropertyRequest(ObjectIdentifier objectIdentifier, PropertyIdentifier propertyIdentifier,
 			UnsignedInteger propertyArrayIndex, Encodable propertyValue, UnsignedInteger priority) {
@@ -102,9 +105,23 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 		try {
 			if (localDevice.getEventHandler().checkAllowPropertyWrite(obj, pv)) {
 				obj.setProperty(pv);
-				obj.getObjectName();
+				String Str = obj.getObjectName();
+				String retval[] = Str.split("_");
 				
-				eventHandler.fireSaveRoomHistoryData(localDevice);
+				
+				if (retval[retval.length-1].equals("Status")) {
+					RoomNumber = "";
+					for (int i = 0; i < retval.length-1; i++) {
+						RoomNumber += retval[i];
+					}
+					Executors.newCachedThreadPool().execute(new Runnable() {
+					    @Override
+					    public void run() {
+					    	collectHistory(RoomNumber);
+					    }
+					});
+				}
+				//eventHandler.fireSaveRoomHistoryData(obj);
 				//localDevice.getEventHandler().propertyWritten(obj, pv);
 			} else
 				throw new BACnetServiceException(ErrorClass.property, ErrorCode.writeAccessDenied);
@@ -114,7 +131,13 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 
 		return null;
 	}
-
+	
+	
+	private void collectHistory(String RoomNumber) {
+		BacnetObject obj = new BacnetObject();
+		obj.setRoomNumber(RoomNumber);
+		eventHandler.fireSaveRoomHistoryData(obj);
+	}
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

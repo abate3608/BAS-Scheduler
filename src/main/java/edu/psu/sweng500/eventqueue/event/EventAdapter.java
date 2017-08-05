@@ -226,7 +226,7 @@ public class EventAdapter implements EventListener {
 			
 		}
 
-		public void saveRoomHistoryData(LocalDevice localDevice) {
+		public void saveRoomHistoryData(BacnetObject obj) {
 			// TODO Auto-generated method stub
 			
 		}

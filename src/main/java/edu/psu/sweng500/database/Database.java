@@ -790,9 +790,9 @@ public class Database {
 		}
 
 		@Override
-		public void saveRoomHistoryData (LocalDevice localDevice) {
+		public void saveRoomHistoryData (BacnetObject obj) {
 			//display debug message
-			System.out.println("Database > Update room history data request received. Room: "); // + obj.getObjectName());
+			System.out.println("Database > Update room history data request received. Room: " + obj.getRoomNumber());
 			//String str[] = obj.getObjectName().split("_");
 			//String type = str[str.length - 1];
 			//String object

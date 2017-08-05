@@ -78,6 +78,10 @@ public class BacnetServer {
 	public boolean status() {
 		return BacnetServer.ServerOn;
 	}
+	
+	
+
+
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
