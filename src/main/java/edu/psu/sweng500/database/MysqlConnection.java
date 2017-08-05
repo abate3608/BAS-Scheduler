@@ -18,8 +18,8 @@ public class MysqlConnection {
 			 * Database name: psuteam7 user: psuteam7 password:psuteam7123 The
 			 * connection to the database and its credentials.
 			 */
-
-			connect = DriverManager.getConnection("jdbc:mysql://50.63.144.233:3306/psuteam7?useSSL=false", "psuteam7",
+			//50.63.144.233
+			connect = DriverManager.getConnection("jdbc:mysql://honswd.com:3306/psuteam7?useSSL=false", "psuteam7",
 					"psuteam7123");
 			if (connect != null) {
 				System.out.println("Database Connection Successful!!");

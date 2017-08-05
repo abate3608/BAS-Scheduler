@@ -41,6 +41,7 @@ import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.ObjectIdentifier;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.OctetString;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.type.primitive.UnsignedInteger;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.DBSiteRmTempTable;
 
 import com.serotonin.util.queue.ByteQueue;
 
@@ -103,7 +104,8 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 				obj.setProperty(pv);
 				obj.getObjectName();
 				
-				//eventHandler.fireup
+				
+				eventHandler.fireSaveRoomHistoryData(obj);
 				//localDevice.getEventHandler().propertyWritten(obj, pv);
 			} else
 				throw new BACnetServiceException(ErrorClass.property, ErrorCode.writeAccessDenied);

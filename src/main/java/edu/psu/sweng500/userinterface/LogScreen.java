@@ -42,15 +42,39 @@ public class LogScreen {
 		logWin = new JFrame("Global Schedular System Login");
 		logWin.setSize(210, 250);
 		logWin.setLocationRelativeTo(null);  
-		logWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//logWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//	logWin.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	//	logWin.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
 		logPane = new JPanel();
 		logWin.add(logPane);
 		panelLayout(logPane);
+		logWin.setAlwaysOnTop(true);
+		logWin.setResizable(false);
+		
+		logWin.addWindowListener(getWindowAdapter());
+		logWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 		logWin.setVisible(true);
 	}
+	
+	//listen to frame action and stop frame from minimizing or closing
+	private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {//overrode to show message
+                super.windowClosing(we);
+
+                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+            }
+
+            //cannot minimize frame
+            @Override
+            public void windowIconified(WindowEvent we) {
+                logWin.setState(JFrame.NORMAL);
+                
+            }
+        };
+    }
 	
 	public void dispose () {
 		//logWin.dispose();

@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.chainsaw.Main;
 
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.*;
@@ -547,7 +548,7 @@ public class Database {
 				while (rt.next()) {
 					if (rt.getInt(1) > 0) {
 						DBRoomTable r = new DBRoomTable(rt.getInt(1), rt.getString(2), rt.getString(3), rt.getString(4),
-								rt.getInt(5), rt.getInt(6));
+								rt.getInt(5), rt.getInt(6), rt.getFloat(7), rt.getFloat(8));
 						// set update info to event queue
 						eventHandler.fireRoomInfoUpdate(r);
 					}
@@ -638,7 +639,7 @@ public class Database {
 				preparedStmt.setString(6, s.getState());
 				preparedStmt.setString(7, s.getZipCode());
 				preparedStmt.setString(8, s.getCountryCode());
-				preparedStmt.setInt(9, s.getId());
+				//preparedStmt.setInt(9, s.getId());
 				// execute the preparedstatement
 				preparedStmt.execute();
 
@@ -742,16 +743,19 @@ public class Database {
 		}
 
 		@Override
-		public void saveRoomHistoryData (DBSiteRmTempTable r) {
+		public void saveRoomHistoryData (BACnetObject obj) {
 			//display debug message
-			System.out.println("Database > Update room history data request received. Room: " + r.getRoomNumber());
-			
+			System.out.println("Database > Update room history data request received. Room: " + obj.getObjectName());
+			String str[] = obj.getObjectName().split("_");
+			String type = str[str.length - 1];
+			//String object
+			for (int i = 0; i < str.length; i++) 
 			try {
 				
 				// the mysql insert statement
 				//String query = " Insert into psuteam7.site_room_temp set SiteID = ?, Temperature = ?, OccSetpoint = ?, UnOccSetpoint = ?, CoolMode = ?, OAT = ?, OccStatus = ?";
 					//	+ " where ID = " + s.getId();
-				String query = " insert into psuteam7.weather (SiteID, RoomNumber, Temperature, OccSetpoint, UnoccSetpoint, CoolMode, OAT, OccStatus)"
+				/*String query = " insert into psuteam7.weather (SiteID, RoomNumber, Temperature, OccSetpoint, UnoccSetpoint, CoolMode, OAT, OccStatus)"
 						+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 				// create the mysql insert preparedstatement
 				PreparedStatement preparedStmt = connect.prepareStatement(query);
@@ -764,7 +768,7 @@ public class Database {
 				preparedStmt.setFloat (7, r.getOAT());
 				preparedStmt.setInt (8, r.getOccStatus());
 				// execute the preparedstatement
-				preparedStmt.execute();
+				preparedStmt.execute();*/
 
 				
 
@@ -810,9 +814,13 @@ public class Database {
 					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
 					s.setLightIntensity(rt.getInt("LightIntensity"));
 					
-					sList.add(s);
+					//sList.add(s);
 					
+					query = "select * from psuteam7.room where RoomNumber = '" + s.getRoomName() + "'";
+
+					rt = statement.executeQuery(query); 
 					
+					if (rt.getInt("test") != 1)
 					query = "Update psuteam7.room set OccState = ? where RoomNumber = '" + s.getRoomName() + "'";
 
 					// create the mysql insert preparedstatement

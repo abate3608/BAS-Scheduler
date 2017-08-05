@@ -7,6 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -53,18 +55,42 @@ public class BacnetConfig {
 		eventHandler.addListener(new EventQueueListener());
 
 		bacnetWin = new JFrame("BACnet Server Configuration");
-		bacnetWin.setSize(290, 250);
+		bacnetWin.setSize(290, 200);
 		bacnetWin.setLocationRelativeTo(null);  
 		bacnetWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		bacnetPanel = new JPanel();
 		bacnetWin.add(bacnetPanel);
 		panelLayout(bacnetPanel);
+		
+		
+		bacnetWin.addWindowListener(getWindowAdapter());
+		bacnetWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		bacnetWin.setAlwaysOnTop(true);
+		bacnetWin.setResizable(false);
 		bacnetWin.setVisible(true);
 		
 		eventHandler.fireGetBacnetDeviceRequest();
 	}
 
+	//listen to frame action and stop frame from minimizing or closing
+	private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {//overrode to show message
+                super.windowClosing(we);
+
+                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+            }
+
+            //cannot minimize frame
+            @Override
+            public void windowIconified(WindowEvent we) {
+            	bacnetWin.setState(JFrame.NORMAL);
+                
+            }
+        };
+    }
 	public void dispose () {
 		//logWin.dispose();
 		bacnetWin.setVisible(false); 
@@ -86,7 +112,8 @@ public class BacnetConfig {
 		//userNameText.getText();
 		txtObject_Identifier.addKeyListener(new EnterButtonPress());
 		txtObject_Identifier.addMouseListener(new txtObject_IdentifierMouseClicked());
-
+		txtObject_Identifier.setEditable(false);
+		
 		lblDevice_Address_Binding = new JLabel("IP Address");
 		lblDevice_Address_Binding.setBounds(20, 55, 80, 25);
 		logPanel.add(lblDevice_Address_Binding);
@@ -98,7 +125,8 @@ public class BacnetConfig {
 		//userNameText.getText();
 		txtDevice_Address_Binding.addKeyListener(new EnterButtonPress());
 		txtDevice_Address_Binding.addMouseListener(new txtDevice_Address_BindingMouseClicked());
-
+		txtDevice_Address_Binding.setEditable(false);
+		
 		lblPort = new JLabel("Port");
 		lblPort.setBounds(20, 85, 80, 25);
 		logPanel.add(lblPort);
@@ -110,14 +138,14 @@ public class BacnetConfig {
 		//userNameText.getText();
 		txtPort.addKeyListener(new EnterButtonPress());
 		txtPort.addMouseListener(new txtPortMouseClicked());
+		txtPort.setEditable(false);
+		//btnUpdate = new JButton("Update");
+		//btnUpdate.setBounds(55, 135, 80, 25);
+		//logPanel.add(btnUpdate);
+		//btnUpdate.addActionListener(new updateButtonPress());
 
-		btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(55, 135, 80, 25);
-		logPanel.add(btnUpdate);
-		btnUpdate.addActionListener(new updateButtonPress());
-
-		btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(150, 135, 80, 25);
+		btnCancel = new JButton("OK");
+		btnCancel.setBounds(130, 130, 80, 25);
 		logPanel.add(btnCancel);
 		btnCancel.addActionListener(new cancelButtonPress());
 	}

@@ -7,6 +7,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -41,16 +43,39 @@ public class ApiConfig {
 	public void create () {
 
 		apiWin = new JFrame("API Server Configuration");
-		apiWin.setSize(290, 150);
+		apiWin.setSize(290, 170);
 		apiWin.setLocationRelativeTo(null);  
 		apiWin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		apiPanel = new JPanel();
 		apiWin.add(apiPanel);
 		panelLayout(apiPanel);
+		
+		apiWin.addWindowListener(getWindowAdapter());
+		apiWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		apiWin.setAlwaysOnTop(true);
+		apiWin.setResizable(false);
 		apiWin.setVisible(true);
 	}
 
+	//listen to frame action and stop frame from minimizing or closing
+		private WindowAdapter getWindowAdapter() {
+	        return new WindowAdapter() {
+	            @Override
+	            public void windowClosing(WindowEvent we) {//overrode to show message
+	                super.windowClosing(we);
+
+	                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+	            }
+
+	            //cannot minimize frame
+	            @Override
+	            public void windowIconified(WindowEvent we) {
+	            	apiWin.setState(JFrame.NORMAL);
+	                
+	            }
+	        };
+	    }
 	public void dispose () {
 		//logWin.dispose();
 		apiWin.setVisible(false); 
@@ -80,7 +105,7 @@ public class ApiConfig {
 		logPanel.add(txtPort);
 
 		btnOk = new JButton("OK");
-		btnOk.setBounds(55, 85, 80, 25);
+		btnOk.setBounds(130, 100, 80, 25);
 		logPanel.add(btnOk);
 		btnOk.addActionListener(new OkButtonPress());
 	}

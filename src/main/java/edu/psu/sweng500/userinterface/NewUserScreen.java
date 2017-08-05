@@ -19,6 +19,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
@@ -62,10 +64,33 @@ public class NewUserScreen implements ActionListener {
 		regPane = new JPanel();
 		regWin.add(regPane);
 		newuserLayout(regPane);
+		
+		regWin.addWindowListener(getWindowAdapter());
+		regWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		regWin.setAlwaysOnTop(true);
+		regWin.setResizable(false);
 		regWin.setVisible(true);
 		
 	}
 
+	//listen to frame action and stop frame from minimizing or closing
+			private WindowAdapter getWindowAdapter() {
+		        return new WindowAdapter() {
+		            @Override
+		            public void windowClosing(WindowEvent we) {//overrode to show message
+		                super.windowClosing(we);
+
+		                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+		            }
+
+		            //cannot minimize frame
+		            @Override
+		            public void windowIconified(WindowEvent we) {
+		            	regWin.setState(JFrame.NORMAL);
+		                
+		            }
+		        };
+		    }
 	private final void newuserLayout(JPanel regPanel) {
 
 		regPanel.setLayout(null);

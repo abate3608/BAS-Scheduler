@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,9 +73,31 @@ public class NewEventScreen implements ActionListener {
 		newEventWin.add(newEventPane);
 		newuserLayout(newEventPane);
 
+		newEventWin.addWindowListener(getWindowAdapter());
+		newEventWin.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		newEventWin.setAlwaysOnTop(true);
+		newEventWin.setResizable(false);
 		newEventWin.setVisible(true);
 	}
 
+	//listen to frame action and stop frame from minimizing or closing
+		private WindowAdapter getWindowAdapter() {
+	        return new WindowAdapter() {
+	            @Override
+	            public void windowClosing(WindowEvent we) {//overrode to show message
+	                super.windowClosing(we);
+
+	                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+	            }
+
+	            //cannot minimize frame
+	            @Override
+	            public void windowIconified(WindowEvent we) {
+	            	newEventWin.setState(JFrame.NORMAL);
+	                
+	            }
+	        };
+	    }
 	private final void newuserLayout(JPanel newEventPanel) {
 
 		newEventPanel.setLayout(null);

@@ -1,5 +1,7 @@
 package edu.psu.sweng500.type;
 
+import java.util.ArrayList;
+
 public class DBSiteRmTempTable {
 	private int ID;
 	private int SiteID;
@@ -10,6 +12,8 @@ public class DBSiteRmTempTable {
 	private int CoolMode;
 	private float OAT;
 	private int OccStatus;
+	
+	//final static ArrayList<DBSiteRmTempTable> siteRoomTempTable = new ArrayList<DBSiteRmTempTable>();
 	
 	public DBSiteRmTempTable () {
 		SiteID = 1;
@@ -32,6 +36,29 @@ public class DBSiteRmTempTable {
 		this.OAT = OAT;
 		this.OccStatus = OccStatus;
 	}
+	
+	/*public void addItem (self) {
+		for (DBSiteRmTempTable r: siteRoomTempTable) {
+			
+			if (r.getRoomNumber().equals(s.getRoomNumber())) {
+				return;
+			}
+		}
+		siteRoomTempTable.add(s);
+	}
+	
+	public void removeItem (DBSiteRmTempTable s) {
+		int i = 0;
+		for (DBSiteRmTempTable r: siteRoomTempTable) {
+			
+			if (r.getRoomNumber().equals(s.getRoomNumber())) {
+				siteRoomTempTable.remove(i);
+				return;
+			}
+			i = i + 1;
+		}*/
+		
+	//}
 	
 	public int getSiteID () {
 		return this.SiteID;
@@ -64,5 +91,38 @@ public class DBSiteRmTempTable {
 	
 	public int getOccStatus () {
 		return this.OccStatus;
+	}
+	
+	public void setSiteID (int SiteID) {
+		this.SiteID = SiteID;
+	}
+	
+	public void setRoomNumber (String RoomNumber) {
+		this.RoomNumber = RoomNumber;
+		
+	}
+	
+	public void setTemperature (float Temperature) {
+		this.Temperature = Temperature;
+	}
+	
+	public void setOccSetpoint (float OccSetpoint) {
+		this.OccSetpoint = OccSetpoint;
+	}
+	
+	public void setUnOccSetpoint (float UnOccSetpoint) {
+		this.UnOccSetpoint = UnOccSetpoint;
+	}
+	
+	public void setCoolMode(int CoolMode) {
+		this.CoolMode = CoolMode;
+	}
+	
+	public void setOAT (float OAT) {
+		this.OAT = OAT;
+	}
+	
+	public void setOccStatus (int OccStatus) {
+		this.OccStatus = OccStatus;
 	}
 }

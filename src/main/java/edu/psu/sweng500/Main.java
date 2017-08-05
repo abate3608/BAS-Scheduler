@@ -81,7 +81,8 @@ public class Main {
 						
 			
 			System.out.println("Main > Start BACnet Server.");			
-			new BacnetServer(); // start bacner server
+			BacnetServer bacnet = new BacnetServer(); // start bacner server
+			
 			
 			
 			System.out.println("Main > Open UI calendar Screen.");
@@ -114,7 +115,7 @@ public class Main {
 				
 				
 				
-				Thread.sleep(300000);  //5 minutes
+				Thread.sleep(120000);  //5 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
 				
 				xmlImporter.setXmlDomMap( Paths.get(

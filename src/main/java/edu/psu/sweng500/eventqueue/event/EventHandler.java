@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.type.*;
 
 public class EventHandler {
@@ -485,10 +486,10 @@ public class EventHandler {
 		}
 	}
 	
-	public void fireSaveRoomHistoryData(DBSiteRmTempTable r) {
+	public void fireSaveRoomHistoryData(BACnetObject obj) {
 		for (EventListener l : listeners) {
 			try {
-				l.saveRoomHistoryData(r);
+				l.saveRoomHistoryData(obj);
 			} catch (Throwable e) {
 				handleException(l, e);
 			}

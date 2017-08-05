@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import edu.psu.sweng500.userinterface.ApiConfig;
 import edu.psu.sweng500.userinterface.BacnetConfig;
+import edu.psu.sweng500.userinterface.SysConfig;
 import edu.psu.sweng500.userinterface.scheduling.ScheduleImporterConfigMenu;
 
 /**
@@ -50,6 +51,14 @@ public class BasgsMenuBar extends JMenuBar
 		JMenu configMenu = new JMenu("Configuration");
 		this.add(configMenu);
 		JMenuItem configMenuSystemItem = new JMenuItem("System");
+		configMenuSystemItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				new SysConfig().create();;
+			}
+		});
 		configMenu.add(configMenuSystemItem);
 
 		JMenuItem configMenuBacnetItem = new JMenuItem("BACnet Server");

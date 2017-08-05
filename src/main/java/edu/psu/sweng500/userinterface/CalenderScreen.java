@@ -37,26 +37,36 @@ public class CalenderScreen
 	private final static EventHandler eventHandler = EventHandler.getInstance();
 	private final static LogScreen loginScreen = new LogScreen();
 	private static boolean isAuthenticated;
-	private static DatePicker picker;
+	//private static DatePicker picker;
 
 	public CalenderScreen() 
 	{
 		isAuthenticated = false;
-		picker = new DatePicker();
+		//picker = new DatePicker();
 		eventHandler.addListener(new EventQueueListener());
-
+		
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		
 		frame = new JFrame("Global Schedular System");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.setMinimumSize( new Dimension(500, 500) );
+		frame.setMinimumSize( new Dimension(d.width, d.height) );
 		frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
 		frame.setSize( Toolkit.getDefaultToolkit().getScreenSize() );
-		frame.setResizable( true );
+		
+		frame.setResizable( false );
 		frame.setVisible( true );
+		frame.setState(JFrame.NORMAL);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		
 
 		frame.getContentPane().setLayout( new BorderLayout() );
 		frame.getContentPane().add( new BasgsMenuBar(), BorderLayout.NORTH );
 		frame.getContentPane().add( createControlPanel(), BorderLayout.LINE_START );
 		frame.getContentPane().add( createEventPanel(), BorderLayout.CENTER );
+		
+		
 		
 //		// edit event Button
 //		editEventBTN = new JButton("Edit Event");

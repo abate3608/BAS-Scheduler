@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +27,7 @@ import javax.swing.JTextField;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
-import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
+//import edu.psu.sweng500.userinterface.EditEventScreen.EventQueueListener;
 import edu.psu.sweng500.userinterface.datepicker.DatePicker;
 import edu.psu.sweng500.userinterface.datepicker.TimePicker;
 import edu.psu.sweng500.util.FocusHighlightedTextField;
@@ -61,9 +63,32 @@ public class EditEventScreenNew
 		frame.getContentPane().add( getMainPanel(), BorderLayout.CENTER );
 		frame.getContentPane().add( getButtonPanel(), BorderLayout.PAGE_END );
 		frame.pack();
+		
+		frame.addWindowListener(getWindowAdapter());
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		frame.setAlwaysOnTop(true);
+		frame.setResizable(false);
 		frame.setVisible( true );
 	}
 	
+	//listen to frame action and stop frame from minimizing or closing
+	private WindowAdapter getWindowAdapter() {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {//overrode to show message
+                super.windowClosing(we);
+
+                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+            }
+
+            //cannot minimize frame
+            @Override
+            public void windowIconified(WindowEvent we) {
+            	frame.setState(JFrame.NORMAL);
+                
+            }
+        };
+    }
 	private JPanel getMainPanel()
 	{	
 		JPanel panel = new JPanel();

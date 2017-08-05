@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,9 +42,36 @@ public class ScheduleImporterConfigMenu
 		frame.getContentPane().add( getFileSelectionPanel(), BorderLayout.PAGE_START );
 		frame.getContentPane().add( (mappanel = new NodeSelectionPanel()), BorderLayout.CENTER );
 		frame.getContentPane().add( getButtonsPanel(), BorderLayout.PAGE_END );
+		
+		frame.setResizable(false);
+		
+		frame.addWindowListener(getWindowAdapter());
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		frame.setAlwaysOnTop(true);
+		
 		frame.setVisible( true );
 	}
 
+	
+	//listen to frame action and stop frame from minimizing or closing
+			private WindowAdapter getWindowAdapter() {
+		        return new WindowAdapter() {
+		            @Override
+		            public void windowClosing(WindowEvent we) {//overrode to show message
+		                super.windowClosing(we);
+
+		                //JOptionPane.showMessageDialog(frame, "Cant Exit");
+		            }
+
+		            //cannot minimize frame
+		            @Override
+		            public void windowIconified(WindowEvent we) {
+		            	frame.setState(JFrame.NORMAL);
+		                
+		            }
+		        };
+		    }
+			
 	/**
 	 * 
 	 * @return
