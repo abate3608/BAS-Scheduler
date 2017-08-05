@@ -311,6 +311,9 @@ public class BASGS_API {
 					case 3:
 						apiObjReturn.message = "Error: Invalid date/time selected.";
 						break;
+					case 5:
+						apiObjReturn.message = "Error: Time Conflict with Room.";
+						break;
 					default:
 						apiObjReturn.message = "Error: Unknown";
 						break;
