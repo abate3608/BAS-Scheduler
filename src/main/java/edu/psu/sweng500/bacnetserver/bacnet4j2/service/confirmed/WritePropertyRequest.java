@@ -104,8 +104,7 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 				obj.setProperty(pv);
 				obj.getObjectName();
 				
-				
-				eventHandler.fireSaveRoomHistoryData(obj);
+				eventHandler.fireSaveRoomHistoryData(localDevice);
 				//localDevice.getEventHandler().propertyWritten(obj, pv);
 			} else
 				throw new BACnetServiceException(ErrorClass.property, ErrorCode.writeAccessDenied);

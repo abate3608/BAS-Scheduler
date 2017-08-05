@@ -12,6 +12,7 @@ import javax.swing.plaf.ColorUIResource;
 import edu.psu.sweng500.api.basgs.MultiThreadedAPIServer;
 import edu.psu.sweng500.api.weather.OpenWeatherMapAPI;
 import edu.psu.sweng500.bacnetserver.server.BacnetServer;
+import edu.psu.sweng500.bacnetserver.server.MultiThreadedBacnetServer;
 import edu.psu.sweng500.database.Database;
 //import edu.psu.sweng500.database.MysqlAccess;
 import edu.psu.sweng500.database.MysqlConnection;
@@ -80,9 +81,9 @@ public class Main {
 			owm.getWeatherFromZip(site.getZipCode()); //currently for US only
 						
 			
-			System.out.println("Main > Start BACnet Server.");			
-			BacnetServer bacnet = new BacnetServer(); // start bacner server
 			
+			//System.out.println("Main > Start BACnet Server.");			
+			//BacnetServer bacnet = new BacnetServer(); // start bacner server
 			
 			
 			System.out.println("Main > Open UI calendar Screen.");
@@ -92,6 +93,9 @@ public class Main {
 			Thread t1=new Thread(new MultiThreadedAPIServer());
 			t1.start();
 
+			Thread t2=new Thread(new MultiThreadedBacnetServer());
+			t2.start();
+			
 			//create new xml importer
 			//
 			XmlScheduleImporter xmlImporter = new XmlScheduleImporter();
@@ -109,13 +113,13 @@ public class Main {
 				//update database
 				DBWeatherTable w = new DBWeatherTable(0, site.getId(), owm.getTemperature(), owm.getHumidity(), owm.getDewpoint(), 0, null);
 				eventHandler.fireWeatherInfoUpdateDB(w);
-				eventHandler.fireUpdateOccStatus();
-				eventHandler.fireRoomInfoRequest();
+				//eventHandler.fireUpdateOccStatus();
+				//eventHandler.fireRoomInfoRequest();
 				eventHandler.fireWeatherInfoRequest(site.getId());
 				
 				
 				
-				Thread.sleep(120000);  //5 minutes
+				Thread.sleep(120000);  //2 minutes
 				System.out.println("Main > System update. Status: " + status + " SiteID: " + site.getId());
 				
 				xmlImporter.setXmlDomMap( Paths.get(

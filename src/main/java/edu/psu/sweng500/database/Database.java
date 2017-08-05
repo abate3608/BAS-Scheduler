@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.chainsaw.Main;
 
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
@@ -623,7 +624,7 @@ public class Database {
 				while (rt.next()) {
 					if (rt.getInt(1) > 0) {
 						DBRoomTable r = new DBRoomTable(rt.getInt(1), rt.getString(2), rt.getString(3), rt.getString(4),
-								rt.getInt(5), rt.getInt(6), rt.getFloat(7), rt.getFloat(8));
+								rt.getInt(5), rt.getInt(6), rt.getInt(7), rt.getFloat(8), rt.getFloat(9));
 						// set update info to event queue
 						eventHandler.fireRoomInfoUpdate(r);
 					}
@@ -818,13 +819,13 @@ public class Database {
 		}
 
 		@Override
-		public void saveRoomHistoryData (BACnetObject obj) {
+		public void saveRoomHistoryData (LocalDevice localDevice) {
 			//display debug message
-			System.out.println("Database > Update room history data request received. Room: " + obj.getObjectName());
-			String str[] = obj.getObjectName().split("_");
-			String type = str[str.length - 1];
+			System.out.println("Database > Update room history data request received. Room: "); // + obj.getObjectName());
+			//String str[] = obj.getObjectName().split("_");
+			//String type = str[str.length - 1];
 			//String object
-			for (int i = 0; i < str.length; i++) 
+			//for (int i = 0; i < str.length; i++) 
 			try {
 				
 				// the mysql insert statement

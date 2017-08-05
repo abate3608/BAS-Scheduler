@@ -3,6 +3,7 @@ package edu.psu.sweng500.eventqueue.event;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.psu.sweng500.bacnetserver.bacnet4j2.LocalDevice;
 import edu.psu.sweng500.bacnetserver.bacnet4j2.obj.BACnetObject;
 import edu.psu.sweng500.type.*;
 
@@ -225,7 +226,7 @@ public class EventAdapter implements EventListener {
 			
 		}
 
-		public void saveRoomHistoryData(BACnetObject obj) {
+		public void saveRoomHistoryData(LocalDevice localDevice) {
 			// TODO Auto-generated method stub
 			
 		}

@@ -6,6 +6,7 @@ public class DBRoomTable {
 	private String roomName;
 	private String roomType;
 	private int occState;
+	private int optOccState;
 	private int status;
 	private float tempSetpoint;
 	private float lightIntensity;
@@ -20,12 +21,13 @@ public class DBRoomTable {
 		lightIntensity = 100;
 	}
 	
-	public DBRoomTable (int pid, String proomNumber, String proomName, String proomType, int poccState, int pstatus, float tempSetpoint, float lightIntensity) {
-		id = pid;
-		roomNumber = proomNumber;
+	public DBRoomTable (int id, String roomNumber, String proomName, String proomType, int poccState, int optOccState, int pstatus, float tempSetpoint, float lightIntensity) {
+		this.id = id;
+		this.roomNumber = roomNumber;
 		roomName = proomName;
 		roomType = proomType;
 		occState = poccState;
+		this.optOccState = optOccState;
 		status = pstatus;
 		this.tempSetpoint = tempSetpoint;
 		this.lightIntensity = lightIntensity;
@@ -73,6 +75,14 @@ public class DBRoomTable {
 	
 	public int getOccState () {
 		return occState;
+	}
+	
+	public void setOptOccState (int optOccState) {
+		this.optOccState = optOccState;
+	}
+	
+	public int getOptOccState () {
+		return optOccState;
 	}
 	
 	public void setTempSetpoint(float tempSetpoint) {
