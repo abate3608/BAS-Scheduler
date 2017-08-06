@@ -401,10 +401,10 @@ public class EditEventScreenNew
 							JOptionPane.showMessageDialog(null,"Error: Event to update not found!");
 							break;
 						case 4:
-							JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+							//JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
 							break;
 						case 5:
-							JOptionPane.showMessageDialog(null,"Error: Time Conflict with Room.");
+							//JOptionPane.showMessageDialog(null,"Error: Time Conflict with Room.");
 							break;
 						default:
 							System.out.println("Unknown Error!");
