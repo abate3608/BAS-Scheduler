@@ -212,6 +212,9 @@ public class Database {
 			int err = 0; // failed
 			try {
 
+				
+				
+				
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 				statement = connect.createStatement();

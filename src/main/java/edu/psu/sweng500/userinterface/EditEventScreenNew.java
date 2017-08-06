@@ -256,7 +256,7 @@ public class EditEventScreenNew
 		
 	private boolean verifyFloatField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	        try {
