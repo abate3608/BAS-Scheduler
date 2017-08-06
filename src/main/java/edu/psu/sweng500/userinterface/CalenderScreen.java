@@ -268,13 +268,17 @@ public class CalenderScreen
 		
 		@Override
 		public void createEventRespond(DBScheduleTable s, int err) {
-			updateEvents( selectedDate );
+			if( err == 0 ) {
+				updateEvents( selectedDate );
+			}
 		}
 		
 		
 		@Override
 		public void updateEventRespond(DBScheduleTable s, int err) {
-			updateEvents( selectedDate );
+			if( err == 0 ) {
+				updateEvents( selectedDate );
+			}
 		}
 		
 		@Override
