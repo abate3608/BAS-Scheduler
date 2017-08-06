@@ -41,7 +41,6 @@ public class Main {
 	private static int status = 0;
 	
 	
-	
 	public static void main(String args[]) {
 		System.out.println("Main > System starting ...");
 		status = 1; //running

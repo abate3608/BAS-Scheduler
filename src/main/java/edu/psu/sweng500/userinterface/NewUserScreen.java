@@ -2,6 +2,7 @@ package edu.psu.sweng500.userinterface;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -189,7 +190,7 @@ public class NewUserScreen implements ActionListener {
 		
 		 if(firstNameTXT.getText().isEmpty() || lastNameTXT.getText().isEmpty() || emailTXT.getText().isEmpty() ||
 				 userNameTXT.getText().isEmpty() || passwordText.getText().isEmpty()){
-		     JOptionPane.showMessageDialog(null,"A required Field is empty, Please complete all fields"); 
+		     JOptionPane.showMessageDialog(regWin,"A required Field is empty, Please complete all fields"); 
 		 
 		     regWin.setVisible(true); 
 		 
@@ -226,20 +227,28 @@ public class NewUserScreen implements ActionListener {
 			{
 			
 				//DO SOMETHING: user user created
-				JOptionPane.showMessageDialog(null,"Registration Approved Please Log In");
+				//JOptionPane.showMessageDialog(null,"Registration Approved Please Log In");
+				
+				 
+				 JOptionPane.showMessageDialog(regWin, "Registration Approved Please Log In.");
 				regWin.dispose();	
 			}
 			 if (err == 1)
 			{
 				
 				//DO SOMETHING: user user created
-				JOptionPane.showMessageDialog(null,"Email Authentication Error, Please provide a different email address");
+				
+				 JOptionPane.showMessageDialog(regWin, "Email Authentication Error, Please provide a different email address.");
+				 
 			}	
 			 if (err == 2)
 			 {
 				
 			//DO SOMETHING: user user created
-				JOptionPane.showMessageDialog(null,"Username Authentication Error, Pleae provide a different User Name");
+				
+				 
+				 JOptionPane.showMessageDialog(regWin, "Username Authentication Error, Pleae provide a different User Name.");
+				//JOptionPane.showMessageDialog(null,"Username Authentication Error, Pleae provide a different User Name");
 				}
 //			}else if (err == 3){
 //				
