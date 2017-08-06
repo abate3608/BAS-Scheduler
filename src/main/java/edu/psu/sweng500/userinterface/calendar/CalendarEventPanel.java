@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.Executors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -14,10 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import edu.psu.sweng500.eventqueue.event.EventAdapter;
 import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.DBScheduleTable;
 import edu.psu.sweng500.userinterface.EditEventScreenNew;
+import edu.psu.sweng500.userinterface.Graph;
 import edu.psu.sweng500.util.UIThemeColors;
 
 /**
@@ -37,17 +38,18 @@ public class CalendarEventPanel extends JPanel
 	public CalendarEventPanel( DBScheduleTable s )
 	{
 		
-		TitledBorder border = BorderFactory.createTitledBorder( s.getName() );
+		TitledBorder border = BorderFactory.createTitledBorder("Room: " + s.getRoomName() + " || Meeting Name: " + s.getName() );
 		border.setTitleColor( UIThemeColors.CALENDAR_DARK_BLUE );
 		this.setBorder( border );
 		this.setBackground( UIThemeColors.CALENDAR_BLUE );
 		this.setLayout( new BoxLayout(this, BoxLayout.LINE_AXIS) );
 		this.schedule = s;
-		this.event = s;
+		//this.event = s;
 		
 		this.add( getEventDetails() );
 		this.add( getEditButton() );
 		this.add( getDeleteButton() );
+		this.add( getOptSchedButton());
 	}
 	
 	/**
@@ -111,6 +113,30 @@ public class CalendarEventPanel extends JPanel
 			}
 		});
 		return delete;
+	}
+	
+	/**
+	 * Creates the edit event button.
+	 * @return the {@link JButton}
+	 */
+	private JButton getOptSchedButton()
+	{
+		JButton btn = new JButton( "Opt Sched" );
+		btn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed( ActionEvent e ) 
+			{
+				Executors.newCachedThreadPool().execute(new Runnable() {
+					@Override
+					public void run() {
+						new Graph( schedule.getRoomName() );
+					}
+				});
+				
+			}
+		});
+		return btn;
 	}
 	
 	public EventHandler getEventHandler() {

@@ -9,12 +9,22 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.*;
 
+import edu.psu.sweng500.eventqueue.event.EventAdapter;
+import edu.psu.sweng500.eventqueue.event.EventHandler;
+import edu.psu.sweng500.type.DBBaselineTable;
+
 public class Graph extends JPanel{
+
+	// Event listeners
+	private final static EventHandler eventHandler = EventHandler.getInstance();
 
 	private int width = 800;
 	private int heigth = 400;
@@ -29,10 +39,96 @@ public class Graph extends JPanel{
 	private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
 	private int pointWidth = 8;
 	private int numberYDivisions = 10;
-	private List<Double> temperatures;
+	private List<Float> temperatures;
+	private static DBBaselineTable g_baseline = new DBBaselineTable();
+	private boolean loading = true;
+	private static JFrame frame;
 
-	public Graph(List<Double> temperatures) {
+	public Graph (String roomNumber) {
+
+		if (frame == null) {
+			eventHandler.addListener(new EventQueueListener());
+		}
+		eventHandler.fireGetBaseline(roomNumber);
+
+	}
+	public Graph(List<Float> temperatures) {
+		
 		this.temperatures = temperatures;
+		repaint();
+	}
+
+	static class EventQueueListener extends EventAdapter {
+		// listen to event queue
+		@Override
+		public void getBaselineRespond(DBBaselineTable baseline) {
+			g_baseline = baseline;
+	           
+		   
+			try {
+				List<Float> temperatures = new ArrayList<>();
+
+
+				temperatures.add(baseline.getYunocc()); 
+				temperatures.add(baseline.getY4());
+				temperatures.add(baseline.getY5());
+				temperatures.add(baseline.getY6());
+				temperatures.add(baseline.getY7());
+				temperatures.add(baseline.getYz0()); 
+				temperatures.add(baseline.getYz0());
+				temperatures.add(baseline.getYz0());
+				temperatures.add(baseline.getYz0());
+				temperatures.add(baseline.getYocc());
+				temperatures.add(baseline.getY0());
+				temperatures.add(baseline.getY1());
+				temperatures.add(baseline.getY2());
+				temperatures.add(baseline.getY3());
+				temperatures.add(baseline.getY());
+
+				Graph mainPanel = new Graph(temperatures);
+				mainPanel.setPreferredSize(new Dimension(1000, 600));
+				//if (frame == null) {
+					frame = new JFrame("Room: " + g_baseline.getRoomNumber() + " || Baseline Graph - Optimized On/Off Model");
+					frame.setAlwaysOnTop(true);
+					frame.setResizable(false);
+					frame.getContentPane().add(mainPanel);
+					frame.addWindowListener(getWindowAdapter());
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+					frame.getContentPane().add(mainPanel);
+					frame.pack();
+					frame.setLocationRelativeTo(null);
+				//} 
+				frame.repaint();
+				
+				frame.setVisible(true);
+
+
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		}
+	}
+
+	//listen to frame action and stop frame from minimizing or closing
+	private static WindowAdapter getWindowAdapter() {
+		return new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {//overrode to show message
+				super.windowClosing(we);
+				
+				//JOptionPane.showMessageDialog(frame, "Cant Exit");
+			}
+
+			//cannot minimize frame
+			@Override
+			public void windowIconified(WindowEvent we) {
+				frame.setState(JFrame.NORMAL);
+
+			}
+		};
 	}
 
 	@Override
@@ -42,9 +138,10 @@ public class Graph extends JPanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		numberYDivisions = (int) (getMaxTemperature() - getMinTemperature());
-		
+
 		double xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (temperatures.size() - 1);
 		double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (getMaxTemperature() - getMinTemperature());
+
 
 		List<Point> graphPoints = new ArrayList<>();
 		for (int i = 0; i < temperatures.size(); i++) {
@@ -53,7 +150,7 @@ public class Graph extends JPanel{
 			graphPoints.add(new Point(x1, y1));
 		}
 
-		
+
 		// draw white background
 		g2.setColor(Color.WHITE);
 		g2.fillRect(padding + labelPadding, padding, getWidth() - (2 * padding) - labelPadding, getHeight() - 2 * padding - labelPadding);
@@ -89,58 +186,68 @@ public class Graph extends JPanel{
 					g2.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
 					g2.setColor(Color.BLACK);
 					String xLabel = "";
+					DecimalFormat df1 = new DecimalFormat("####.00");
 					switch (i)
 					{ 
-					  case 0:
-						   xLabel = "Xunocc";
-					        break;
-					  case 1:
-						  xLabel = "X4";
-					        break; 
-					  case 2:
-						   xLabel = "X5";
-					        break;
-					  case 3:
-						  xLabel = "X6";
-					        break;
-					  case 4:
-						   xLabel = "X7";
-					        break;
-					  case 5:
-						   xLabel = "Xz0";
-					        break;
-					  case 6:
-						   xLabel = "Xz1";
-					        break;
-					  case 7:
-						   xLabel = "Xz2";
-					        break;
-					  case 8:
-						   xLabel = "Xz3";
-					        break;
-					  case 9:
-						  xLabel = "Xocc";
-					        break; 
-					  case 10:
-						   xLabel = "X0";
-					        break;
-					  case 11:
-						  xLabel = "X1";
-					        break;
-					  case 12:
-						   xLabel = "X2";
-					        break;
-					  case 13:
-						  xLabel = "X3";
-					        break;
-					  default:
-						  xLabel = "X";;
-					        break;
+					case 0:
+						xLabel = "Xunocc";
+						break;
+					case 1:
+						xLabel = "X4";
+						g2.drawString("Outside Air Temperature " + g_baseline.getOAT() + " deg F", 60, 50);
+						g2.drawString("Room Temperature " + g_baseline.getRoomTemp() + " deg F", 60, 70);
+						g2.drawString("Unoccupied Trend", 60, 90);
+						g2.drawString("Changed 1 deg F every " + df1.format((g_baseline.getX4()/60) / g_baseline.getY4()) + " minutes", 70, 110);
+						g2.drawString("Unoocupied Offset " + g_baseline.getUnoccOffset() + " minutes", 70, 130);
+						break; 
+					case 2:
+						xLabel = "X5";
+						break;
+					case 3:
+						xLabel = "X6";
+						break;
+					case 4:
+						xLabel = "X7";
+						break;
+					case 5:
+						xLabel = "Xz0";
+						break;
+					case 6:
+						xLabel = "Xz1";
+						g2.drawString("Occupied Trend", 680, 90);
+						g2.drawString("Changed 1 deg F every " + df1.format((g_baseline.getYocc() / (g_baseline.getX() / 60))) + " minutes", 690, 110);
+						g2.drawString("Unoocupied Offset " + g_baseline.getOccOffset() + " minutes", 690, 130);
+						break;
+					case 7:
+						xLabel = "Xz2";
+						break;
+					case 8:
+						xLabel = "Xz3";
+						break;
+					case 9:
+						xLabel = "Xocc";
+						break; 
+					case 10:
+						xLabel = "X0";
+						break;
+					case 11:
+						xLabel = "X1";
+						break;
+					case 12:
+						xLabel = "X2";
+						break;
+					case 13:
+						xLabel = "X3";
+						break;
+					default:
+						xLabel = "X";;
+						break;
 					}
-					
+
 					FontMetrics metrics = g2.getFontMetrics();
 					int labelWidth = metrics.stringWidth(xLabel);
 					g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
+
 				}
 				g2.drawLine(x0, y0, x1, y1);
 			}
@@ -151,7 +258,7 @@ public class Graph extends JPanel{
 		g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
 
 		Stroke oldStroke = g2.getStroke();
-		
+
 		//graph room temp
 		g2.setColor(roomTempColor);
 		g2.setStroke(GRAPH_STROKE);
@@ -162,8 +269,8 @@ public class Graph extends JPanel{
 			int y2 = graphPoints.get(i + 1).y;
 			g2.drawLine(x1, y1, x2, y2);
 		}
-		
-		
+
+
 		//graph oat
 		g2.setColor(oatColor);
 		g2.setStroke(GRAPH_STROKE);
@@ -174,7 +281,7 @@ public class Graph extends JPanel{
 			int y2 = (int) ((getMaxTemperature() - 75) * yScale + padding);
 			g2.drawLine(x1, y1, x2, y2);
 		}
-		
+
 		//graph occ temp sp
 		g2.setColor(occSPColor);
 		g2.setStroke(GRAPH_STROKE);
@@ -185,7 +292,7 @@ public class Graph extends JPanel{
 			int y2 = (int) ((getMaxTemperature() - 77) * yScale + padding);
 			g2.drawLine(x1, y1, x2, y2);
 		}
-		
+
 		//graph unocc temp sp
 		g2.setColor(unoccSPColor);
 		g2.setStroke(GRAPH_STROKE);
@@ -196,7 +303,7 @@ public class Graph extends JPanel{
 			int y2 = (int) ((getMaxTemperature() - 74) * yScale + padding);
 			g2.drawLine(x1, y1, x2, y2);
 		}
-		
+
 		g2.setStroke(oldStroke);
 		g2.setColor(pointColor);
 		for (int i = 0; i < graphPoints.size(); i++) {
@@ -206,9 +313,9 @@ public class Graph extends JPanel{
 			int ovalH = pointWidth;
 			g2.fillOval(x, y, ovalW, ovalH);
 		}
-		
-		
-		
+
+
+
 	}
 
 	//	    @Override
@@ -217,7 +324,7 @@ public class Graph extends JPanel{
 	//	    }
 	private double getMinTemperature() {
 		double minTemperature = Double.MAX_VALUE;
-		for (Double temperature : temperatures) {
+		for (Float temperature : temperatures) {
 			minTemperature = Math.min(minTemperature, temperature);
 		}
 		return (int)minTemperature - 1;
@@ -225,50 +332,44 @@ public class Graph extends JPanel{
 
 	private double getMaxTemperature() {
 		double maxTemperature = Double.MIN_VALUE;
-		for (Double temperature : temperatures) {
+		for (Float temperature : temperatures) {
 			maxTemperature = Math.max(maxTemperature, temperature);
 		}
-		
-		
+
+
 		return (int) maxTemperature + 1;
 	}
 
-	public void setScores(List<Double> temperatures) {
+	public void setScores(List<Float> temperatures) {
 		this.temperatures = temperatures;
 		invalidate();
 		this.repaint();
 	}
 
-	public List<Double> getTemperatures() {
+	public List<Float> getTemperatures() {
 		return temperatures;
 	}
 
 	private static void createAndShowGui() {
-		List<Double> temperatures = new ArrayList<>();
-		//Random random = new Random();
-		//int maxDataPoints = 12;
-		//int maxTemperature = 10;
-		//for (int i = 0; i < maxDataPoints; i++) {
-		//	temperatures.add((double) random.nextDouble() * maxTemperature);
-			//	            scores.add((double) i);
-		//}
-		
-		temperatures.add(73.0); 
-		temperatures.add(73.0);
-		temperatures.add(75.0);
-		temperatures.add(77.0);
-		temperatures.add(79.0);
-		temperatures.add(80.0); 
-		temperatures.add(80.0);
-		temperatures.add(80.0);
-		temperatures.add(80.0);
-		temperatures.add(80.0);
-		temperatures.add(79.0);
-		temperatures.add(76.0);
-		temperatures.add(74.0);
-		temperatures.add(73.0);
-		temperatures.add(72.8);
-		
+		List<Float> temperatures = new ArrayList<>();
+
+
+		temperatures.add((float) 73.0); 
+		temperatures.add((float) 73.0);
+		temperatures.add((float) 75.0);
+		temperatures.add((float) 77.0);
+		temperatures.add((float) 79.0);
+		temperatures.add((float) 80.0); 
+		temperatures.add((float) 80.0);
+		temperatures.add((float) 80.0);
+		temperatures.add((float) 80.0);
+		temperatures.add((float) 80.0);
+		temperatures.add((float) 79.0);
+		temperatures.add((float) 76.0);
+		temperatures.add((float) 74.0);
+		temperatures.add((float) 73.0);
+		temperatures.add((float) 72.8);
+
 		Graph mainPanel = new Graph(temperatures);
 		mainPanel.setPreferredSize(new Dimension(800, 600));
 		JFrame frame = new JFrame("Baseline Graph - Optimized On/Off Model");
@@ -279,11 +380,15 @@ public class Graph extends JPanel{
 		frame.setVisible(true);
 	}
 
-	public static void main(String[] args) {
+	public void newGraph(String roomNumber) {
+		eventHandler.fireGetBaseline(roomNumber);
+	}
+
+	/*public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGui();
 			}
 		});
-	}
+	}*/
 }

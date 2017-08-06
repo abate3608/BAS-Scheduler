@@ -111,8 +111,12 @@ public interface EventListener {
 	
 	public void saveRoomHistoryData(BacnetObject obj);
 
-	void updateSpaceTemp(String roomNumber, float roomTemp);
+	public void updateSpaceTemp(String roomNumber, float roomTemp);
 	
 	public void updateUnoccTempSetpoint(String roomNumber, float unoccTempSetpoint);
+
+	public void getBaseline(String roomNumber);
+	
+	public void getBaselineRespond (DBBaselineTable baseline);
 
 }

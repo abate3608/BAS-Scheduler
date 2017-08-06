@@ -240,5 +240,13 @@ public class EventAdapter implements EventListener {
 			
 		}
 		
+		public void getBaseline(String roomNumber) {
+			
+		}
+		
+		public void getBaselineRespond (DBBaselineTable baseline) {
+			
+		}
+		
 		
 }

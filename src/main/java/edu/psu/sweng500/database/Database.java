@@ -900,13 +900,141 @@ public class Database {
 		}
 
 		@Override
-		public void updateBaseline(String roomNumber) {
+		public void getBaseline(String roomNumber) {
 			//display debug message
-			System.out.println("Database > Update baseline request received. Room: " + roomNumber);
+			System.out.println("Database > Get baseline request received. Room: " + roomNumber);
 
 			try {
+				boolean hasRecord = false;
+				//get current baseline
+				String query = "Select * from psuteam7.baseline where RoomNumber = '" + roomNumber + "' and OAT >= " + weather.getTemperature() + " order by OAT ASC";
+				statement = connect.createStatement();
+				ResultSet  rt = statement.executeQuery(query);
+				DBBaselineTable baseline = new DBBaselineTable();
+				while (rt.next()) {
+					baseline.setID(rt.getInt(1));
+					baseline.setSiteID(rt.getInt(2));
+					baseline.setRoomNumber(rt.getString(3));
+					baseline.setYunocc(rt.getFloat(4));
+					baseline.setOAT(rt.getInt(5));
+					baseline.setX4(rt.getFloat(6));
+					baseline.setY4(rt.getFloat(7));
+					baseline.setX5(rt.getFloat(8));
+					baseline.setY5(rt.getFloat(9));
+					baseline.setX6(rt.getFloat(10));
+					baseline.setY6(rt.getFloat(11));
+					baseline.setX7(rt.getFloat(12));
+					baseline.setY7(rt.getFloat(13));
+					baseline.setXz0(rt.getFloat(14));
+					baseline.setYz0(rt.getFloat(15));
+					baseline.setXz1(rt.getFloat(16));
+					baseline.setYz1(rt.getFloat(17));
+					baseline.setXz2(rt.getFloat(18));
+					baseline.setYz2(rt.getFloat(19));
+					baseline.setXz3(rt.getFloat(20));
+					baseline.setYz3(rt.getFloat(21));
+					baseline.setYocc(rt.getFloat(22));
+					baseline.setX0(rt.getFloat(23));
+					baseline.setY0(rt.getFloat(24));
+					baseline.setX1(rt.getFloat(25));
+					baseline.setY1(rt.getFloat(26));
+					baseline.setX2(rt.getFloat(27));
+					baseline.setY2(rt.getFloat(28));
+					baseline.setX3(rt.getFloat(29));
+					baseline.setY3(rt.getFloat(30));
+					baseline.setX(rt.getFloat(31));
+					baseline.setY(rt.getFloat(32));
+					baseline.setOccTime(rt.getTimestamp(33));
+					baseline.setUnOccTime(rt.getTimestamp(34));
 
+					if (baseline.getOccTime() == null) { 
+						baseline.setOccTime(new Date()); 
+					}
 
+					if (baseline.getUnOccTime() == null) { 
+						baseline.setUnOccTime(new Date()); 
+					}
+
+					hasRecord = true;
+					break;
+				}
+				
+				if (!hasRecord) {
+					query = "Select * from psuteam7.baseline where RoomNumber = '" + roomNumber + "' order by OAT DESC";
+					statement = connect.createStatement();
+					ResultSet  rt2 = statement.executeQuery(query);
+					//DBBaselineTable baseline = new DBBaselineTable();
+					while (rt2.next()) {
+						baseline.setID(rt2.getInt(1));
+						baseline.setSiteID(rt2.getInt(2));
+						baseline.setRoomNumber(rt2.getString(3));
+						baseline.setYunocc(rt2.getFloat(4));
+						baseline.setOAT(rt2.getInt(5));
+						baseline.setX4(rt2.getFloat(6));
+						baseline.setY4(rt2.getFloat(7));
+						baseline.setX5(rt2.getFloat(8));
+						baseline.setY5(rt2.getFloat(9));
+						baseline.setX6(rt2.getFloat(10));
+						baseline.setY6(rt2.getFloat(11));
+						baseline.setX7(rt2.getFloat(12));
+						baseline.setY7(rt2.getFloat(13));
+						baseline.setXz0(rt2.getFloat(14));
+						baseline.setYz0(rt2.getFloat(15));
+						baseline.setXz1(rt2.getFloat(16));
+						baseline.setYz1(rt2.getFloat(17));
+						baseline.setXz2(rt2.getFloat(18));
+						baseline.setYz2(rt2.getFloat(19));
+						baseline.setXz3(rt2.getFloat(20));
+						baseline.setYz3(rt2.getFloat(21));
+						baseline.setYocc(rt2.getFloat(22));
+						baseline.setX0(rt2.getFloat(23));
+						baseline.setY0(rt2.getFloat(24));
+						baseline.setX1(rt2.getFloat(25));
+						baseline.setY1(rt2.getFloat(26));
+						baseline.setX2(rt2.getFloat(27));
+						baseline.setY2(rt2.getFloat(28));
+						baseline.setX3(rt2.getFloat(29));
+						baseline.setY3(rt2.getFloat(30));
+						baseline.setX(rt2.getFloat(31));
+						baseline.setY(rt2.getFloat(32));
+						baseline.setOccTime(rt2.getTimestamp(33));
+						baseline.setUnOccTime(rt2.getTimestamp(34));
+
+						if (baseline.getOccTime() == null) { 
+							baseline.setOccTime(new Date()); 
+						}
+
+						if (baseline.getUnOccTime() == null) { 
+							baseline.setUnOccTime(new Date()); 
+						}
+
+						
+						
+						hasRecord = true;
+						break;
+					}
+				}
+				
+				if (!hasRecord) {
+					baseline.setRoomNumber(roomNumber);
+				}
+				
+				query = "Select * from psuteam7.room where RoomNumber = '" + roomNumber + "'";
+				statement = connect.createStatement();
+				ResultSet rt1 = statement.executeQuery(query);
+				DBRoomTable room = new DBRoomTable();
+				while (rt1.next()) {
+					room = new DBRoomTable(rt1.getInt(1), rt1.getString(2), rt1.getString(3), rt1.getString(4),
+							rt1.getInt(5), rt1.getInt(6), rt1.getInt(7), rt1.getFloat(8), rt1.getFloat(9), rt1.getFloat(10),
+							rt1.getInt(13), rt1.getInt(14), rt1.getFloat(15));
+					room.setLastUpdated(rt1.getTimestamp(12));
+					break;
+				}
+				
+				baseline.setOccOffset(room.getOccOffset());
+				baseline.setUnoccOffset(room.getUnoccOffset());
+				baseline.setRoomTemp(room.getRoomTemp());
+				eventHandler.fireGetBaselineRespond(baseline);
 			} catch(Exception e) {
 				System.out.println(e);
 

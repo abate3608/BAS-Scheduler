@@ -538,5 +538,25 @@ public class EventHandler {
 		}
 	}
 	
+	public void fireGetBaseline(String roomNumber) {
+		for (EventListener l : listeners) {
+			try {
+				l.getBaseline(roomNumber);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireGetBaselineRespond (DBBaselineTable baseline) {
+		for (EventListener l : listeners) {
+			try {
+				l.getBaselineRespond(baseline);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
 	
 }

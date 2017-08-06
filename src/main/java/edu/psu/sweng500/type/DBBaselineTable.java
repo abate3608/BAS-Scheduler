@@ -37,6 +37,9 @@ public class DBBaselineTable {
 	private float Y;
 	private Date OccTime;
 	private Date UnOccTime;
+	private float OccOffset;
+	private float UnoccOffset;
+	private float RoomTemp;
 
 	public DBBaselineTable() {
 		this.ID = 0;
@@ -250,5 +253,28 @@ public class DBBaselineTable {
 	}
 	public void setUnOccTime (Date UnOccTime) {
 		this.UnOccTime = UnOccTime;
+	}
+	
+	public void setOccOffset (float OccOffset) {
+		this.OccOffset = OccOffset;
+	}
+	public void setUnoccOffset (float UnoccOffset) {
+		this.UnoccOffset = UnoccOffset;
+	}
+	
+	public float getOccOffset () {
+		return this.OccOffset;
+	}
+	
+	public float getUnoccOffset () {
+		return this.UnoccOffset;
+	}
+	
+	public void setRoomTemp (float RoomTemp) {
+		this.RoomTemp = RoomTemp;
+	}
+	
+	public float getRoomTemp () {
+		return this.RoomTemp;
 	}
 }
