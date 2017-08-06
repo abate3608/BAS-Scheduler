@@ -195,6 +195,7 @@ public class EditEventScreenNew
 		panel.setLayout( new GridLayout( 3, 1 ) );
 		
 		JButton delete = new JButton( "Delete Event" );
+		//delete.setBounds(30, 430, 140, 25);
 		delete.addActionListener( new ActionListener()
 		{
 			@Override
