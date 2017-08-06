@@ -365,7 +365,7 @@ public class NewEventScreen implements ActionListener {
 	
 	private boolean verifyIntegerField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	        try {
@@ -381,7 +381,7 @@ public class NewEventScreen implements ActionListener {
 		
 	private boolean verifyDateField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	    	 String test = "2017-08-14";
