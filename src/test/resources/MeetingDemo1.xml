@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<MeetingSpaceResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://htng.org/PWSWG/2007/01/DigitalSignage/MeetingSpaceResponse/Types">
+	<Property propertyKey="10055" propertyName="Test University">
+		<Event eventKey="65733.10054" eventName="Group"
+			eventPostAs="Audit Year 3@Deloitte: Go the Distance">
+			<Group name="Audit" key="36700.10054" />
+			<MeetingSpace startDateTime="2017-08-06T20:00:00"
+				endDateTime="2017-08-06T21:00:00" roomKey="32FB7F3E-4D8F-4C4F-9AEF-6DC528EC0A24"
+				roomName="Team Room 1057A" meetingKey="C0732989-AFFE-E611-945A-005056BAB105"
+				meetingName="Office" meetingPostAs="Dean Office" isPostable="false"
+				isExhibit="false" agr_attend="6" exp_attend="6" gtd_attend="6"
+				set_attend="9" />
+			<MeetingSpace startDateTime="2017-08-06T20:00:00"
+				endDateTime="2017-08-06T22:00:00" roomKey="68C9AEE2-1900-44A4-96E5-C27DC64248BF"
+				roomName="Team Room 1047B" meetingKey="EE9DB2A6-AEFE-E611-945A-005056BAB105"
+				meetingName="Office" meetingPostAs="MDP Office " isPostable="false"
+				isExhibit="false" agr_attend="4" exp_attend="4" gtd_attend="4"
+				set_attend="5" />
+			<MeetingSpace startDateTime="2017-08-06T13:00:00"
+				endDateTime="2017-08-06T15:00:00" roomKey="75DF03D1-3F2A-47CE-9A0C-19DACA35409A"
+				roomName="Team Room 1057C" meetingKey="D0F0E5EB-AFFE-E611-945A-005056BAB105"
+				meetingName="Office" meetingPostAs="Dean Office" isPostable="false"
+				isExhibit="false" agr_attend="4" exp_attend="4" gtd_attend="4"
+				set_attend="5" />
+			<MeetingSpace startDateTime="2017-08-06T14:00:00"
+				endDateTime="2017-08-06T17:00:00" roomKey="C90946F6-0A02-4CCA-9AD8-5FD5374B626B"
+				roomName="Team Room 1055C" meetingKey="EE5E7507-AFFE-E611-945A-005056BAB105"
+				meetingName="Office" meetingPostAs="PM Learning Office " isPostable="false"
+				isExhibit="false" agr_attend="6" exp_attend="6" gtd_attend="6"
+				set_attend="11" />
+			<MeetingSpace startDateTime="2017-08-06T17:00:00"
+				endDateTime="2017-08-16T18:30:00" roomKey="CAF6501E-6540-40FB-B630-4463959C9750"
+				roomName="NMS 1028E" meetingKey="150CEF89-BDFE-E611-945A-005056BAB105"
+				meetingName="Office" meetingPostAs="DM Learning Office" isPostable="false"
+				isExhibit="false" agr_attend="4" exp_attend="4" gtd_attend="4"
+				set_attend="4" />
+			<MeetingSpace startDateTime="2017-08-06T14:15:00"
+				endDateTime="2017-08-06T14:45:00" roomKey="AA8E7020-4B2D-4154-89CF-8A223EF00686"
+				roomName="Resources" meetingKey="4CB0047B-14CF-4232-AFAA-34F7D53AA692"
+				meetingName="Resource" meetingPostAs="Resource - iPad Return "
+				isPostable="false" isExhibit="false" agr_attend="1" exp_attend="1"
+				gtd_attend="1" set_attend="1" />
+			<MeetingSpace startDateTime="2017-08-05T17:30:00"
+				endDateTime="2017-08-05T19:30:00" roomKey="AA8E7020-4B2D-4154-89CF-8A223EF00686"
+				roomName="Resources" meetingKey="0A82BC47-7EC3-494C-A24E-AC15C2620924"
+				meetingName="Resource" meetingPostAs="Resource - Material Pick Up "
+				isPostable="false" isExhibit="false" agr_attend="1" exp_attend="1"
+				gtd_attend="1" set_attend="1" />
+		</Event>
+		<Event eventKey="75850.10054" eventName="Group"
+			eventPostAs="Audit Year 2@Deloitte: Raise the Bar">
+			<Group name="Audit" key="36700.10054" />
+			<MeetingSpace startDateTime="2017-08-07T08:00:00"
+				endDateTime="2017-08-07T22:00:00" roomKey="49CDA758-7335-4556-88E6-6ED108B69D01"
+				roomName="Classroom 1069" meetingKey="1DC1F017-3572-4BA9-9418-BC85032B8AC3"
+				meetingName="Hold" meetingPostAs="Hold" isPostable="false"
+				isExhibit="false" agr_attend="0" exp_attend="0" gtd_attend="0"
+				set_attend="0" />
+			<MeetingSpace startDateTime="2017-08-07T08:00:00"
+				endDateTime="2017-08-07T22:00:00" roomKey="5E39C664-C3C6-4910-BACF-0F573E9448AC"
+				roomName="Classroom 1072" meetingKey="4113D42E-2265-476B-9D0E-F44F9391CC56"
+				meetingName="Hold" meetingPostAs="Hold" isPostable="false"
+				isExhibit="false" agr_attend="0" exp_attend="0" gtd_attend="0"
+				set_attend="0" />
+			<MeetingSpace startDateTime="2017-08-06T08:00:00"
+				endDateTime="2017-08-06T22:00:00" roomKey="94879031-8503-4FD7-9329-712F53D36750"
+				roomName="Classroom 1070" meetingKey="1C1302CF-C52C-453C-BDF9-48D664CA67ED"
+				meetingName="Hold" meetingPostAs="Hold" isPostable="false"
+				isExhibit="false" agr_attend="0" exp_attend="0" gtd_attend="0"
+				set_attend="0" />
+			<MeetingSpace startDateTime="2017-08-06T08:00:00"
+				endDateTime="2017-08-06T22:00:00" roomKey="B202DE08-C65C-495B-824B-62633BC2202F"
+				roomName="Classroom 1071" meetingKey="DBA5FE99-661E-4931-9412-B55035107A65"
+				meetingName="Hold" meetingPostAs="Hold" isPostable="false"
+				isExhibit="false" agr_attend="0" exp_attend="0" gtd_attend="0"
+				set_attend="0" />
+		</Event>
+	</Property>
+</MeetingSpaceResponse>
