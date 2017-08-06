@@ -162,7 +162,7 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-		JButton dateButton = new JButton("Start Date");
+		JButton dateButton = new JButton("Choose Date");
 		dateButton.setBounds(215, 200, 100, 25);
 		newEventPanel.add(dateButton);
 		//perform action listener
@@ -181,7 +181,7 @@ public class NewEventScreen implements ActionListener {
 		endEventDateTXT.addFocusListener(HIGHLIGHTER);
 		
 		//create button and there object
-		JButton enddateButton = new JButton("End Date");
+		JButton enddateButton = new JButton("Choose Date");
 		enddateButton.setBounds(215, 250, 100, 25);
 		newEventPanel.add(enddateButton);
 		//perform action listener
