@@ -129,7 +129,7 @@ public class EditEventScreenNew
 		startTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(startTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "Start Time: (yyyy-mm-dd)" ), c );
+		panel.add( new JLabel( "Start Time:" ), c );
 		c.gridy += 1;
 		panel.add( startTimeBox, c );
 		
@@ -144,14 +144,14 @@ public class EditEventScreenNew
 		endTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "End Time: (yyyy-mm-dd)" ), c );
+		panel.add( new JLabel( "End Time:" ), c );
 		c.gridy += 1;
 		panel.add( endTimeBox, c );
 		
 		startDateField = new FocusHighlightedTextField();
 		startDateField.setText( getDateString( event.getStartDateTime() ) );
 		c.gridy += 1;
-		panel.add( new JLabel( "Start Date:" ), c );
+		panel.add( new JLabel( "Start Date: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( startDateField, c );
 		c.gridx += 1;
@@ -161,7 +161,7 @@ public class EditEventScreenNew
 		endDateField = new FocusHighlightedTextField();
 		endDateField.setText( getDateString( event.getEndDateTime() ) );
 		c.gridy += 1;
-		panel.add( new JLabel( "End Date:" ), c );
+		panel.add( new JLabel( "End Date: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( endDateField, c );
 		c.gridx += 1;
@@ -326,7 +326,7 @@ public class EditEventScreenNew
 	
 	private JButton getDatePickerButton( JTextField field )
 	{
-		JButton button = new JButton("Choose date");
+		JButton button = new JButton("Choose Date");
 		button.addActionListener(new ActionListener()
 		{
 			@Override
