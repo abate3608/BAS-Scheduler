@@ -111,4 +111,8 @@ public interface EventListener {
 	
 	public void saveRoomHistoryData(BacnetObject obj);
 
+	void updateSpaceTemp(String roomNumber, float roomTemp);
+	
+	public void updateUnoccTempSetpoint(String roomNumber, float unoccTempSetpoint);
+
 }

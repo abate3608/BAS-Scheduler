@@ -516,6 +516,27 @@ public class EventHandler {
 			}
 		}
 	}
+
+	public void fireUpdateSpaceTemp(String roomNumber, float roomTemp) {
+		// TODO Auto-generated method stub
+		for (EventListener l : listeners) {
+			try {
+				l.updateSpaceTemp(roomNumber, roomTemp);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
+	
+	public void fireUpdateUnoccTempSetpoint(String roomNumber, float unoccTempSetpoint) {
+		for (EventListener l : listeners) {
+			try {
+				l.updateUnoccTempSetpoint(roomNumber, unoccTempSetpoint);
+			} catch (Throwable e) {
+				handleException(l, e);
+			}
+		}
+	}
 	
 	
 }

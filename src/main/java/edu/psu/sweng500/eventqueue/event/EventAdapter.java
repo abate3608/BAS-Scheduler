@@ -231,4 +231,14 @@ public class EventAdapter implements EventListener {
 			
 		}
 		
+		public void updateSpaceTemp(String roomNumber, float roomTemp) {
+			
+		}
+
+		public void updateUnoccTempSetpoint(String roomNumber, float unoccTempSetpoint) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
 }

@@ -1,11 +1,13 @@
 package edu.psu.sweng500.type;
 
+import java.util.Date;
+
 public class DBBaselineTable {
 	private int ID;
 	private int SiteID;
 	private String RoomNumber;
 	private float Yunocc;
-	private float OAT;
+	private int OAT;
 	private float X4;
 	private float Y4;
 	private float X5;
@@ -33,11 +35,11 @@ public class DBBaselineTable {
 	private float Y3;
 	private float X;
 	private float Y;
-	private String OccTime;
-	private String UnOccTime;
+	private Date OccTime;
+	private Date UnOccTime;
 
 	public DBBaselineTable() {
-
+		this.ID = 0;
 	}
 
 	//get
@@ -53,7 +55,7 @@ public class DBBaselineTable {
 	public float getYunocc() {
 		return this.Yunocc;
 	}
-	public float getOAT() {
+	public int getOAT() {
 		return this.OAT;
 	}
 	public float getX4() {
@@ -138,10 +140,10 @@ public class DBBaselineTable {
 	public float getY() {
 		return this.Y;
 	}
-	public String getOccTime() {
+	public Date getOccTime() {
 		return this.OccTime;
 	}
-	public String getUnOccTime() {
+	public Date getUnOccTime() {
 		return this.UnOccTime;
 	}
 
@@ -159,7 +161,7 @@ public class DBBaselineTable {
 	public void setYunocc (float Yunocc) {
 		this.Yunocc = Yunocc;
 	}
-	public void setOAT (float OAT) {
+	public void setOAT (int OAT) {
 		this.OAT = OAT;
 	}
 	public void setX4 (float X4) {
@@ -243,10 +245,10 @@ public class DBBaselineTable {
 	public void setY (float Y) {
 		this.Y = Y;
 	}
-	public void setOccTime (String OccTime) {
+	public void setOccTime (Date OccTime) {
 		this.OccTime = OccTime;
 	}
-	public void setUnOccTime (String UnOccTime) {
+	public void setUnOccTime (Date UnOccTime) {
 		this.UnOccTime = UnOccTime;
 	}
 }

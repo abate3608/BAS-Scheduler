@@ -1,5 +1,8 @@
 package edu.psu.sweng500.type;
 
+
+import java.util.Date;
+
 public class DBRoomTable {
 	private int id;
 	private String roomNumber;
@@ -10,6 +13,12 @@ public class DBRoomTable {
 	private int status;
 	private float tempSetpoint;
 	private float lightIntensity;
+	private float RoomTemp;
+	private Date LastUpdated;
+	private int OccOffset;
+	private int UnoccOffset;
+	private float UnoccSetpoint;
+	
 	
 	public DBRoomTable () {
 		id = 0;
@@ -21,7 +30,9 @@ public class DBRoomTable {
 		lightIntensity = 100;
 	}
 	
-	public DBRoomTable (int id, String roomNumber, String proomName, String proomType, int poccState, int optOccState, int pstatus, float tempSetpoint, float lightIntensity) {
+	public DBRoomTable (int id, String roomNumber, String proomName, String proomType, 
+			int poccState, int optOccState, int pstatus, float tempSetpoint, float lightIntensity, 
+			float RoomTemp, int OccOffset, int UnoccOffset, float UnoccSetpoint) {
 		this.id = id;
 		this.roomNumber = roomNumber;
 		roomName = proomName;
@@ -31,6 +42,10 @@ public class DBRoomTable {
 		status = pstatus;
 		this.tempSetpoint = tempSetpoint;
 		this.lightIntensity = lightIntensity;
+		this.RoomTemp = RoomTemp;
+		this.OccOffset = OccOffset;
+		this.UnoccOffset = UnoccOffset;
+		this.UnoccSetpoint = UnoccSetpoint;
 	}
 	
 	public int getId() {
@@ -97,7 +112,45 @@ public class DBRoomTable {
 		this.lightIntensity = lightIntensity;
 	}
 	
+	public float getRoomTemp () {
+		return this.RoomTemp;
+	}
+	public void setRoomTemp(float RoomTemp) {
+		this.RoomTemp = RoomTemp;
+	}
+	
 	public float getLightIntensity () {
 		return this.lightIntensity;
+	}
+	public void setLastUpdated (Date time) {
+		this.LastUpdated = time;
+	}
+	
+	public Date getLastUpdated () {
+		return this.LastUpdated;
+	}
+	
+	public void setOccOffset (int OccOffset) {
+		this.OccOffset = OccOffset;
+	}
+	
+	public int getOccOffset () {
+		return this.OccOffset;
+	}
+	
+	public void setUnoccOffset (int UnoccOffset) {
+		this.UnoccOffset = UnoccOffset;
+	}
+	
+	public int getUnoccOffset () {
+		return this.UnoccOffset;
+	}
+	
+	public void setUnoccSetpoint (float UnoccSetpoint) {
+		this.UnoccSetpoint = UnoccSetpoint;
+	}
+	
+	public float getUnoccSetpoint () {
+		return this.UnoccSetpoint;
 	}
 }

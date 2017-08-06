@@ -6,6 +6,7 @@ public class BacnetObject {
 	private float OccSetpoint;
 	private float UnoccSetpoint;
 	private float Light;
+	private float OAT;
 	
 	private int OccState;
 	private int OptOccState;
@@ -54,6 +55,14 @@ public class BacnetObject {
 	
 	public float getLight () {
 		return this.Light;
+	}
+	
+	public void setOAT (float OAT) {
+		this.OAT = OAT;
+	}
+	
+	public float getOAT () {
+		return this.OAT;
 	}
 	
 	public void setOccState (int OccState) {

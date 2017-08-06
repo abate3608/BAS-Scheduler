@@ -73,17 +73,22 @@ public class Main {
 			System.out.println("Main > System site ID: " + site.getId() + ".");
 			
 			
+			
 			System.out.println("Main > Get weather data from DB for Site: " + site.getId() + ".");
 			eventHandler.fireWeatherInfoRequest(site.getId());
 			
 			System.out.println("Main > Get weather data from Open Weather Map API for Site Zip Code: " + site.getZipCode() + ".");
 			OpenWeatherMapAPI owm = new OpenWeatherMapAPI();
 			owm.getWeatherFromZip(site.getZipCode()); //currently for US only
-						
-			
+					
+			System.out.println("Main > Start BACnet Server.");
+			Thread t_bacnet=new Thread(new MultiThreadedBacnetServer());
+			t_bacnet.start();
 			
 			//System.out.println("Main > Start BACnet Server.");			
 			//BacnetServer bacnet = new BacnetServer(); // start bacner server
+			
+			
 			
 			
 			System.out.println("Main > Open UI calendar Screen.");
@@ -93,8 +98,7 @@ public class Main {
 			Thread t1=new Thread(new MultiThreadedAPIServer());
 			t1.start();
 
-			Thread t2=new Thread(new MultiThreadedBacnetServer());
-			t2.start();
+			
 			
 			//create new xml importer
 			//

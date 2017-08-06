@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.lang.ClassCastException;
 
 import javax.swing.JOptionPane;
@@ -37,7 +38,7 @@ public class Database {
 	// public static final String passWord = null;
 	// public static final String firstName= null;
 	private static Statement statement = null;
-	private static ResultSet rt = null;
+	//private static ResultSet rt = null;
 	private static Connection connect = null;
 
 	private static DBSiteTable site = new DBSiteTable();
@@ -61,7 +62,7 @@ public class Database {
 
 				String query = "select * from psuteam7.bacnetdevices";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				while ((rt.next())) {
 					DBBacnetDevicesTable d = new DBBacnetDevicesTable();
@@ -72,6 +73,7 @@ public class Database {
 					eventHandler.fireBacnetDeviceUpdate(d);
 					break;
 				}
+				//rt = null;
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -129,7 +131,7 @@ public class Database {
 						"OR (StartDateTime BETWEEN '" + df.format(startDateTime) + "' AND '" + df.format(endDateTime) + "') " +
 						"OR (EndDateTime BETWEEN '" + df.format(startDateTime) + "' AND '" + df.format(endDateTime) + "')";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
 
@@ -148,7 +150,7 @@ public class Database {
 					s.setRoomName(rt.getString("RoomName"));
 					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
 					s.setLightIntensity(rt.getInt("LightIntensity"));
-					
+
 					sList.add(s);
 				}
 				// Send list of events to event queue
@@ -159,7 +161,7 @@ public class Database {
 			}
 
 		}
-		
+
 		@Override
 		public void getDailyEvents(Date dailyDate) {
 			try {
@@ -172,7 +174,7 @@ public class Database {
 				String query = "SELECT * FROM psuteam7.schedule WHERE '" + df.format(dailyDate) + "'"
 						+ " BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE);";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
 
@@ -191,7 +193,7 @@ public class Database {
 					s.setRoomName(rt.getString("RoomName"));
 					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
 					s.setLightIntensity(rt.getInt("LightIntensity"));
-					
+
 					sList.add(s);
 				}
 				// Send list of events to event queue
@@ -214,7 +216,7 @@ public class Database {
 
 				statement = connect.createStatement();
 				Date d = DateUtils.addHours(s.getStartDateTime(), -2);
-				
+
 				String query = "SELECT * FROM psuteam7.schedule WHERE ('" + df.format(s.getStartDateTime()) + 
 						"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
 						"OR ('" + s.getEndDateTime() + "' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
@@ -222,7 +224,7 @@ public class Database {
 						"OR (EndDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
 						"AND RoomName = '" + s.getRoomName() + "'";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 				// check for existing schedule
 				while (rt.next()) {
 					String rowGuid = rt.getString("RowGuid");
@@ -235,7 +237,7 @@ public class Database {
 						err = 5;
 					}
 				}
-				
+
 				Date currentDate = new Date();
 				// check to validate if User selected start/end date are not before current date
 				if (s.getStartDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
@@ -287,8 +289,8 @@ public class Database {
 				eventHandler.fireCreateEventRespond(s, err);
 			} catch (Exception e) {
 				e.printStackTrace();
-				 err = 1;
-				 eventHandler.fireCreateEventRespond(s, err);
+				err = 1;
+				eventHandler.fireCreateEventRespond(s, err);
 			}
 		}
 
@@ -302,7 +304,7 @@ public class Database {
 
 				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				if ((rt.next())) {
 					s.setRowGuid(rt.getString("RowGuid"));
@@ -341,29 +343,29 @@ public class Database {
 				statement = connect.createStatement();
 				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				if (rt.next()) {
-					
+
 					Date currentDate = new Date();
 					// check to validate if User selected dates are not before current date
 					if (s.getEndDateTime().before(currentDate) || s.getEndDateTime().before(s.getStartDateTime())) {
 						err = 4;
 					}
-					
+
 					if(err < 1) {
 						DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+
 						statement = connect.createStatement();
-						
+
 						String queryDup = "SELECT * FROM psuteam7.schedule WHERE ('" + df.format(s.getStartDateTime()) + 
 								"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
 								"OR ('" + s.getEndDateTime() + "' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) " +
 								"OR (StartDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
 								"OR (EndDateTime BETWEEN '" + df.format(s.getStartDateTime()) + "' AND '" + df.format(s.getEndDateTime()) + "') " +
 								"AND RoomName = '" + s.getRoomName() + "'";
-						
-	
+
+
 						rt = statement.executeQuery(queryDup);
 						// check for existing schedule
 						while (rt.next()) {
@@ -425,7 +427,7 @@ public class Database {
 				statement = connect.createStatement();
 				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
 
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 
 				if (rt.next()) {
 					Calendar calendar = Calendar.getInstance();
@@ -474,14 +476,14 @@ public class Database {
 		public void authenticateUserRequest(String userName, String passWord) {
 			// display debug message
 			System.out
-					.println("Database > Authentication request received. User: " + userName + " Password:" + passWord);
+			.println("Database > Authentication request received. User: " + userName + " Password:" + passWord);
 			try {
 
 				// sql statement
 				String userquery = "Select * from psuteam7.User_Profile where userName = '" + userName
 						+ "' and passWord = '" + passWord + "' ";
 				statement = connect.createStatement();
-				rt = statement.executeQuery(userquery);
+				ResultSet rt = statement.executeQuery(userquery);
 
 				// create new user variable
 				User u = new User(userName, false);
@@ -546,7 +548,7 @@ public class Database {
 					String emailquery = "Select * from psuteam7.User_Profile where Email = ? ";
 					PreparedStatement statement = connect.prepareStatement(emailquery);
 					statement.setString(1, u.getEmail());
-					rt = statement.executeQuery();
+					ResultSet rt = statement.executeQuery();
 
 					if (rt.next()) {
 
@@ -565,7 +567,7 @@ public class Database {
 					String userquery = "Select * from psuteam7.User_Profile where userName = ?";
 					PreparedStatement statement = connect.prepareStatement(userquery);
 					statement.setString(1, u.getUserName());
-					rt = statement.executeQuery();
+					ResultSet rt = statement.executeQuery();
 
 					if (rt.next()) {
 						err = 2;// already exists
@@ -589,7 +591,7 @@ public class Database {
 				// sql statement
 				String userquery = "Select * from psuteam7.site";
 				statement = connect.createStatement();
-				rt = statement.executeQuery(userquery);
+				ResultSet rt = statement.executeQuery(userquery);
 
 				while (rt.next()) {
 					if (rt.getInt(1) > 0) {
@@ -619,12 +621,13 @@ public class Database {
 				// sql statement
 				String userquery = "Select * from psuteam7.room";
 				statement = connect.createStatement();
-				rt = statement.executeQuery(userquery);
+				ResultSet rt = statement.executeQuery(userquery);
 
 				while (rt.next()) {
 					if (rt.getInt(1) > 0) {
 						DBRoomTable r = new DBRoomTable(rt.getInt(1), rt.getString(2), rt.getString(3), rt.getString(4),
-								rt.getInt(5), rt.getInt(6), rt.getInt(7), rt.getFloat(8), rt.getFloat(9));
+								rt.getInt(5), rt.getInt(6), rt.getInt(7), rt.getFloat(8), rt.getFloat(9), rt.getFloat(10),
+								rt.getInt(13), rt.getInt(14), rt.getFloat(15));
 						// set update info to event queue
 						eventHandler.fireRoomInfoUpdate(r);
 					}
@@ -648,7 +651,7 @@ public class Database {
 
 				query = "select * from psuteam7.room where RoomNumber = '" + r.getRoomNumber() + "'";
 				statement = connect.createStatement();
-				rt = statement.executeQuery(query);
+				ResultSet rt = statement.executeQuery(query);
 				// check for existing schedule
 				if (rt.next()) {
 
@@ -743,7 +746,7 @@ public class Database {
 				// sql statement
 				String userquery = "Select * from psuteam7.weather where SiteID = " + siteId + " ORDER BY ID DESC";
 				statement = connect.createStatement();
-				rt = statement.executeQuery(userquery);
+				ResultSet rt = statement.executeQuery(userquery);
 
 				while (rt.next()) {
 					if (rt.getInt(1) > 0) {
@@ -788,6 +791,98 @@ public class Database {
 					// execute the preparedstatement
 					preparedStmt.execute();
 
+
+
+					//update optimize time
+					//get current baseline
+					query = "Select * from psuteam7.baseline where OAT = " + Math.round(w.getTemperature());
+					statement = connect.createStatement();
+					ResultSet rt3 = statement.executeQuery(query);
+					DBBaselineTable baseline = new DBBaselineTable();
+					while (rt3.next()) {
+						baseline.setID(rt3.getInt(1));
+						baseline.setSiteID(rt3.getInt(2));
+						baseline.setRoomNumber(rt3.getString(3));
+						baseline.setYunocc(rt3.getFloat(4));
+						baseline.setOAT(rt3.getInt(5));
+						baseline.setX4(rt3.getFloat(6));
+						baseline.setY4(rt3.getFloat(7));
+						baseline.setX5(rt3.getFloat(8));
+						baseline.setY5(rt3.getFloat(9));
+						baseline.setX6(rt3.getFloat(10));
+						baseline.setY6(rt3.getFloat(11));
+						baseline.setX7(rt3.getFloat(12));
+						baseline.setY7(rt3.getFloat(13));
+						baseline.setXz0(rt3.getFloat(14));
+						baseline.setYz0(rt3.getFloat(15));
+						baseline.setXz1(rt3.getFloat(16));
+						baseline.setYz1(rt3.getFloat(17));
+						baseline.setXz2(rt3.getFloat(18));
+						baseline.setYz2(rt3.getFloat(19));
+						baseline.setXz3(rt3.getFloat(20));
+						baseline.setYz3(rt3.getFloat(21));
+						baseline.setYocc(rt3.getFloat(22));
+						baseline.setX0(rt3.getFloat(23));
+						baseline.setY0(rt3.getFloat(24));
+						baseline.setX1(rt3.getFloat(25));
+						baseline.setY1(rt3.getFloat(26));
+						baseline.setX2(rt3.getFloat(27));
+						baseline.setY2(rt3.getFloat(28));
+						baseline.setX3(rt3.getFloat(29));
+						baseline.setY3(rt3.getFloat(30));
+						baseline.setX(rt3.getFloat(31));
+						baseline.setY(rt3.getFloat(32));
+						baseline.setOccTime(rt3.getTimestamp(33));
+						baseline.setUnOccTime(rt3.getTimestamp(34));
+
+						if (baseline.getOccTime() == null) { 
+							baseline.setOccTime(new Date()); 
+						}
+
+						if (baseline.getUnOccTime() == null) { 
+							baseline.setUnOccTime(new Date()); 
+						}
+
+
+						// sql statement
+						query = "Select * from psuteam7.room where RoomNumber = '" + baseline.getRoomNumber() + "'";
+						statement = connect.createStatement();
+						ResultSet rt2 = statement.executeQuery(query);
+						DBRoomTable room = new DBRoomTable();
+						while (rt2.next()) {
+							room = new DBRoomTable(rt2.getInt(1), rt2.getString(2), rt2.getString(3), rt2.getString(4),
+									rt2.getInt(5), rt2.getInt(6), rt2.getInt(7), rt2.getFloat(8), rt2.getFloat(9), rt2.getFloat(10),
+									rt2.getInt(13), rt2.getInt(14), rt2.getFloat(15));
+							room.setLastUpdated(rt2.getTimestamp(12));
+							break;
+						}
+						if (baseline.getYocc() == 0) { baseline.setYocc(1); }
+						if (baseline.getX() ==0) { baseline.setX(1); }
+						if (baseline.getY7() == 0) { baseline.setY7(1); }
+						if (baseline.getX7() ==0) { baseline.setX7(1); }
+
+						int occOffsetPerDegree = Math.round(baseline.getYocc() / (baseline.getX() / 60));
+						int unoccOffsetPerDegree = Math.round(baseline.getY7() / (baseline.getX7() / 60));
+
+						int occDegreeSpan = Math.round(Math.abs(room.getTempSetpoint() - room.getRoomTemp()));
+						int unoccDegreeSpan = Math.round(Math.abs(room.getUnoccSetpoint() - room.getRoomTemp()));
+
+						int occOffset = occOffsetPerDegree * occDegreeSpan;
+						int unoccOffset = unoccOffsetPerDegree;
+
+						query = "Update psuteam7.room set OccOffset = ?, UnoccOffset = ? where RoomNumber = '" + room.getRoomNumber() + "'";
+
+						// create the mysql insert preparedstatement
+						preparedStmt = connect.prepareStatement(query);
+
+						preparedStmt.setFloat(1, occOffset);
+						preparedStmt.setFloat(2, unoccOffset);
+						// execute the preparedstatement
+						preparedStmt.execute();
+
+					}
+
+
 					err = 0; // good
 
 				} else {
@@ -808,29 +903,394 @@ public class Database {
 		public void updateBaseline(String roomNumber) {
 			//display debug message
 			System.out.println("Database > Update baseline request received. Room: " + roomNumber);
-			
+
 			try {
-				
+
 
 			} catch(Exception e) {
 				System.out.println(e);
-				
+
 			}
+		}
+
+		@Override
+		public void updateSpaceTemp (String roomNumber, float roomTemp) {
+			System.out.println("Database > Update space temp request received. Room: " 
+					+ roomNumber
+					+ " temp " + roomTemp);
+			try {
+				String query = "Update psuteam7.room set RoomTemp = ? where RoomNumber = '" + roomNumber + "'";
+
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt;
+				preparedStmt = connect.prepareStatement(query);
+
+				preparedStmt.setFloat(1, roomTemp);
+				// execute the preparedstatement
+				preparedStmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		@Override
+		public void updateUnoccTempSetpoint (String roomNumber, float unoccTempSetpoint) {
+			System.out.println("Database > Update space temp request received. Room: " 
+					+ roomNumber
+					+ " UnocctempSp " + unoccTempSetpoint);
+			try {
+				String query = "Update psuteam7.room set UnoccSetpoint = ? where RoomNumber = '" + roomNumber + "'";
+
+				// create the mysql insert preparedstatement
+				PreparedStatement preparedStmt;
+				preparedStmt = connect.prepareStatement(query);
+
+				preparedStmt.setFloat(1, unoccTempSetpoint);
+				// execute the preparedstatement
+				preparedStmt.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
 		@Override
 		public void saveRoomHistoryData (BacnetObject obj) {
 			//display debug message
-			System.out.println("Database > Update room history data request received. Room: " + obj.getRoomNumber());
+			System.out.println("Database > Update room history data request received. Room: " 
+					+ obj.getRoomNumber()
+					+ " Status " + obj.getStatus()
+					+ " OAT " + obj.getOAT()
+					+ " SAT " + obj.getRoomTemp());
+
+			Date CurrentDateTime = new Date();
+			float Yocc = 0;
+			float n = 0;
+			float Y0 = 0;
+			float Y1 = 0;
+			float Y2 = 0;
+			float Y3 = 0;
+			float Y = 0;
+			//Date OccTime = new Date();
+			float X0 = 0;
+			float X1 = 0;
+			float X2 = 0;
+			float X3 = 0;
+			float X = 0;
+			//update room occ status
+			try {
+				// sql statement
+				String query = "Select * from psuteam7.room where RoomNumber = '" + obj.getRoomNumber() + "'";
+				statement = connect.createStatement();
+				ResultSet rt1 = statement.executeQuery(query);
+				DBRoomTable room = new DBRoomTable();
+				while (rt1.next()) {
+					room = new DBRoomTable(rt1.getInt(1), rt1.getString(2), rt1.getString(3), rt1.getString(4),
+							rt1.getInt(5), rt1.getInt(6), rt1.getInt(7), rt1.getFloat(8), rt1.getFloat(9), rt1.getFloat(10),
+							rt1.getInt(13), rt1.getInt(14), rt1.getFloat(15));
+					room.setLastUpdated(rt1.getTimestamp(12));
+					break;
+				}
+
+				//get current baseline
+				query = "Select * from psuteam7.baseline where RoomNumber = '" + obj.getRoomNumber() + "' and OAT = " + obj.getOAT();
+				statement = connect.createStatement();
+				ResultSet  rt = statement.executeQuery(query);
+				DBBaselineTable baseline = new DBBaselineTable();
+				while (rt.next()) {
+					baseline.setID(rt.getInt(1));
+					baseline.setSiteID(rt.getInt(2));
+					baseline.setRoomNumber(rt.getString(3));
+					baseline.setYunocc(rt.getFloat(4));
+					baseline.setOAT(rt.getInt(5));
+					baseline.setX4(rt.getFloat(6));
+					baseline.setY4(rt.getFloat(7));
+					baseline.setX5(rt.getFloat(8));
+					baseline.setY5(rt.getFloat(9));
+					baseline.setX6(rt.getFloat(10));
+					baseline.setY6(rt.getFloat(11));
+					baseline.setX7(rt.getFloat(12));
+					baseline.setY7(rt.getFloat(13));
+					baseline.setXz0(rt.getFloat(14));
+					baseline.setYz0(rt.getFloat(15));
+					baseline.setXz1(rt.getFloat(16));
+					baseline.setYz1(rt.getFloat(17));
+					baseline.setXz2(rt.getFloat(18));
+					baseline.setYz2(rt.getFloat(19));
+					baseline.setXz3(rt.getFloat(20));
+					baseline.setYz3(rt.getFloat(21));
+					baseline.setYocc(rt.getFloat(22));
+					baseline.setX0(rt.getFloat(23));
+					baseline.setY0(rt.getFloat(24));
+					baseline.setX1(rt.getFloat(25));
+					baseline.setY1(rt.getFloat(26));
+					baseline.setX2(rt.getFloat(27));
+					baseline.setY2(rt.getFloat(28));
+					baseline.setX3(rt.getFloat(29));
+					baseline.setY3(rt.getFloat(30));
+					baseline.setX(rt.getFloat(31));
+					baseline.setY(rt.getFloat(32));
+					baseline.setOccTime(rt.getTimestamp(33));
+					baseline.setUnOccTime(rt.getTimestamp(34));
+
+					if (baseline.getOccTime() == null) { 
+						baseline.setOccTime(new Date()); 
+					}
+
+					if (baseline.getUnOccTime() == null) { 
+						baseline.setUnOccTime(new Date()); 
+					}
+
+					break;
+				}
+				//OccTime = room.getLastUpdated();
+
+				PreparedStatement preparedStmt;
+				if (room.getStatus() != obj.getStatus()) {
+					query = "Update psuteam7.room set Status = ?, LastStatusUpdate = ? where RoomNumber = '" + obj.getRoomNumber() + "'";
+
+					// create the mysql insert preparedstatement
+
+					preparedStmt = connect.prepareStatement(query);
+					preparedStmt.setInt(1, obj.getStatus());
+					java.sql.Timestamp sqlDateTime = new java.sql.Timestamp(new Date().getTime());
+					preparedStmt.setObject(2, sqlDateTime);// start time
+					// execute the preparedstatement
+					preparedStmt.execute();
+
+					query = "Select * from psuteam7.room where RoomNumber = '" + obj.getRoomNumber() + "'";
+					statement = connect.createStatement();
+					ResultSet rt2 = statement.executeQuery(query);
+					while (rt2.next()) {
+						room = new DBRoomTable(rt2.getInt(1), rt2.getString(2), rt2.getString(3), rt2.getString(4),
+								rt2.getInt(5), rt2.getInt(6), rt2.getInt(7), rt2.getFloat(8), rt2.getFloat(9), rt2.getFloat(10),
+								rt2.getInt(13), rt2.getInt(14), rt2.getFloat(15));
+						room.setLastUpdated(rt2.getTimestamp(12));
+						break;
+					}
+					//OccTime = room.getLastUpdated();
+					if (baseline.getID() == 0) {
+						//doesn't exist
+						if (room.getStatus() == 1) {
+							Yocc = obj.getRoomTemp() - obj.getOccSetpoint();
+							n = Yocc / 5;
+							Y0 = Yocc - n;
+							Y1 = Y0 - n;
+							Y2 = Y1 - n;
+							Y3 = Y2 - n;
+							Y = 0;
+
+							query = " insert into psuteam7.baseline (SiteID, RoomNumber, OAT, OccTime, Yocc, Y0, Y1, Y2, Y3, Y)"
+									+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						} else {
+							Yocc = obj.getUnoccSetpoint() - obj.getRoomTemp();
+							n = Yocc / 5;
+							
+							Yocc = 0;
+							Y0 = Yocc + n;
+							Y1 = Y0 + n;
+							Y2 = Y1 + n;
+							Y3 = Y2 + n;
+							Y = Y3 + n;
+							
+							query = " insert into psuteam7.baseline (SiteID, RoomNumber, OAT, UnOccTime, Yunocc, Y4, Y5, Y6, Y7, Yz0)"
+									+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						}
+
+						// create the mysql insert preparedstatement
+						preparedStmt = connect.prepareStatement(query);
+						preparedStmt.setInt(1, 1);
+						preparedStmt.setString(2, room.getRoomNumber());
+						preparedStmt.setFloat(3, obj.getOAT());
+
+						sqlDateTime = new java.sql.Timestamp(room.getLastUpdated().getTime());
+
+						preparedStmt.setObject(4, sqlDateTime);// start time
+						preparedStmt.setFloat(5, Yocc);
+						preparedStmt.setFloat(6, Y0);
+						preparedStmt.setFloat(7, Y1);
+						preparedStmt.setFloat(8, Y2);
+						preparedStmt.setFloat(9, Y3);
+						preparedStmt.setFloat(10, Y);
+						// execute the preparedstatement
+						preparedStmt.execute();
+					}
+				} else {
+
+
+					if (room.getStatus() == 1) {
+						if ((room.getLastUpdated().getTime()-baseline.getOccTime().getTime())/1000 != 0) {
+							Yocc = obj.getRoomTemp() - obj.getOccSetpoint();
+						} else {
+							Yocc = baseline.getYocc();
+						}
+						n = Yocc / 5;
+						Y0 = Yocc - n;
+						Y1 = Y0 - n;
+						Y2 = Y1 - n;
+						Y3 = Y2 - n;
+						Y = 0;
+
+						if (obj.getRoomTemp() - obj.getOccSetpoint() < 0) {
+							X = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX3();
+							X2 = baseline.getX2();
+							X1 = baseline.getX1();
+							X0 = baseline.getX0();
+						} else if (obj.getRoomTemp() - obj.getOccSetpoint() < Y) {
+							X3 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X = baseline.getX();
+							X2 = baseline.getX2();
+							X1 = baseline.getX1();
+							X0 = baseline.getX0();
+						} else if (obj.getRoomTemp() - obj.getOccSetpoint() < Y3) {
+							X2 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX3();
+							X = baseline.getX();
+							X1 = baseline.getX1();
+							X0 = baseline.getX0();
+						} else if (obj.getRoomTemp() - obj.getOccSetpoint() < Y2) {
+							X1 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX3();
+							X2 = baseline.getX2();
+							X = baseline.getX();
+							X0 = baseline.getX0();
+						} else if (obj.getRoomTemp() - obj.getOccSetpoint() < Y1) {
+							X0 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX3();
+							X2 = baseline.getX2();
+							X1 = baseline.getX1();
+							X = baseline.getX();
+						} else {
+							X = baseline.getX();
+							X3 = baseline.getX3();
+							X2 = baseline.getX2();
+							X1 = baseline.getX1();
+							X0 = baseline.getX0();
+						}
+
+						query = "Update psuteam7.baseline set X0 = ?, X1 = ?, X2 = ?, X3 = ?, X = ?, Y0 = ?, Y1 = ?, Y2 = ?, Y3 = ?, Y = ?, OccTime = ?, Yocc = ? where RoomNumber = '" + obj.getRoomNumber() + "' and OAT = " + obj.getOAT();
+
+						// create the mysql insert preparedstatement
+
+						preparedStmt = connect.prepareStatement(query);
+						preparedStmt.setFloat(1, X0);
+						preparedStmt.setFloat(2, X1);
+						preparedStmt.setFloat(3, X2);
+						preparedStmt.setFloat(4, X3);
+						preparedStmt.setFloat(5, X);
+						preparedStmt.setFloat(6, Y0);
+						preparedStmt.setFloat(7, Y1);
+						preparedStmt.setFloat(8, Y2);
+						preparedStmt.setFloat(9, Y3);
+						preparedStmt.setFloat(10, Y);
+						java.sql.Timestamp sqlDateTime = new java.sql.Timestamp(room.getLastUpdated().getTime());
+						preparedStmt.setObject(11, sqlDateTime);// start time
+
+						preparedStmt.setFloat(12, Yocc);
+						// execute the preparedstatement
+						preparedStmt.execute();
+					} else {
+
+						if ((room.getLastUpdated().getTime()-baseline.getUnOccTime().getTime())/1000 != 0) {
+							Yocc = obj.getUnoccSetpoint() - obj.getRoomTemp();
+						} else {
+							Yocc = baseline.getYz0();
+						}
+						n = Yocc / 5;
+						Yocc = 0;
+						Y0 = Yocc + n;
+						Y1 = Y0 + n;
+						Y2 = Y1 + n;
+						Y3 = Y2 + n;
+						Y = Y3 + n;
+
+						if ((Y - (obj.getUnoccSetpoint() - obj.getRoomTemp())) > Y3) {
+							X = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX7();
+							X2 = baseline.getX6();
+							X1 = baseline.getX5();
+							X0 = baseline.getX4();
+						} else if ((Y - (obj.getUnoccSetpoint() - obj.getRoomTemp())) > Y2) {
+							X3 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X = baseline.getXz0();
+							X2 = baseline.getX6();
+							X1 = baseline.getX5();
+							X0 = baseline.getX4();
+						} else if ((Y - (obj.getUnoccSetpoint() - obj.getRoomTemp())) > Y1) {
+							X2 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX7();
+							X = baseline.getXz0();
+							X1 = baseline.getX5();
+							X0 = baseline.getX4();
+						} else if ((Y - (obj.getUnoccSetpoint() - obj.getRoomTemp())) > Y0) {
+							X1 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX7();
+							X2 = baseline.getX6();
+							X = baseline.getXz0();
+							X0 = baseline.getX4();
+						} else if ((Y - (obj.getUnoccSetpoint() - obj.getRoomTemp())) > 0) {
+							X0 = (CurrentDateTime.getTime()-room.getLastUpdated().getTime())/1000;
+							X3 = baseline.getX7();
+							X2 = baseline.getX6();
+							X1 = baseline.getX5();
+							X = baseline.getXz0();
+						} else {
+							X = baseline.getXz0();
+							X3 = baseline.getX7();
+							X2 = baseline.getX6();
+							X1 = baseline.getX5();
+							X0 = baseline.getX4();
+						}
+
+						query = "Update psuteam7.baseline set X4 = ?, X5 = ?, X6 = ?, X7 = ?, Xz0 = ?, Y4 = ?, Y5 = ?, Y6 = ?, Y7 = ?, Yz0 = ?, UnOccTime = ?, Yunocc = ? where RoomNumber = '" + obj.getRoomNumber() + "' and OAT = " + obj.getOAT();
+
+						// create the mysql insert preparedstatement
+
+						preparedStmt = connect.prepareStatement(query);
+						preparedStmt.setFloat(1, X0);
+						preparedStmt.setFloat(2, X1);
+						preparedStmt.setFloat(3, X2);
+						preparedStmt.setFloat(4, X3);
+						preparedStmt.setFloat(5, X);
+						preparedStmt.setFloat(6, Y0);
+						preparedStmt.setFloat(7, Y1);
+						preparedStmt.setFloat(8, Y2);
+						preparedStmt.setFloat(9, Y3);
+						preparedStmt.setFloat(10, Y);
+						java.sql.Timestamp sqlDateTime = new java.sql.Timestamp(room.getLastUpdated().getTime());
+						preparedStmt.setObject(11, sqlDateTime);// start time
+
+						preparedStmt.setFloat(12, Yocc);
+						// execute the preparedstatement
+						preparedStmt.execute();
+					}
+				}
+
+
+
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch(Exception e) {
+				System.out.println(e);
+
+			}
+
+
 			//String str[] = obj.getObjectName().split("_");
 			//String type = str[str.length - 1];
 			//String object
 			//for (int i = 0; i < str.length; i++) 
 			try {
-				
+
 				// the mysql insert statement
 				//String query = " Insert into psuteam7.site_room_temp set SiteID = ?, Temperature = ?, OccSetpoint = ?, UnOccSetpoint = ?, CoolMode = ?, OAT = ?, OccStatus = ?";
-					//	+ " where ID = " + s.getId();
+				//	+ " where ID = " + s.getId();
 				/*String query = " insert into psuteam7.weather (SiteID, RoomNumber, Temperature, OccSetpoint, UnoccSetpoint, CoolMode, OAT, OccStatus)"
 						+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 				// create the mysql insert preparedstatement
@@ -846,80 +1306,230 @@ public class Database {
 				// execute the preparedstatement
 				preparedStmt.execute();*/
 
-				
+
 
 			} catch(Exception e) {
 				System.out.println(e);
-				
+
 			}
 		}
-		
+
 		@Override
 		public void updateOccStatus() {
 			//display debug message
 			System.out.println("Database > Update Occupancy status request received.");
-			
+
 			try {
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+				/*//Calendar c1 = GregorianCalendar.getInstance(Locale.US);
+				 */
 
 				statement = connect.createStatement();
-				Date dateTime = new Date();
-				
-				java.sql.Timestamp ts = new java.sql.Timestamp(dateTime.getTime());
-				
-				
-				String query = "select * from psuteam7.schedule where StartDateTime <= '" + df.format(dateTime) + "' and EndDateTime >= '" + df.format(dateTime) + "'";
+				//ResultSet rt2 = null;
 
-				rt = statement.executeQuery(query); 
-				
-				ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
 
-				while ((rt.next())) { 
+				String query = "Select * from psuteam7.room";
+				statement = connect.createStatement();
+				ResultSet rt1 = statement.executeQuery(query);
+				DBRoomTable room = new DBRoomTable();
+				if (rt1.next()) {
+					room = new DBRoomTable(rt1.getInt(1), rt1.getString(2), rt1.getString(3), rt1.getString(4),
+							rt1.getInt(5), rt1.getInt(6), rt1.getInt(7), rt1.getFloat(8), rt1.getFloat(9), rt1.getFloat(10),
+							rt1.getInt(13), rt1.getInt(14), rt1.getFloat(15));
+					room.setLastUpdated(rt1.getTimestamp(12));
 
-					DBScheduleTable s = new DBScheduleTable();
-					s.setRowGuid(rt.getString("RowGuid"));
-					s.setScheduleId(rt.getInt("ScheduleId"));
-					s.setName(rt.getString("Name"));
-					s.setDescription(rt.getString("Description"));
-					s.setNotes(rt.getString("Notes"));
-					s.setControlToState(rt.getInt("ControlToState"));
-					s.setStartDateTime(rt.getDate("StartDateTime"));
-					s.setEndDateTime(rt.getDate("EndDateTime")); 
-					s.setMarkedForDelete(rt.getBoolean("MarkedForDelete"));
-					s.setRoomName(rt.getString("RoomName"));
-					s.setTemperatureSetpoint(rt.getFloat("TemperatureSetPoint"));
-					s.setLightIntensity(rt.getInt("LightIntensity"));
-					
-					//sList.add(s);
-					
-					query = "select * from psuteam7.room where RoomNumber = '" + s.getRoomName() + "'";
+					if (room.getStatus() == 0) {
+						//Calendar c1 = GregorianCalendar.getInstance(Locale.US);
+						DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+						//DateFormat df2 = new SimpleDateFormat("HH"); 
+						Date currentDate = new Date();
+						Calendar cal = Calendar.getInstance();
+						// remove next line if you're always using the current time.
+						cal.setTime(currentDate);
+						cal.add(Calendar.HOUR, -2);
+						cal.add(Calendar.MINUTE, -3);
+						Date nowTime = cal.getTime();
 
-					rt = statement.executeQuery(query); 
-					
-					if (rt.getInt("test") != 1)
-					query = "Update psuteam7.room set OccState = ? where RoomNumber = '" + s.getRoomName() + "'";
+						cal.add(Calendar.MINUTE, room.getOccOffset());
 
-					// create the mysql insert preparedstatement
-					PreparedStatement preparedStmt = connect.prepareStatement(query);
-					preparedStmt.setInt(1, 1);
-					// execute the preparedstatement
-					preparedStmt.execute();
+						Date offsetedTime = cal.getTime();
 
-					
-					
+						query = "SELECT * FROM psuteam7.schedule WHERE RoomName = '" + room.getRoomNumber() + "' and ('" + df2.format(offsetedTime) + 
+								"' >= CAST(StartDateTime AS DATE) AND '" + df2.format(nowTime) + "' <= CAST(EndDateTime AS DATE)) ";
+
+						ResultSet rt2 = statement.executeQuery(query); 
+
+						//ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
+
+						if (rt2.next()) { 
+
+							DBScheduleTable s = new DBScheduleTable();
+							s.setRowGuid(rt2.getString(1));
+							s.setScheduleId(rt2.getInt(2));
+							s.setName(rt2.getString(4));
+							s.setDescription(rt2.getString(5));
+							s.setNotes(rt2.getString(6));
+							s.setControlToState(rt2.getInt(7));
+							s.setStartDateTime(rt2.getTimestamp(8));
+							s.setEndDateTime(rt2.getTimestamp(9));
+							s.setMarkedForDelete(rt2.getBoolean(10));
+							s.setRoomName(rt2.getString(11));
+							s.setTemperatureSetpoint(rt2.getFloat(12));
+							s.setLightIntensity(rt2.getInt(13));
+
+
+							//if (rt3.getInt("Status") != 1)
+							query = "Update psuteam7.room set OptOccState = ? where RoomNumber = '" + s.getRoomName() + "'";
+
+							// create the mysql insert preparedstatement
+							PreparedStatement preparedStmt = connect.prepareStatement(query);
+							preparedStmt.setInt(1, 1);
+							// execute the preparedstatement
+							preparedStmt.execute();
+
+							//break;
+
+						} else {
+							//if (rt3.getInt("Status") != 1)
+							query = "Update psuteam7.room set OptOccState = ? where RoomNumber = '" + room.getRoomName() + "'";
+
+							// create the mysql insert preparedstatement
+							PreparedStatement preparedStmt = connect.prepareStatement(query);
+							preparedStmt.setInt(1, 0);
+							// execute the preparedstatement
+							preparedStmt.execute();
+						}
+
+
+
+
+					} else { //status = 1
+
+						//Calendar c1 = GregorianCalendar.getInstance(Locale.US);
+						DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+						//DateFormat df2 = new SimpleDateFormat("HH"); 
+						Date currentDate = new Date();
+						Calendar cal = Calendar.getInstance();
+						// remove next line if you're always using the current time.
+						cal.setTime(currentDate);
+						cal.add(Calendar.HOUR, -2);
+						cal.add(Calendar.MINUTE, -3);
+						Date nowTime = cal.getTime();
+
+						cal.add(Calendar.MINUTE, room.getUnoccOffset());
+
+						Date offsetedTime = cal.getTime();
+
+						query = "SELECT * FROM psuteam7.schedule WHERE RoomName = '" + room.getRoomNumber() + "' and ('" + df2.format(nowTime) + 
+								"' >= CAST(StartDateTime AS DATE) AND '" + df2.format(offsetedTime) + "' <= CAST(EndDateTime AS DATE)) ";
+
+						ResultSet rt3 = statement.executeQuery(query); 
+
+						//ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
+
+						if (rt3.next()) { //unocc early
+
+							DBScheduleTable s = new DBScheduleTable();
+							s.setRowGuid(rt3.getString(1));
+							s.setScheduleId(rt3.getInt(2));
+							s.setName(rt3.getString(4));
+							s.setDescription(rt3.getString(5));
+							s.setNotes(rt3.getString(6));
+							s.setControlToState(rt3.getInt(7));
+							s.setStartDateTime(rt3.getTimestamp(8));
+							s.setEndDateTime(rt3.getTimestamp(9));
+							s.setMarkedForDelete(rt3.getBoolean(10));
+							s.setRoomName(rt3.getString(11));
+							s.setTemperatureSetpoint(rt3.getFloat(12));
+							s.setLightIntensity(rt3.getInt(13));
+
+
+							//if (rt3.getInt("Status") != 1)
+							query = "Update psuteam7.room set OptOccState = ? where RoomNumber = '" + s.getRoomName() + "'";
+
+							// create the mysql insert preparedstatement
+							PreparedStatement preparedStmt = connect.prepareStatement(query);
+							preparedStmt.setInt(1, 1);
+							// execute the preparedstatement
+							preparedStmt.execute();
+
+							
+						} else { //still have time
+							query = "Update psuteam7.room set OptOccState = ? where RoomNumber = '" + room.getRoomName() + "'";
+
+							// create the mysql insert preparedstatement
+							PreparedStatement preparedStmt = connect.prepareStatement(query);
+							preparedStmt.setInt(1, 0);
+							// execute the preparedstatement
+							preparedStmt.execute();
+						}
+
+					}
+
+					DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+					//DateFormat df2 = new SimpleDateFormat("HH"); 
+					Date currentDate = new Date();
+					Calendar cal = Calendar.getInstance();
+					// remove next line if you're always using the current time.
+					cal.setTime(currentDate);
+					cal.add(Calendar.HOUR, -2);
+					cal.add(Calendar.MINUTE, -3);
+					Date oneHourBack = cal.getTime();
+
+					query = "SELECT * FROM psuteam7.schedule WHERE RoomName = '" + room.getRoomNumber() + "' and ('" + df2.format(oneHourBack) +  
+							"' BETWEEN CAST(StartDateTime AS DATE) AND CAST(EndDateTime AS DATE)) ";
+
+					ResultSet rt4 = statement.executeQuery(query); 
+
+					//ArrayList<DBScheduleTable> sList = new ArrayList<DBScheduleTable>();
+
+					if (rt4.next()) { 
+
+						DBScheduleTable s = new DBScheduleTable();
+						s.setRowGuid(rt4.getString(1));
+						s.setScheduleId(rt4.getInt(2));
+						s.setName(rt4.getString(4));
+						s.setDescription(rt4.getString(5));
+						s.setNotes(rt4.getString(6));
+						s.setControlToState(rt4.getInt(7));
+						s.setStartDateTime(rt4.getTimestamp(8));
+						s.setEndDateTime(rt4.getTimestamp(9));
+						s.setMarkedForDelete(rt4.getBoolean(10));
+						s.setRoomName(rt4.getString(11));
+						s.setTemperatureSetpoint(rt4.getFloat(12));
+						s.setLightIntensity(rt4.getInt(13));
+
+
+						//if (rt3.getInt("Status") != 1)
+						query = "Update psuteam7.room set OccState = ? where RoomNumber = '" + s.getRoomName() + "'";
+
+						// create the mysql insert preparedstatement
+						PreparedStatement preparedStmt = connect.prepareStatement(query);
+						preparedStmt.setInt(1, 1);
+						// execute the preparedstatement
+						preparedStmt.execute();
+
+						//break;
+
+					} else {
+						//if (rt3.getInt("Status") != 1)
+						query = "Update psuteam7.room set OccState = ? where RoomNumber = '" + room.getRoomNumber() + "'";
+
+						// create the mysql insert preparedstatement
+						PreparedStatement preparedStmt = connect.prepareStatement(query);
+						preparedStmt.setInt(1, 0);
+						// execute the preparedstatement
+						preparedStmt.execute();
+					}
+
+
 				}
-				
-				query = "Update psuteam7.room set OccState = ? where LastUpdate < '" + ts + "'";
 
-				// create the mysql insert preparedstatement
-				PreparedStatement preparedStmt = connect.prepareStatement(query);
-				preparedStmt.setInt(1, 0);
-				// execute the preparedstatement
-				preparedStmt.execute();
+
 
 			} catch(Exception e) {
 				System.out.println(e);
-				
+
 			}
 		}
 		private int calendarId;

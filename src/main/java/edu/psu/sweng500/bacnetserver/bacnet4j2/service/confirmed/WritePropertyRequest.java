@@ -44,6 +44,7 @@ import edu.psu.sweng500.eventqueue.event.EventHandler;
 import edu.psu.sweng500.type.BacnetObject;
 import edu.psu.sweng500.type.DBSiteRmTempTable;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 
 import com.serotonin.util.queue.ByteQueue;
@@ -61,7 +62,7 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 
 	private final EventHandler eventHandler = EventHandler.getInstance();
 	String RoomNumber;
-	
+
 	public WritePropertyRequest(ObjectIdentifier objectIdentifier, PropertyIdentifier propertyIdentifier,
 			UnsignedInteger propertyArrayIndex, Encodable propertyValue, UnsignedInteger priority) {
 		this.objectIdentifier = objectIdentifier;
@@ -107,19 +108,29 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 				obj.setProperty(pv);
 				String Str = obj.getObjectName();
 				String retval[] = Str.split("_");
-				
-				
-				if (retval[retval.length-1].equals("Status")) {
-					RoomNumber = "";
-					for (int i = 0; i < retval.length-1; i++) {
+				RoomNumber = "";
+				for (int i = 0; i < retval.length-1; i++) {
+					if (RoomNumber == "") {
 						RoomNumber += retval[i];
+					} else {
+						RoomNumber += " " + retval[i];
 					}
+				}
+
+				if (retval[retval.length-1].equals("Status")) {
+					
 					Executors.newCachedThreadPool().execute(new Runnable() {
-					    @Override
-					    public void run() {
-					    	collectHistory(RoomNumber);
-					    }
+						@Override
+						public void run() {
+							collectHistory(localDevice, RoomNumber);
+						}
 					});
+				} else if (retval[retval.length-1].equals("SpaceTemp")) {
+					Encodable value = obj.getProperty(PropertyIdentifier.presentValue);
+					eventHandler.fireUpdateSpaceTemp(RoomNumber, Float.valueOf(value.toString()));
+				} else if (retval[retval.length-1].equals("UnoccSp")) {
+					Encodable value = obj.getProperty(PropertyIdentifier.presentValue);
+					eventHandler.fireUpdateUnoccTempSetpoint(RoomNumber, Float.valueOf(value.toString()));
 				}
 				//eventHandler.fireSaveRoomHistoryData(obj);
 				//localDevice.getEventHandler().propertyWritten(obj, pv);
@@ -131,12 +142,169 @@ public class WritePropertyRequest extends ConfirmedRequestService {
 
 		return null;
 	}
-	
-	
-	private void collectHistory(String RoomNumber) {
+
+
+	private void collectHistory(LocalDevice localDevice, String RoomNumber) {
+
+
+		boolean run = true;
+		int count = 0;
 		BacnetObject obj = new BacnetObject();
 		obj.setRoomNumber(RoomNumber);
-		eventHandler.fireSaveRoomHistoryData(obj);
+		BACnetObject b = null;
+
+
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_OccSched");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setOccState(Integer.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_OccOptimized");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setOptOccState(Integer.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_CoolMode");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setCoolMode(Integer.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_Status");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setStatus(Integer.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_SpaceTemp");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				//obj.setRoomTemp(Float.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_OccSp");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setOccSetpoint(Float.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_UnoccSp");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setUnoccSetpoint(Float.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject(RoomNumber.replace(" ", "_") + "_Light");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setLight(Float.valueOf(value.toString()));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		b = localDevice.getObject("OAT");
+		if ( b instanceof BACnetObject ) {
+			try {
+				Encodable value = b.getProperty(PropertyIdentifier.presentValue);
+				obj.setOAT(Math.round(Float.valueOf(value.toString())));
+			} catch (BACnetServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		Random rand = new Random();
+		float n = 0;
+		int min = 0;
+		int max = 0;
+		while (run) {
+			try {
+				if (obj.getRoomTemp() == 0) {
+					
+					if (obj.getStatus() == 1) {
+						
+						max = Math.round(obj.getUnoccSetpoint());
+						min = Math.round(obj.getOccSetpoint()) + 5;
+						n =  rand.nextInt((max - min) + 1) + min;
+					} else {
+						max = Math.round(obj.getOccSetpoint());
+						min = Math.round(obj.getOccSetpoint()) - 5;
+						n =  rand.nextInt((max - min) + 1) + min;
+					}
+				} else {
+					if (obj.getStatus() == 1) {
+						n -= 0.5;  
+						if (obj.getRoomTemp() < obj.getOccSetpoint()) {run = false; }
+					} else {
+						n += 0.5;
+						if (obj.getRoomTemp() > obj.getUnoccSetpoint()) {run = false; }
+					}
+				}
+
+				obj.setRoomTemp(n);
+
+				eventHandler.fireSaveRoomHistoryData(obj);
+
+				long max1 = 30000; //30 seconds
+				long min1 = 10000; //10 seconds
+				long x =  rand.nextInt((int) ((max1 - min1) + 1)) + min1;
+				
+				Thread.sleep(x); 
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //one minute
+		}
 	}
 	@Override
 	public int hashCode() {

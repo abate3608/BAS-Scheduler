@@ -30,7 +30,7 @@ import edu.psu.sweng500.type.*;
 public class BacnetServer {
 	static LocalDevice localBacnetDevice;
 	private static boolean initialized = false;
-	static boolean ServerOn = true;
+	static boolean ServerOn = false;
 	// Event listeners
 	public final EventHandler eventHandler = EventHandler.getInstance();
 
@@ -114,21 +114,17 @@ public class BacnetServer {
 		
 		@Override
 		public void roomInfoUpdate(DBRoomTable r) {
+			
+			if (!localBacnetDevice.isInitialized()) {return;}
+			
 			System.out.println("BACnet Server > Received room informaiton update for room: " + r.getRoomNumber() + " " + r.getRoomName());
 			
 			int id = ((r.getId()*(5*r.getId()-3)+(2*r.getId()))/r.getId()) + (r.getId()-1);
 			
 			String occSched = r.getRoomNumber() + "_OccSched";
 			
-			if (id > 100) return;
-			for (BACnetObject obj : localBacnetDevice.getLocalObjects()) {
-			    if ( obj instanceof BACnetObject ) {
-			    	if (obj.getInstanceId() == id) {
-						System.out.println("BACnet Server > Room found in DB. Room: " + r.getRoomNumber() + " ID " + obj.getInstanceId());
-						break;
-			    	}
-				}
-			}
+			//if (id > 100) return;
+
 						
 			createBACnetObject(ObjectType.binaryValue, id, r.getOccState(), "Unoccupied", "Occupied", occSched, "Occupancy Schedule", EngineeringUnits.noUnits);
 			createBACnetObject(ObjectType.binaryValue, id + 1, r.getOptOccState(), "Unoccupied", "Occupied", r.getRoomNumber() + "_OccOptimized", "Optimized Occupancy Schedule", EngineeringUnits.noUnits);
@@ -137,27 +133,27 @@ public class BacnetServer {
 			
 			createBACnetObject(ObjectType.analogValue, id, 0, "0", "1", r.getRoomNumber() + "_SpaceTemp", "Space Temperature", EngineeringUnits.degreesFahrenheit);
 			createBACnetObject(ObjectType.analogValue, id + 1, r.getTempSetpoint(), "0", "1", r.getRoomNumber() + "_OccSp", "Occupied Setpoint", EngineeringUnits.degreesFahrenheit);
-			createBACnetObject(ObjectType.analogValue, id + 2, 80, "0", "1", r.getRoomNumber() + "_UnoccSp", "Unoccupied Setpoint", EngineeringUnits.degreesFahrenheit);
+			
+			float unoccsp = 0;
+			if (r.getUnoccSetpoint() > 0) {
+				unoccsp = r.getUnoccSetpoint();
+			} else {
+				unoccsp = r.getTempSetpoint() + 10;
+			}
+			
+			createBACnetObject(ObjectType.analogValue, id + 2, unoccsp, "0", "1", r.getRoomNumber() + "_UnoccSp", "Unoccupied Setpoint", EngineeringUnits.degreesFahrenheit);
 			createBACnetObject(ObjectType.analogValue, id + 3, r.getLightIntensity(), "0", "1", r.getRoomNumber() + "_Light", "Light Intensity", EngineeringUnits.percent);
 			
-			DBSiteRmTempTable s = new DBSiteRmTempTable();
-			s.setSiteID(1);
-			s.setRoomNumber(r.getRoomNumber());
-			s.setTemperature(0);
-			s.setOccSetpoint(r.getTempSetpoint());
-			s.setUnOccSetpoint(0);
-			s.setOAT((float) weather.getTemperature());
-			s.setCoolMode(1);
-			s.setOccStatus(r.getOccState());
-			
-			histories.add(s);
+		
 			
 			
 		}
 		
 		@Override
 		public void weatherInfoUpdate(DBWeatherTable w) {
+			
 			System.out.println("BACnet Server > Received weather data update DB confirmation for SiteID: " + w.getSiteId());
+			
 			createBACnetObject (ObjectType.analogValue, 1, (float)w.getTemperature(), "0" ,"1", "OAT", "Outside Air Temperature", EngineeringUnits.degreesFahrenheit);
 			createBACnetObject (ObjectType.analogValue, 2, (float)w.getHumidity(), "0" ,"1", "OAH", "Outside Air Humidity", EngineeringUnits.percent);
 			createBACnetObject (ObjectType.analogValue, 3, (float)w.getDewpoint(), "0" ,"1", "ODP", "Outside Dew Point Temperature", EngineeringUnits.degreesFahrenheit);
@@ -238,6 +234,8 @@ public class BacnetServer {
 		} catch (BACnetServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return false;
 	}
