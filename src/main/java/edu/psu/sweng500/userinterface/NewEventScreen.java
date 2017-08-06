@@ -349,7 +349,7 @@ public class NewEventScreen implements ActionListener {
 		
 	private boolean verifyFloatField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	        try {
@@ -453,7 +453,7 @@ public class NewEventScreen implements ActionListener {
 					JOptionPane.showMessageDialog(null,"Error: Event already exists!");
 					break;
 				case 3:
-					JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
+					//JOptionPane.showMessageDialog(null,"Error: Invalid date/time selected!");
 					break;
 				case 5:
 					JOptionPane.showMessageDialog(null,"Error: Time Conflict with Room.");
