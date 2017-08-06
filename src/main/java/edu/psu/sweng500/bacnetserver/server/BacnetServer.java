@@ -210,8 +210,23 @@ public class BacnetServer {
 			    		Encodable oldvalue = jc.getProperty(PropertyIdentifier.presentValue);
 			    		Encodable newvalue = object.getProperty(PropertyIdentifier.presentValue);
 			    		if (!oldvalue.equals(newvalue)) {
-			    			jc = object;
+			    			//jc = object;
 			    			//jc.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			    			
+			    			if (objType == ObjectType.analogValue) {
+			    		        jc.setProperty(PropertyIdentifier.presentValue, new Real(value));
+			    	        } else if (objType == ObjectType.binaryValue){
+			    	        	boolean b = false;
+			    	        	if (value > 0) {
+			    	        		b = true;
+			    	        	} 
+			    	        	jc.setProperty(PropertyIdentifier.presentValue, b ? BinaryPV.active : BinaryPV.inactive);
+			    	        	
+			    	        } else {
+			    	        	return false;
+			    	        }
+			    			
+			    			
 			    			System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Update Presenvalue: " + newvalue);
 			    		} else {
 			    			//System.out.println("BACnet Server > Object eixst. BACnet OBject: [" + jc.getInstanceId() +"] " + jc.getObjectName() +" Presenvalue has not changed.");

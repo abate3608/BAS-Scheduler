@@ -162,8 +162,8 @@ public class NewEventScreen implements ActionListener {
 		eventDateTXT.addFocusListener(HIGHLIGHTER);
 
 		//create button and there object
-		JButton dateButton = new JButton("Start Date");
-		dateButton.setBounds(215, 200, 100, 25);
+		JButton dateButton = new JButton("Choose Date");
+		dateButton.setBounds(215, 200, 125, 25);
 		newEventPanel.add(dateButton);
 		//perform action listener
 		dateButton.addActionListener(new StartDateButtonPress()) ;
@@ -181,8 +181,8 @@ public class NewEventScreen implements ActionListener {
 		endEventDateTXT.addFocusListener(HIGHLIGHTER);
 		
 		//create button and there object
-		JButton enddateButton = new JButton("End Date");
-		enddateButton.setBounds(215, 250, 100, 25);
+		JButton enddateButton = new JButton("Choose Date");
+		enddateButton.setBounds(215, 250, 125, 25);
 		newEventPanel.add(enddateButton);
 		//perform action listener
 		enddateButton.addActionListener(new EndDateButtonPress()) ;
@@ -269,6 +269,7 @@ public class NewEventScreen implements ActionListener {
 			lightSettingTXT.setText(null);
 			temperatureSettingTXT.setText(null);
 			close();
+			
 		}
 	}
 
@@ -365,7 +366,7 @@ public class NewEventScreen implements ActionListener {
 	
 	private boolean verifyIntegerField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	        try {
@@ -381,7 +382,7 @@ public class NewEventScreen implements ActionListener {
 		
 	private boolean verifyDateField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	    	 String test = "2017-08-14";

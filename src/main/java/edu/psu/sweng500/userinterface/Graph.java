@@ -193,7 +193,7 @@ public class Graph extends JPanel{
 						xLabel = "Xunocc";
 						break;
 					case 1:
-						xLabel = "X4";
+						xLabel = "X4 " + g_baseline.getX4();
 						g2.drawString("Outside Air Temperature " + g_baseline.getOAT() + " deg F", 60, 50);
 						g2.drawString("Room Temperature " + g_baseline.getRoomTemp() + " deg F", 60, 70);
 						g2.drawString("Unoccupied Trend", 60, 90);
@@ -201,46 +201,46 @@ public class Graph extends JPanel{
 						g2.drawString("Unoocupied Offset " + g_baseline.getUnoccOffset() + " minutes", 70, 130);
 						break; 
 					case 2:
-						xLabel = "X5";
+						xLabel = "X5 " + g_baseline.getX5();
 						break;
 					case 3:
-						xLabel = "X6";
+						xLabel = "X6 " + g_baseline.getX6();
 						break;
 					case 4:
-						xLabel = "X7";
+						xLabel = "X7 " + g_baseline.getX7();
 						break;
 					case 5:
-						xLabel = "Xz0";
+						xLabel = "Xz0 " + g_baseline.getXz0();
 						break;
 					case 6:
-						xLabel = "Xz1";
+						xLabel = "Xz1 " + g_baseline.getXz1();
 						g2.drawString("Occupied Trend", 680, 90);
 						g2.drawString("Changed 1 deg F every " + df1.format((g_baseline.getYocc() / (g_baseline.getX() / 60))) + " minutes", 690, 110);
 						g2.drawString("Unoocupied Offset " + g_baseline.getOccOffset() + " minutes", 690, 130);
 						break;
 					case 7:
-						xLabel = "Xz2";
+						xLabel = "Xz2 " + g_baseline.getXz2();
 						break;
 					case 8:
-						xLabel = "Xz3";
+						xLabel = "Xz3 " + g_baseline.getXz3();
 						break;
 					case 9:
 						xLabel = "Xocc";
 						break; 
 					case 10:
-						xLabel = "X0";
+						xLabel = "X0 " + g_baseline.getX0();
 						break;
 					case 11:
-						xLabel = "X1";
+						xLabel = "X1 " + g_baseline.getX1();
 						break;
 					case 12:
-						xLabel = "X2";
+						xLabel = "X2 " + g_baseline.getX2();
 						break;
 					case 13:
-						xLabel = "X3";
+						xLabel = "X3 " + g_baseline.getX3();
 						break;
 					default:
-						xLabel = "X";;
+						xLabel = "X " + g_baseline.getX();;
 						break;
 					}
 

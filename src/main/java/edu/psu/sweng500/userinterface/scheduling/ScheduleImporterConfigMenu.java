@@ -47,7 +47,7 @@ public class ScheduleImporterConfigMenu
 		
 		frame.addWindowListener(getWindowAdapter());
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
-		frame.setAlwaysOnTop(true);
+		frame.setAlwaysOnTop(false);
 		
 		frame.setVisible( true );
 	}

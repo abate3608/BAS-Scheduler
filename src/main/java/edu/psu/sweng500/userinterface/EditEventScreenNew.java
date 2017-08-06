@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -126,19 +129,9 @@ public class EditEventScreenNew
 		startTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(startTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "Start Time: (yyyy-mm-dd)" ), c );
+		panel.add( new JLabel( "Start Time:" ), c );
 		c.gridy += 1;
 		panel.add( startTimeBox, c );
-		
-		startDateField = new FocusHighlightedTextField();
-		startDateField.setText( getDateString( event.getStartDateTime() ) );
-		c.gridy += 1;
-		panel.add( new JLabel( "Start Date:" ), c );
-		c.gridy += 1;
-		panel.add( startDateField, c );
-		c.gridx += 1;
-		panel.add( getDatePickerButton( startDateField ), c );
-		c.gridx = 0;
 		
 		endTimeBox = new TimePicker();
 		calendar.setTime(event.getEndDateTime());
@@ -151,14 +144,24 @@ public class EditEventScreenNew
 		endTimeBox.setSelectedIndex(TimePicker.getTimePickerIndex(endTimeBox, calendar.getTime()));
 		//TODO set to event time
 		c.gridy += 1;
-		panel.add( new JLabel( "End Time: (yyyy-mm-dd)" ), c );
+		panel.add( new JLabel( "End Time:" ), c );
 		c.gridy += 1;
 		panel.add( endTimeBox, c );
+		
+		startDateField = new FocusHighlightedTextField();
+		startDateField.setText( getDateString( event.getStartDateTime() ) );
+		c.gridy += 1;
+		panel.add( new JLabel( "Start Date: (yyyy-mm-dd)" ), c );
+		c.gridy += 1;
+		panel.add( startDateField, c );
+		c.gridx += 1;
+		panel.add( getDatePickerButton( startDateField ), c );
+		c.gridx = 0;
 		
 		endDateField = new FocusHighlightedTextField();
 		endDateField.setText( getDateString( event.getEndDateTime() ) );
 		c.gridy += 1;
-		panel.add( new JLabel( "End Date:" ), c );
+		panel.add( new JLabel( "End Date: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( endDateField, c );
 		c.gridx += 1;
@@ -192,10 +195,15 @@ public class EditEventScreenNew
 	private JPanel getButtonPanel()
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout( new GridLayout( 3, 1 ) );
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		
+
 		JButton delete = new JButton( "Delete Event" );
 		//delete.setBounds(30, 430, 140, 25);
+
+		//JButton delete = new JButton( "Delete Event " );
+
 		delete.addActionListener( new ActionListener()
 		{
 			@Override
@@ -205,6 +213,7 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( delete );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		update = new JButton( "Update Event" );
 		update.addActionListener( new ActionListener()
@@ -220,8 +229,9 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( update );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
-		JButton cancel = new JButton( "Cancel" );
+		JButton cancel = new JButton( "      Cancel      " );
 		cancel.addActionListener( new ActionListener()
 		{
 			@Override
@@ -231,6 +241,7 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( cancel );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		return panel;
 	}
@@ -273,7 +284,7 @@ public class EditEventScreenNew
 	
 	private boolean verifyIntegerField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	        try {
@@ -289,7 +300,7 @@ public class EditEventScreenNew
 		
 	private boolean verifyDateField(JTextField field) {
 		if (field.getText().equals("")){
-		   JOptionPane.showMessageDialog(null,"Error: Complete form!");
+		   JOptionPane.showMessageDialog(null,"Error: A required Field is empty, Please complete all fields!");
 	       return false;
 	     } else {
 	    	 String test = "2017-08-14";
@@ -320,7 +331,7 @@ public class EditEventScreenNew
 	
 	private JButton getDatePickerButton( JTextField field )
 	{
-		JButton button = new JButton("Choose date");
+		JButton button = new JButton("Choose Date");
 		button.addActionListener(new ActionListener()
 		{
 			@Override

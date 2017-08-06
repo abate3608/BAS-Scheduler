@@ -361,6 +361,29 @@ public class Database {
 			System.out.println("Database > Update schedule event received: Name - " + s.getName());
 			int err = 0; // failed
 			try {
+				
+				
+				// sql statement
+				String userquery = "Select * from psuteam7.room WHERE RoomName = '" + s.getRoomName() + "'";
+				statement = connect.createStatement();
+				ResultSet rt1 = statement.executeQuery(userquery);
+
+				if (!rt1.next()) {
+					
+					String query = " insert into psuteam7.room (RoomNumber, RoomName, TempSetpoint)" + " values (?, ?, ?)";
+
+					// create the mysql insert preparedstatement
+					PreparedStatement ps = connect.prepareStatement(query);
+					ps.setString(1, s.getRoomName());
+					ps.setString(2, s.getRoomName());
+					ps.setFloat(3, s.getTemperatureSetpoint());
+					
+					// execute the preparedstatement
+					ps.execute();
+
+				} 
+				
+				
 
 				statement = connect.createStatement();
 				String query = "select * from psuteam7.schedule where RowGuid = '" + s.getRowGuid() + "'";
