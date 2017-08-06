@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -130,16 +133,6 @@ public class EditEventScreenNew
 		c.gridy += 1;
 		panel.add( startTimeBox, c );
 		
-		startDateField = new FocusHighlightedTextField();
-		startDateField.setText( getDateString( event.getStartDateTime() ) );
-		c.gridy += 1;
-		panel.add( new JLabel( "Start Date:" ), c );
-		c.gridy += 1;
-		panel.add( startDateField, c );
-		c.gridx += 1;
-		panel.add( getDatePickerButton( startDateField ), c );
-		c.gridx = 0;
-		
 		endTimeBox = new TimePicker();
 		calendar.setTime(event.getEndDateTime());
 		unroundedMinutes = calendar.get(Calendar.MINUTE);
@@ -154,6 +147,16 @@ public class EditEventScreenNew
 		panel.add( new JLabel( "End Time: (yyyy-mm-dd)" ), c );
 		c.gridy += 1;
 		panel.add( endTimeBox, c );
+		
+		startDateField = new FocusHighlightedTextField();
+		startDateField.setText( getDateString( event.getStartDateTime() ) );
+		c.gridy += 1;
+		panel.add( new JLabel( "Start Date:" ), c );
+		c.gridy += 1;
+		panel.add( startDateField, c );
+		c.gridx += 1;
+		panel.add( getDatePickerButton( startDateField ), c );
+		c.gridx = 0;
 		
 		endDateField = new FocusHighlightedTextField();
 		endDateField.setText( getDateString( event.getEndDateTime() ) );
@@ -192,9 +195,10 @@ public class EditEventScreenNew
 	private JPanel getButtonPanel()
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout( new GridLayout( 3, 1 ) );
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		
-		JButton delete = new JButton( "Delete Event" );
+		JButton delete = new JButton( "Delete Event " );
 		delete.addActionListener( new ActionListener()
 		{
 			@Override
@@ -204,6 +208,7 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( delete );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		update = new JButton( "Update Event" );
 		update.addActionListener( new ActionListener()
@@ -219,8 +224,9 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( update );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
-		JButton cancel = new JButton( "Cancel" );
+		JButton cancel = new JButton( "      Cancel      " );
 		cancel.addActionListener( new ActionListener()
 		{
 			@Override
@@ -230,6 +236,7 @@ public class EditEventScreenNew
 			}
 		});
 		panel.add( cancel );
+		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		return panel;
 	}
