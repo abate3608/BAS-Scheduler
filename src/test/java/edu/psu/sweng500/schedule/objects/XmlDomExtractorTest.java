@@ -32,7 +32,7 @@ public class XmlDomExtractorTest
 	public void testExtractFromDocument() throws SAXException, IOException, ParserConfigurationException, TransformerException
 	{
 		Document domStructure = XmlDomExtractor.extractFromDocument( document );
-
+		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream) 
 				XmlDomExtractor.writeDocumentToStream( domStructure, new ByteArrayOutputStream() );
 
